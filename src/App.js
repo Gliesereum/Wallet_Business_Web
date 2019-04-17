@@ -1,52 +1,37 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {actions} from './state';
-import {Route, Switch, Link, withRouter} from "react-router-dom";
-import Home from "./screen/Home";
-import About from "./screen/About";
-import NotFound from "./screen/NotFound";
+import {withRouter} from "react-router-dom";
+
+import AppRouter from './routes';
+import { ScreenLoading } from './components';
 
 class App extends Component {
+
 	componentDidMount() {
-		const {startApp, socket} = this.props;
-		startApp(socket)
+		const { startApp } = this.props;
+		startApp();
 	}
+
 	render() {
-		return (
-			<div>
+		const { status } = this.props.app;
+		const { authenticated } = this.props.auth;
 
-				<header>
-					<nav>
-						<Link to={'/'}>
-							Home
-						</Link>
-						<Link to={'/about'}>
-							About
-						</Link>
-					</nav>
-				</header>
-
-				<section>
-					<Switch>
-						<Route
-							exact
-							path="/"
-							component={Home}
-						/>
-						<Route exact path="/about" component={About}/>
-						<Route component={NotFound}/>
-					</Switch>
-				</section>
-
-				<footer>
-					Footer
-				</footer>
-
-			</div>
-		)
+		switch (status) {
+			case 'loading':
+				return <ScreenLoading />;
+			case 'ready':
+				return <AppRouter isPrivateRoute={authenticated} />;
+			case 'error':
+				return <div>Error</div>;
+				// return <ScreenError onReload={this.props.initApp}/>;
+			default:
+				return <div>Default</div>;
+				// return <ScreenError onReload={this.props.initApp}/>;
+		}
 	}
 }
 
-const {startApp} = actions.app;
+const { startApp } = actions.app;
 
 export default withRouter(connect(state => state, { startApp })(App));

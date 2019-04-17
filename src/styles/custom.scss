@@ -1,0 +1,30 @@
+@import './theme.scss';
+
+input.lg-app-input {
+  border: none;
+  color: $black;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+
+  &::placeholder {
+    color: $primary-color;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    opacity: .7;
+  }
+}
+
+span.lg-link {
+  color: $processing-color;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  text-decoration: none;
+
+
+  &:hover {
+    cursor: pointer;
+  }
+}
