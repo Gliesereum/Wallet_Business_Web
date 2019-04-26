@@ -14,7 +14,7 @@ import {
 } from "../../components";
 
 import { asyncRequest, withToken } from "../../utils";
-import {actions} from "../../state";
+import { actions } from "../../state";
 
 class ProfileCorporations extends Component {
 
@@ -97,7 +97,9 @@ class ProfileCorporations extends Component {
 
   render() {
     const { editModal, deleteModal, addModal, corp } = this.state;
-    const corpList = this.props.corporations && this.props.corporations.map(corp => ({
+    const { corporations } = this.props;
+
+    const corpList = corporations && corporations.map(corp => ({
       name: corp.name,
       description: corp.description,
       country: corp.country,
@@ -106,7 +108,6 @@ class ProfileCorporations extends Component {
       buildingNumber: corp.buildingNumber,
       fullItemData: corp,
     }));
-
 
     return (
       <div>

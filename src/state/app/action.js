@@ -2,6 +2,7 @@ import { asyncRequest, withToken, cookieStorage } from "../../utils";
 
 import authActions from '../auth/action';
 import corporationsActions from '../corporations/action';
+import businessActions from '../business/action';
 
 const actions = {
 	APP_STATUS: "APP_STATUS",
@@ -16,6 +17,7 @@ const actions = {
 		const emailUrl = "email/by-user";
 		const refreshUrl = "auth/refresh";
 		const corporationsUrl = "corporation/by-user";
+		const businessUrl = "business/by-user";
 
 		try {
 			await dispatch(actions.$appStatus('loading'));
@@ -26,10 +28,12 @@ const actions = {
 				const user = await withToken(asyncRequest)({ url: userUrl });
 				const email = await withToken(asyncRequest)({ url: emailUrl });
 				const corporations = await withToken(asyncRequest)({ url: corporationsUrl });
+				const business = await withToken(asyncRequest)({ url: businessUrl, moduleUrl: "karma" });
 
 				await dispatch(authActions.$updateUserData(user));
 				await dispatch(authActions.$addUserEmail(email));
 				await dispatch(corporationsActions.$getCorporations(corporations));
+				await dispatch(businessActions.$getBusiness(business));
 				await dispatch(authActions.$checkAuthenticate(tokenInfo));
 			} else if (refresh_token) {
 				const tokenInfo = await asyncRequest({

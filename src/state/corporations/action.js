@@ -4,12 +4,10 @@ const actions = {
   DELETE_CORPORATION: "DELETE_CORPORATION",
   ADD_CORPORATION: "ADD_CORPORATION",
 
-  $getCorporations: corporations => async dispatch => {
-    await dispatch({
-      type: actions.GET_CORPORATIONS,
-      payload: corporations,
-    });
-  },
+  $getCorporations: corporations =>({
+    type: actions.GET_CORPORATIONS,
+    payload: corporations,
+  }),
 
   $updateCorporation: corporation => ({
     type: actions.UPDATE_CORPORATION,
