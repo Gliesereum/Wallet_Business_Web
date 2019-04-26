@@ -1,0 +1,26 @@
+@import '../../styles/theme.scss';
+
+.karma-app-header {
+  &-wrapper {
+    background-color: $white;
+    height: 50px;
+    color: $black;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+  }
+
+  &-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  &-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+}

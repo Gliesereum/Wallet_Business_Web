@@ -1,0 +1,12 @@
+.karma-app {
+  &-wrapped {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-main {
+    width: 100%;
+    flex: 1;
+  }
+}

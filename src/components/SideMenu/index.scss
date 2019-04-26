@@ -1,0 +1,80 @@
+@import '../../styles/theme.scss';
+
+.karma-app-sidebar {
+  position: fixed;
+  background-color: $white;
+  z-index: 9999;
+
+  &__toggler {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    box-shadow: 0 0 5px 2px;
+    border-radius: 0 10px 10px 0;
+  }
+
+  &__user-box {
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover
+    }
+  }
+
+  &__item {
+    padding: 20px 30px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $hover-highlight-color;
+      color: $black;
+    }
+  }
+
+  &__item.active-menu-item {
+    background-color: $highlight-color;
+    color: $white;
+  }
+
+  &__cover-img {
+    position: relative;
+
+    img {
+      width: 165px;
+      object-fit: cover
+    }
+  }
+  &__avatar-user {
+    position: absolute;
+    top: 35px;
+    left: 20px;
+    justify-content: center;
+
+    &-img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: $hover-highlight-color;
+      cursor: pointer;
+
+      & img {
+        border-radius: 50%;
+        height: 45px;
+      }
+    }
+
+    & span {
+      cursor: pointer;
+      font-weight: bold;
+      font-style: italic;
+    }
+  }
+
+}

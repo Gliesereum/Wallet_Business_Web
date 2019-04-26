@@ -28,3 +28,63 @@ span.lg-link {
     cursor: pointer;
   }
 }
+
+.ant-drawer-wrapper-body .ant-drawer-body {
+  padding: 0;
+}
+
+.karma-app-wrapped {
+  // Tabs
+  .karma-app-profile {
+    & .ant-tabs-bar.ant-tabs-top-bar {
+      background-color: $processing-color;
+      padding: 0 50px;
+
+      & .ant-tabs-nav {
+        .ant-tabs-tab-active {
+          background-color: $highlight-color;
+          color: $white;
+        }
+      }
+    }
+
+    & .ant-tabs-content.ant-tabs-top-content {
+      padding: 0 50px;
+    }
+  }
+
+  // Button
+  .ant-btn {
+    &-primary, &-primary:focus {
+      background-color: $processing-color;
+      color: $black;
+      border-color: $highlight-color;
+
+      &:hover {
+        background-color: $highlight-color;
+        border-color: $processing-color;
+        color: $white;
+      }
+    }
+  }
+
+  // Upload
+  .ant-upload.ant-upload-drag .ant-upload {
+    padding: 0;
+  }
+
+  // Icon
+  .ant-upload-btn.ant-upload .anticon {
+    color: $highlight-color;
+  }
+
+  // Card
+  .ant-card.ant-card-bordered {
+    border-radius: 25px;
+  }
+
+  // Input
+  .ant-input {
+    border: 1px solid $highlight-color;
+  }
+}

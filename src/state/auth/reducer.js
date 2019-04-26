@@ -3,18 +3,48 @@ import {createReducer} from "../../utils";
 
 const initState = {
   authenticated: false,
-  token: null,
   user: {},
   email: null,
-  corporations: [],
 };
 
 const initReducers = {
-  [actions.LOGIN_USER]: (state, payload) => {
+  [actions.CHECK_AUTHENTICATE]: (state) => {
+    return {
+      ...state,
+      authenticated: true,
+    }
+  },
+
+  [actions.UPDATE_USER_DATA]: (state, payload) => {
     return {
       ...state,
       user: payload,
-      authenticated: true,
+    }
+  },
+
+  [actions.ADD_EMAIL]: (state, payload) => {
+    return {
+      ...state,
+      email: payload,
+    }
+  },
+
+  [actions.VERIFY_EMAIL]: (state, payload) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        verifiedStatus: "VERIFIED",
+      },
+      email: payload,
+    }
+  },
+
+  [actions.SIGNOUT_USER]: (state) => {
+    return {
+      ...state,
+      user: initState,
+      authenticated: false,
     };
   },
 };

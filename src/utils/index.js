@@ -1,7 +1,8 @@
-import {createBrowserHistory} from 'history';
+import { createBrowserHistory } from 'history';
 import Cookies from 'js-cookie';
 
-import {withToken, asyncRequest} from './request';
+import { withToken, asyncRequest, asyncUploadFile } from './request';
+import { getFirstLetterName } from "./helperFunc";
 
 const cookieStorage = Cookies;
 
@@ -21,6 +22,8 @@ export {
   history,
   createReducer,
   withToken,
-  asyncRequest
+  asyncRequest,
+  asyncUploadFile,
+  getFirstLetterName,
 }
 

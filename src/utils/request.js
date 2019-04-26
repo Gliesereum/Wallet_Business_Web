@@ -39,7 +39,15 @@ export const withToken = fn => params => {
 
 };
 
-export const asyncRequest = ({url, method = "GET", moduleUrl = "account", token, body, requestTime, fullUrl = undefined}) => {
+export const asyncRequest = ({
+    url,
+    method = "GET",
+    moduleUrl = "account",
+    token,
+    body,
+    requestTime,
+    fullUrl = undefined,
+  }) => {
   return new Promise(async (resolve, reject) => {
     const timer = timeout(reject, requestTime);
     try {
@@ -60,6 +68,28 @@ export const asyncRequest = ({url, method = "GET", moduleUrl = "account", token,
       reject(e);
     } finally {
       clearTimeout(timer);
+    }
+  });
+};
+
+export const asyncUploadFile = ({url, method = "POST", moduleUrl = "file", token, body}) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const fullURL = `${config.urlPrefix}${moduleUrl}/v1/${url}`;
+      const _requestConfig = {method, headers: {Authorization: `Bearer ${token}`}, body};
+      const request = await fetch(fullURL, _requestConfig);
+      if (request.status === 204) {
+        resolve();
+      }
+      if (request.status >= 200 && request.status <= 300) {
+        const data = await request.json();
+        resolve(data);
+      } else {
+        const data = await request.json();
+        reject(data);
+      }
+    } catch (e) {
+      reject(e);
     }
   });
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import SignIn from "../screen/SignIn/index";
+import { SignIn } from "../screen";
 
 const publicRouter = () =>
 	<Switch>

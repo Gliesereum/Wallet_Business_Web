@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import ReactCodeInput from "react-code-input";
 
-import InputPhone from "../../components/Forms/PhoneForm";
+import { PhoneForm, Timer } from "../../components";
 
 import { notification } from "antd";
 
 import { asyncRequest } from "../../utils";
-import authActions from "../../state/auth/action";
-
+import { actions } from "../../state";
 
 import "./index.scss";
 
@@ -41,12 +40,19 @@ class SignIn extends Component {
 	sendCodeHandler = async (code) => {
 		if (code.length === 6) {
 			const { phone } = this.state;
+			const { updateUserData, addUserEmail, checkAuthenticate } = this.props;
 			const body = { value: phone, type: 'PHONE', code };
-			const url = 'auth/signin';
+			const userDataUrl = "auth/signin";
+			const userEmailUrl = "email/by-user";
 
 			try {
-				const data = await asyncRequest({ url, body, method: 'POST' });
-				this.props.$authUser(data);
+				const {user, tokenInfo} = await asyncRequest({ url: userDataUrl, body, method: 'POST' });
+				const userEmail = await asyncRequest({ url: userEmailUrl });
+
+				await updateUserData(user);
+				await addUserEmail(userEmail);
+
+				await checkAuthenticate(tokenInfo);
 			} catch (error) {
 				notification.error(error.message || "Ошибка");
 			}
@@ -83,6 +89,9 @@ class SignIn extends Component {
 									onChange={int => this.sendCodeHandler(int)}
 								/>
 							</div>
+							<div>
+								<Timer time={180000} />
+							</div>
 							<div className={"auth-code-form-footer"}>
 								<span className="lg-link" onClick={this.changeContactHandler}>Ввести еще раз</span>
 							</div>
@@ -92,7 +101,7 @@ class SignIn extends Component {
 								<p className="lg-paragraph">Введите ваш номер телефона для входа</p>
 							</div>
 							<div className="auth-form-phone-input">
-								<InputPhone
+								<PhoneForm
 									getCodeHandler={this.getCodeHandler}
 								/>
 							</div>
@@ -103,4 +112,11 @@ class SignIn extends Component {
 	}
 }
 
-export default withRouter(connect(state => state, { ...authActions })(SignIn));
+const mapDispatchToProps = (dispatch) => ({
+	updateUserData: user => dispatch(actions.auth.$updateUserData(user)),
+	addUserEmail: email => dispatch(actions.auth.$addUserEmail(email)),
+	checkAuthenticate: (tokenInfo) => dispatch(actions.auth.$checkAuthenticate(tokenInfo)),
+	dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(SignIn));

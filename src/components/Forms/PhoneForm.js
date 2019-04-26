@@ -7,10 +7,10 @@ class PhoneForm extends Component {
 	onSubmit = e => {
 		e.preventDefault();
 
-		const { getCodeHandler } = this.props;
+		const { getCodeHandler, form } = this.props;
 
-		this.props.form.validateFields((err, values) => {
-			if (!err) {
+		form.validateFields((error, values) => {
+			if (!error) {
 				getCodeHandler(values.phoneInput);
 			}
 		});
