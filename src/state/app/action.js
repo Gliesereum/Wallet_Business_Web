@@ -1,33 +1,39 @@
+import { asyncRequest, withToken, cookieStorage } from "../../utils";
+
+import authActions from '../auth/action';
+
 const actions = {
+	APP_STATUS: 'APP_STATUS',
 
-	START_APPLICATION: "@@START_APPLICATION",
-	SUCCESS_APPLICATION: "@@SUCCESS_APPLICATION",
-	ERROR_APPLICATION: "@@ERROR_APPLICATION",
-	FINISH_APPLICATION: "@@FINISH_APPLICATION",
+	startApp: () => async dispatch => {
+		const access_token = cookieStorage.get("access_token");
+		const refresh_token = cookieStorage.get("refresh_token");
+		const statusUrl = "status";
+		const userUrl = "user/me";
+		const refreshUrl = "auth/refresh";
 
-	/* -- Method (Start application) -- */
-	startApp: (socket) => {
-		return async dispatch => {
-			try {
-				setTimeout(async () => {
-					console.log(socket.id);
-					await dispatch({type: actions.SUCCESS_APPLICATION});
-				}, 800);
-
-				setTimeout(async () => {
-					await dispatch({type: actions.FINISH_APPLICATION})
-				}, 1800);
-
-
-			} catch (e) {
-				dispatch({type: actions.ERROR_APPLICATION, payload: e});
-
-				setTimeout(() => {
-					dispatch({type: actions.FINISH_APPLICATION})
-				}, 0);
+		try {
+			await dispatch(actions.$appStatus('loading'));
+			await asyncRequest({ fullUrl: statusUrl });
+			if (access_token) {
+				const user = await withToken(asyncRequest)({ url: userUrl });
+				await dispatch(authActions.$authUser({ user }));
+			} else if (refresh_token) {
+				// TODO: переделать запрос;
+				const tokenInfo = await asyncRequest({
+					url: `${refreshUrl}?refreshToken=${refresh_token}`,
+					method: "POST",
+				});
+				const user = await withToken(asyncRequest)({ url: userUrl });
+				await dispatch(authActions.$authUser({ user, tokenInfo }));
 			}
+			await dispatch(actions.$appStatus('ready'));
+		} catch (error) {
+			await dispatch(actions.$appStatus('error'));
 		}
 	},
+
+	$appStatus: (payload) => ({type: actions.APP_STATUS, payload}),
 };
 
 export default actions;

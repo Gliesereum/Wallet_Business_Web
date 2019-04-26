@@ -39,11 +39,11 @@ export const withToken = fn => params => {
 
 };
 
-export const asyncRequest = ({url, method = "GET", moduleUrl = "karma", token, body, requestTime}) => {
+export const asyncRequest = ({url, method = "GET", moduleUrl = "account", token, body, requestTime, fullUrl = undefined}) => {
   return new Promise(async (resolve, reject) => {
     const timer = timeout(reject, requestTime);
     try {
-      const fullURL = `${config.url}${moduleUrl}/v1/${url}`;
+      const fullURL = !fullUrl ? `${config.urlPrefix}${moduleUrl}/v1/${url}` : `${config.urlPrefix}${fullUrl}`;
       const _requestConfig = requestConfig(method, token, body);
       const request = await fetch(fullURL, _requestConfig);
       if (request.status === 204) {

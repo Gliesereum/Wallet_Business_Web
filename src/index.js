@@ -7,21 +7,18 @@ import {Router} from "react-router-dom";
 import {store} from './state';
 import {history} from './utils';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
-import openSocket from 'socket.io-client';
+// import openSocket from 'socket.io-client';
 
-const socket = openSocket(
-	'http://localhost:8080',
-	{ transports: ['websocket'] }
-	);
+// const socket = openSocket(
+// 	'http://localhost:8080',
+// 	{ transports: ['websocket'] }
+// 	);
 
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>
-			<App socket={socket}/>
+			<App/>
 		</Router>
 	</Provider>,
 	document.getElementById('root')
 );
-
-serviceWorker.unregister();

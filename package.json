@@ -18,13 +18,10 @@
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
-    "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.6",
     "eslint-loader": "2.1.1",
     "eslint-plugin-flowtype": "2.50.1",
-    "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-react": "7.11.1",
     "file-loader": "2.0.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
@@ -44,6 +41,7 @@
     "postcss-safe-parser": "4.0.1",
     "react": "^16.7.0",
     "react-app-polyfill": "^0.2.0",
+    "react-code-input": "^3.8.1",
     "react-dev-utils": "^7.0.1",
     "react-dom": "^16.7.0",
     "react-helmet": "^5.2.0",
@@ -70,6 +68,14 @@
     "@babel/preset-env": "7.0.0-rc.1",
     "antd-scss-theme-plugin": "^1.0.7",
     "babel-plugin-import": "^1.11.0",
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.12.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.1",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-standard": "^4.0.0",
     "js-beautify": "1.8.8",
     "less-loader": "^4.1.0",
     "node-sass": "^4.10.0"
@@ -78,9 +84,6 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": [
     ">0.2%",
