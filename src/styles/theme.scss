@@ -2,11 +2,14 @@
 $primary-color: #262626;
 $info-color: yellow;
 $success-color: green;
-$processing-color: orange;
+$processing-color: rgba(255, 187, 27, 0.81);
 $error-color: red;
-$highlight-color: #3d4dbe;
+$highlight-color: rgb(218, 129, 68);
+$loading-background-color: rgba(218, 129, 68, 0.35);
+$hover-highlight-color: rgba(198, 83, 23, 0.25);
 $warning-color: orange;
-$normal-color: #d9d9d9;
+$light-gray: #d9d9d9;
+$dark-gray: #3d3d3d;
 $white: #fff;
 $black: #000;
 

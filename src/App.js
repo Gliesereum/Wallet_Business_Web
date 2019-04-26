@@ -4,7 +4,7 @@ import {actions} from './state';
 import {withRouter} from "react-router-dom";
 
 import AppRouter from './routes';
-import { ScreenLoading } from './components';
+import { ScreenLoading } from './screen';
 
 class App extends Component {
 
@@ -14,14 +14,19 @@ class App extends Component {
 	}
 
 	render() {
-		const { status } = this.props.app;
+		const { appStatus, dataLoading } = this.props.app;
 		const { authenticated } = this.props.auth;
 
-		switch (status) {
+		switch (appStatus) {
 			case 'loading':
 				return <ScreenLoading />;
 			case 'ready':
-				return <AppRouter isPrivateRoute={authenticated} />;
+				return (
+						<>
+							{dataLoading && <ScreenLoading dataLoading={dataLoading} />}
+							<AppRouter isPrivateRoute={authenticated} />
+						</>
+					);
 			case 'error':
 				return <div>Error</div>;
 				// return <ScreenError onReload={this.props.initApp}/>;

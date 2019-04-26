@@ -1,31 +1,47 @@
 import { asyncRequest, withToken, cookieStorage } from "../../utils";
 
 import authActions from '../auth/action';
+import corporationsActions from '../corporations/action';
 
 const actions = {
-	APP_STATUS: 'APP_STATUS',
+	APP_STATUS: "APP_STATUS",
+	DATA_LOADING_STATUS: "DATA_LOADING_STATUS",
 
 	startApp: () => async dispatch => {
 		const access_token = cookieStorage.get("access_token");
 		const refresh_token = cookieStorage.get("refresh_token");
 		const statusUrl = "status";
+		const authCheckUrl = "auth/check";
 		const userUrl = "user/me";
+		const emailUrl = "email/by-user";
 		const refreshUrl = "auth/refresh";
+		const corporationsUrl = "corporation/by-user";
 
 		try {
 			await dispatch(actions.$appStatus('loading'));
 			await asyncRequest({ fullUrl: statusUrl });
-			if (access_token) {
+
+			if (access_token && access_token !== "undefined") {
+				const { tokenInfo } = await asyncRequest({ url: `${authCheckUrl}?accessToken=${access_token}` });
 				const user = await withToken(asyncRequest)({ url: userUrl });
-				await dispatch(authActions.$authUser({ user }));
+				const email = await withToken(asyncRequest)({ url: emailUrl });
+				const corporations = await withToken(asyncRequest)({ url: corporationsUrl });
+
+				await dispatch(authActions.$updateUserData(user));
+				await dispatch(authActions.$addUserEmail(email));
+				await dispatch(corporationsActions.$getCorporations(corporations));
+				await dispatch(authActions.$checkAuthenticate(tokenInfo));
 			} else if (refresh_token) {
-				// TODO: переделать запрос;
 				const tokenInfo = await asyncRequest({
 					url: `${refreshUrl}?refreshToken=${refresh_token}`,
 					method: "POST",
 				});
 				const user = await withToken(asyncRequest)({ url: userUrl });
-				await dispatch(authActions.$authUser({ user, tokenInfo }));
+				const email = await withToken(asyncRequest)({ url: emailUrl });
+
+				await dispatch(authActions.$updateUserData(user));
+				await dispatch(authActions.$addUserEmail(email));
+				await dispatch(authActions.$checkAuthenticate(tokenInfo));
 			}
 			await dispatch(actions.$appStatus('ready'));
 		} catch (error) {
@@ -33,7 +49,11 @@ const actions = {
 		}
 	},
 
-	$appStatus: (payload) => ({type: actions.APP_STATUS, payload}),
+	$appStatus: (payload) => {
+		return {type: actions.APP_STATUS, payload}
+	},
+
+	$dataLoading: (payload) => ({ type: actions.DATA_LOADING_STATUS, payload }),
 };
 
 export default actions;
