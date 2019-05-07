@@ -1,0 +1,48 @@
+@import "../../styles/theme.scss";
+
+.karma-app-footer {
+  width: 100%;
+  margin-top: 15px;
+  height: 150px;
+
+  &-wrapper {
+    background-color: $processing-color;
+    color: $dark-gray;
+    font-size: 16px;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+    border-top: 2px solid $dark-gray;
+
+    &-descr {
+      width: 400px;
+    }
+
+    &-links {
+      flex-direction: column;
+      display: flex;
+    }
+
+    &-brand {
+      display: flex;
+      align-items: center;
+
+      &-logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &-rightsBlock {
+    background-color: $dark-gray;
+    color: $light-gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+  }
+}

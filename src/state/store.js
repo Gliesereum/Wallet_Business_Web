@@ -1,4 +1,9 @@
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
+import {
+	createStore,
+	combineReducers,
+	applyMiddleware,
+	compose,
+} from 'redux';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';

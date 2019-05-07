@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {actions} from './state';
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import AppRouter from './routes';
-import { ScreenLoading } from './components';
+import { ScreenLoading } from './screen';
 
 class App extends Component {
 
@@ -14,14 +14,19 @@ class App extends Component {
 	}
 
 	render() {
-		const { status } = this.props.app;
+		const { appStatus, dataLoading } = this.props.app;
 		const { authenticated } = this.props.auth;
 
-		switch (status) {
+		switch (appStatus) {
 			case 'loading':
 				return <ScreenLoading />;
 			case 'ready':
-				return <AppRouter isPrivateRoute={authenticated} />;
+				return (
+						<>
+							{dataLoading && <ScreenLoading dataLoading={dataLoading} />}
+							<AppRouter isPrivateRoute={authenticated} />
+						</>
+					);
 			case 'error':
 				return <div>Error</div>;
 				// return <ScreenError onReload={this.props.initApp}/>;
@@ -32,6 +37,8 @@ class App extends Component {
 	}
 }
 
-const { startApp } = actions.app;
+const mapDispatchToProps = dispatch => ({
+	startApp: () => dispatch(actions.app.$startApp()),
+});
 
-export default withRouter(connect(state => state, { startApp })(App));
+export default withRouter(connect(state => state, mapDispatchToProps)(App));
