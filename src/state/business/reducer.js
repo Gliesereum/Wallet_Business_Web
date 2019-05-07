@@ -3,6 +3,9 @@ import { createReducer } from "../../utils";
 
 const initState = {
   business: [],
+  businessTypes: [],
+  businessCategories: [],
+  servicePrices: {},
 };
 
 const initReducers = {
@@ -13,6 +16,40 @@ const initReducers = {
     };
   },
 
+  [actions.GET_BUSINESS_TYPES]: (state, payload) => {
+    return {
+      ...state,
+      businessTypes: payload || [],
+    };
+  },
+
+  [actions.GET_BUSINESS_CATEGORIES]: (state, payload) => {
+    return {
+      ...state,
+      businessCategories: payload || [],
+    };
+  },
+
+  [actions.UPDATE_BUSINESS]: (state, payload) => {
+    const newBusiness = state.business.filter(b => b.id !== payload.id);
+    return {
+      ...state,
+      business: [...newBusiness, payload],
+    };
+  },
+
+  [actions.GET_SERVICE_PRICE]: (state, payload) => {
+    if (!payload.length) return state;
+
+    const businessId = payload[0].businessId;
+    return {
+      ...state,
+      servicePrices: {
+        ...state.servicePrices,
+        [businessId]: payload,
+      },
+    };
+  },
 };
 
 export default createReducer(initState, initReducers);

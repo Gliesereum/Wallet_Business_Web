@@ -9,7 +9,6 @@ const actions = {
   VERIFY_EMAIL: "VERIFY_EMAIL",
 
   $checkAuthenticate: (tokenInfo) => {
-    console.log(tokenInfo);
     if (tokenInfo) {
       const { accessExpirationDate, accessToken, refreshToken, refreshExpirationDate } = tokenInfo;
       cookieStorage.set('access_token', accessToken, { expires: new Date(accessExpirationDate), path: '' });
@@ -37,8 +36,8 @@ const actions = {
   }),
 
   $signOut: () => async dispatch => {
-    cookieStorage.remove('access_token', { path: '' });
-    cookieStorage.remove('refresh_token', { path: '' });
+    cookieStorage.remove('access_token');
+    cookieStorage.remove('refresh_token');
 
     await dispatch({ type: actions.SIGNOUT_USER });
   }

@@ -6,7 +6,6 @@ import { Button, Icon } from "antd";
 import "./index.scss";
 
 const BusinessPage = (props) => {
-  console.log(props);
   const isAddPage = props.location.pathname.match("/add");
 
   return (

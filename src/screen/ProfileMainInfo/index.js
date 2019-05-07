@@ -123,7 +123,6 @@ class ProfileMainInfo extends Component {
         } finally {
           await dataLoading(false);
         }
-
       }
     });
   };

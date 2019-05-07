@@ -40,19 +40,15 @@ class SignIn extends Component {
 	sendCodeHandler = async (code) => {
 		if (code.length === 6) {
 			const { phone } = this.state;
-			const { updateUserData, addUserEmail, checkAuthenticate } = this.props;
+			const { checkAuthenticate, startApp } = this.props;
 			const body = { value: phone, type: 'PHONE', code };
 			const userDataUrl = "auth/signin";
-			const userEmailUrl = "email/by-user";
 
 			try {
-				const {user, tokenInfo} = await asyncRequest({ url: userDataUrl, body, method: 'POST' });
-				const userEmail = await asyncRequest({ url: userEmailUrl });
-
-				await updateUserData(user);
-				await addUserEmail(userEmail);
-
+				const { tokenInfo } = await asyncRequest({ url: userDataUrl, body, method: 'POST' });
 				await checkAuthenticate(tokenInfo);
+
+				await startApp();
 			} catch (error) {
 				notification.error(error.message || "Ошибка");
 			}
@@ -112,11 +108,10 @@ class SignIn extends Component {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => ({
-	updateUserData: user => dispatch(actions.auth.$updateUserData(user)),
-	addUserEmail: email => dispatch(actions.auth.$addUserEmail(email)),
+const mapDispatchToProps = dispatch => ({
 	checkAuthenticate: (tokenInfo) => dispatch(actions.auth.$checkAuthenticate(tokenInfo)),
 	dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
+	startApp: () => dispatch(actions.app.$startApp()),
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(SignIn));

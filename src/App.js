@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {actions} from './state';
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import AppRouter from './routes';
 import { ScreenLoading } from './screen';
@@ -37,6 +37,8 @@ class App extends Component {
 	}
 }
 
-const { startApp } = actions.app;
+const mapDispatchToProps = dispatch => ({
+	startApp: () => dispatch(actions.app.$startApp()),
+});
 
-export default withRouter(connect(state => state, { startApp })(App));
+export default withRouter(connect(state => state, mapDispatchToProps)(App));

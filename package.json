@@ -45,6 +45,7 @@
     "react-code-input": "^3.8.1",
     "react-dev-utils": "^7.0.1",
     "react-dom": "^16.7.0",
+    "react-google-maps": "^9.4.5",
     "react-helmet": "^5.2.0",
     "react-redux": "latest",
     "react-router-dom": "^4.4.0-beta.5",
