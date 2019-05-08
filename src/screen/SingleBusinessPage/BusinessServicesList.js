@@ -93,6 +93,7 @@ class BusinessServicesList extends Component {
           itemLayout="horizontal"
           dataSource={services}
           renderItem={item => (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <List.Item actions={[<a>Удалить услугу</a>]}>
               <List.Item.Meta
                 onClick={this.goToServiceHandler}

@@ -120,7 +120,7 @@ class BusinessMainInfo extends Component {
     const {
       name,
       description,
-      spaces,
+      //spaces,
       corporationId,
       address,
       businessCategory: currentBusinessCategory,
