@@ -1,11 +1,15 @@
 import { asyncRequest } from "../../utils";
 
 const actions = {
-  GET_BUSINESS: "GET_BUSINESS",
   GET_BUSINESS_TYPES: "GET_BUSINESS_TYPES",
   GET_BUSINESS_CATEGORIES: "GET_BUSINESS_CATEGORIES",
+
+  GET_BUSINESS: "GET_BUSINESS",
   UPDATE_BUSINESS: "UPDATE_BUSINESS",
+
   GET_SERVICE_PRICE: "GET_SERVICE_PRICE",
+  UPDATE_SERVICE_PRICE: "UPDATE_SERVICE_PRICE",
+  ADD_SERVICE_PRICE: "ADD_SERVICE_PRICE",
 
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
@@ -40,6 +44,17 @@ const actions = {
       console.log(error)
     }
   },
+
+  $updateServicePrice: newServicePrice => ({
+    type: actions.UPDATE_SERVICE_PRICE,
+    payload: newServicePrice,
+  }),
+
+  $addServicePrice: servicePrice => ({
+    type: actions.ADD_SERVICE_PRICE,
+    payload: servicePrice,
+  }),
+
 };
 
 export default actions;
