@@ -1,40 +1,40 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
-import { Tabs } from 'antd';
+import {Tabs} from 'antd';
 
-import BusinessMainInfo from "./BusinessMainInfo";
-import BusinessServicesList from "./BusinessServicesList";
-import BusinessPackages from "./BusinessPackages";
-import BusinessSchedule from "./BusinessSchedule";
-import BusinessOrders from "./BusinessOrders";
-import {actions} from "../../state";
+import BusinessMainInfo from './BusinessMainInfo';
+import BusinessServicesList from './BusinessServicesList';
+import BusinessPackages from './BusinessPackages';
+import BusinessSchedule from './BusinessSchedule';
+import BusinessOrders from './BusinessOrders';
+import {actions} from '../../state';
 
 const singleBusinessTabs = [
   {
-    tabName: "Основная информация",
-    keyName: "mainInfo",
+    tabName: 'Основная информация',
+    keyName: 'mainInfo',
     ContentComponent: BusinessMainInfo,
   },
   {
-    tabName: "Услуги",
-    keyName: "services",
+    tabName: 'Услуги',
+    keyName: 'services',
     ContentComponent: BusinessServicesList,
   },
   {
-    tabName: "Пакет Услуг",
-    keyName: "packages",
+    tabName: 'Пакет Услуг',
+    keyName: 'packages',
     ContentComponent: BusinessPackages,
   },
   {
-    tabName: "Рассписание",
-    keyName: "schedule",
+    tabName: 'Рассписание',
+    keyName: 'schedule',
     ContentComponent: BusinessSchedule,
   },
   {
-    tabName: "Заказы",
-    keyName: "orders",
+    tabName: 'Заказы',
+    keyName: 'orders',
     ContentComponent: BusinessOrders,
   },
 ];
@@ -42,7 +42,7 @@ const singleBusinessTabs = [
 class SingleBusinessPage extends Component {
 
   async componentDidMount() {
-    const { business, getPriceService } = this.props;
+    const {business, getPriceService} = this.props;
 
     await Promise.all([business.map(business => getPriceService(business.id))])
   }
@@ -65,7 +65,7 @@ class SingleBusinessPage extends Component {
         defaultActiveKey="mainInfo"
         animated={false}
       >
-        {singleBusinessTabs.map(({ tabName, keyName, ContentComponent }) => (
+        {singleBusinessTabs.map(({tabName, keyName, ContentComponent}) => (
           <Tabs.TabPane
             tab={tabName}
             key={keyName}
