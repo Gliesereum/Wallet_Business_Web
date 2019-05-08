@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-import brandLogo from "../../assets/KarmaLogo.png";
+import brandLogo from '../../assets/KarmaLogo.png';
 
-import "./index.scss";
+import './index.scss';
 
 class Footer extends React.Component {
   render() {

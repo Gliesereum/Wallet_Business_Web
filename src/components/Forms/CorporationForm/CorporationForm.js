@@ -108,7 +108,7 @@ class CorporationForm extends Component {
                 label={label}
               >
                 {getFieldDecorator(name, {
-                  initialValue: corporation && corporation[name] || "",
+                  initialValue: (corporation && corporation[name]) || "",
                   rules,
                 })(component)}
               </Form.Item>
