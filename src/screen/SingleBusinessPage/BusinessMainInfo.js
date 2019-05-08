@@ -9,7 +9,7 @@ import {
   notification,
 } from "antd";
 
-import Map from "../../components/Map";
+import { Map } from "../../components";
 
 import {
   asyncRequest,
