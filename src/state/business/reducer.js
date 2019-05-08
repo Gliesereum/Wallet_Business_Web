@@ -50,6 +50,38 @@ const initReducers = {
       },
     };
   },
+
+  [actions.UPDATE_SERVICE_PRICE]: (state, payload) => {
+    const { businessId, id } = payload;
+    const updatedServices = state.servicePrices[businessId];
+    const updatedServiceIndex = updatedServices.findIndex(item => item.id === id);
+    const newServicesArray = [
+      ...updatedServices.slice(0, updatedServiceIndex),
+      payload,
+      ...updatedServices.slice(updatedServiceIndex + 1),
+    ];
+    return {
+      ...state,
+      servicePrices: {
+        ...state.servicePrices,
+        [businessId]: newServicesArray,
+      }
+    };
+  },
+
+  [actions.ADD_SERVICE_PRICE]: (state, payload) => {
+    const { businessId } = payload;
+   return {
+      ...state,
+      servicePrices: {
+        ...state.servicePrices,
+        [businessId]: [
+          ...state.servicePrices[businessId],
+          payload,
+        ],
+      }
+    }
+  }
 };
 
 export default createReducer(initState, initReducers);

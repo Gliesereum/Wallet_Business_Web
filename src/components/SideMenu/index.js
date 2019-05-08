@@ -41,7 +41,10 @@ class SideMenu extends Component {
 
     return (
       <div className="karma-app-sidebar">
-        <div className="karma-app-sidebar__toggler" onClick={this._toggleCollapsed}>
+        <div
+          className="karma-app-sidebar__toggler"
+          onClick={this._toggleCollapsed}
+        >
           {!visible && <Icon type="double-right" />}
         </div>
         <Drawer
@@ -53,7 +56,10 @@ class SideMenu extends Component {
         >
 
           <div className="karma-app-sidebar__user-box">
-            <img src={auth.user.coverUrl || defaultDrawerCover } alt=""/>
+            <img
+              src={auth.user.coverUrl || defaultDrawerCover }
+              alt=""
+            />
             <div className="karma-app-sidebar__avatar-user">
               <div className="karma-app-sidebar__avatar-user-img">
                 {auth.user && auth.user.avatarUrl ?

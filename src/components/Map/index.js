@@ -11,7 +11,11 @@ const Map = ({ location, onSelect }) =>
     defaultZoom={10}
     center={{ lat: location.lat, lng:location.lng }}
   >
-    <Marker draggable={true} onDragEnd={onSelect} position={{ lat: location.lat, lng: location.lng }} />
+    <Marker
+      draggable={true}
+      onDragEnd={onSelect}
+      position={{ lat: location.lat, lng: location.lng }}
+    />
   </GoogleMap>;
 
 export default withScriptjs(withGoogleMap(Map));

@@ -2,38 +2,39 @@ import React, { Component } from "react";
 
 import {
   List,
-  Card,
   notification,
+  Button,
 } from "antd";
+
+import { ServiceMainInfoForm } from "../../components";
+import ServiceAdditional from "../SingleBusinessPage/ServiceAdditional";
+import ServiceClasses from "../SingleBusinessPage/ServiceClasses";
+import Modal from "../../components/ModalLayout";
 
 import {
   asyncRequest,
   withToken,
 } from "../../utils";
 
-const serviceTabList = [
-  {
-    tab: "mainInfo",
-    key: "mainInfo",
-  },
-  {
-    tab: "additional",
-    key: "additional"
-  },
-  {
-    tab: "classes",
-    key: "classes",
-  },
-];
+const MODALS = {
+  MAIN_INFO: ServiceMainInfoForm,
+  ADDITIONAL: ServiceAdditional,
+  CLASSES: ServiceClasses,
+};
 
 class BusinessServicesList extends Component {
   state = {
     serviceTypes: [],
     filters: [],
     classes: [],
+    modal: {},
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.initLoad();
+  }
+
+  initLoad = async () => {
     const { singleBusiness } = this.props;
 
     const serviceTypesUrl = `service/by-business-category?businessCategoryId=${singleBusiness.businessCategoryId}`;
@@ -46,7 +47,7 @@ class BusinessServicesList extends Component {
           withToken(asyncRequest)({ url: serviceTypesUrl, moduleUrl: "karma" }),
           withToken(asyncRequest)({ url: filtersUrl, moduleUrl: "karma" }),
           withToken(asyncRequest)({ url: classesUrl, moduleUrl: "karma" }),
-      ]);
+        ]);
 
       this.setState(() => ({
         serviceTypes: serviseTypesList || [],
@@ -56,57 +57,69 @@ class BusinessServicesList extends Component {
     } catch (error) {
       notification.error(error.message || "Ошибка");
     }
-  }
-
-  updateBusinessServices = e => {
-    e.preventDefault();
-
-    const { form, dataLoading } = this.props;
-
-    form.validateFields(async (err, values) => {
-      if (!err) {
-        await dataLoading(true);
-
-        try {
-          console.log(values)
-        } catch (error) {
-          notification.error(error.message || "Ошибка");
-        } finally {
-          await dataLoading(false);
-        }
-      }
-    })
   };
 
-  goToServiceHandler = () => {
-    this.props.history.push("/service");
+  triggerServiceModal = (modalName, bool, item, addNewMod = false) => () => {
+    this.setState({
+      modal: {
+        visible: bool,
+        Component: modalName,
+        modalService: item,
+        addNewMod: addNewMod,
+      }
+    });
   };
 
   render() {
     const { singleBusiness, servicePrices } = this.props;
-
+    const { MAIN_INFO, ADDITIONAL, CLASSES } = MODALS;
     const services = servicePrices[singleBusiness.id];
+    const { modal, serviceTypes, filters, classes } = this.state;
 
     return (
       <>
+        <Button
+          onClick={this.triggerServiceModal(MAIN_INFO,true, null, true)}
+          type="primary"
+        >
+          Add service
+        </Button>
         <List
           itemLayout="horizontal"
           dataSource={services}
           renderItem={item => (
-            <List.Item actions={[<a>Удалить услугу</a>]}>
+            <List.Item
+              actions={[
+                <Button onClick={this.triggerServiceModal(MAIN_INFO,true, item)}>Основная информация</Button>,
+                <Button onClick={this.triggerServiceModal(ADDITIONAL,true, item)}>Допольнительно</Button>,
+                <Button onClick={this.triggerServiceModal(CLASSES,true, item)}>Класс обслуживания</Button>,
+                <Button type="primary">Удалить услугу</Button>,
+              ]}>
               <List.Item.Meta
-                onClick={this.goToServiceHandler}
                 title={item.name}
                 description={item.description}
               />
             </List.Item>
           )}
         />
-        <Card
-          tabList={serviceTabList}
-        >
-
-        </Card>
+        {modal.visible && (
+          <Modal
+            visible={modal.visible}
+            footer={null}
+            closable={false}
+          >
+            {<modal.Component
+              serviceTypes={serviceTypes}
+              filters={filters}
+              classes={classes}
+              servicePrice={modal.modalService}
+              onCancel={this.triggerServiceModal}
+              modals={MODALS}
+              addNewMod={modal.addNewMod}
+              businessId={singleBusiness.id}
+            />}
+          </Modal>
+        )}
       </>
     )
   }

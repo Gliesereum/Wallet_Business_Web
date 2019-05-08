@@ -5,6 +5,8 @@ import SideMenu from "./SideMenu";
 import Footer from "./Footer";
 import ModalLayout from "./ModalLayout";
 import Timer from "./Timer";
+import Map from "./Map";
+import ServiceMainInfoForm from "./Forms/ServiceMainInfoForm";
 
 export {
   PhoneForm,
@@ -14,4 +16,6 @@ export {
   Footer,
   ModalLayout,
   Timer,
+  Map,
+  ServiceMainInfoForm,
  }
