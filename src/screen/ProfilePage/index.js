@@ -1,44 +1,44 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import React from 'react';
+import {Link, withRouter} from 'react-router-dom';
 
-import { Icon } from "antd";
+import {Icon} from 'antd';
 
-import "./index.scss";
+import './index.scss';
 
 const links = [
   {
-    toPath: "/profile/mainInfo",
-    iconType: "solution",
-    linkText: "Основная информация",
+    toPath: '/profile/mainInfo',
+    iconType: 'solution',
+    linkText: 'Основная информация',
   },
   {
-    toPath: "/profile/corporations",
-    iconType: "bank",
-    linkText: "Компании",
+    toPath: '/profile/corporations',
+    iconType: 'bank',
+    linkText: 'Компании',
   },
   {
-    toPath: "/profile/email",
-    iconType: "mail",
-    linkText: "Электронная почта",
+    toPath: '/profile/email',
+    iconType: 'mail',
+    linkText: 'Электронная почта',
   }
 ];
 
 const ProfilePage = (props) => {
-  const { pathname } = props.location;
+  const {pathname} = props.location;
 
   return (
     <div className="karma-app-profile">
       <div className="karma-app-profile-navBox">
         {
-          links.map(({ toPath, iconType, linkText }) => (
+          links.map(({toPath, iconType, linkText}) => (
             <Link
               className={
-                `karma-app-profile-navBox-item ${pathname === toPath ? "karma-app-profile-navBox-item-active" : ""}`
+                `karma-app-profile-navBox-item ${pathname === toPath ? 'karma-app-profile-navBox-item-active' : ''}`
               }
               to={toPath}
               key={iconType}
             >
-              <Icon type={iconType} />
+              <Icon type={iconType}/>
               <span className="karma-app-profile-navBox-item-text">
                 {linkText}
               </span>

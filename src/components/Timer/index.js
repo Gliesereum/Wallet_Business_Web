@@ -1,17 +1,17 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import moment from "moment";
+import moment from 'moment';
 
-import "./index.scss";
+import './index.scss';
 
 class Timer extends Component {
   state = {
     time: 0,
-    mask: "mm:ss",
+    mask: 'mm:ss',
   };
 
   componentDidMount() {
-    this.setState({ time: this.props.time });
+    this.setState({time: this.props.time});
     this.timer = setInterval(this.tick, 1000);
   }
 
@@ -27,7 +27,7 @@ class Timer extends Component {
       return;
     }
 
-    this.setState(state => ({ time: state.time - 1000 }));
+    this.setState(state => ({time: state.time - 1000}));
   };
 
   removeTimer = () => {
@@ -36,7 +36,7 @@ class Timer extends Component {
 
   render() {
     const date = new Date(this.state.time);
-    const { mask } = this.state;
+    const {mask} = this.state;
 
     return (
       <div className="karma-app-timer">

@@ -1,15 +1,15 @@
-import { asyncRequest } from "../../utils";
+import {asyncRequest} from '../../utils';
 
 const actions = {
-  GET_BUSINESS_TYPES: "GET_BUSINESS_TYPES",
-  GET_BUSINESS_CATEGORIES: "GET_BUSINESS_CATEGORIES",
+  GET_BUSINESS_TYPES: 'GET_BUSINESS_TYPES',
+  GET_BUSINESS_CATEGORIES: 'GET_BUSINESS_CATEGORIES',
 
-  GET_BUSINESS: "GET_BUSINESS",
-  UPDATE_BUSINESS: "UPDATE_BUSINESS",
+  GET_BUSINESS: 'GET_BUSINESS',
+  UPDATE_BUSINESS: 'UPDATE_BUSINESS',
 
-  GET_SERVICE_PRICE: "GET_SERVICE_PRICE",
-  UPDATE_SERVICE_PRICE: "UPDATE_SERVICE_PRICE",
-  ADD_SERVICE_PRICE: "ADD_SERVICE_PRICE",
+  GET_SERVICE_PRICE: 'GET_SERVICE_PRICE',
+  UPDATE_SERVICE_PRICE: 'UPDATE_SERVICE_PRICE',
+  ADD_SERVICE_PRICE: 'ADD_SERVICE_PRICE',
 
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
@@ -35,7 +35,7 @@ const actions = {
     const servicesURL = `price/by-business/${businessId}`;
 
     try {
-      const data = await asyncRequest({ url: servicesURL, moduleUrl: "karma" }) || [];
+      const data = await asyncRequest({url: servicesURL, moduleUrl: 'karma'}) || [];
       return {
         type: actions.GET_SERVICE_PRICE,
         payload: data,

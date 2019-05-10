@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import PublicRouter from "./public";
-import PrivateRouter from "./private";
+import PublicRouter from './public';
+import PrivateRouter from './private';
 
-const Routes = ({ isPrivateRoute }) => isPrivateRoute ? <PrivateRouter /> : <PublicRouter />;
+const Routes = ({isPrivateRoute}) => isPrivateRoute ? <PrivateRouter/> : <PublicRouter/>;
 
 export default Routes;

@@ -1,5 +1,5 @@
-import actions from "./action";
-import {createReducer} from "../../utils";
+import actions from './action';
+import {createReducer} from '../../utils';
 
 const initState = {
   authenticated: false,
@@ -34,7 +34,7 @@ const initReducers = {
       ...state,
       user: {
         ...state.user,
-        verifiedStatus: "VERIFIED",
+        verifiedStatus: 'VERIFIED',
       },
       email: payload,
     }

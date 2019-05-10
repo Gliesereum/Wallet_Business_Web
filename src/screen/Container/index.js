@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import { Header, SideMenu, Footer } from "../../components";
+import {Header, SideMenu, Footer} from '../../components';
 
-import "./index.scss";
+import './index.scss';
 
 class Container extends Component {
 
@@ -10,13 +10,13 @@ class Container extends Component {
   render() {
     return (
       <div className="karma-app-wrapped">
-        <SideMenu />
+        <SideMenu/>
 
-        <Header title="Profile" />
+        <Header title="Profile"/>
         <div className="karma-app-main">
           {this.props.children}
         </div>
-        <Footer />
+        <Footer/>
       </div>
     );
   }

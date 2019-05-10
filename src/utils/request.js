@@ -2,25 +2,25 @@ import config from '../config';
 import {cookieStorage} from './';
 
 
-const timeoutMessageError = new Error("Превишен интервал ожидания. Повторите попытку!");
+const timeoutMessageError = new Error('Превишен интервал ожидания. Повторите попытку!');
 
 const timeout = (reject, time = 60000) => (setTimeout(() => reject(timeoutMessageError), time));
 
 const requestConfig = (method, token, body) => {
   return {
     method,
-    cache: "default",
+    cache: 'default',
     headers: header(token),
     body: JSON.stringify(body)
   };
 };
 
 const header = token => {
-  const defaultHeaders = {"content-type": "application/json", "accept": "application/json"};
+  const defaultHeaders = {'content-type': 'application/json', 'accept': 'application/json'};
   if (!token) {
     return defaultHeaders;
   }
-  return {...defaultHeaders, "Authorization": `Bearer ${token}`};
+  return {...defaultHeaders, 'Authorization': `Bearer ${token}`};
 };
 
 export const withToken = fn => params => {
@@ -31,8 +31,7 @@ export const withToken = fn => params => {
       return
     }
     return fn({...params, token})
-  }
-  catch (e) {
+  } catch (e) {
     alert('Usage function error. Take a look at console');
     console.log(e);
   }
@@ -40,14 +39,14 @@ export const withToken = fn => params => {
 };
 
 export const asyncRequest = ({
-    url,
-    method = "GET",
-    moduleUrl = "account",
-    token,
-    body,
-    requestTime,
-    fullUrl = undefined,
-  }) => {
+                               url,
+                               method = 'GET',
+                               moduleUrl = 'account',
+                               token,
+                               body,
+                               requestTime,
+                               fullUrl = undefined,
+                             }) => {
   return new Promise(async (resolve, reject) => {
     const timer = timeout(reject, requestTime);
     try {
@@ -72,7 +71,7 @@ export const asyncRequest = ({
   });
 };
 
-export const asyncUploadFile = ({url, method = "POST", moduleUrl = "file", token, body}) => {
+export const asyncUploadFile = ({url, method = 'POST', moduleUrl = 'file', token, body}) => {
   return new Promise(async (resolve, reject) => {
     try {
       const fullURL = `${config.urlPrefix}${moduleUrl}/v1/${url}`;

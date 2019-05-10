@@ -1,5 +1,5 @@
-import actions from "./action";
-import { createReducer } from "../../utils";
+import actions from './action';
+import {createReducer} from '../../utils';
 
 const initState = {
   business: [],
@@ -52,7 +52,7 @@ const initReducers = {
   },
 
   [actions.UPDATE_SERVICE_PRICE]: (state, payload) => {
-    const { businessId, id } = payload;
+    const {businessId, id} = payload;
     const updatedServices = state.servicePrices[businessId];
     const updatedServiceIndex = updatedServices.findIndex(item => item.id === id);
     const newServicesArray = [
@@ -70,8 +70,8 @@ const initReducers = {
   },
 
   [actions.ADD_SERVICE_PRICE]: (state, payload) => {
-    const { businessId } = payload;
-   return {
+    const {businessId} = payload;
+    return {
       ...state,
       servicePrices: {
         ...state.servicePrices,

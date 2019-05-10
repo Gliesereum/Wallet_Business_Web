@@ -1,5 +1,5 @@
-import actions from "./action";
-import { createReducer } from "../../utils";
+import actions from './action';
+import {createReducer} from '../../utils';
 
 const initState = {
   corporations: [],

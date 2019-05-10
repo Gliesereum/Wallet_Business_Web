@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import { List, Card } from "antd";
+import {List, Card} from 'antd';
 
 class BusinessList extends Component {
   render() {
-    const { business } = this.props;
+    const {business} = this.props;
 
     const businessList = business && business.map(bsItem => ({
       name: bsItem.name,
@@ -20,7 +20,7 @@ class BusinessList extends Component {
       <div>
         <List
           size="large"
-          grid={{ gutter: 16, xs: 1, sm: 2, lg: 3, xxl: 4 }}
+          grid={{gutter: 16, xs: 1, sm: 2, lg: 3, xxl: 4}}
           dataSource={businessList}
           renderItem={bsItem => (
             <List.Item>
