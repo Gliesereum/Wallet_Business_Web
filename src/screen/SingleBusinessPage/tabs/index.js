@@ -1,4 +1,4 @@
-import BusinessMainInfo from './BusinessMainInfo';
+import {BusinessMainInfo} from './../../../components';
 import BusinessOrders from './BusinessOrders';
 import BusinessPackages from './BusinessPackages';
 import BusinessSchedule from './BusinessSchedule';

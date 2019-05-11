@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 
 import {List, notification, Button} from 'antd';
 
-import {ServiceMainInfoForm, ServiceAdditional, Modal} from '../../components';
-import ServiceClasses from '../SingleBusinessPage/ServiceClasses';
+import {ServiceMainInfoForm, ServiceAdditional, Modal} from '../../../components';
+import ServiceClasses from '../ServiceClasses';
 
-import {asyncRequest, withToken} from '../../utils';
-import {actions} from '../../state';
+import {asyncRequest, withToken} from '../../../utils';
+import {actions} from '../../../state';
 
 const MODALS = {
   MAIN_INFO: ServiceMainInfoForm,

@@ -14,6 +14,7 @@ class SingleBusinessPage extends Component {
   static contextType = BusinessPageContext;
 
   render() {
+    console.log('df')
     const {
       match,
       servicePrices,
@@ -58,9 +59,10 @@ class SingleBusinessPage extends Component {
         ContentComponent: BusinessPackages,
         props: {
           packages: packagesList || [],
-          updatePackage: updatePackage,
-          createPackage: createPackage,
-          deletePackage: deletePackage,
+          updatePackage,
+          createPackage,
+          deletePackage,
+          servicePrices,
         },
       },
       {
@@ -80,6 +82,7 @@ class SingleBusinessPage extends Component {
         },
       },
     ];
+    console.log("sdsd")
     return (
       <Tabs
         defaultActiveKey="mainInfo"
