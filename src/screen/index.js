@@ -1,4 +1,3 @@
-import AddBusinessPage from './AddBusinessPage';
 import BusinessPage from './BusinessPage';
 import BusinessList from './BusinessList';
 import Container from './Container';
@@ -11,7 +10,6 @@ import ProfileEmailScreen from './ProfileEmailScreen';
 import ProfileMainInfo from './ProfileMainInfo';
 
 export {
-  AddBusinessPage,
   BusinessPage,
   BusinessList,
   Container,

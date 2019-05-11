@@ -9,7 +9,7 @@ import {
 } from 'antd';
 
 import {
-  ModalLayout,
+  Modal,
   CorporationForm,
 } from '../../components';
 
@@ -151,7 +151,7 @@ class ProfileCorporations extends Component {
         />
         {
           editModal && (
-            <ModalLayout
+            <Modal
               title="Редактирование компании"
               visible={editModal}
               footer={null}
@@ -166,12 +166,12 @@ class ProfileCorporations extends Component {
                 cancelText="Отмена"
                 okText="Сохранить"
               />
-            </ModalLayout>
+            </Modal>
           )
         }
         {
           deleteModal && (
-            <ModalLayout
+            <Modal
               title="Удаление компании"
               visible={deleteModal}
               okText="Удалить"
@@ -184,12 +184,12 @@ class ProfileCorporations extends Component {
               <span>
                 {`Вы действительно хотите удалить компанию ${corp.name} cо своего аккаунта?`}
               </span>
-            </ModalLayout>
+            </Modal>
           )
         }
         {
           addModal && (
-            <ModalLayout
+            <Modal
               title="Добавление компании"
               visible={addModal}
               footer={null}
@@ -203,7 +203,7 @@ class ProfileCorporations extends Component {
                 cancelText="Отмена"
                 okText="Добавить"
               />
-            </ModalLayout>
+            </Modal>
           )
         }
       </div>

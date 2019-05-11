@@ -16,7 +16,7 @@ class Footer extends React.Component {
           </div>
           <div className="karma-app-footer-wrapper-links">
             <Link to="/profile/mainInfo">Профиль </Link>
-            <Link to="/business">Мои бизнесы</Link>
+            <Link to="/businessList">Мои бизнесы</Link>
           </div>
           <div className="karma-app-footer-wrapper-links">
             <Link to="/">FAQ</Link>

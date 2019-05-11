@@ -6,10 +6,12 @@ const actions = {
 
   GET_BUSINESS: 'GET_BUSINESS',
   UPDATE_BUSINESS: 'UPDATE_BUSINESS',
+  ADD_BUSINESS: "ADD_BUSINESS",
 
   GET_SERVICE_PRICE: 'GET_SERVICE_PRICE',
   UPDATE_SERVICE_PRICE: 'UPDATE_SERVICE_PRICE',
   ADD_SERVICE_PRICE: 'ADD_SERVICE_PRICE',
+  REMOVE_SERVICE_PRICE: "REMOVE_SERVICE_PRICE",
 
   GET_BUSINESS_PACKAGES: 'GET_BUSINESS_PACKAGES',
   UPDATE_BUSINESS_PACKAGE: 'UPDATE_BUSINESS_PACKAGE',
@@ -38,6 +40,11 @@ const actions = {
     payload: updatedBusiness,
   }),
 
+  $addNewBusiness: newBusiness => ({
+    type: actions.ADD_BUSINESS,
+    payload: newBusiness,
+  }),
+
   $getPriceService: async (businessId) => {
     const servicesURL = `price/by-business/${businessId}`;
 
@@ -62,6 +69,11 @@ const actions = {
     payload: servicePrice,
   }),
 
+  $removeServicePrice: payload => ({
+    type: actions.REMOVE_SERVICE_PRICE,
+    payload,
+  }),
+
   $getBusinessPackages: async businessId => {
     const packageUrl = `package/by-business/${businessId}`;
     try {
@@ -76,13 +88,25 @@ const actions = {
     }
   },
 
-  $updateBusinessPackage: businessPackage => ({type: actions.UPDATE_BUSINESS_PACKAGE, payload: businessPackage}),
+  $updateBusinessPackage: businessPackage => ({
+    type: actions.UPDATE_BUSINESS_PACKAGE,
+    payload: businessPackage,
+  }),
 
-  $createBusinessPackage: businessPackage => ({type: actions.ADD_BUSINESS_PACKAGE, payload: businessPackage}),
+  $createBusinessPackage: businessPackage => ({
+    type: actions.ADD_BUSINESS_PACKAGE,
+    payload: businessPackage,
+  }),
 
-  $deleteBusinessPackage: ({businessId, packageId}) => ({type: actions.DELETE_BUSINESS_PACKAGE, payload: {businessId, packageId}}),
+  $deleteBusinessPackage: ({businessId, packageId}) => ({
+    type: actions.DELETE_BUSINESS_PACKAGE,
+    payload: {businessId, packageId},
+  }),
 
-  $updateSchedule: scheduleList => ({type: actions.UPDATE_SCHEDULE, payload: scheduleList})
+  $updateSchedule: scheduleList => ({
+    type: actions.UPDATE_SCHEDULE,
+    payload: scheduleList,
+  })
 
 };
 

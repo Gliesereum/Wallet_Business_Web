@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import {List, Card} from 'antd';
 
+import {BusinessPageContext} from '../BusinessPage';
+
 class BusinessList extends Component {
+  static contextType = BusinessPageContext;
+
   render() {
-    const {business} = this.props;
+    const {business} = this.context;
 
     const businessList = business && business.map(bsItem => ({
       name: bsItem.name,
@@ -24,7 +27,7 @@ class BusinessList extends Component {
           dataSource={businessList}
           renderItem={bsItem => (
             <List.Item>
-              <Link to={`/business/${bsItem.id}`}>
+              <Link to={`/businessList/${bsItem.id}`}>
                 <Card title={bsItem.name}>
                   <p>{bsItem.description}</p>
                   <span>{`${bsItem.businessType} - ${bsItem.businessCategory}`}</span>
@@ -38,8 +41,4 @@ class BusinessList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  business: state.business.business,
-});
-
-export default connect(mapStateToProps)(BusinessList);
+export default BusinessList;

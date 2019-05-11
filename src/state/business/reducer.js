@@ -39,6 +39,13 @@ const initReducers = {
       };
     },
 
+    [actions.ADD_BUSINESS]: (state, payload) => {
+      return {
+        ...state,
+        business: [...state.business, payload],
+      };
+    },
+
     [actions.GET_SERVICE_PRICE]: (state, payload) => {
       if (!payload.length) return state;
 
@@ -81,8 +88,19 @@ const initReducers = {
             payload,
           ],
         }
-      }
+      };
     },
+
+  [actions.REMOVE_SERVICE_PRICE]: (state, payload) => {
+    const {businessId, servicePriceId} = payload;
+    return {
+      ...state,
+      servicePrices: {
+        ...state.servicePrices,
+        [businessId]: state.servicePrices[businessId].filter(item => item.id !== servicePriceId),
+      }
+    };
+  },
 
     [actions.GET_BUSINESS_PACKAGES]: (state, payload) => {
       if (!payload.length) return state;
@@ -109,9 +127,9 @@ const initReducers = {
         ...state,
         businessPackages: {
           ...state.businessPackages,
-          [state.businessPackages[payload.businessId]]: newArray
+          [state.businessPackages[payload.businessId]]: newArray,
         }
-      }
+      };
     },
 
     [actions.ADD_BUSINESS_PACKAGE]: (state, payload) => {
@@ -124,19 +142,19 @@ const initReducers = {
             ...state.businessPackages,
             [payload.businessId]: [
               ...state.businessPackages[payload.businessId],
-              payload
+              payload,
             ]
           }
-        }
+        };
       }
 
       return {
         ...state,
         businessPackages: {
           ...state.businessPackages,
-          [payload.businessId]: [payload]
+          [payload.businessId]: [payload],
         }
-      }
+      };
 
     },
 
@@ -146,16 +164,16 @@ const initReducers = {
         businessPackages: {
           ...state.businessPackages,
           [businessId]: [
-            ...state.businessPackages[businessId].filter(item => item.id !== packageId)
+            ...state.businessPackages[businessId].filter(item => item.id !== packageId),
           ]
         }
-      }
+      };
     },
 
     [actions.UPDATE_SCHEDULE]: (state, scheduleList) => {
       const updatedBusinessIndex = state.business.findIndex(item => item.id === scheduleList[0].objectId);
       if (updatedBusinessIndex === -1) {
-        return state
+        return state;
       }
       return {
         ...state,
@@ -164,10 +182,8 @@ const initReducers = {
           {...state.business[updatedBusinessIndex], workTimes: scheduleList},
           ...state.business.slice(updatedBusinessIndex + 1),
         ]
-      }
+      };
     }
-
-  }
-;
+};
 
 export default createReducer(initState, initReducers);
