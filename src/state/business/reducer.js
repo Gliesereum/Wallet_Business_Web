@@ -6,82 +6,153 @@ const initState = {
   businessTypes: [],
   businessCategories: [],
   servicePrices: {},
+  businessPackages: {}
 };
 
 const initReducers = {
-  [actions.GET_BUSINESS]: (state, payload) => {
-    return {
-      ...state,
-      business: payload,
-    };
-  },
+    [actions.GET_BUSINESS]: (state, payload) => {
+      return {
+        ...state,
+        business: payload,
+      };
+    },
 
-  [actions.GET_BUSINESS_TYPES]: (state, payload) => {
-    return {
-      ...state,
-      businessTypes: payload || [],
-    };
-  },
+    [actions.GET_BUSINESS_TYPES]: (state, payload) => {
+      return {
+        ...state,
+        businessTypes: payload || [],
+      };
+    },
 
-  [actions.GET_BUSINESS_CATEGORIES]: (state, payload) => {
-    return {
-      ...state,
-      businessCategories: payload || [],
-    };
-  },
+    [actions.GET_BUSINESS_CATEGORIES]: (state, payload) => {
+      return {
+        ...state,
+        businessCategories: payload || [],
+      };
+    },
 
-  [actions.UPDATE_BUSINESS]: (state, payload) => {
-    const newBusiness = state.business.filter(b => b.id !== payload.id);
-    return {
-      ...state,
-      business: [...newBusiness, payload],
-    };
-  },
+    [actions.UPDATE_BUSINESS]: (state, payload) => {
+      const newBusiness = state.business.filter(b => b.id !== payload.id);
+      return {
+        ...state,
+        business: [...newBusiness, payload],
+      };
+    },
 
-  [actions.GET_SERVICE_PRICE]: (state, payload) => {
-    if (!payload.length) return state;
+    [actions.GET_SERVICE_PRICE]: (state, payload) => {
+      if (!payload.length) return state;
 
-    const businessId = payload[0].businessId;
-    return {
-      ...state,
-      servicePrices: {
-        ...state.servicePrices,
-        [businessId]: payload,
-      },
-    };
-  },
+      const businessId = payload[0].businessId;
+      return {
+        ...state,
+        servicePrices: {
+          ...state.servicePrices,
+          [businessId]: payload,
+        },
+      };
+    },
 
-  [actions.UPDATE_SERVICE_PRICE]: (state, payload) => {
-    const {businessId, id} = payload;
-    const updatedServices = state.servicePrices[businessId];
-    const updatedServiceIndex = updatedServices.findIndex(item => item.id === id);
-    const newServicesArray = [
-      ...updatedServices.slice(0, updatedServiceIndex),
-      payload,
-      ...updatedServices.slice(updatedServiceIndex + 1),
-    ];
-    return {
-      ...state,
-      servicePrices: {
-        ...state.servicePrices,
-        [businessId]: newServicesArray,
+    [actions.UPDATE_SERVICE_PRICE]: (state, payload) => {
+      const {businessId, id} = payload;
+      const updatedServices = state.servicePrices[businessId];
+      const updatedServiceIndex = updatedServices.findIndex(item => item.id === id);
+      const newServicesArray = [
+        ...updatedServices.slice(0, updatedServiceIndex),
+        payload,
+        ...updatedServices.slice(updatedServiceIndex + 1),
+      ];
+      return {
+        ...state,
+        servicePrices: {
+          ...state.servicePrices,
+          [businessId]: newServicesArray,
+        }
+      };
+    },
+
+    [actions.ADD_SERVICE_PRICE]: (state, payload) => {
+      const {businessId} = payload;
+      return {
+        ...state,
+        servicePrices: {
+          ...state.servicePrices,
+          [businessId]: [
+            ...state.servicePrices[businessId],
+            payload,
+          ],
+        }
       }
-    };
-  },
+    },
 
-  [actions.ADD_SERVICE_PRICE]: (state, payload) => {
-    const {businessId} = payload;
-    return {
-      ...state,
-      servicePrices: {
-        ...state.servicePrices,
-        [businessId]: [
-          ...state.servicePrices[businessId],
-          payload,
-        ],
+    [actions.GET_BUSINESS_PACKAGES]: (state, payload) => {
+      if (!payload.length) return state;
+
+      const businessId = payload[0].businessId;
+      return {
+        ...state,
+        businessPackages: {
+          ...state.businessPackages,
+          [businessId]: payload,
+        },
+      };
+    },
+
+    [actions.UPDATE_BUSINESS_PACKAGE]: (state, payload) => {
+      const businessPackages = state.businessPackages[payload.businessId];
+      const packagesUpdatedIndex = businessPackages.findIndex(item => item.id === payload.id);
+      const newArray = [
+        ...businessPackages.slice(0, packagesUpdatedIndex),
+        payload,
+        ...businessPackages.slice(packagesUpdatedIndex + 1),
+      ];
+      return {
+        ...state,
+        businessPackages: {
+          ...state.businessPackages,
+          [state.businessPackages[payload.businessId]]: newArray
+        }
+      }
+    },
+
+    [actions.ADD_BUSINESS_PACKAGE]: (state, payload) => {
+      const businessPackages = state.businessPackages[payload.businessId];
+      if (businessPackages && businessPackages.length) {
+        // If there is not packages in business before creating this one
+        return {
+          ...state,
+          businessPackages: {
+            ...state.businessPackages,
+            [payload.businessId]: [
+              ...state.businessPackages[payload.businessId],
+              payload
+            ]
+          }
+        }
+      }
+
+      return {
+        ...state,
+        businessPackages: {
+          ...state.businessPackages,
+          [payload.businessId]: [payload]
+        }
+      }
+
+    },
+
+    [actions.DELETE_BUSINESS_PACKAGE]: (state, {businessId, packageId}) => {
+      return {
+        ...state,
+        businessPackages: {
+          ...state.businessPackages,
+          [businessId]: [
+            ...state.businessPackages[businessId].filter(item => item.id !== packageId)
+          ]
+        }
       }
     }
+
   }
-};
+;
 
 export default createReducer(initState, initReducers);

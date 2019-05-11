@@ -7,15 +7,15 @@ import {
   Select,
   Button,
   notification,
-} from 'antd';
+} from 'antd/lib/index';
 
-import {Map} from '../../components';
+import {Map} from '../../../components';
 
 import {
   asyncRequest,
   withToken,
-} from '../../utils';
-import config from '../../config';
+} from '../../../utils';
+import config from '../../../config';
 
 class BusinessMainInfo extends Component {
   state = {
@@ -156,7 +156,7 @@ class BusinessMainInfo extends Component {
               {required: true, message: 'Поле обязательное для заполнения'},
               {whitespace: true, message: 'Поле не может содержать только пустые пробелы'},
             ],
-          })(<Input placeholder="Название бизнесса"/>)}
+          })(<Input placeholder="На бизнесса"/>)}
         </Form.Item>
         <Form.Item
           label="Описание"

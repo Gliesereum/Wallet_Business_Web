@@ -4,11 +4,7 @@ import {withRouter} from 'react-router-dom';
 
 import {Tabs} from 'antd';
 
-import BusinessMainInfo from './BusinessMainInfo';
-import BusinessServicesList from './BusinessServicesList';
-import BusinessPackages from './BusinessPackages';
-import BusinessSchedule from './BusinessSchedule';
-import BusinessOrders from './BusinessOrders';
+import {BusinessMainInfo, BusinessServicesList, BusinessPackages, BusinessSchedule, BusinessOrders} from './tabs';
 import {actions} from '../../state';
 
 const singleBusinessTabs = [
@@ -41,10 +37,11 @@ const singleBusinessTabs = [
 
 class SingleBusinessPage extends Component {
 
-  async componentDidMount() {
-    const {business, getPriceService} = this.props;
+  componentDidMount() {
+    const {business, getPriceService, getBusinessPackages} = this.props;
 
-    await Promise.all([business.map(business => getPriceService(business.id))])
+    Promise.all([business.map(business => getPriceService(business.id))]);
+    Promise.all([business.map(business => getBusinessPackages(business.id))]);
   }
 
   render() {
@@ -57,19 +54,17 @@ class SingleBusinessPage extends Component {
       servicePrices,
       dataLoading,
       updateBusiness,
+      packages,
+      updatePackage,
+      createPackage,
+      deletePackage
     } = this.props;
     const [singleBusiness] = business.filter(item => item.id === match.params.id);
-
+    const packagesList = packages[singleBusiness.id];
     return (
-      <Tabs
-        defaultActiveKey="mainInfo"
-        animated={false}
-      >
+      <Tabs defaultActiveKey="packages" animated={false}>
         {singleBusinessTabs.map(({tabName, keyName, ContentComponent}) => (
-          <Tabs.TabPane
-            tab={tabName}
-            key={keyName}
-          >
+          <Tabs.TabPane tab={tabName} key={keyName}>
             <ContentComponent
               singleBusiness={singleBusiness}
               businessCategories={businessCategories}
@@ -78,6 +73,10 @@ class SingleBusinessPage extends Component {
               servicePrices={servicePrices}
               dataLoading={dataLoading}
               updateBusiness={updateBusiness}
+              packages={packagesList || []}
+              updatePackage={updatePackage}
+              createPackage={createPackage}
+              deletePackage={deletePackage}
             />
           </Tabs.TabPane>
         ))}
@@ -90,6 +89,10 @@ const mapDispatchToProps = dispatch => ({
   dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
   updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
   getPriceService: corpId => dispatch(actions.business.$getPriceService(corpId)),
+  getBusinessPackages: businessId => dispatch(actions.business.$getBusinessPackages(businessId)),
+  updatePackage: businessPackage => dispatch(actions.business.$updateBusinessPackage(businessPackage)),
+  createPackage: businessPackage => dispatch(actions.business.$createBusinessPackage(businessPackage)),
+  deletePackage: ({businessId, packageId}) => dispatch(actions.business.$deleteBusinessPackage({businessId, packageId}))
 });
 
 const mapStateToProps = state => ({
@@ -98,6 +101,7 @@ const mapStateToProps = state => ({
   businessTypes: state.business.businessTypes,
   servicePrices: state.business.servicePrices,
   corporations: state.corporations.corporations,
+  packages: state.business.businessPackages
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleBusinessPage));

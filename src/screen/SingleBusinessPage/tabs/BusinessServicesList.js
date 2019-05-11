@@ -4,17 +4,17 @@ import {
   List,
   notification,
   Button,
-} from 'antd';
+} from 'antd/lib/index';
 
-import {ServiceMainInfoForm} from '../../components';
-import ServiceAdditional from '../SingleBusinessPage/ServiceAdditional';
-import ServiceClasses from '../SingleBusinessPage/ServiceClasses';
-import Modal from '../../components/ModalLayout';
+import {ServiceMainInfoForm} from '../../../components';
+import ServiceAdditional from '../ServiceAdditional';
+import ServiceClasses from '../ServiceClasses';
+import Modal from '../../../components/ModalLayout';
 
 import {
   asyncRequest,
   withToken,
-} from '../../utils';
+} from '../../../utils';
 
 const MODALS = {
   MAIN_INFO: ServiceMainInfoForm,
