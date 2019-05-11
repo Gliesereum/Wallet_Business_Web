@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import {
   Form,
@@ -7,16 +7,16 @@ import {
   Button,
   notification,
   Card,
-} from "antd";
+} from 'antd';
 
 import {
   asyncRequest,
   withToken,
-} from "../../utils";
+} from '../../utils';
 
-import { actions } from "../../state";
+import {actions} from '../../state';
 
-import "./index.scss";
+import './index.scss';
 
 class ProfileEmailScreen extends Component {
   state = {
@@ -25,7 +25,7 @@ class ProfileEmailScreen extends Component {
   };
 
   getCode = async () => {
-    const { dataLoading, form } = this.props;
+    const {dataLoading, form} = this.props;
 
     form.validateFields(async (error, values) => {
       if (!error) {
@@ -33,11 +33,11 @@ class ProfileEmailScreen extends Component {
         const url = `email/code?email=${values.email}`
 
         try {
-          await withToken(asyncRequest)({ url });
-          this.setState({ gotCode: true });
-          form.setFieldsValue({ email: values.email });
+          await withToken(asyncRequest)({url});
+          this.setState({gotCode: true});
+          form.setFieldsValue({email: values.email});
         } catch (error) {
-          notification.error(error.message || "Ошибка");
+          notification.error(error.message || 'Ошибка');
         } finally {
           dataLoading(false);
         }
@@ -45,27 +45,27 @@ class ProfileEmailScreen extends Component {
     });
   };
 
-  sendCode = (mode = "add") => {
-    const { dataLoading, verifyUserEmail, form } = this.props;
+  sendCode = (mode = 'add') => {
+    const {dataLoading, verifyUserEmail, form} = this.props;
 
     form.validateFields(async (error, values) => {
       if (!error) {
         dataLoading(true);
 
-        const { email, code } = values;
-        const url = "email";
-        const body = { code, email };
-        const method = mode === "update" ? "PUT" : "POST";
+        const {email, code} = values;
+        const url = 'email';
+        const body = {code, email};
+        const method = mode === 'update' ? 'PUT' : 'POST';
 
         try {
-          const newEmail = await withToken(asyncRequest)({ url, method, body });
+          const newEmail = await withToken(asyncRequest)({url, method, body});
           await verifyUserEmail(newEmail);
-          this.setState({ gotCode: false, editMode: false })
+          this.setState({gotCode: false, editMode: false})
         } catch (e) {
           notification.error({
             duration: 5,
-            message: e.message || "Ошибка",
-            description: "Возникла ошибка",
+            message: e.message || 'Ошибка',
+            description: 'Возникла ошибка',
           });
         } finally {
           dataLoading(false);
@@ -76,49 +76,49 @@ class ProfileEmailScreen extends Component {
   };
 
   toggleEditMode = () => {
-    this.setState({ editMode: !this.state.editMode, gotCode: false });
+    this.setState({editMode: !this.state.editMode, gotCode: false});
   };
 
   renderEmailForm = () => {
-    const { form, email } = this.props;
-    const { gotCode, editMode } = this.state;
+    const {form, email} = this.props;
+    const {gotCode, editMode} = this.state;
 
     return (
       <Form
         className="karma-app-profile-emailScreen-form"
-        wrapperCol={{ span: 11 }}
-        labelCol={{ span: 9 }}
+        wrapperCol={{span: 11}}
+        labelCol={{span: 9}}
       >
         <Form.Item label="Почта">
           {
-            form.getFieldDecorator("email", {
-              initialValue: email ? email.email : "",
+            form.getFieldDecorator('email', {
+              initialValue: email ? email.email : '',
               rules: [
-                { required: true, message: "Поле обязательное для заполнения" },
-                { type: "email", message: "Введите валидный E-mail!" },
+                {required: true, message: 'Поле обязательное для заполнения'},
+                {type: 'email', message: 'Введите валидный E-mail!'},
               ],
-            })(<Input placeholder="Email" />)
+            })(<Input placeholder="Email"/>)
           }
         </Form.Item>
         {gotCode ? (
           <>
             <Form.Item label="Введите код отправленный на указанную почту">
               {
-                form.getFieldDecorator("code", {
+                form.getFieldDecorator('code', {
                   getValueFromEvent: e => {
                     const codeNumber = Number(e.currentTarget.value);
                     if (isNaN(codeNumber)) {
-                      return form.getFieldValue("code") ? Number(form.getFieldValue("code")) : "";
+                      return form.getFieldValue('code') ? Number(form.getFieldValue('code')) : '';
                     } else {
                       return codeNumber;
                     }
                   },
                   rules: [
-                    { required: true, message: "Поле обязательное для заполнения" },
-                    { pattern: new RegExp(/^[\d ]{6}$/), message: "Нужно ввести все 6 цифр!" },
-                    { type: "number", message: "Код состоит только с цифр" },
+                    {required: true, message: 'Поле обязательное для заполнения'},
+                    {pattern: new RegExp(/^[\d ]{6}$/), message: 'Нужно ввести все 6 цифр!'},
+                    {type: 'number', message: 'Код состоит только с цифр'},
                   ]
-                })(<Input placeholder="Code" />)
+                })(<Input placeholder="Code"/>)
               }
             </Form.Item>
             <div className="karma-app-profile-emailScreen-buttons">
@@ -126,12 +126,12 @@ class ProfileEmailScreen extends Component {
               <Button
                 type="primary"
                 onClick={editMode ?
-                  () => this.sendCode("update")
-                  : () => this.sendCode("add")
+                  () => this.sendCode('update')
+                  : () => this.sendCode('add')
                 }
                 className="karma-app-profile-emailScreen-form-addButton"
               >
-                {editMode ? "Изменить почту" : "Добавить email"}
+                {editMode ? 'Изменить почту' : 'Добавить email'}
               </Button>
             </div>
           </>
@@ -145,7 +145,7 @@ class ProfileEmailScreen extends Component {
               Получить код
             </Button>
           </div>
-          )}
+        )}
       </Form>
     )
   };
@@ -160,13 +160,13 @@ class ProfileEmailScreen extends Component {
   };
 
   render() {
-    const { email } = this.props;
-    const { editMode } = this.state;
+    const {email} = this.props;
+    const {editMode} = this.state;
 
     return (
       <Card
         size="default"
-        title={editMode ? "Изменить почту" : "Текущая почта"}
+        title={editMode ? 'Изменить почту' : 'Текущая почта'}
       >
         {editMode ? this.renderEmailForm() : this.renderEmailList(email.email)}
       </Card>

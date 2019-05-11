@@ -4,22 +4,26 @@ import {withRouter} from 'react-router-dom';
 
 import {Tabs} from 'antd';
 
-import { BusinessMainInfo } from '../../components';
-import BusinessServicesList from './BusinessServicesList';
-import BusinessPackages from './BusinessPackages';
-import BusinessSchedule from './BusinessSchedule';
-import BusinessOrders from './BusinessOrders';
+import {BusinessMainInfo, BusinessServicesList, BusinessPackages, BusinessSchedule, BusinessOrders} from './tabs';
 import {BusinessPageContext} from '../BusinessPage';
 import {actions} from '../../state';
+
+import './styles.scss'
 
 class SingleBusinessPage extends Component {
   static contextType = BusinessPageContext;
 
   render() {
+    console.log('df')
     const {
       match,
       servicePrices,
       updateBusiness,
+      packages,
+      updatePackage,
+      createPackage,
+      deletePackage,
+      updateSchedule
     } = this.props;
     const {
       business,
@@ -29,7 +33,7 @@ class SingleBusinessPage extends Component {
       dataLoading,
     } = this.context;
     const [singleBusiness] = business.filter(item => item.id === match.params.id);
-
+    const packagesList = packages[singleBusiness.id];
     const singleBusinessTabs = [
       {
         tabName: 'Основная информация',
@@ -54,7 +58,11 @@ class SingleBusinessPage extends Component {
         keyName: 'packages',
         ContentComponent: BusinessPackages,
         props: {
-
+          packages: packagesList || [],
+          updatePackage,
+          createPackage,
+          deletePackage,
+          servicePrices,
         },
       },
       {
@@ -62,7 +70,7 @@ class SingleBusinessPage extends Component {
         keyName: 'schedule',
         ContentComponent: BusinessSchedule,
         props: {
-
+          updateSchedule: updateSchedule,
         },
       },
       {
@@ -74,9 +82,10 @@ class SingleBusinessPage extends Component {
         },
       },
     ];
+    console.log("sdsd")
     return (
       <Tabs
-        defaultActiveKey="services"
+        defaultActiveKey="mainInfo"
         animated={false}
       >
         {singleBusinessTabs.map(({tabName, keyName, ContentComponent, props}) => (
@@ -99,10 +108,17 @@ class SingleBusinessPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
+  getBusinessPackages: businessId => dispatch(actions.business.$getBusinessPackages(businessId)),
+  updatePackage: businessPackage => dispatch(actions.business.$updateBusinessPackage(businessPackage)),
+  createPackage: businessPackage => dispatch(actions.business.$createBusinessPackage(businessPackage)),
+  deletePackage: ({businessId, packageId}) => dispatch(actions.business.$deleteBusinessPackage({businessId, packageId})),
+  updateSchedule: scheduleList => dispatch(actions.business.$updateSchedule(scheduleList))
 });
 
 const mapStateToProps = state => ({
   servicePrices: state.business.servicePrices,
+  corporations: state.corporations.corporations,
+  packages: state.business.businessPackages
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleBusinessPage));

@@ -1,8 +1,8 @@
-import { createBrowserHistory } from 'history';
+import {createBrowserHistory} from 'history';
 import Cookies from 'js-cookie';
 
-import { withToken, asyncRequest, asyncUploadFile } from './request';
-import { getFirstLetterName } from "./helperFunc";
+import {withToken, asyncRequest, asyncUploadFile} from './request';
+import {getFirstLetterName} from './helperFunc';
 
 const cookieStorage = Cookies;
 

@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import { Icon, Drawer } from "antd";
+import {Icon, Drawer} from 'antd';
 
-import authActions from "../../state/auth/action";
-import { getFirstLetterName } from "../../utils/helperFunc";
+import authActions from '../../state/auth/action';
+import {getFirstLetterName} from '../../utils/helperFunc';
 
-import "./index.scss";
+import './index.scss';
 
-import defaultDrawerCover from "../../assets/drawer-cover.png";
+import defaultDrawerCover from '../../assets/drawer-cover.png';
 
 const ACTIVE_ITEM = {
-  BUSINESS_ITEM: "/businessList",
-  PROFILE_ITEM: "/profile/mainInfo",
+  BUSINESS_ITEM: '/businessList',
+  PROFILE_ITEM: '/profile/mainInfo',
 };
 
 class SideMenu extends Component {
@@ -22,7 +22,7 @@ class SideMenu extends Component {
   };
 
   _toggleCollapsed = () => {
-    this.setState({ visible: !this.state.visible })
+    this.setState({visible: !this.state.visible})
   };
 
   signOutHandler = () => {
@@ -35,9 +35,9 @@ class SideMenu extends Component {
   };
 
   render() {
-    const { visible } = this.state;
-    const { auth, location } = this.props;
-    const { BUSINESS_ITEM, PROFILE_ITEM } = ACTIVE_ITEM;
+    const {visible} = this.state;
+    const {auth, location} = this.props;
+    const {BUSINESS_ITEM, PROFILE_ITEM} = ACTIVE_ITEM;
 
     return (
       <div className="karma-app-sidebar">
@@ -45,7 +45,7 @@ class SideMenu extends Component {
           className="karma-app-sidebar__toggler"
           onClick={this._toggleCollapsed}
         >
-          {!visible && <Icon type="double-right" />}
+          {!visible && <Icon type="double-right"/>}
         </div>
         <Drawer
           placement="left"
@@ -57,13 +57,13 @@ class SideMenu extends Component {
 
           <div className="karma-app-sidebar__user-box">
             <img
-              src={auth.user.coverUrl || defaultDrawerCover }
+              src={auth.user.coverUrl || defaultDrawerCover}
               alt=""
             />
             <div className="karma-app-sidebar__avatar-user">
               <div className="karma-app-sidebar__avatar-user-img">
                 {auth.user && auth.user.avatarUrl ?
-                  <img src={auth.user.avatarUrl} alt="" />
+                  <img src={auth.user.avatarUrl} alt=""/>
                   : <span>{getFirstLetterName(auth.user.firstName, auth.user.lastName)}</span>}
               </div>
             </div>
@@ -73,23 +73,23 @@ class SideMenu extends Component {
             onClick={() => this.handlerMenuClick(BUSINESS_ITEM)}
             className={`karma-app-sidebar__item ${
               (location.pathname === BUSINESS_ITEM || location.pathname === '/') ? 'active-menu-item' : ''
-            }`}
+              }`}
           >
-            <Icon type="database" />
+            <Icon type="database"/>
             <span>Мои Бизнесы</span>
           </div>
           <div
             onClick={() => this.handlerMenuClick(PROFILE_ITEM)}
             className={`karma-app-sidebar__item ${location.pathname === PROFILE_ITEM ? 'active-menu-item' : ''}`}
           >
-            <Icon type="user" />
+            <Icon type="user"/>
             <span>Профиль</span>
           </div>
           <div
             onClick={this.signOutHandler}
-             className="karma-app-sidebar__item"
+            className="karma-app-sidebar__item"
           >
-            <Icon type="export" />
+            <Icon type="export"/>
             <span>Выйти</span>
           </div>
         </Drawer>
@@ -98,4 +98,4 @@ class SideMenu extends Component {
   }
 }
 
-export default withRouter(connect(state => state, { ...authActions })(SideMenu));
+export default withRouter(connect(state => state, {...authActions})(SideMenu));

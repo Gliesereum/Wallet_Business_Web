@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import {
   List,
   Card,
   notification,
   Button,
-} from "antd";
+} from 'antd';
 
 import {
   Modal,
   CorporationForm,
-} from "../../components";
+} from '../../components';
 
-import { asyncRequest, withToken } from "../../utils";
-import { actions } from "../../state";
+import {asyncRequest, withToken} from '../../utils';
+import {actions} from '../../state';
 
 class ProfileCorporations extends Component {
 
@@ -32,39 +32,39 @@ class ProfileCorporations extends Component {
   };
 
   handleUpdateCorporation = async (newCorp) => {
-    const { dataLoading, updateCorporation } = this.props;
+    const {dataLoading, updateCorporation} = this.props;
     await dataLoading(true);
 
-    const url = "corporation";
+    const url = 'corporation';
     const body = newCorp;
-    const method = "PUT";
+    const method = 'PUT';
     try {
-      const updatedCorporation = await withToken(asyncRequest)({ url, method, body });
+      const updatedCorporation = await withToken(asyncRequest)({url, method, body});
       await updateCorporation(updatedCorporation);
     } catch (error) {
-      notification.error(error.message || "Ошибка");
+      notification.error(error.message || 'Ошибка');
     } finally {
       this.setState({
-        editModal: false
-      },
+          editModal: false
+        },
         async () => await dataLoading(false)
       );
     }
   };
 
   handleAddCorporation = async (newCorp) => {
-    const { dataLoading, addCorporation } = this.props;
+    const {dataLoading, addCorporation} = this.props;
     await dataLoading(true);
 
-    const url = "corporation";
+    const url = 'corporation';
     const body = newCorp;
-    const method = "POST";
+    const method = 'POST';
 
     try {
-      const newCorporation = await withToken(asyncRequest)({ url, method, body });
+      const newCorporation = await withToken(asyncRequest)({url, method, body});
       await addCorporation(newCorporation);
     } catch (error) {
-      notification.error(error.message || "Ошибка");
+      notification.error(error.message || 'Ошибка');
     } finally {
       this.setState({
           addModal: false
@@ -75,17 +75,17 @@ class ProfileCorporations extends Component {
   };
 
   handleDeleteCorporation = async (corp) => {
-    const { deleteCorporation, dataLoading } = this.props;
+    const {deleteCorporation, dataLoading} = this.props;
     await dataLoading(true);
 
     const corpId = corp.fullItemData.id;
     const url = `corporation/${corpId}`;
-    const method = "DELETE";
+    const method = 'DELETE';
     try {
-      await withToken(asyncRequest)({ url, method });
+      await withToken(asyncRequest)({url, method});
       await deleteCorporation(corpId);
     } catch (error) {
-      notification.error(error.message || "Ошибка");
+      notification.error(error.message || 'Ошибка');
     } finally {
       this.setState({
           deleteModal: false
@@ -96,8 +96,8 @@ class ProfileCorporations extends Component {
   };
 
   render() {
-    const { editModal, deleteModal, addModal, corp } = this.state;
-    const { corporations } = this.props;
+    const {editModal, deleteModal, addModal, corp} = this.state;
+    const {corporations} = this.props;
 
     const corpList = corporations && corporations.map(corp => ({
       name: corp.name,
@@ -113,23 +113,23 @@ class ProfileCorporations extends Component {
       <div>
         <div className="karma-app-profile-addButton">
           <Button
-            onClick={() => this.handleToggleModal("addModal", true)}
+            onClick={() => this.handleToggleModal('addModal', true)}
             type="primary">Добавить компанию</Button>
         </div>
         <List
           size="large"
-          grid={{ gutter: 16, xs: 1, sm: 2, lg: 3, xxl: 4 }}
+          grid={{gutter: 16, xs: 1, sm: 2, lg: 3, xxl: 4}}
           dataSource={corpList}
           renderItem={corporation => (
             <List.Item
               actions={[
                 <div
-                  onClick={() => this.handleToggleModal("editModal", true, corporation)}
+                  onClick={() => this.handleToggleModal('editModal', true, corporation)}
                 >
                   Edit
                 </div>,
                 <div
-                  onClick={() => this.handleToggleModal("deleteModal", true, corporation)}
+                  onClick={() => this.handleToggleModal('deleteModal', true, corporation)}
                 >
                   Delete
                 </div>
@@ -179,7 +179,7 @@ class ProfileCorporations extends Component {
               isOutsideClickable={false}
               closable={false}
               handleOk={() => this.handleDeleteCorporation(corp)}
-              handleCancel={() => this.handleToggleModal("deleteModal", false)}
+              handleCancel={() => this.handleToggleModal('deleteModal', false)}
             >
               <span>
                 {`Вы действительно хотите удалить компанию ${corp.name} cо своего аккаунта?`}
