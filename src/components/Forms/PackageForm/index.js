@@ -54,7 +54,7 @@ class Index extends Component<P, S> {
     const price = discount <= 0 ? sumServicesPrice : sumServicesPrice - sumServicesPrice * discount / 100;
     return (
       <div className={'package-total-price'}>
-        <p>Стоимость пакета: {price} грн.</p>
+        <p>Стоимость пакета: {price.toFixed(2)} грн.</p>
       </div>
     )
   };

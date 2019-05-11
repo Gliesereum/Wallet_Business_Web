@@ -150,6 +150,21 @@ const initReducers = {
           ]
         }
       }
+    },
+
+    [actions.UPDATE_SCHEDULE]: (state, scheduleList) => {
+      const updatedBusinessIndex = state.business.findIndex(item => item.id === scheduleList[0].objectId);
+      if (updatedBusinessIndex === -1) {
+        return state
+      }
+      return {
+        ...state,
+        business: [
+          ...state.business.slice(0, updatedBusinessIndex),
+          {...state.business[updatedBusinessIndex], workTimes: scheduleList},
+          ...state.business.slice(updatedBusinessIndex + 1),
+        ]
+      }
     }
 
   }

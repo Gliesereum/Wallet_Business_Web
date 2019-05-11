@@ -7,6 +7,8 @@ import {Tabs} from 'antd';
 import {BusinessMainInfo, BusinessServicesList, BusinessPackages, BusinessSchedule, BusinessOrders} from './tabs';
 import {actions} from '../../state';
 
+import './styles.scss'
+
 const singleBusinessTabs = [
   {
     tabName: 'Основная информация',
@@ -57,12 +59,13 @@ class SingleBusinessPage extends Component {
       packages,
       updatePackage,
       createPackage,
-      deletePackage
+      deletePackage,
+      updateSchedule
     } = this.props;
     const [singleBusiness] = business.filter(item => item.id === match.params.id);
     const packagesList = packages[singleBusiness.id];
     return (
-      <Tabs defaultActiveKey="packages" animated={false}>
+      <Tabs defaultActiveKey="schedule" animated={false}>
         {singleBusinessTabs.map(({tabName, keyName, ContentComponent}) => (
           <Tabs.TabPane tab={tabName} key={keyName}>
             <ContentComponent
@@ -77,6 +80,7 @@ class SingleBusinessPage extends Component {
               updatePackage={updatePackage}
               createPackage={createPackage}
               deletePackage={deletePackage}
+              updateSchedule={updateSchedule}
             />
           </Tabs.TabPane>
         ))}
@@ -92,7 +96,8 @@ const mapDispatchToProps = dispatch => ({
   getBusinessPackages: businessId => dispatch(actions.business.$getBusinessPackages(businessId)),
   updatePackage: businessPackage => dispatch(actions.business.$updateBusinessPackage(businessPackage)),
   createPackage: businessPackage => dispatch(actions.business.$createBusinessPackage(businessPackage)),
-  deletePackage: ({businessId, packageId}) => dispatch(actions.business.$deleteBusinessPackage({businessId, packageId}))
+  deletePackage: ({businessId, packageId}) => dispatch(actions.business.$deleteBusinessPackage({businessId, packageId})),
+  updateSchedule: scheduleList => dispatch(actions.business.$updateSchedule(scheduleList))
 });
 
 const mapStateToProps = state => ({

@@ -16,6 +16,8 @@ const actions = {
   ADD_BUSINESS_PACKAGE: 'ADD_BUSINESS_PACKAGE',
   DELETE_BUSINESS_PACKAGE: 'DELETE_BUSINESS_PACKAGE',
 
+  UPDATE_SCHEDULE: 'UPDATE_SCHEDULE',
+
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
     payload: business,
@@ -78,7 +80,9 @@ const actions = {
 
   $createBusinessPackage: businessPackage => ({type: actions.ADD_BUSINESS_PACKAGE, payload: businessPackage}),
 
-  $deleteBusinessPackage: ({businessId, packageId}) => ({type: actions.DELETE_BUSINESS_PACKAGE, payload: {businessId, packageId}})
+  $deleteBusinessPackage: ({businessId, packageId}) => ({type: actions.DELETE_BUSINESS_PACKAGE, payload: {businessId, packageId}}),
+
+  $updateSchedule: scheduleList => ({type: actions.UPDATE_SCHEDULE, payload: scheduleList})
 
 };
 
