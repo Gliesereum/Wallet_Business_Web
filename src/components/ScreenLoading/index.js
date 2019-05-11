@@ -1,6 +1,6 @@
 import React from 'react';
-import { Spin } from "antd";
+import {Spin} from 'antd';
 
-const ScreenLoading = () => <Spin />;
+const ScreenLoading = () => <Spin/>;
 
 export default ScreenLoading;

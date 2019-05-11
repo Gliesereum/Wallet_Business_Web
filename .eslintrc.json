@@ -19,6 +19,6 @@
         "react"
     ],
     "rules": {
-        "quotes": ["error", "single"]
+        "quotes": ["warn", "single"]
     }
 }

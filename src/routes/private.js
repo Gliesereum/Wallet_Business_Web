@@ -10,7 +10,6 @@ import {
   BusinessPage,
   BusinessList,
   SingleBusinessPage,
-  AddBusinessPage,
   ProfilePage,
   ProfileMainInfo,
   ProfileCorporations,
@@ -20,12 +19,11 @@ import {
 const publicRouter = () => (
   <Router>
     <Container>
-      <Route path="/business" render={() => (
+      <Route path="/businessList" render={() => (
         <BusinessPage>
           <Switch>
-            <Route exact path="/business/list" component={BusinessList} />
-            <Route exact path="/business/:id" component={SingleBusinessPage} />
-            <Route exact path="/business/add" component={AddBusinessPage} />
+            <Route exact path="/businessList" component={BusinessList} />
+            <Route exact path="/businessList/:id" component={SingleBusinessPage} />
           </Switch>
         </BusinessPage>
       )}>

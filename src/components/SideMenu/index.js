@@ -12,7 +12,7 @@ import "./index.scss";
 import defaultDrawerCover from "../../assets/drawer-cover.png";
 
 const ACTIVE_ITEM = {
-  BUSINESS_ITEM: "/business/list",
+  BUSINESS_ITEM: "/businessList",
   PROFILE_ITEM: "/profile/mainInfo",
 };
 

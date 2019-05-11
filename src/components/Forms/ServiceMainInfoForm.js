@@ -46,14 +46,14 @@ const ServiceMainInfoForm = (props) => {
             body,
           });
           await addNewMod ? addServicePrice(newServicePrice) : updateServicePrice(newServicePrice);
-        } catch (error) {
+        } catch (err) {
           notification.error({
             duration: 5,
-            message: error.message || 'Ошибка',
+            message: err.message || 'Ошибка',
             description: 'Возникла ошибка',
           });
         } finally {
-          onCancel(modals.MAIN_INFO, false, null)();
+          handleCancel();
           form.resetFields();
         }
       }

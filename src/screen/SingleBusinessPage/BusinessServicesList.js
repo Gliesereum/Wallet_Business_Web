@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-import {
-  List,
-  notification,
-  Button,
-} from 'antd';
+import {List, notification, Button} from 'antd';
 
-import {ServiceMainInfoForm} from '../../components';
-import ServiceAdditional from '../SingleBusinessPage/ServiceAdditional';
+import {ServiceMainInfoForm, ServiceAdditional, Modal} from '../../components';
 import ServiceClasses from '../SingleBusinessPage/ServiceClasses';
-import Modal from '../../components/ModalLayout';
 
-import {
-  asyncRequest,
-  withToken,
-} from '../../utils';
+import {asyncRequest, withToken} from '../../utils';
+import {actions} from '../../state';
 
 const MODALS = {
   MAIN_INFO: ServiceMainInfoForm,
@@ -45,8 +38,8 @@ class BusinessServicesList extends Component {
       const [serviseTypesList, classesList, filtersList] = await Promise
         .all([
           withToken(asyncRequest)({url: serviceTypesUrl, moduleUrl: 'karma'}),
-          withToken(asyncRequest)({url: filtersUrl, moduleUrl: 'karma'}),
           withToken(asyncRequest)({url: classesUrl, moduleUrl: 'karma'}),
+          withToken(asyncRequest)({url: filtersUrl, moduleUrl: 'karma'}),
         ]);
 
       this.setState(() => ({
@@ -54,8 +47,12 @@ class BusinessServicesList extends Component {
         filters: filtersList || [],
         classes: classesList || [],
       }));
-    } catch (error) {
-      notification.error(error.message || 'Ошибка');
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     }
   };
 
@@ -68,6 +65,23 @@ class BusinessServicesList extends Component {
         addNewMod: addNewMod,
       }
     });
+  };
+
+  handleRemoveService = (item) => async () => {
+    const {removeServicePrice, singleBusiness} = this.props;
+    const removeServicePriceUrl = `price/${item.id}`;
+
+    try {
+      await withToken(asyncRequest)({url: removeServicePriceUrl, method: 'DELETE', moduleUrl: 'karma'});
+      await removeServicePrice({servicePriceId: item.id, businessId: singleBusiness.id});
+
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
   };
 
   render() {
@@ -93,7 +107,7 @@ class BusinessServicesList extends Component {
                 <Button onClick={this.triggerServiceModal(MAIN_INFO, true, item)}>Основная информация</Button>,
                 <Button onClick={this.triggerServiceModal(ADDITIONAL, true, item)}>Допольнительно</Button>,
                 <Button onClick={this.triggerServiceModal(CLASSES, true, item)}>Класс обслуживания</Button>,
-                <Button type="primary">Удалить услугу</Button>,
+                <Button onClick={this.handleRemoveService(item)} type="primary">Удалить услугу</Button>,
               ]}>
               <List.Item.Meta
                 title={item.name}
@@ -125,4 +139,8 @@ class BusinessServicesList extends Component {
   }
 }
 
-export default BusinessServicesList;
+const mapDispatchToProps = dispatch => ({
+  removeServicePrice: servicePrice => dispatch(actions.business.$removeServicePrice(servicePrice)),
+});
+
+export default connect(null, mapDispatchToProps)(BusinessServicesList);

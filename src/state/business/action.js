@@ -6,10 +6,12 @@ const actions = {
 
   GET_BUSINESS: "GET_BUSINESS",
   UPDATE_BUSINESS: "UPDATE_BUSINESS",
+  ADD_BUSINESS: "ADD_BUSINESS",
 
   GET_SERVICE_PRICE: "GET_SERVICE_PRICE",
   UPDATE_SERVICE_PRICE: "UPDATE_SERVICE_PRICE",
   ADD_SERVICE_PRICE: "ADD_SERVICE_PRICE",
+  REMOVE_SERVICE_PRICE: "REMOVE_SERVICE_PRICE",
 
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
@@ -29,6 +31,11 @@ const actions = {
   $updateBusiness: updatedBusiness => ({
     type: actions.UPDATE_BUSINESS,
     payload: updatedBusiness,
+  }),
+
+  $addNewBusiness: newBusiness => ({
+    type: actions.ADD_BUSINESS,
+    payload: newBusiness,
   }),
 
   $getPriceService: async (businessId) => {
@@ -53,6 +60,11 @@ const actions = {
   $addServicePrice: servicePrice => ({
     type: actions.ADD_SERVICE_PRICE,
     payload: servicePrice,
+  }),
+
+  $removeServicePrice: payload => ({
+    type: actions.REMOVE_SERVICE_PRICE,
+    payload,
   }),
 
 };

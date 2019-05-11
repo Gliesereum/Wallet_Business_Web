@@ -1,5 +1,5 @@
-import actions from "./action";
-import { createReducer } from "../../utils";
+import actions from './action';
+import {createReducer} from '../../utils';
 
 const initState = {
   business: [],
@@ -38,6 +38,13 @@ const initReducers = {
     };
   },
 
+  [actions.ADD_BUSINESS]: (state, payload) => {
+    return {
+      ...state,
+      business: [...state.business, payload],
+    };
+  },
+
   [actions.GET_SERVICE_PRICE]: (state, payload) => {
     if (!payload.length) return state;
 
@@ -52,7 +59,7 @@ const initReducers = {
   },
 
   [actions.UPDATE_SERVICE_PRICE]: (state, payload) => {
-    const { businessId, id } = payload;
+    const {businessId, id} = payload;
     const updatedServices = state.servicePrices[businessId];
     const updatedServiceIndex = updatedServices.findIndex(item => item.id === id);
     const newServicesArray = [
@@ -70,8 +77,8 @@ const initReducers = {
   },
 
   [actions.ADD_SERVICE_PRICE]: (state, payload) => {
-    const { businessId } = payload;
-   return {
+    const {businessId} = payload;
+    return {
       ...state,
       servicePrices: {
         ...state.servicePrices,
@@ -80,8 +87,20 @@ const initReducers = {
           payload,
         ],
       }
-    }
-  }
+    };
+  },
+
+  [actions.REMOVE_SERVICE_PRICE]: (state, payload) => {
+    const {businessId, servicePriceId} = payload;
+    return {
+      ...state,
+      servicePrices: {
+        ...state.servicePrices,
+        [businessId]: state.servicePrices[businessId].filter(item => item.id !== servicePriceId),
+      }
+    };
+  },
+
 };
 
 export default createReducer(initState, initReducers);
