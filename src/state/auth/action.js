@@ -11,8 +11,8 @@ const actions = {
   $checkAuthenticate: (tokenInfo) => {
     if (tokenInfo) {
       const {accessExpirationDate, accessToken, refreshToken, refreshExpirationDate} = tokenInfo;
-      cookieStorage.set('access_token', accessToken, {expires: new Date(accessExpirationDate), path: ''});
-      cookieStorage.set('refresh_token', refreshToken, {expires: new Date(refreshExpirationDate), path: ''});
+      cookieStorage.set('access_token', accessToken, {expires: new Date(accessExpirationDate), path: '/'});
+      cookieStorage.set('refresh_token', refreshToken, {expires: new Date(refreshExpirationDate), path: '/'});
     }
 
     return ({

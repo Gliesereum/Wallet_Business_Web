@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 import {Tabs} from 'antd';
+import qs from 'qs';
 
 import {BusinessMainInfo, BusinessServicesList, BusinessPackages, BusinessSchedule, BusinessOrders} from './tabs';
 import {BusinessPageContext} from '../BusinessPage';
@@ -13,8 +14,16 @@ import './styles.scss'
 class SingleBusinessPage extends Component {
   static contextType = BusinessPageContext;
 
+  changeActiveTab = activeTab => {
+    const {history, location} = this.props;
+
+    history.replace({
+      location: location.pathname,
+      search: qs.stringify({activeTab}),
+    });
+  };
+
   render() {
-    console.log('df')
     const {
       match,
       servicePrices,
@@ -32,8 +41,9 @@ class SingleBusinessPage extends Component {
       corporations,
       dataLoading,
     } = this.context;
+    const {activeTab} = qs.parse(this.props.location.search, {ignoreQueryPrefix: true});
     const [singleBusiness] = business.filter(item => item.id === match.params.id);
-    const packagesList = packages[singleBusiness.id];
+    const packagesList = singleBusiness ? packages[singleBusiness.id] : [];
     const singleBusinessTabs = [
       {
         tabName: 'Основная информация',
@@ -82,11 +92,12 @@ class SingleBusinessPage extends Component {
         },
       },
     ];
-    console.log("sdsd")
+
     return (
       <Tabs
-        defaultActiveKey="mainInfo"
+        activeKey={activeTab ? activeTab : 'mainInfo'}
         animated={false}
+        onChange={this.changeActiveTab}
       >
         {singleBusinessTabs.map(({tabName, keyName, ContentComponent, props}) => (
           <Tabs.TabPane

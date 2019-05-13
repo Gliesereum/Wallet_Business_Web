@@ -1,13 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
 
-import {Form, Collapse, Checkbox, Button, Row, Col, notification} from 'antd/lib/index';
+import {Form, Collapse, Checkbox, Button, Row, Col, notification} from 'antd';
 
-import {
-  asyncRequest,
-  withToken,
-} from '../../utils';
-import { actions } from '../../state';
+import {asyncRequest, withToken} from '../../utils';
 
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
@@ -65,7 +60,9 @@ const ServiceAdditional = (props) => {
   }
 
   return (
-    <Form onSubmit={handleSaveChange}>
+    <Form
+      onSubmit={handleSaveChange}
+    >
       {
         filters.map(filter => (
           <FormItem key={filter.id}>
@@ -98,8 +95,4 @@ const ServiceAdditional = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  updateServicePrice: servicePrice => dispatch(actions.business.$updateServicePrice(servicePrice)),
-});
-
-export default connect(null, mapDispatchToProps)(Form.create({})(ServiceAdditional));
+export default Form.create({})(ServiceAdditional);

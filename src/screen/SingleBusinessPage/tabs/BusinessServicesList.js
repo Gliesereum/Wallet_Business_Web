@@ -10,9 +10,9 @@ import {asyncRequest, withToken} from '../../../utils';
 import {actions} from '../../../state';
 
 const MODALS = {
-  MAIN_INFO: ServiceMainInfoForm,
-  ADDITIONAL: ServiceAdditional,
-  CLASSES: ServiceClasses,
+  MAIN_INFO: 'MAIN_INFO',
+  ADDITIONAL: 'ADDITIONAL',
+  CLASSES: 'CLASSES',
 };
 
 class BusinessServicesList extends Component {
@@ -56,14 +56,41 @@ class BusinessServicesList extends Component {
     }
   };
 
-  triggerServiceModal = (modalName, bool, item, addNewMod = false) => () => {
+  getModalData = (modalName, servicePrice, addNewMode = false) => {
+    const {singleBusiness, addServicePrice} = this.props;
+    const {serviceTypes, filters, classes} = this.state;
+    return {
+      MAIN_INFO: {
+        Component: ServiceMainInfoForm,
+        props: {
+          addNewMode: addNewMode,
+          businessId: singleBusiness.id,
+          serviceTypes,
+          addServicePrice,
+          servicePrice,
+        }
+      },
+      ADDITIONAL: {
+        Component: ServiceAdditional,
+        props: {
+          filters,
+          servicePrice,
+        },
+      },
+      CLASSES: {
+        Component: ServiceClasses,
+        props: {
+          classes,
+          servicePrice,
+        }
+      },
+    }[modalName]
+  };
+
+  triggerServiceModal = (modalName, bool, item, addNewMode = false) => () => {
     this.setState({
-      modal: {
-        visible: bool,
-        Component: modalName,
-        modalService: item,
-        addNewMod: addNewMod,
-      }
+      visible: bool,
+      modal: this.getModalData(modalName, item, addNewMode),
     });
   };
 
@@ -85,10 +112,10 @@ class BusinessServicesList extends Component {
   };
 
   render() {
-    const {singleBusiness, servicePrices} = this.props;
+    const {singleBusiness, servicePrices, updateServicePrice} = this.props;
     const {MAIN_INFO, ADDITIONAL, CLASSES} = MODALS;
     const services = servicePrices[singleBusiness.id];
-    const {modal, serviceTypes, filters, classes} = this.state;
+    const {modal, visible} = this.state;
 
     return (
       <>
@@ -116,21 +143,18 @@ class BusinessServicesList extends Component {
             </List.Item>
           )}
         />
-        {modal.visible && (
+        {visible && (
           <Modal
-            visible={modal.visible}
+            visible={visible}
             footer={null}
             closable={false}
           >
             {<modal.Component
-              serviceTypes={serviceTypes}
-              filters={filters}
-              classes={classes}
-              servicePrice={modal.modalService}
-              onCancel={this.triggerServiceModal}
+              servicePrice={modal.servicePrice}
               modals={MODALS}
-              addNewMod={modal.addNewMod}
-              businessId={singleBusiness.id}
+              onCancel={this.triggerServiceModal}
+              updateServicePrice={updateServicePrice}
+              {...modal.props}
             />}
           </Modal>
         )}
@@ -141,6 +165,8 @@ class BusinessServicesList extends Component {
 
 const mapDispatchToProps = dispatch => ({
   removeServicePrice: servicePrice => dispatch(actions.business.$removeServicePrice(servicePrice)),
+  updateServicePrice: servicePrice => dispatch(actions.business.$updateServicePrice(servicePrice)),
+  addServicePrice: servicePrice => dispatch(actions.business.$addServicePrice(servicePrice)),
 });
 
 export default connect(null, mapDispatchToProps)(BusinessServicesList);

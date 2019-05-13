@@ -44,7 +44,7 @@ class BusinessSchedule extends Component {
 
   onSubmit = async () => {
     const method = this.isNewSchedules() ? 'POST' : 'PUT';
-    const requests = this.state.scheduleList.map(day => this.createPromise('work-time', method, day))
+    const requests = this.state.scheduleList.map(day => this.createPromise('work-time', method, day));
     try {
       this.setState({loading: true});
       const newSchedules = await Promise.all(requests);

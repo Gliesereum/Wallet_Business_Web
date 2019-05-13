@@ -19,10 +19,10 @@ class BusinessPage extends Component {
   async componentDidMount() {
     const {business, getPriceService, getBusinessPackages} = this.props;
 
-    await Promise.all([business.map(business => {
-      getPriceService(business.id);
-      getBusinessPackages(business.id);
-    })])
+    await Promise.all([
+      business.map(business => getPriceService(business.id)),
+      business.map(business => getBusinessPackages(business.id)),
+    ]);
   }
 
   toggleAddModalVisible = () => {
