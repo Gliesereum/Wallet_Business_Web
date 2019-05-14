@@ -17,6 +17,8 @@ import {
 } from '../../utils';
 import config from '../../config';
 
+const FormItem = Form.Item;
+
 const initialFieldValues = {
   corporationId: '',
   name: '',
@@ -155,7 +157,7 @@ class BusinessMainInfo extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Item
+        <FormItem
           label="Компания"
         >
           {form.getFieldDecorator('corporationId', {
@@ -170,8 +172,8 @@ class BusinessMainInfo extends Component {
               </Select.Option>
             ))}
           </Select>)}
-        </Form.Item>
-        <Form.Item
+        </FormItem>
+        <FormItem
           label="Название"
         >
           {form.getFieldDecorator('name', {
@@ -181,8 +183,8 @@ class BusinessMainInfo extends Component {
               {whitespace: true, message: 'Поле не может содержать только пустые пробелы'},
             ],
           })(<Input placeholder="Название бизнесса"/>)}
-        </Form.Item>
-        <Form.Item
+        </FormItem>
+        <FormItem
           label="Описание"
         >
           {form.getFieldDecorator('description', {
@@ -192,12 +194,14 @@ class BusinessMainInfo extends Component {
               {whitespace: true, message: 'Поле не может содержать только пустые пробелы'},
             ]
           })(<Input placeholder="Описание бизнесса"/>)}
-        </Form.Item>
+        </FormItem>
 
         {
           isAddMode ? (
             <>
-              <Form.Item>
+              <FormItem
+                label="Телефон"
+              >
                 {form.getFieldDecorator('phone', {
                   rules: [
                     {required: true, message: 'Please enter your phone number!'},
@@ -209,8 +213,8 @@ class BusinessMainInfo extends Component {
                     placeholder="380501234567"
                   />
                 )}
-              </Form.Item>
-              <Form.Item
+              </FormItem>
+              <FormItem
                 label="Деловая активность"
               >
                 {form.getFieldDecorator('serviceType', {
@@ -225,8 +229,8 @@ class BusinessMainInfo extends Component {
                     </Select.Option>
                   ))}
                 </Select>)}
-              </Form.Item>
-              <Form.Item
+              </FormItem>
+              <FormItem
                 label="Категория бизнесса"
               >
                 {form.getFieldDecorator('businessCategoryId', {
@@ -241,7 +245,7 @@ class BusinessMainInfo extends Component {
                     </Select.Option>
                   ))}
                 </Select>)}
-              </Form.Item>
+              </FormItem>
             </>
           ) : (
             <>
@@ -263,7 +267,7 @@ class BusinessMainInfo extends Component {
         {/*    initialValue: spaces ? spaces.length : 0,*/}
         {/*  })(<InputNumber placeholder="Количество боксов"/>)}*/}
         {/*</Form.Item>*/}
-        <Form.Item
+        <FormItem
           label="Адрес"
         >
           {form.getFieldDecorator('address', {
@@ -276,7 +280,7 @@ class BusinessMainInfo extends Component {
               onSelect={this.selectAddressByInputHandler}
             />
           )}
-        </Form.Item>
+        </FormItem>
         <Map
           containerElement={<div style={{height: '400px'}}/>}
           mapElement={<div style={{height: '100%'}}/>}

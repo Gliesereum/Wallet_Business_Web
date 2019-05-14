@@ -1,13 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
 
-import { Form, Select, Input, Button, notification } from 'antd/lib/index';
+import { Form, Select, Input, Button, notification } from 'antd';
 
-import {
-  asyncRequest,
-  withToken,
-} from '../../utils';
-import { actions } from '../../state';
+import {asyncRequest, withToken} from '../../utils';
 
 const ServiceMainInfoForm = (props) => {
   const {
@@ -21,6 +16,14 @@ const ServiceMainInfoForm = (props) => {
     addNewMod,
     businessId,
   } = props;
+  const formItemLayout = {
+    labelCol: {
+      lg: {span: 10}
+    },
+    wrapperCol: {
+      lg: {span: 10}
+    }
+  };
 
   function handleCancel() {
     onCancel(modals.MAIN_INFO, false, null)();
@@ -63,6 +66,7 @@ const ServiceMainInfoForm = (props) => {
   return (
     <Form
       onSubmit={handleSaveChange}
+      {...formItemLayout}
     >
       <Form.Item
         label="Вид Услуги:"
@@ -139,9 +143,4 @@ const ServiceMainInfoForm = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  updateServicePrice: servicePrice => dispatch(actions.business.$updateServicePrice(servicePrice)),
-  addServicePrice: servicePrice => dispatch(actions.business.$addServicePrice(servicePrice)),
-});
-
-export default connect(null, mapDispatchToProps)(Form.create({})(ServiceMainInfoForm));
+export default Form.create({})(ServiceMainInfoForm);
