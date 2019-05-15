@@ -20,4 +20,4 @@ export {
   ProfileCorporations,
   ProfileEmailScreen,
   ProfileMainInfo,
-}
+};

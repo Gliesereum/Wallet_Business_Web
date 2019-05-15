@@ -1,17 +1,15 @@
 import actions from './action';
-import {createReducer} from '../../utils';
+import { createReducer } from '../../utils';
 
 const initState = {
   corporations: [],
 };
 
 const initReducers = {
-  [actions.GET_CORPORATIONS]: (state, payload) => {
-    return {
-      ...state,
-      corporations: payload,
-    };
-  },
+  [actions.GET_CORPORATIONS]: (state, payload) => ({
+    ...state,
+    corporations: payload,
+  }),
 
   [actions.UPDATE_CORPORATION]: (state, payload) => {
     const changedCorpIndex = state.corporations.findIndex(corp => corp.id === payload.id);
@@ -27,19 +25,15 @@ const initReducers = {
     };
   },
 
-  [actions.ADD_CORPORATION]: (state, payload) => {
-    return {
-      ...state,
-      corporations: [...state.corporations, payload],
-    };
-  },
+  [actions.ADD_CORPORATION]: (state, payload) => ({
+    ...state,
+    corporations: [...state.corporations, payload],
+  }),
 
-  [actions.DELETE_CORPORATION]: (state, payload) => {
-    return {
-      ...state,
-      corporations: state.corporations.filter(corp => corp.id !== payload),
-    };
-  },
+  [actions.DELETE_CORPORATION]: (state, payload) => ({
+    ...state,
+    corporations: state.corporations.filter(corp => corp.id !== payload),
+  }),
 
 };
 

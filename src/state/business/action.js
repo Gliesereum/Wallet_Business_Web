@@ -1,4 +1,4 @@
-import {asyncRequest} from '../../utils';
+import { asyncRequest } from '../../utils';
 
 const actions = {
   GET_BUSINESS_TYPES: 'GET_BUSINESS_TYPES',
@@ -49,13 +49,13 @@ const actions = {
     const servicesURL = `price/by-business/${businessId}`;
 
     try {
-      const data = await asyncRequest({url: servicesURL, moduleUrl: 'karma'}) || [];
+      const data = await asyncRequest({ url: servicesURL, moduleUrl: 'karma' }) || [];
       return {
         type: actions.GET_SERVICE_PRICE,
         payload: data,
       };
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
 
@@ -74,16 +74,16 @@ const actions = {
     payload,
   }),
 
-  $getBusinessPackages: async businessId => {
+  $getBusinessPackages: async (businessId) => {
     const packageUrl = `package/by-business/${businessId}`;
     try {
-      const data = await asyncRequest({url: packageUrl, moduleUrl: 'karma'}) || [];
+      const data = await asyncRequest({ url: packageUrl, moduleUrl: 'karma' }) || [];
       return {
         type: actions.GET_BUSINESS_PACKAGES,
         payload: data,
       };
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   },
 
@@ -97,15 +97,15 @@ const actions = {
     payload: businessPackage,
   }),
 
-  $deleteBusinessPackage: ({businessId, packageId}) => ({
+  $deleteBusinessPackage: ({ businessId, packageId }) => ({
     type: actions.DELETE_BUSINESS_PACKAGE,
-    payload: {businessId, packageId},
+    payload: { businessId, packageId },
   }),
 
   $updateSchedule: scheduleList => ({
     type: actions.UPDATE_SCHEDULE,
     payload: scheduleList,
-  })
+  }),
 
 };
 
