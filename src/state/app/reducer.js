@@ -3,7 +3,7 @@ import { createReducer } from '../../utils';
 
 const initState = {
   appStatus: undefined,
-  dataLoading: false,
+  loading: false,
   message: 'Start server connect!',
   error: undefined,
 };
@@ -16,7 +16,7 @@ const initReducers = {
 
   [actions.DATA_LOADING_STATUS]: (state, payload) => ({
     ...state,
-    dataLoading: payload,
+    loading: payload,
   }),
 };
 

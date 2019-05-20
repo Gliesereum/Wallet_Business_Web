@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 
 import {
@@ -7,14 +6,14 @@ import {
 import { Formik, Field, Form } from 'formik';
 
 
-import type { P, S } from './children/types';
+// import type { Props } from './children/types';
 import PackageSchema from './children/schema';
 import Fields from './children/fields';
 
 import './styles.scss';
 
 
-class Index extends Component<P, S> {
+class Index extends Component {
   initValues = () => {
     if (this.props.mode === 'update') {
       const { data } = this.props;

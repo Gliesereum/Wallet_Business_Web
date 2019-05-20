@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import {
   Checkbox, List, TimePicker, Button, message,
-} from 'antd';
+} from 'antd/lib/index';
 
-import moment from 'moment';
+import moment from 'moment/moment';
 
-import { asyncRequest, withToken } from '../../../utils';
+import { asyncRequest, withToken } from '../../../../../utils';
 
 
 const scheduleList = [
@@ -106,7 +106,7 @@ class BusinessSchedule extends Component {
   };
 
   initForm = () => {
-    const { workTimes } = this.props.singleBusiness;
+    const { workTimes } = this.props.singleBusiness || [];
     const initDaysList = scheduleList.reduce((acc, day) => {
       const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
       acc.push({ ...day, ...initDay });

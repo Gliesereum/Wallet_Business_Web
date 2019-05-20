@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Switch, Button, notification } from 'antd';
+import { Switch, Button, notification } from 'antd/lib/index';
 
 import { asyncRequest, withToken } from '../../utils';
 

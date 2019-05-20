@@ -1,8 +1,11 @@
 import { createBrowserHistory } from 'history';
 import Cookies from 'js-cookie';
 
-import { withToken, asyncRequest, asyncUploadFile } from './request';
+import {
+  withToken, asyncRequest, asyncUploadFile,
+} from './request';
 import getFirstLetterName from './helperFunc';
+import fetchDecorator from './fetch';
 
 const cookieStorage = Cookies;
 
@@ -23,4 +26,5 @@ export {
   asyncRequest,
   asyncUploadFile,
   getFirstLetterName,
+  fetchDecorator,
 };

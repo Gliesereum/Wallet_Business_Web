@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 
 import {
@@ -19,6 +21,22 @@ import config from '../../config';
 
 const FormItem = Form.Item;
 
+type Prop = {
+  singleBusiness: {},
+  businessTypes: string[],
+  businessCategories: {}[],
+  form: Form,
+  corporations: {}[],
+  isAddMode: boolean,
+  onToggleModal: Function,
+}
+
+type State = {
+  addressNodes: React.Node[],
+  currentAddress: {},
+  currentLocation: {},
+}
+
 const initialFieldValues = {
   corporationId: '',
   name: '',
@@ -32,20 +50,20 @@ const initialFieldValues = {
   },
 };
 
-class BusinessMainInfo extends Component {
+class BusinessMainInfo extends Component<Prop, State> {
   state = {
     addressNodes: [],
     currentAddress: null,
     currentLocation: null,
   };
 
-  searchAddressHandler = (value) => {
+  searchAddressHandler = (value: string) => {
     if (value.length >= 2) {
       const autoCompleteUrl = `https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=${value}&key=${config.googleAPIKey}`;
       fetch(config.corsUrl + autoCompleteUrl)
-        .then(data => data.json())
-        .then(({ predictions }) => {
-          const addressNodes = predictions.map(item => (
+        .then((data: Response): object => data.json())
+        .then(({ predictions }: { predictions: {}[] }) => {
+          const addressNodes = predictions.map((item: object): React.Node => (
             <AutoComplete.Option
               key={item.description}
               value={item.description}
@@ -54,30 +72,31 @@ class BusinessMainInfo extends Component {
               {item.description}
             </AutoComplete.Option>
           ));
-          this.setState(state => ({
-            ...state,
+          this.setState((prevState: State): {} => ({
+            ...prevState,
             addressNodes,
           }));
         });
     }
   };
 
-  getPlaceInfo = async (id) => {
+  getPlaceInfo = async (id: string): {} => {
     const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&fields=geometry&key=${config.googleAPIKey}`;
     const request = await fetch(config.corsUrl + placeDetailsUrl);
     return request.json();
   };
 
-  selectAddressByInputHandler = async (value, addressObj) => {
+  selectAddressByInputHandler = async (value: string, addressObj: {}) => {
     const { result } = await this.getPlaceInfo(addressObj.props.address.place_id);
-    this.setState(state => ({
-      ...state,
+    this.setState((prevState: State): {} => ({
+      ...prevState,
       currentAddress: value,
       currentLocation: result.geometry.location,
     }));
   };
 
-  selectAddressByMarkerHandler = async ({ latLng }) => {
+  // TODO: change type for return
+  selectAddressByMarkerHandler = async ({ latLng }: { latLng: {} }): any => {
     const { form } = this.props;
     const location = {
       lat: latLng.lat(),
@@ -88,15 +107,15 @@ class BusinessMainInfo extends Component {
     const request = await fetch(addressUrl);
     const { results } = await request.json();
     const address = results[0].formatted_address;
-    this.setState(state => ({
-      ...state,
+    this.setState((prevState: State): {} => ({
+      ...prevState,
       currentAddress: address,
       currentLocation: location,
     }));
     form.setFieldsValue({ address });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = (e: SyntheticEvent<>) => {
     e.preventDefault();
 
     const {
@@ -105,8 +124,8 @@ class BusinessMainInfo extends Component {
     const { currentLocation } = this.state;
     const businessHandler = isAddMode ? addNewBusiness : updateBusiness;
 
-    form.validateFields(async (err, values) => {
-      if (!err) {
+    form.validateFields(async (error: {}, values: {}) => {
+      if (!error) {
         await dataLoading(true);
         const businessUrl = 'business';
         const method = isAddMode ? 'POST' : 'PUT';
@@ -123,8 +142,12 @@ class BusinessMainInfo extends Component {
             url: businessUrl, method, moduleUrl, body,
           });
           await businessHandler(newBusiness);
-        } catch (error) {
-          notification.error(error.message || 'Ошибка');
+        } catch (err) {
+          notification.error({
+            duration: 5,
+            message: err.message || 'Ошибка',
+            description: 'Возникла ошибка',
+          });
         } finally {
           await dataLoading(false);
         }
@@ -132,7 +155,7 @@ class BusinessMainInfo extends Component {
     });
   };
 
-  render() {
+  render(): React.Node {
     const {
       singleBusiness,
       businessTypes,
@@ -146,7 +169,7 @@ class BusinessMainInfo extends Component {
     const { addressNodes, currentLocation, currentAddress } = this.state;
 
     const formInitValues = singleBusiness ? {
-      corporationId: corporations.filter(corp => corp.id === singleBusiness.corporationId)[0].id,
+      corporationId: corporations.filter((corp: {}): {} => corp.id === singleBusiness.corporationId)[0].id,
       name: singleBusiness.name,
       description: singleBusiness.description,
       businessType: singleBusiness.businessCategory.businessType,
@@ -167,7 +190,7 @@ class BusinessMainInfo extends Component {
             initialValue: formInitValues.corporationId,
           })(
             <Select placeholder="Компания">
-              {corporations && corporations.map(corporation => (
+              {corporations && corporations.map((corporation: {}): React.Node => (
                 <Select.Option
                   key={corporation.name}
                   value={corporation.id}
@@ -226,7 +249,7 @@ class BusinessMainInfo extends Component {
                   initialValue: '',
                 })(
                   <Select placeholder="Деловая активность">
-                    {businessTypes && businessTypes.map(businessType => (
+                    {businessTypes && businessTypes.map((businessType: string): React.Node => (
                       <Select.Option
                         key={businessType}
                         value={businessType}
@@ -244,7 +267,7 @@ class BusinessMainInfo extends Component {
                   initialValue: '',
                 })(
                   <Select placeholder="Категория бизнесса">
-                    {businessCategories && businessCategories.map(corporation => (
+                    {businessCategories && businessCategories.map((corporation: {}): React.Node => (
                       <Select.Option
                         key={corporation.name}
                         value={corporation.id}

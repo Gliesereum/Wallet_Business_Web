@@ -39,8 +39,12 @@ class ProfileCorporations extends Component {
     try {
       const updatedCorporation = await withToken(asyncRequest)({ url, method, body });
       await updateCorporation(updatedCorporation);
-    } catch (error) {
-      notification.error(error.message || 'Ошибка');
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     } finally {
       this.setState({
         editModal: false,
@@ -60,8 +64,12 @@ class ProfileCorporations extends Component {
     try {
       const newCorporation = await withToken(asyncRequest)({ url, method, body });
       await addCorporation(newCorporation);
-    } catch (error) {
-      notification.error(error.message || 'Ошибка');
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     } finally {
       this.setState({
         addModal: false,
@@ -80,8 +88,12 @@ class ProfileCorporations extends Component {
     try {
       await withToken(asyncRequest)({ url, method });
       await deleteCorporation(corpId);
-    } catch (error) {
-      notification.error(error.message || 'Ошибка');
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     } finally {
       this.setState({
         deleteModal: false,

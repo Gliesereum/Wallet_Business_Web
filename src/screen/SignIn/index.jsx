@@ -32,8 +32,12 @@ class SignIn extends Component {
     try {
       await asyncRequest({ url });
       this.setState({ gotCode: true, phone: value });
-    } catch (error) {
-      notification.error(error.message || 'Ошибка');
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     }
   };
 
@@ -49,8 +53,12 @@ class SignIn extends Component {
         await checkAuthenticate(tokenInfo);
 
         await startApp();
-      } catch (error) {
-        notification.error(error.message || 'Ошибка');
+      } catch (err) {
+        notification.error({
+          duration: 5,
+          message: err.message || 'Ошибка',
+          description: 'Возникла ошибка',
+        });
       }
     }
   };

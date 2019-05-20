@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 
 import { Button, Icon } from 'antd';
 
 import { Modal } from '../../components';
 import { BusinessMainInfo } from '../../components/Forms';
 
-import './index.scss';
 import { actions } from '../../state';
+import { fetchDecorator } from '../../utils';
+import { fetchPriceServices, fetchBusinessPackages, fetchBusinessOrders } from '../../fetches';
+
+import './index.scss';
 
 export const BusinessPageContext = React.createContext();
 
@@ -16,15 +20,6 @@ class BusinessPage extends Component {
   state = {
     addModalVisible: false,
   };
-
-  async componentDidMount() {
-    const { business, getPriceService, getBusinessPackages } = this.props;
-
-    await Promise.all([
-      business.map(b => getPriceService(b.id)),
-      business.map(b => getBusinessPackages(b.id)),
-    ]);
-  }
 
   toggleAddModalVisible = () => {
     this.setState(state => ({ addModalVisible: !state.addModalVisible }));
@@ -88,8 +83,6 @@ class BusinessPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getPriceService: corpId => dispatch(actions.business.$getPriceService(corpId)),
-  getBusinessPackages: businessId => dispatch(actions.business.$getBusinessPackages(businessId)),
   addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
   dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
 });
@@ -101,4 +94,10 @@ const mapStateToProps = state => ({
   businessTypes: state.business.businessTypes,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BusinessPage));
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+  fetchDecorator(fetchPriceServices),
+  fetchDecorator(fetchBusinessPackages),
+  fetchDecorator(fetchBusinessOrders),
+)(BusinessPage);

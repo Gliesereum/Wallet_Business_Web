@@ -3,7 +3,11 @@
         "browser": true,
         "es6": true
     },
-    "extends": ["react-app", "airbnb"],
+    "extends": [
+        "react-app",
+        "airbnb",
+        "plugin:flowtype/recommended"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -31,11 +35,25 @@
         "no-restricted-syntax": "off",
         "no-return-assign": "off",
         "no-param-reassign": "off",
+
         "react/prop-types": 0,
         "react/destructuring-assignment": 0,
+
         "jsx-a11y/interactive-supports-focus": 0,
         "jsx-a11y/no-static-element-interactions": 0,
         "jsx-a11y/click-events-have-key-events": 0,
-        "import/prefer-default-export": 0
+
+        "import/prefer-default-export": 0,
+
+        "flowtype/require-return-type": [
+            2,
+            "always"
+        ],
+        "flowtype/require-parameter-type": 2
+    },
+    "settings": {
+        "flowtype": {
+            "onlyFilesWithFlowAnnotation": true
+        }
     }
 }

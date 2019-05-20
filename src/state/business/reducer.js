@@ -7,6 +7,7 @@ const initState = {
   businessCategories: [],
   servicePrices: {},
   businessPackages: {},
+  businessOrders: {},
 };
 
 const initReducers = {
@@ -171,6 +172,19 @@ const initReducers = {
         { ...state.business[updatedBusinessIndex], workTimes: scheduleList },
         ...state.business.slice(updatedBusinessIndex + 1),
       ],
+    };
+  },
+
+  [actions.GET_BUSINESS_ORDERS]: (state, payload) => {
+    const { ordersList, businessId } = payload;
+    if (!ordersList.length) return state;
+
+    return {
+      ...state,
+      businessOrders: {
+        ...state.businessOrders,
+        [businessId]: ordersList,
+      },
     };
   },
 };

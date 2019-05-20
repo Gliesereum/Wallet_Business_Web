@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { List, Card } from 'antd';
 
-import { BusinessPageContext } from '../BusinessPage';
+import { BusinessPageContext } from '../../index';
 
 class BusinessList extends Component {
   static contextType = BusinessPageContext;

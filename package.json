@@ -54,6 +54,7 @@
     "react-redux": "latest",
     "react-router-dom": "^4.4.0-beta.5",
     "react-slick": "^0.23.2",
+    "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-promise": "^0.6.0",

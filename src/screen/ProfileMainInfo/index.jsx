@@ -104,8 +104,8 @@ class ProfileMainInfo extends Component {
 
     const { form, updateUserData, dataLoading } = this.props;
 
-    form.validateFields(async (err, values) => {
-      if (!err) {
+    form.validateFields(async (error, values) => {
+      if (!error) {
         await dataLoading(true);
         const { avatarImageUrl, coverImageUrl } = this.state;
         const url = 'user';
@@ -118,8 +118,12 @@ class ProfileMainInfo extends Component {
         try {
           const updatedUser = await withToken(asyncRequest)({ url, method, body });
           await updateUserData(updatedUser);
-        } catch (error) {
-          notification.error(error.message || 'Ошибка');
+        } catch (err) {
+          notification.error({
+            duration: 5,
+            message: err.message || 'Ошибка',
+            description: 'Возникла ошибка',
+          });
         } finally {
           await dataLoading(false);
         }

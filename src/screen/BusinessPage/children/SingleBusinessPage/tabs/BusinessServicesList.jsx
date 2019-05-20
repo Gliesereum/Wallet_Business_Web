@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { List, notification, Button } from 'antd';
+import { List, notification, Button } from 'antd/lib/index';
 
-import { ServiceMainInfoForm, ServiceAdditional } from '../../../components/Forms';
-import { Modal } from '../../../components';
-import ServiceClasses from '../ServiceClasses';
+import { ServiceMainInfoForm, ServiceAdditional } from '../../../../../components/Forms';
+import { Modal, ServiceClasses } from '../../../../../components';
 
-import { asyncRequest, withToken } from '../../../utils';
-import { actions } from '../../../state';
+import { asyncRequest, withToken } from '../../../../../utils';
+import { actions } from '../../../../../state';
 
 const MODALS = {
   MAIN_INFO: 'MAIN_INFO',

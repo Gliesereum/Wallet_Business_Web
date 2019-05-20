@@ -15,7 +15,7 @@ const header = (token) => {
   return { ...defaultHeaders, Authorization: `Bearer ${token}` };
 };
 
-const requestConfig = (method, token, body) => ({
+export const requestConfig = (method, token, body) => ({
   method,
   cache: 'default',
   headers: header(token),

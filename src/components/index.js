@@ -3,16 +3,15 @@ import SideMenu from './SideMenu';
 import Footer from './Footer';
 import Modal from './ModalLayout';
 import Timer from './Timer';
+import ServiceClasses from './ServiceClasses';
+import ScreenLoading from './ScreenLoading';
 
 export {
-  // PhoneForm,
-  // CorporationForm,
   Header,
   SideMenu,
   Footer,
   Modal,
   Timer,
-  // ServiceMainInfoForm,
-  // ServiceAdditional,
-  // BusinessMainInfo,
+  ServiceClasses,
+  ScreenLoading,
 };

@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 
 import {
   Button, List, message, Popconfirm,
-} from 'antd';
+} from 'antd/lib/index';
 
-import Modal from '../../../components/ModalLayout';
-import { PackageForm } from '../../../components/Forms';
-import { asyncRequest, withToken } from '../../../utils';
+import Modal from '../../../../../components/ModalLayout';
+import { PackageForm } from '../../../../../components/Forms';
+import { asyncRequest, withToken } from '../../../../../utils';
 
 
 const MODALS = {

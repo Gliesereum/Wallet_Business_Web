@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { Tabs } from 'antd';
+import { Tabs } from 'antd/lib/index';
 import qs from 'qs';
 
 import {
   BusinessMainInfo, BusinessServicesList, BusinessPackages, BusinessSchedule, BusinessOrders,
 } from './tabs';
-import { BusinessPageContext } from '../BusinessPage';
-import { actions } from '../../state';
+import { BusinessPageContext } from '../../index';
+import { actions } from '../../../../state';
 
 import './styles.scss';
 
@@ -128,7 +128,6 @@ class SingleBusinessPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
-  getBusinessPackages: businessId => dispatch(actions.business.$getBusinessPackages(businessId)),
   updatePackage: businessPackage => dispatch(actions.business.$updateBusinessPackage(businessPackage)),
   createPackage: businessPackage => dispatch(actions.business.$createBusinessPackage(businessPackage)),
   deletePackage: ({ businessId, packageId }) => dispatch(actions.business.$deleteBusinessPackage({ businessId, packageId })),
@@ -137,7 +136,6 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   servicePrices: state.business.servicePrices,
-  corporations: state.corporations.corporations,
   packages: state.business.businessPackages,
 });
 
