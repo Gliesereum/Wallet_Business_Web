@@ -1,3 +1,5 @@
+// @flow
+
 export type PackageType = {
   id: string,
   name: string,
@@ -7,13 +9,9 @@ export type PackageType = {
   servicesIds: Array<string>
 };
 
-export type P = {
+export type Props = {
   data?: PackageType,
   mode: 'create' | 'update',
   onSubmit: Function,
   loading: boolean
 };
-
-export type S = {
-}
-

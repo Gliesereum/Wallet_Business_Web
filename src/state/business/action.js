@@ -1,5 +1,3 @@
-import {asyncRequest} from '../../utils';
-
 const actions = {
   GET_BUSINESS_TYPES: 'GET_BUSINESS_TYPES',
   GET_BUSINESS_CATEGORIES: 'GET_BUSINESS_CATEGORIES',
@@ -19,6 +17,8 @@ const actions = {
   DELETE_BUSINESS_PACKAGE: 'DELETE_BUSINESS_PACKAGE',
 
   UPDATE_SCHEDULE: 'UPDATE_SCHEDULE',
+
+  GET_BUSINESS_ORDERS: 'GET_BUSINESS_ORDERS',
 
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
@@ -45,19 +45,10 @@ const actions = {
     payload: newBusiness,
   }),
 
-  $getPriceService: async (businessId) => {
-    const servicesURL = `price/by-business/${businessId}`;
-
-    try {
-      const data = await asyncRequest({url: servicesURL, moduleUrl: 'karma'}) || [];
-      return {
-        type: actions.GET_SERVICE_PRICE,
-        payload: data,
-      };
-    } catch (error) {
-      console.log(error)
-    }
-  },
+  $getPriceService: data => ({
+    type: actions.GET_SERVICE_PRICE,
+    payload: data,
+  }),
 
   $updateServicePrice: newServicePrice => ({
     type: actions.UPDATE_SERVICE_PRICE,
@@ -74,18 +65,10 @@ const actions = {
     payload,
   }),
 
-  $getBusinessPackages: async businessId => {
-    const packageUrl = `package/by-business/${businessId}`;
-    try {
-      const data = await asyncRequest({url: packageUrl, moduleUrl: 'karma'}) || [];
-      return {
-        type: actions.GET_BUSINESS_PACKAGES,
-        payload: data,
-      };
-    } catch (e) {
-      console.log(e)
-    }
-  },
+  $getBusinessPackages: data => ({
+    type: actions.GET_BUSINESS_PACKAGES,
+    payload: data,
+  }),
 
   $updateBusinessPackage: businessPackage => ({
     type: actions.UPDATE_BUSINESS_PACKAGE,
@@ -97,15 +80,20 @@ const actions = {
     payload: businessPackage,
   }),
 
-  $deleteBusinessPackage: ({businessId, packageId}) => ({
+  $deleteBusinessPackage: ({ businessId, packageId }) => ({
     type: actions.DELETE_BUSINESS_PACKAGE,
-    payload: {businessId, packageId},
+    payload: { businessId, packageId },
   }),
 
   $updateSchedule: scheduleList => ({
     type: actions.UPDATE_SCHEDULE,
     payload: scheduleList,
-  })
+  }),
+
+  $getBusinessOrders: (businessId, data) => ({
+    type: actions.GET_BUSINESS_ORDERS,
+    payload: { businessId, data },
+  }),
 
 };
 

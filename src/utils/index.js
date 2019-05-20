@@ -1,20 +1,21 @@
-import {createBrowserHistory} from 'history';
+import { createBrowserHistory } from 'history';
 import Cookies from 'js-cookie';
 
-import {withToken, asyncRequest, asyncUploadFile} from './request';
-import {getFirstLetterName} from './helperFunc';
+import {
+  withToken, asyncRequest, asyncUploadFile,
+} from './request';
+import getFirstLetterName from './helperFunc';
+import fetchDecorator from './fetch';
 
 const cookieStorage = Cookies;
 
 const history = createBrowserHistory();
 
-const createReducer = (initialState, reducerMap) => {
-  return (state = initialState, action) => {
-    const reducer = reducerMap[action.type];
-    return reducer
-      ? reducer(state, action.payload)
-      : state;
-  };
+const createReducer = (initialState, reducerMap) => (state = initialState, action) => {
+  const reducer = reducerMap[action.type];
+  return reducer
+    ? reducer(state, action.payload)
+    : state;
 };
 
 export {
@@ -25,5 +26,5 @@ export {
   asyncRequest,
   asyncUploadFile,
   getFirstLetterName,
-}
-
+  fetchDecorator,
+};

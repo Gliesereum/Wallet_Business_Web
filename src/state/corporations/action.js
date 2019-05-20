@@ -22,7 +22,7 @@ const actions = {
   $deleteCorporation: id => ({
     type: actions.DELETE_CORPORATION,
     payload: id,
-  })
+  }),
 };
 
 export default actions;
