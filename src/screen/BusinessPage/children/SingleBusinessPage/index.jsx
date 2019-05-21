@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import compose from 'recompose/compose';
 
 import { Tabs } from 'antd/lib/index';
 import qs from 'qs';
@@ -139,4 +140,7 @@ const mapStateToProps = state => ({
   packages: state.business.businessPackages,
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleBusinessPage));
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+)(SingleBusinessPage);

@@ -10,7 +10,7 @@ import { BusinessMainInfo } from '../../components/Forms';
 
 import { actions } from '../../state';
 import { fetchDecorator } from '../../utils';
-import { fetchPriceServices, fetchBusinessPackages, fetchBusinessOrders } from '../../fetches';
+import { fetchGetPriceServices, fetchGetBusinessPackages, fetchGetBusinessOrders } from '../../fetches';
 
 import './index.scss';
 
@@ -85,6 +85,9 @@ class BusinessPage extends Component {
 const mapDispatchToProps = dispatch => ({
   addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
   dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
+  getPriceService: data => dispatch(actions.business.$getPriceService(data)),
+  getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
+  getBusinessOrders: (id, data) => dispatch(actions.business.$getBusinessOrders(id, data)),
 });
 
 const mapStateToProps = state => ({
@@ -97,7 +100,5 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRouter,
-  fetchDecorator(fetchPriceServices),
-  fetchDecorator(fetchBusinessPackages),
-  fetchDecorator(fetchBusinessOrders),
+  fetchDecorator({ actions: [fetchGetPriceServices, fetchGetBusinessPackages, fetchGetBusinessOrders], config: { loader: true } }),
 )(BusinessPage);

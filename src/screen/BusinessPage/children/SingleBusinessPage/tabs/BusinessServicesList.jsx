@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 
 import { List, notification, Button } from 'antd/lib/index';
-
 import { ServiceMainInfoForm, ServiceAdditional } from '../../../../../components/Forms';
-import { Modal, ServiceClasses } from '../../../../../components';
 
-import { asyncRequest, withToken } from '../../../../../utils';
+import { Modal, ServiceClasses } from '../../../../../components';
+import { asyncRequest, withToken, fetchDecorator } from '../../../../../utils';
+import { fetchGetServiceTypes } from '../../../../../fetches';
 import { actions } from '../../../../../state';
 
 const MODALS = {
@@ -169,4 +170,7 @@ const mapDispatchToProps = dispatch => ({
   addServicePrice: servicePrice => dispatch(actions.business.$addServicePrice(servicePrice)),
 });
 
-export default connect(null, mapDispatchToProps)(BusinessServicesList);
+export default compose(
+  connect(null, mapDispatchToProps),
+  fetchDecorator({ actions: [fetchGetServiceTypes], config: { loader: true } }),
+)(BusinessServicesList);

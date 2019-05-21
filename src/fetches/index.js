@@ -1,6 +1,5 @@
 import globalConfig from '../config';
 import { requestConfig, withToken } from '../utils/request';
-import { actions } from '../state';
 
 const fetchHelper = async ({
   urlPath,
@@ -15,7 +14,7 @@ const fetchHelper = async ({
   return await fetch(fullUrl, _requestConfig);
 };
 
-export const fetchPriceServices = async (props) => {
+export const fetchGetPriceServices = async (props) => {
   const result = [];
 
   await Promise.all(props.business.map(async ({ id }) => {
@@ -31,7 +30,7 @@ export const fetchPriceServices = async (props) => {
         if (item.status >= 400) throw Error('error');
         return [];
       }).then((data) => {
-        actions.business.$getPriceService(data);
+        props.getPriceService(data);
         result.push(data);
       });
     } catch (e) {
@@ -39,10 +38,13 @@ export const fetchPriceServices = async (props) => {
     }
   }));
 
-  return result;
+  return {
+    data: result,
+    fieldName: 'servicePrices',
+  };
 };
 
-export const fetchBusinessPackages = async (props) => {
+export const fetchGetBusinessPackages = async (props) => {
   const result = [];
 
   await Promise.all(props.business.map(async ({ id }) => {
@@ -58,7 +60,7 @@ export const fetchBusinessPackages = async (props) => {
         if (item.status >= 400) throw Error('error');
         return [];
       }).then((data) => {
-        actions.business.$getBusinessPackages(data);
+        props.getBusinessPackages(data);
         result.push(data);
       });
     } catch (e) {
@@ -66,10 +68,13 @@ export const fetchBusinessPackages = async (props) => {
     }
   }));
 
-  return result;
+  return {
+    data: result,
+    fieldName: 'businessPackages',
+  };
 };
 
-export const fetchBusinessOrders = async (props) => {
+export const fetchGetBusinessOrders = async (props) => {
   const result = [];
 
   await Promise.all(props.business.map(async ({ id }) => {
@@ -87,7 +92,7 @@ export const fetchBusinessOrders = async (props) => {
         if (item.status >= 400) throw Error('error');
         return [];
       }).then((data) => {
-        actions.business.$getBusinessOrders(id, data);
+        props.getBusinessOrders(id, data);
         result.push(data);
       });
     } catch (e) {
@@ -95,5 +100,31 @@ export const fetchBusinessOrders = async (props) => {
     }
   }));
 
-  return result;
+  return {
+    data: result,
+    fieldName: 'businessOrders',
+  };
+};
+
+export const fetchGetServiceTypes = async (props) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `service/by-business-category?businessCategoryId=${props.singleBusiness.businessCategoryId}`,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'serviceTypes',
+  };
 };
