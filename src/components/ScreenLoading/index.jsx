@@ -5,7 +5,7 @@ import './index.scss';
 
 const ScreenLoading = props => (
   <div className={`karma-app-loading ${props.loading ? 'karma-app-loading-data' : ''}`}>
-    <Spin size="large" style={{ color: 'orange' }} />
+    <Spin size="large" />
   </div>
 );
 

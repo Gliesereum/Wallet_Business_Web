@@ -176,14 +176,14 @@ const initReducers = {
   },
 
   [actions.GET_BUSINESS_ORDERS]: (state, payload) => {
-    const { ordersList, businessId } = payload;
-    if (!ordersList.length) return state;
+    const { data, businessId } = payload;
+    if (!data.length) return state;
 
     return {
       ...state,
       businessOrders: {
         ...state.businessOrders,
-        [businessId]: ordersList,
+        [businessId]: data,
       },
     };
   },

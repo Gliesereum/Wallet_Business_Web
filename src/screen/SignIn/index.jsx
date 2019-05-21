@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ReactCodeInput from 'react-code-input';
+import compose from 'recompose/compose';
 
 import { notification } from 'antd';
 
@@ -126,4 +127,7 @@ const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(SignIn));
+export default compose(
+  connect(null, mapDispatchToProps),
+  withRouter,
+)(SignIn);

@@ -13,7 +13,7 @@ class App extends Component {
   }
 
   render() {
-    const { appStatus, loading } = this.props.app;
+    const { appStatus } = this.props.app;
     const { authenticated } = this.props.auth;
 
     switch (appStatus) {
@@ -21,10 +21,7 @@ class App extends Component {
         return <ScreenLoading />;
       case 'ready':
         return (
-          <>
-            {loading && <ScreenLoading loading={loading} />}
-            <AppRouter isPrivateRoute={authenticated} />
-          </>
+          <AppRouter isPrivateRoute={authenticated} />
         );
       case 'error':
         return <div>Error</div>;

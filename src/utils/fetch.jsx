@@ -1,55 +1,53 @@
 import React from 'react';
 
+import ScreenLoading from '../components/ScreenLoading';
+
 const configDefault = {
-  loader: true,
+  loader: false,
   filter: () => true,
 };
 
-const actionDefault = () => Promise.resolve();
+const actionDefault = [() => Promise.resolve()];
 
-export default (action = actionDefault, config = configDefault) => Component => class FetchDecorator extends React.Component {
+export default ({ actions = actionDefault, config = configDefault }) => Component => class FetchDecorator extends React.Component {
     static displayName = `Fetch(${Component.displayName || Component.name})`;
 
     state = {
-      loading: config.filter(this.props),
+      loading: true,
       injectedProps: {},
     };
 
-    fetchId = undefined;
-
     componentDidMount() {
-      this.startFetch();
+      this.fetch();
     }
 
-    startFetch = () => {
+    fetch = async () => {
       if (!this.state.loading) return;
 
-      this.fetchId = Math.random();
-      this.fetch(this.fetchId);
-    };
+      // delay for testing
+      // const delay = time => result => new Promise(resolve => setTimeout(() => resolve(result), time));
+      // usage:  - await func(this.props).then(delay(time));
 
-    fetch = async (fetchId) => {
-      action(this.props)
-        .then((fetchedData = {}) => {
-          if (fetchId !== this.fetchId) return;
-
+      await Promise.all(actions.map(async (func) => {
+        try {
+          const fetchedData = await func(this.props);
           this.setState({
-            loading: false,
-            injectedProps: fetchedData,
+            injectedProps: {
+              [fetchedData.fieldName]: fetchedData.data,
+            },
           });
-        })
-        .catch((error) => {
-          if (fetchId !== this.fetchId) return;
-          console.error(error);
+        } catch (e) {
+          console.error(e);
+        }
+      }));
 
-          this.setState({ loading: false });
-        });
+      this.setState({ loading: false });
     };
 
     render() {
       const { loading, injectedProps } = this.state;
 
-      if (loading) return '...loading';
+      if (loading && config.loader) return <ScreenLoading />;
 
       return (
         <Component
