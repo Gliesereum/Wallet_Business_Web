@@ -5,6 +5,7 @@ import Modal from './ModalLayout';
 import Timer from './Timer';
 import ServiceClasses from './ServiceClasses';
 import ScreenLoading from './ScreenLoading';
+import Map from './Map';
 
 export {
   Header,
@@ -14,4 +15,5 @@ export {
   Timer,
   ServiceClasses,
   ScreenLoading,
+  Map,
 };

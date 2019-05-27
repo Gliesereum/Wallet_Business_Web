@@ -7,12 +7,8 @@ import { Router } from 'react-router-dom';
 import { store } from './state';
 import { history } from './utils';
 import App from './App';
-// import openSocket from 'socket.io-client';
 
-// const socket = openSocket(
-// 'http://localhost:8080',
-// { transports: ['websocket'] }
-// );
+import './reset.css';
 
 ReactDOM.render(
   <Provider store={store}>

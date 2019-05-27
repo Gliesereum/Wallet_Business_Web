@@ -1,68 +1,150 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme';
 
-div.lg-app-auth-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding-top: 68px;
+.signIn {
+  height: 100%;
 
-  & > .lg-app-auth-form-header {
-    padding-bottom: 32px;
-    display: flex;
-    justify-content: center;
-
-    & > h2 {
-      color: $processing-color;
-      font-size: 24px;
-      font-weight: bold;
-      line-height: 31px;
+  &__left {
+    background: no-repeat center/cover url("../../assets/couplerSignInBackground.png");
+    height: 100%;
+    padding: 32px 72px;
+    @media screen and (max-width: $max-tablet) {
+      padding: 48px 32px 32px;
     }
-  }
+    @media screen and (max-width: $max-phone) {
+      padding: 0;
+    }
 
-  div.lg-code-input-container {
-    display: flex !important;
-    width: 100%;
-    justify-content: space-between;
-
-    & > input {
-      transition: border 0.3s ease-in-out;
-      background-color: rgba(255, 255, 255, 0%) !important;
-      border: none !important;
-      border-bottom: 1px solid #d8d8d8 !important;
-      color: $black;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 19px;
-
-      &::placeholder {
-        color: #fff;
-        font-size: 16px;
-        font-weight: 300;
-        line-height: 19px;
-        opacity: .7;
+    &-logoBlock {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding-bottom: 96px;
+      @media screen and (max-width: $max-tablet) {
+        padding-bottom: 120px;
+      }
+      @media screen and (max-width: $max-phone) {
+        padding: 0;
+        height: 55px;
+        margin-bottom: 64px;
+        border-bottom: 1px solid $white;
       }
 
-      &:focus {
-        border-bottom: 1px solid #AB8654 !important;
-      }
-
-      &:after {
-        display: block;
-        content: 'X';
-        color: red
+      &-img {
+        background: no-repeat center/cover url("../../assets/coupler_logo.svg");
+        width: 72px;
+        height: 112px;
+        @media screen and (max-width: $max-phone) {
+          width: 86px;
+          height: 24px;
+          background: no-repeat center/cover url("../../assets/coupler_logo_mobile.svg");
+        }
       }
     }
-  }
 
-  div.auth-code-form-footer {
-    padding-top: 10px;
-    display: flex;
-    justify-content: center;
-  }
+    &-contentBlock {
+      width: 100%;
+      @media screen and (max-width: $max-phone) {
+        padding: 0 32px;
+      }
 
-  & > .lg-app-form-content {
-    .auth-form-phone-input-header {
-      & > p {
+      &-border {
+        background-image: linear-gradient(white, white), linear-gradient(white, white), linear-gradient(white, white), linear-gradient(white, white);
+        background-repeat: no-repeat;
+        background-size: 2px 16px, 24px 2px, 2px 8px, 8px 2px, calc(100% - 4px) calc(100% - 4px);
+        background-position: left top, left top, right bottom, right bottom;
+        padding: 7px 16px 7px;
+      }
+
+      &-title {
+        font-family: $sans;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 40px;
         color: $white;
+        text-align: center;
+        @media screen and (max-width: $max-tablet) {
+          font-size: 30px;
+        }
+        @media screen and (max-width: $max-phone) {
+          font-size: 28px;
+        }
+      }
+
+      &-subtitle {
+        font-family: $sans;
+        font-size: 16px;
+        font-weight: 500;
+        padding-top: 16px;
+        color: $white;
+        text-align: center;
+      }
+    }
+
+    &-infoBar {
+      display: flex;
+      align-items: center;
+      border-radius: 0 4px 4px 0;
+      background-color: $black-a08;
+      height: 56px;
+      margin-left: -72px;
+      padding: 0 40px 0 72px;
+      color: $light-gray;
+      font-size: 26px;
+      line-height: 18px;
+      @media screen and (max-width: $max-tablet) {
+        margin-left: -32px;
+        padding-left: 32px;
+      }
+      @media screen and (max-width: $max-phone) {
+        margin-right: 32px;
+        margin-left: 0;
+      }
+
+      & span {
+        padding-left: 16px;
+        font-size: 12px;
+        letter-spacing: 0.01em;
+        font-family: $sans;
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    @media screen and (max-width: $max-phone) {
+      display: none;
+    }
+
+    &-supportBlock {
+      width: 100%;
+      height: 72px;
+      box-shadow: $shadow-bottom;
+    }
+
+    &-mapBlock {
+      flex: 1 1 auto;
+    }
+
+    &-footerBlock {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+      padding: 0 72px;
+      height: 56px;
+      box-shadow: $shadow-top;
+      @media screen and (max-width: $max-tablet) {
+        padding: 0 16px;
+      }
+
+      & span {
+        font-family: $sans;
+        font-size: 12px;
+        line-height: 24px;
+        color: $middle-gray;
       }
     }
   }

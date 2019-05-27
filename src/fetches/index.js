@@ -128,3 +128,34 @@ export const fetchGetServiceTypes = async (props) => {
     fieldName: 'serviceTypes',
   };
 };
+
+export const fetchGetNearbyBusinesses = async ({ currentLocation }) => {
+  const result = [];
+
+  try {
+    await fetchHelper({
+      urlPath: 'business/search/document',
+      moduleUrl: 'karma',
+      method: 'POST',
+      body: {
+        geoDistance: {
+          longitude: currentLocation.lng,
+          latitude: currentLocation.lat,
+          distanceMeters: 50000,
+        },
+      },
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'nearbyBusinesses',
+  };
+};

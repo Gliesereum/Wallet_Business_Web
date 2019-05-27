@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ReactCodeInput from 'react-code-input';
 import compose from 'recompose/compose';
+import bem from 'bem-join';
 
-import { notification } from 'antd';
+import {
+  Row, Col, notification, Icon,
+} from 'antd';
 
-import { PhoneForm } from '../../components/Forms';
-import { Timer } from '../../components';
+import { SignInForm } from '../../components/Forms';
+import { Map } from '../../components';
+// import { Timer } from '../../components';
+
+import meIcon from '../../assets/marker.svg';
 import { asyncRequest } from '../../utils';
 import { actions } from '../../state';
+import config from '../../config';
+import { defaultGeoPosition } from '../../components/Map/mapConfig';
 
 import './index.scss';
 
-const inputStyle = {
-  backgroundColor: '#fff',
-  border: '1px solid #DCDCDC',
-  padding: '16px',
-  fontSize: '24px',
-  textAlign: 'center',
-};
+const b = bem('signIn');
 
 class SignIn extends Component {
   state = {
     phone: '',
     gotCode: false,
+    currentLocation: defaultGeoPosition,
   };
 
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        this.setState(prevState => ({
+          ...prevState,
+          currentLocation: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          },
+        }));
+      }
+    );
+  }
+
   getCodeHandler = async (value) => {
-    const url = `phone/code?phone=${value}`;
+    const url = `phone/code?phone=${value.slice(1, 13)}`;
 
     try {
       await asyncRequest({ url });
@@ -46,7 +62,7 @@ class SignIn extends Component {
     if (code.length === 6) {
       const { phone } = this.state;
       const { checkAuthenticate, startApp } = this.props;
-      const body = { value: phone, type: 'PHONE', code };
+      const body = { value: phone.slice(1, 13), type: 'PHONE', code };
       const userDataUrl = 'auth/signin';
 
       try {
@@ -69,54 +85,68 @@ class SignIn extends Component {
   };
 
   render() {
-    const { gotCode } = this.state;
+    const { gotCode, phone, currentLocation } = this.state;
 
     return (
-      <div className="lg-app-auth-form">
-        <div className="lg-app-auth-form-header">
-          <h2>Вход</h2>
-        </div>
-        {
-          gotCode
-            ? (
-              <div className="auth-code-form-container">
-                <div className="auth-code-form-header">
-                  <p className="lg-paragraph">
-                  Мы отправили 6 значный пароль на указаный номер телефона. Пожалуйста, введите его
-                  </p>
-                </div>
-                <div className="auth-code-form-inputs">
-                  <ReactCodeInput
-                    fields={6}
-                    type="number"
-                    autoFocus
-                    className="lg-code-input-container"
-                    inputStyle={inputStyle}
-                    onChange={int => this.sendCodeHandler(int)}
-                  />
-                </div>
-                <div>
-                  <Timer time={180000} />
-                </div>
-                <div className="auth-code-form-footer">
-                  <span className="lg-link" onClick={this.changeContactHandler}>Ввести еще раз</span>
-                </div>
-              </div>
-            )
-            : (
-              <div className="auth-phone-container">
-                <div className="auth-form-phone-input-header">
-                  <p className="lg-paragraph">Введите ваш номер телефона для входа</p>
-                </div>
-                <div className="auth-form-phone-input">
-                  <PhoneForm
-                    getCodeHandler={this.getCodeHandler}
-                  />
-                </div>
-              </div>
-            )
-        }
-      </div>
+      <Row className={b()}>
+        <Col xl={9} lg={12} md={12} sm={24} xs={24} className={b('left')}>
+          <div className={b('left-logoBlock')}>
+            <div className={b('left-logoBlock-img')} />
+          </div>
+          <div className={b('left-contentBlock')}>
+            <div className={b('left-contentBlock-border')}>
+              <h1 className={b('left-contentBlock-title')}>
+                Панель управления вашим бизнесом
+              </h1>
+              <p className={b('left-contentBlock-subtitle')}>
+                маркетинг и контроль в один клик
+              </p>
+            </div>
+
+            {gotCode ? (
+              <SignInForm
+                firstStep={false}
+                buttonText="Вход"
+                labelText="Одноразовый пароль из смс"
+                placeholder=""
+                sendCodeHandler={this.sendCodeHandler}
+              />
+            ) : (
+              <SignInForm
+                firstStep
+                buttonText="Получить одноразовый пароль"
+                labelText="Введите номер телефона"
+                placeholder="+380507595188"
+                getCodeHandler={this.getCodeHandler}
+              />
+            )}
+          </div>
+          {gotCode && (
+            <div className={b('left-infoBar')}>
+              <Icon type="info-circle" />
+              <span>{`СМС с паролем отправлено на номер ${phone}`}</span>
+            </div>
+          )}
+        </Col>
+
+        <Col xl={15} lg={12} md={12} sm={0} xs={0} className={b('right')}>
+          <div className={b('right-supportBlock')}>1</div>
+          <div className={b('right-mapBlock')}>
+            <Map
+              draggable={false}
+              containerElement={<div style={{ height: '100%' }} />}
+              mapElement={<div style={{ height: '100%' }} />}
+              loadingElement={<div style={{ height: '100%' }} />}
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleAPIKey}&libraries=geometry,drawing,places`}
+              icon={meIcon}
+              currentLocation={currentLocation}
+            />
+          </div>
+          <div className={b('right-footerBlock')}>
+            <span>All rights reserved. Copyright &copy; 2019 Coupler Business</span>
+          </div>
+        </Col>
+      </Row>
     );
   }
 }

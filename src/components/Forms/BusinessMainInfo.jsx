@@ -18,6 +18,7 @@ import {
   withToken,
 } from '../../utils';
 import config from '../../config';
+import { defaultGeoPosition } from '../Map/mapConfig';
 
 const FormItem = Form.Item;
 
@@ -44,10 +45,7 @@ const initialFieldValues = {
   businessType: '',
   businessCategory: '',
   currentAddressValue: '',
-  currentLocationValue: {
-    lat: 50.4220293,
-    lng: 30.4747438,
-  },
+  currentLocationValue: defaultGeoPosition,
 };
 
 class BusinessMainInfo extends Component<Prop, State> {

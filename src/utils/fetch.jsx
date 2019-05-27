@@ -23,19 +23,21 @@ export default ({ actions = actionDefault, config = configDefault }) => Componen
 
     fetch = async () => {
       if (!this.state.loading) return;
-
       // delay for testing
       // const delay = time => result => new Promise(resolve => setTimeout(() => resolve(result), time));
       // usage:  - await func(this.props).then(delay(time));
-
       await Promise.all(actions.map(async (func) => {
         try {
           const fetchedData = await func(this.props);
-          this.setState({
-            injectedProps: {
-              [fetchedData.fieldName]: fetchedData.data,
-            },
-          });
+          if (fetchedData) {
+            this.setState(state => ({
+              ...state,
+              injectedProps: {
+                ...state.injectedProps,
+                [fetchedData.fieldName]: fetchedData.data,
+              },
+            }));
+          }
         } catch (e) {
           console.error(e);
         }
@@ -48,11 +50,22 @@ export default ({ actions = actionDefault, config = configDefault }) => Componen
       const { loading, injectedProps } = this.state;
 
       if (loading && config.loader) return <ScreenLoading />;
-
       return (
         <Component
+          {...injectedProps}
+          {...this.props}
           loading={loading}
-          {...{ ...injectedProps, ...this.props }}
+          fetch={(mutated = {}) => {
+            this.setState(state => ({
+              loading: config.loader,
+              injectedProps: { ...state.injectedProps, ...mutated },
+            }), this.fetch);
+          }}
+          mutate={(mutated = {}) => {
+            this.setState(state => ({
+              injectedProps: { ...state.injectedProps, ...mutated },
+            }));
+          }}
         />
       );
     }
