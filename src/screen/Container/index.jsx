@@ -4,13 +4,13 @@ import { Header, SideMenu, Footer } from '../../components';
 
 import './index.scss';
 
-const Container = props => (
+const Container = ({ user, children }) => (
   <div className="karma-app-wrapped">
     <SideMenu />
 
-    <Header title="Profile" />
+    <Header user={user} />
     <div className="karma-app-main">
-      {props.children}
+      {children}
     </div>
     <Footer />
   </div>

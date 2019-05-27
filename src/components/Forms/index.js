@@ -2,7 +2,7 @@ import PackageForm from './PackageForm';
 import BusinessMainInfo from './BusinessMainInfo';
 import ServiceAdditional from './ServiceAdditional';
 import ServiceMainInfoForm from './ServiceMainInfoForm';
-import PhoneForm from './PhoneForm';
+import SignInForm from './SignInForm';
 import CorporationForm from './CorporationForm';
 
 
@@ -11,6 +11,6 @@ export {
   BusinessMainInfo,
   ServiceAdditional,
   ServiceMainInfoForm,
-  PhoneForm,
+  SignInForm,
   CorporationForm,
 };

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import brandLogo from '../../assets/KarmaLogo.png';
-
 import './index.scss';
 
 const Footer = () => (
@@ -21,7 +19,6 @@ const Footer = () => (
         <Link to="/profile">Contact Us </Link>
       </div>
       <div className="karma-app-footer-wrapper-brand">
-        <img className="karma-app-footer-wrapper-brand-logo" src={brandLogo} alt="" />
         <div className="karma-app-footer-wrapper-brand-name">Karma Business</div>
       </div>
     </div>

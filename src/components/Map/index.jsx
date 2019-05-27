@@ -5,18 +5,52 @@ import {
   GoogleMap,
   Marker,
 } from 'react-google-maps';
+import compose from 'recompose/compose';
 
-const Map = ({ location, onSelect }) => (
-  <GoogleMap
-    defaultZoom={10}
-    center={{ lat: location.lat, lng: location.lng }}
-  >
-    <Marker
-      draggable
-      onDragEnd={onSelect}
-      position={{ lat: location.lat, lng: location.lng }}
-    />
-  </GoogleMap>
-);
+import { fetchDecorator } from '../../utils';
+import { fetchGetNearbyBusinesses } from '../../fetches';
 
-export default withScriptjs(withGoogleMap(Map));
+import { mapConfig } from './mapConfig';
+
+class Map extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentLocation.lat === nextProps.currentLocation.lat) return;
+
+    this.props.fetch();
+  }
+
+  render() {
+    const {
+      currentLocation, draggable, icon, nearbyBusinesses, onSelect,
+    } = this.props;
+
+    return (
+      <GoogleMap
+        options={mapConfig}
+        defaultZoom={11}
+        center={{ lat: currentLocation.lat, lng: currentLocation.lng }}
+      >
+        <Marker
+          draggable={draggable}
+          onDragEnd={onSelect}
+          position={{ lat: currentLocation.lat, lng: currentLocation.lng }}
+          icon={icon}
+        />
+        {nearbyBusinesses.length && nearbyBusinesses.map(business => (
+          <Marker
+            key={business.id}
+            draggable={draggable}
+            position={{ lat: business.latitude, lng: business.longitude }}
+            icon={icon}
+          />
+        ))}
+      </GoogleMap>
+    );
+  }
+}
+
+export default compose(
+  withScriptjs,
+  withGoogleMap,
+  fetchDecorator({ actions: [fetchGetNearbyBusinesses], config: { loader: true } })
+)(Map);

@@ -16,9 +16,9 @@ import {
   ProfileEmailScreen,
 } from '../screen';
 
-const publicRouter = () => (
+const publicRouter = ({ user }) => (
   <Router>
-    <Container>
+    <Container user={user}>
       <Route
         path="/businessList"
         render={() => (
