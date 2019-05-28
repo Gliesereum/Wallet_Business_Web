@@ -7,29 +7,37 @@ import {
 
 import {
   Container,
-  BusinessPage,
-  BusinessList,
-  SingleBusinessPage,
+  // BusinessPage,
+  // BusinessList,
+  // SingleBusinessPage,
   ProfilePage,
   ProfileMainInfo,
-  ProfileCorporations,
+  CorporationsList,
   ProfileEmailScreen,
 } from '../screen';
+//
+// <Route
+//   path="/businessList"
+//   render={() => (
+//     <BusinessPage>
+//       <Switch>
+//         <Route exact path="/businessList" component={BusinessList} />
+//         <Route exact path="/businessList/:id" component={SingleBusinessPage} />
+//       </Switch>
+//     </BusinessPage>
+//   )}
+// />
 
-const publicRouter = ({ user }) => (
+const privateRouter = ({ user }) => (
   <Router>
     <Container user={user}>
-      <Route
-        path="/businessList"
-        render={() => (
-          <BusinessPage>
-            <Switch>
-              <Route exact path="/businessList" component={BusinessList} />
-              <Route exact path="/businessList/:id" component={SingleBusinessPage} />
-            </Switch>
-          </BusinessPage>
-        )}
-      />
+      <Switch>
+        <Route path="/" exact component={CorporationsList} />
+        <Route path="/corporations" exact component={CorporationsList} />
+        <Route path="/analytics" exact component={CorporationsList} />
+        <Route path="/settings" exact component={CorporationsList} />
+        <Route path="/help" exact component={CorporationsList} />
+      </Switch>
 
       <Route
         path="/profile"
@@ -37,7 +45,7 @@ const publicRouter = ({ user }) => (
           <ProfilePage>
             <Switch>
               <Route exact path="/profile/mainInfo" component={ProfileMainInfo} />
-              <Route exact path="/profile/corporations" component={ProfileCorporations} />
+              <Route exact path="/profile/corporations" component={CorporationsList} />
               <Route exact path="/profile/email" component={ProfileEmailScreen} />
             </Switch>
           </ProfilePage>
@@ -47,4 +55,4 @@ const publicRouter = ({ user }) => (
   </Router>
 );
 
-export default publicRouter;
+export default privateRouter;

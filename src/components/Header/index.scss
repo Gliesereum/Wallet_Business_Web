@@ -25,6 +25,22 @@
     &-naming {
       padding: 0 24px 0 16px;
 
+      & h1 {
+        font-family: $sans;
+        font-size: 14px;
+        color: $gray;
+        letter-spacing: 0.01em;
+        line-height: 16px;
+      }
+
+      & p {
+        font-family: $sans;
+        font-size: 10px;
+        color: $gray;
+        letter-spacing: 0.02em;
+        line-height: 10px;
+      }
+
       & + i {
         line-height: 30px;
       }
