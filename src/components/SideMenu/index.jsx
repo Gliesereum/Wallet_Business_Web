@@ -1,101 +1,85 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import bem from 'bem-join';
 
-import { Icon, Drawer } from 'antd';
-
-import authActions from '../../state/auth/action';
-import { getFirstLetterName } from '../../utils';
+import { actions } from '../../state';
+import CouplerBrandLogo from '../../assets/logo_with_name.svg';
+import MyCorporations from '../../assets/myCorporations.svg';
+import Analytics from '../../assets/analytics.svg';
+import Settings from '../../assets/settings.svg';
+import Help from '../../assets/help.svg';
+import Exit from '../../assets/exit.svg';
 
 import './index.scss';
 
-import defaultDrawerCover from '../../assets/drawer-cover.png';
+const b = bem('sidebar');
 
-const ACTIVE_ITEM = {
-  BUSINESS_ITEM: '/businessList',
-  PROFILE_ITEM: '/profile/mainInfo',
-};
+const navbarItems = [
+  {
+    icon: MyCorporations,
+    text: 'Мои компании',
+    linkTo: '/corporations',
+  },
+  {
+    icon: Analytics,
+    text: 'Аналитика',
+    linkTo: '/analytics',
+  },
+  {
+    icon: Settings,
+    text: 'Настройки',
+    linkTo: '/settings',
+  },
+  {
+    icon: Help,
+    text: 'Помощь',
+    linkTo: '/help',
+  },
+];
 
 class SideMenu extends Component {
-  state = {
-    visible: false,
-  };
-
-  _toggleCollapsed = () => {
-    this.setState(prevState => ({ visible: !prevState.visible }));
-  };
-
   signOutHandler = () => {
-    this.props.$signOut();
-  };
-
-  handlerMenuClick = (itemName) => {
-    this.props.history.push(itemName);
-    this._toggleCollapsed();
+    this.props.signOut();
   };
 
   render() {
-    const { visible } = this.state;
-    const { auth, location } = this.props;
-    const { BUSINESS_ITEM, PROFILE_ITEM } = ACTIVE_ITEM;
-
     return (
-      <div className="karma-app-sidebar">
-        <div
-          className="karma-app-sidebar__toggler"
-          onClick={this._toggleCollapsed}
-        >
-          {!visible && <Icon type="double-right" />}
+      <div className={b()}>
+        <div className={b('logo')}>
+          <img src={CouplerBrandLogo} alt="coupler_logo" />
         </div>
-        <Drawer
-          placement="left"
-          visible={visible}
-          closable={false}
-          onClose={this._toggleCollapsed}
-          width={300}
-        >
-
-          <div className="karma-app-sidebar__user-box">
-            <img
-              src={auth.user.coverUrl || defaultDrawerCover}
-              alt=""
-            />
-            <div className="karma-app-sidebar__avatar-user">
-              <div className="karma-app-sidebar__avatar-user-img">
-                {auth.user && auth.user.avatarUrl
-                  ? <img src={auth.user.avatarUrl} alt="" />
-                  : <span>{getFirstLetterName(auth.user.firstName, auth.user.lastName)}</span>}
-              </div>
-            </div>
+        <div className={b('menu')}>
+          {
+            navbarItems.map(({ icon, text, linkTo }) => (
+              <Link
+                className={b('menu-item', { active: this.props.location.pathname === linkTo })}
+                key={text}
+                to={linkTo}
+              >
+                <img src={icon} alt={text} />
+                <span>{text}</span>
+              </Link>
+            ))
+          }
+        </div>
+        <div>
+          <div className={b('menu-item')} onClick={this.signOutHandler}>
+            <img src={Exit} alt="Exit" />
+            <span>Exit</span>
           </div>
-
-          <div
-            onClick={() => this.handlerMenuClick(BUSINESS_ITEM)}
-            className={`karma-app-sidebar__item ${
-              (location.pathname === BUSINESS_ITEM || location.pathname === '/') ? 'active-menu-item' : ''
-            }`}
-          >
-            <Icon type="database" />
-            <span>Мои Бизнесы</span>
-          </div>
-          <div
-            onClick={() => this.handlerMenuClick(PROFILE_ITEM)}
-            className={`karma-app-sidebar__item ${location.pathname === PROFILE_ITEM ? 'active-menu-item' : ''}`}
-          >
-            <Icon type="user" />
-            <span>Профиль</span>
-          </div>
-          <div
-            onClick={this.signOutHandler}
-            className="karma-app-sidebar__item"
-          >
-            <Icon type="export" />
-            <span>Выйти</span>
-          </div>
-        </Drawer>
+        </div>
       </div>
     );
   }
 }
 
-export default withRouter(connect(state => state, { ...authActions })(SideMenu));
+const mapDispatchToProps = dispatch => ({
+  signOut: () => dispatch(actions.auth.$signOut()),
+});
+
+export default compose(
+  connect(null, mapDispatchToProps),
+  withRouter,
+)(SideMenu);

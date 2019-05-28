@@ -14,7 +14,7 @@ import { CorporationForm } from '../../components/Forms';
 import { asyncRequest, withToken } from '../../utils';
 import { actions } from '../../state';
 
-class ProfileCorporations extends Component {
+class CorporationsList extends Component {
   state = {
     editModal: false,
     deleteModal: false,
@@ -239,4 +239,4 @@ const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileCorporations);
+export default connect(mapStateToProps, mapDispatchToProps)(CorporationsList);
