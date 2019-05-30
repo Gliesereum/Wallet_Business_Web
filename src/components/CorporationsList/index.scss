@@ -1,0 +1,80 @@
+@import "../../styles/theme.scss";
+
+.corporationsList {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  box-shadow: $shadow-right;
+  background: linear-gradient(23.35deg, #0E69F1 0%, #1C91FE 116.58%);
+
+  & .ant-collapse {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 8px 0;
+  }
+
+  &__panel {
+    border: none;
+    border-radius: 0;
+
+    &.ant-collapse-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+
+      & .ant-collapse-header {
+        padding: 12px 32px !important;
+        color: $white;
+        letter-spacing: 0.01em;
+        font-family: $sans;
+        font-size: 14px;
+        line-height: 24px;
+        height: 63px;
+      }
+
+      &-active {
+        & .ant-collapse-header {
+          background: rgba(255, 255, 255, 0.16);
+        }
+      }
+
+      & .ant-collapse-content {
+        background: rgba(255, 255, 255, 0.08);
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+
+        &-box {
+          padding: 24px;
+          color: rgba(255, 255, 255, 0.8);
+          letter-spacing: 0.01em;
+          font-family: $sans;
+          font-size: 12px;
+        }
+      }
+    }
+
+    &-name {
+      line-height: 16px;
+      margin-bottom: 8px;
+    }
+
+    &-descr {
+      line-height: 18px;
+    }
+
+    &-logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 16px;
+    }
+
+    &-editBtn {
+      margin-top: 16px;
+      width: 100%;
+    }
+  }
+
+  &__addBtn {
+    margin: 60px auto 0;
+  }
+}

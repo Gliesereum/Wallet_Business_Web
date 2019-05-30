@@ -1,0 +1,10 @@
+.corporationsContainer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+  }
+}

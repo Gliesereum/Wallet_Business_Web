@@ -11,6 +11,7 @@ $warning-color: orange;
 $dark-gray: #3d3d3d;
 
 $white: #fff;
+$dirty-white: #FAFAFA;
 $black: #000;
 $coupler-blue: #1078E1;
 $coupler-light-blue: #E0EBF3;
@@ -19,12 +20,14 @@ $light-gray: #CAD4DE;
 $middle-gray: #A4AEB8;
 $gray: #868A91;
 
-$black-a08: rgba(0, 0, 0, 0.32);
+$black-a032: rgba(0, 0, 0, 0.32);
+$black-a072: rgba(0, 0, 0, 0.72);
 
 // -------- Shadows -----------
 
 $shadow-bottom: 0px 2px 4px rgba(0, 0, 0, 0.16);
 $shadow-top: 0px -4px 6px rgba(0, 0, 0, 0.08);
+$shadow-right: 4px 4px 8px rgba(0, 0, 0, 0.16);
 
 // -------- Fonts -----------
 $sans: 'M PLUS Rounded 1c', sans-serif;

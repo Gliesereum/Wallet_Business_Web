@@ -17,7 +17,6 @@ const actions = {
     const emailUrl = 'email/by-user';
     const refreshUrl = 'auth/refresh';
     const corporationsUrl = 'corporation/by-user';
-    const businessUrl = 'business/by-user';
     const businessTypeUrl = 'business-category/business-type';
     const businessCategoryUrl = 'business-category';
 
@@ -30,14 +29,12 @@ const actions = {
         const user = await withToken(asyncRequest)({ url: userUrl });
         const email = await withToken(asyncRequest)({ url: emailUrl });
         const corporations = await withToken(asyncRequest)({ url: corporationsUrl });
-        const business = await withToken(asyncRequest)({ url: businessUrl, moduleUrl: 'karma' });
         const businessTypes = await withToken(asyncRequest)({ url: businessTypeUrl, moduleUrl: 'karma' });
         const businessCategories = await withToken(asyncRequest)({ url: businessCategoryUrl, moduleUrl: 'karma' });
 
         await dispatch(authActions.$updateUserData(user));
         await dispatch(authActions.$addUserEmail(email));
         await dispatch(corporationsActions.$getCorporations(corporations));
-        await dispatch(businessActions.$getBusiness(business));
         await dispatch(businessActions.$getBusinessTypes(businessTypes));
         await dispatch(businessActions.$getBusinessCategories(businessCategories));
         await dispatch(authActions.$checkAuthenticate(tokenInfo));

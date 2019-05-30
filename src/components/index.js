@@ -6,6 +6,8 @@ import Timer from './Timer';
 import ServiceClasses from './ServiceClasses';
 import ScreenLoading from './ScreenLoading';
 import Map from './Map';
+import CorporationsList from './CorporationsList';
+import BusinessesList from './BusinessesList';
 
 export {
   Header,
@@ -16,4 +18,6 @@ export {
   ServiceClasses,
   ScreenLoading,
   Map,
+  CorporationsList,
+  BusinessesList,
 };

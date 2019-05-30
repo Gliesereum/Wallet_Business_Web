@@ -1,90 +1,23 @@
 @import './theme.scss';
 
-input.lg-app-input {
-  border: none;
-  color: $black;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 19px;
+#root .ant {
+  //---- Buttons ----
+  // default
+  &-btn {
+    height: 56px;
+    background-color: $white;
+    color: $coupler-blue;
+    font-family: $sans;
+    line-height: 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 16px 40px;
+    border: none;
 
-  &::placeholder {
-    color: $primary-color;
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 19px;
-    opacity: .7;
-  }
-}
-
-span.lg-link {
-  color: $processing-color;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 17px;
-  text-decoration: none;
-
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.ant-drawer-wrapper-body .ant-drawer-body {
-  padding: 0;
-}
-
-.karma-app-wrapped {
-  // Tabs
-  .karma-app-profile {
-    & .ant-tabs-bar.ant-tabs-top-bar {
-      background-color: $processing-color;
-      padding: 0 50px;
-
-      & .ant-tabs-nav {
-        .ant-tabs-tab-active {
-          background-color: $highlight-color;
-          color: $white;
-        }
-      }
+    &-primary {
+      background-color: rgba(255, 255, 255, 0.16);
+      color: $white;
     }
-
-    & .ant-tabs-content.ant-tabs-top-content {
-      padding: 0 50px;
-    }
-  }
-
-  // Button
-  .ant-btn {
-    &-primary, &-primary:focus {
-      background-color: $processing-color;
-      color: $black;
-      border-color: $highlight-color;
-
-      &:hover {
-        background-color: $highlight-color;
-        border-color: $processing-color;
-        color: $white;
-      }
-    }
-  }
-
-  // Upload
-  .ant-upload.ant-upload-drag .ant-upload {
-    padding: 0;
-  }
-
-  // Icon
-  .ant-upload-btn.ant-upload .anticon {
-    color: $highlight-color;
-  }
-
-  // Card
-  .ant-card.ant-card-bordered {
-    border-radius: 25px;
-  }
-
-  // Input
-  .ant-input {
-    border: 1px solid $highlight-color;
   }
 }

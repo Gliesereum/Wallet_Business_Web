@@ -159,3 +159,26 @@ export const fetchGetNearbyBusinesses = async ({ currentLocation }) => {
     fieldName: 'nearbyBusinesses',
   };
 };
+
+export const fetchBusinessesByCorp = async ({ chosenCorp }) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `business/by-corporation-id?corporationId=${chosenCorp.id}`,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'business',
+  };
+};
