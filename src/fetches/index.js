@@ -1,5 +1,12 @@
 import globalConfig from '../config';
-import { requestConfig, withToken } from '../utils/request';
+import { header, withToken } from '../utils/request';
+
+const requestConfig = (method, token, body, isStringifyNeeded) => ({
+  method,
+  cache: 'default',
+  headers: isStringifyNeeded ? header(token) : { Authorization: `Bearer ${token}` },
+  body: isStringifyNeeded ? JSON.stringify(body) : body,
+});
 
 const fetchHelper = async ({
   urlPath,
@@ -7,9 +14,10 @@ const fetchHelper = async ({
   method = 'GET',
   token,
   body,
+  isStringifyNeeded = true,
 }) => {
   const fullUrl = `${globalConfig.urlPrefix}${moduleUrl}/v1/${urlPath}`;
-  const _requestConfig = requestConfig(method, token, body);
+  const _requestConfig = requestConfig(method, token, body, isStringifyNeeded);
 
   return await fetch(fullUrl, _requestConfig);
 };
@@ -181,4 +189,22 @@ export const fetchBusinessesByCorp = async ({ chosenCorp }) => {
     data: result,
     fieldName: 'business',
   };
+};
+
+export const fetchImageByUpload = async (body) => {
+  let imageUrl = null;
+  try {
+    await withToken(fetchHelper)({
+      urlPath: 'upload',
+      moduleUrl: 'file',
+      method: 'POST',
+      isStringifyNeeded: false,
+      body,
+    }).then(async data => await data.json())
+      .then(data => imageUrl = data.url);
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return imageUrl;
 };

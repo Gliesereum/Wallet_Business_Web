@@ -1,8 +1,6 @@
 @import "../../styles/theme.scss";
 
 .corporationsList {
-  display: flex;
-  flex-direction: column;
   flex: 1;
   border: none;
   border-radius: 0;
@@ -14,6 +12,8 @@
     border-radius: 0;
     background-color: transparent;
     padding: 8px 0;
+    overflow-y: scroll;
+    height: 500px;
   }
 
   &__panel {
@@ -75,6 +75,7 @@
   }
 
   &__addBtn {
-    margin: 60px auto 0;
+    padding: 60px 0;
+    text-align: center;
   }
 }

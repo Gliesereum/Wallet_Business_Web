@@ -5,6 +5,7 @@ import ProfilePage from './ProfilePage';
 import SignIn from './SignIn';
 import SingleBusinessPage from './BusinessPage/children/SingleBusinessPage';
 import CorporationsContainer from './CorporationsContainer';
+import Corporation from './Corporation';
 import ProfileEmailScreen from './ProfileEmailScreen';
 import ProfileMainInfo from './ProfileMainInfo';
 
@@ -16,6 +17,7 @@ export {
   SignIn,
   SingleBusinessPage,
   CorporationsContainer,
+  Corporation,
   ProfileEmailScreen,
   ProfileMainInfo,
 };

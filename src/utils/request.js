@@ -7,7 +7,7 @@ const timeoutMessageError = new Error('Превишен интервал ожи�
 
 const timeout = (reject, time = 60000) => (setTimeout(() => reject(timeoutMessageError), time));
 
-const header = (token) => {
+export const header = (token) => {
   const defaultHeaders = { 'content-type': 'application/json', accept: 'application/json' };
   if (!token) {
     return defaultHeaders;
@@ -15,7 +15,7 @@ const header = (token) => {
   return { ...defaultHeaders, Authorization: `Bearer ${token}` };
 };
 
-export const requestConfig = (method, token, body) => ({
+const requestConfig = (method, token, body) => ({
   method,
   cache: 'default',
   headers: header(token),

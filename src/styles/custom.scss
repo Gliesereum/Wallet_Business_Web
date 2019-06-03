@@ -12,12 +12,48 @@
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    padding: 16px 40px;
     border: none;
 
+    // primary
     &-primary {
-      background-color: rgba(255, 255, 255, 0.16);
+      background: linear-gradient(75.72deg, #0E84F1 0%, #1C9FFE 106.54%) !important;
       color: $white;
+    }
+  }
+
+  //---- Forms ----
+  &-form-item {
+    &-label {
+      line-height: 16px;
+      padding-bottom: 8px;
+    }
+
+    &-required {
+      &::before {
+        content: '';
+      }
+
+      &::after {
+        display: inline-block;
+        margin-left: 4px;
+        color: $font-title-black;
+        font-size: 14px;
+        font-family: SimSun, sans-serif;
+        line-height: 1;
+        content: '*';
+      }
+    }
+  }
+
+  &-input {
+    &:read-only {
+      background: #F7F7F7;
+      border: 1px solid #CCC;
+      color: rgba(72, 84, 101, 0.64);
+    }
+
+    &:focus {
+      box-shadow: none;
     }
   }
 }

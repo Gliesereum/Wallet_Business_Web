@@ -41,7 +41,9 @@ const navbarItems = [
 
 class SideMenu extends Component {
   signOutHandler = () => {
-    this.props.signOut();
+    const { signOut, history } = this.props;
+    history.push('/');
+    signOut();
   };
 
   render() {
@@ -54,7 +56,7 @@ class SideMenu extends Component {
           {
             navbarItems.map(({ icon, text, linkTo }) => (
               <Link
-                className={b('menu-item', { active: this.props.location.pathname === linkTo })}
+                className={b('menu-item', { active: this.props.location.pathname.match(linkTo) })}
                 key={text}
                 to={linkTo}
               >

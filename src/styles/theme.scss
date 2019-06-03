@@ -18,7 +18,8 @@ $coupler-light-blue: #E0EBF3;
 $border-gray: #f0f2f4;
 $light-gray: #CAD4DE;
 $middle-gray: #A4AEB8;
-$gray: #868A91;
+$gray: rgba(72, 84, 101, 0.8);
+$font-title-black: #485465;
 
 $black-a032: rgba(0, 0, 0, 0.32);
 $black-a072: rgba(0, 0, 0, 0.72);
@@ -28,6 +29,7 @@ $black-a072: rgba(0, 0, 0, 0.72);
 $shadow-bottom: 0px 2px 4px rgba(0, 0, 0, 0.16);
 $shadow-top: 0px -4px 6px rgba(0, 0, 0, 0.08);
 $shadow-right: 4px 4px 8px rgba(0, 0, 0, 0.16);
+$shadow-left: -2px 2px 4px rgba(0, 0, 0, 0.08);
 
 // -------- Fonts -----------
 $sans: 'M PLUS Rounded 1c', sans-serif;

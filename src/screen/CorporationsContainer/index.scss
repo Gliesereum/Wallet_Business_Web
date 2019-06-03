@@ -1,7 +1,7 @@
 .corporationsContainer {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: calc(100% - 54px);
 
   &__col {
     display: flex;
