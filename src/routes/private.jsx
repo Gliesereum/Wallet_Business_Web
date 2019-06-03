@@ -3,40 +3,33 @@ import {
   Route,
   BrowserRouter as Router,
   Switch,
+  Redirect,
 } from 'react-router-dom';
 
 import {
   Container,
   // BusinessPage,
-  // BusinessList,
+  // BusinessesList,
   // SingleBusinessPage,
   ProfilePage,
   ProfileMainInfo,
-  CorporationsList,
+  CorporationsContainer,
+  Corporation,
   ProfileEmailScreen,
 } from '../screen';
-//
-// <Route
-//   path="/businessList"
-//   render={() => (
-//     <BusinessPage>
-//       <Switch>
-//         <Route exact path="/businessList" component={BusinessList} />
-//         <Route exact path="/businessList/:id" component={SingleBusinessPage} />
-//       </Switch>
-//     </BusinessPage>
-//   )}
-// />
 
 const privateRouter = ({ user }) => (
   <Router>
     <Container user={user}>
       <Switch>
-        <Route path="/" exact component={CorporationsList} />
-        <Route path="/corporations" exact component={CorporationsList} />
-        <Route path="/analytics" exact component={CorporationsList} />
-        <Route path="/settings" exact component={CorporationsList} />
-        <Route path="/help" exact component={CorporationsList} />
+        <Route path="/corporations" exact component={CorporationsContainer} />
+        <Route path="/" exact>
+          <Redirect to="/corporations" />
+        </Route>
+        <Route path="/corporations/single/:id" exact component={Corporation} />
+        <Route path="/corporations/add" exact component={Corporation} />
+        <Route path="/settings" exact component={CorporationsContainer} />
+        <Route path="/help" exact component={CorporationsContainer} />
       </Switch>
 
       <Route
@@ -45,8 +38,9 @@ const privateRouter = ({ user }) => (
           <ProfilePage>
             <Switch>
               <Route exact path="/profile/mainInfo" component={ProfileMainInfo} />
-              <Route exact path="/profile/corporations" component={CorporationsList} />
+              <Route exact path="/profile/corporations" component={CorporationsContainer} />
               <Route exact path="/profile/email" component={ProfileEmailScreen} />
+              {/* <Route component={NoMatch} /> */}
             </Switch>
           </ProfilePage>
         )}

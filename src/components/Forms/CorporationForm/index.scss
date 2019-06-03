@@ -1,6 +1,17 @@
-.karma-app {
-  &-corporations-form {
-    display: flex;
-    justify-content: space-evenly;
+@import "../../../styles/theme.scss";
+
+.corporationForm {
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 32px;
+
+  &__buttonGroup {
+    &-cancelBtn {
+      width: 100%;
+      border: 2px solid #1078E1 !important;
+    }
+
+    &-okBtn {
+      width: 100%;
+    }
   }
 }

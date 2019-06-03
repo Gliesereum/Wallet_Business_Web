@@ -3,7 +3,9 @@
 .sidebar {
   flex: 1;
   background-image: linear-gradient(50.21deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
   padding: 0 8px;
+  z-index: 2;
 
   &__logo {
     height: 56px;

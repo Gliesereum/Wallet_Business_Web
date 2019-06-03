@@ -12,14 +12,6 @@ import './index.scss';
 
 const b = bem('header');
 
-// { /* <div className="karma-app-header-wrapper"> */ }
-// { /*  <div /> */ }
-// { /*  <div className="karma-app-header-title">{props.title || 'Title'}</div> */ }
-// { /*  <div className="karma-app-header-brand"> */ }
-// { /*    <img className="karma-app-header-logo" src={brandLogo} alt="brand-logo" /> */ }
-// { /*    <div className="karma-app-header-brand-name">Karma Business</div> */ }
-// { /*  </div> */ }
-// { /* </div> */ }
 const ProfileMenu = () => (
   <Menu>
     <Menu.Item>Item 1</Menu.Item>
