@@ -39,9 +39,9 @@ class Timer extends Component {
     const { mask } = this.state;
 
     return (
-      <div className="karma-app-timer">
+      <span>
         {moment(date).format(mask)}
-      </div>
+      </span>
     );
   }
 }

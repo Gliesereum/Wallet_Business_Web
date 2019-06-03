@@ -4,13 +4,10 @@ import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import bem from 'bem-join';
 
-import {
-  Row, Col, notification, Icon,
-} from 'antd';
+import { notification } from 'antd';
 
 import { SignInForm } from '../../components/Forms';
-import { Map } from '../../components';
-// import { Timer } from '../../components';
+import { Map, Timer } from '../../components';
 
 import meIcon from '../../assets/marker.svg';
 import { asyncRequest } from '../../utils';
@@ -27,6 +24,7 @@ class SignIn extends Component {
     phone: '',
     gotCode: false,
     currentLocation: defaultGeoPosition,
+    validateStatus: '',
   };
 
   componentDidMount() {
@@ -47,14 +45,16 @@ class SignIn extends Component {
     const url = `phone/code?phone=${value.slice(1, 13)}`;
 
     try {
+      this.setState({ validateStatus: 'validating' });
       await asyncRequest({ url });
-      this.setState({ gotCode: true, phone: value });
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
         description: 'Возникла ошибка',
       });
+    } finally {
+      this.setState({ gotCode: true, phone: value, validateStatus: '' });
     }
   };
 
@@ -80,16 +80,14 @@ class SignIn extends Component {
     }
   };
 
-  changeContactHandler = () => {
-    this.setState({ gotCode: false });
-  };
-
   render() {
-    const { gotCode, phone, currentLocation } = this.state;
+    const {
+      gotCode, phone, currentLocation, validateStatus,
+    } = this.state;
 
     return (
-      <Row className={b()}>
-        <Col xl={9} lg={12} md={12} sm={24} xs={24} className={b('left')}>
+      <div className={b()}>
+        <div className={b('left')}>
           <div className={b('left-logoBlock')}>
             <div className={b('left-logoBlock-img')} />
           </div>
@@ -99,7 +97,7 @@ class SignIn extends Component {
                 Панель управления вашим бизнесом
               </h1>
               <p className={b('left-contentBlock-subtitle')}>
-                маркетинг и контроль в один клик
+                Маркетинг и контроль в один клик
               </p>
             </div>
 
@@ -110,6 +108,7 @@ class SignIn extends Component {
                 labelText="Одноразовый пароль из смс"
                 placeholder=""
                 sendCodeHandler={this.sendCodeHandler}
+                validateStatus={validateStatus}
               />
             ) : (
               <SignInForm
@@ -118,18 +117,20 @@ class SignIn extends Component {
                 labelText="Введите номер телефона"
                 placeholder="+380507595188"
                 getCodeHandler={this.getCodeHandler}
+                validateStatus={validateStatus}
               />
             )}
           </div>
           {gotCode && (
             <div className={b('left-infoBar')}>
-              <Icon type="info-circle" />
-              <span>{`СМС с паролем отправлено на номер ${phone}`}</span>
+              <Timer time={180000} />
+              <span>код был отправлен на номер</span>
+              <span>{phone || 380507595188}</span>
             </div>
           )}
-        </Col>
+        </div>
 
-        <Col xl={15} lg={12} md={12} sm={0} xs={0} className={b('right')}>
+        <div className={b('right')}>
           <div className={b('right-supportBlock')}>1</div>
           <div className={b('right-mapBlock')}>
             <Map
@@ -145,8 +146,8 @@ class SignIn extends Component {
           <div className={b('right-footerBlock')}>
             <span>All rights reserved. Copyright &copy; 2019 Coupler Business</span>
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     );
   }
 }

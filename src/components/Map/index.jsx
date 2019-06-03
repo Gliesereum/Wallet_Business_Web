@@ -27,7 +27,7 @@ class Map extends React.Component {
     return (
       <GoogleMap
         options={mapConfig}
-        defaultZoom={11}
+        defaultZoom={15}
         center={{ lat: currentLocation.lat, lng: currentLocation.lng }}
       >
         <Marker
