@@ -1,25 +1,25 @@
-import AddBusinessPage from "./AddBusinessPage";
-import BusinessPage from "./BusinessPage";
-import BusinessList from "./BusinessList";
-import Container from "./Container";
-import ProfilePage from "./ProfilePage";
-import ScreenLoading from "./ScreenLoading";
-import SignIn from "./SignIn";
-import SingleBusinessPage from "./SingleBusinessPage";
-import ProfileCorporations from "./ProfileCorporations";
-import ProfileEmailScreen from "./ProfileEmailScreen";
-import ProfileMainInfo from "./ProfileMainInfo";
+import BusinessPage from './BusinessPage';
+import BusinessList from './BusinessPage/children/BusinessList';
+import Container from './Container';
+import ProfilePage from './ProfilePage';
+import SignIn from './SignIn';
+import SingleBusinessPage from './BusinessPage/children/SingleBusinessPage';
+import CorporationsContainer from './CorporationsContainer';
+import Corporation from './Corporation';
+import ProfileEmailScreen from './ProfileEmailScreen';
+import ProfileMainInfo from './ProfileMainInfo';
+import FAQ from './FAQ';
 
 export {
-  AddBusinessPage,
   BusinessPage,
   BusinessList,
   Container,
   ProfilePage,
-  ScreenLoading,
   SignIn,
   SingleBusinessPage,
-  ProfileCorporations,
+  CorporationsContainer,
+  Corporation,
   ProfileEmailScreen,
   ProfileMainInfo,
-}
+  FAQ,
+};

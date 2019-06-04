@@ -1,80 +1,43 @@
 @import '../../styles/theme.scss';
 
-.karma-app-sidebar {
-  position: fixed;
-  background-color: $white;
-  z-index: 9999;
+.sidebar {
+  flex: 1;
+  background-image: linear-gradient(50.21deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
+  padding: 0 8px;
+  z-index: 2;
 
-  &__toggler {
-    cursor: pointer;
+  &__logo {
+    height: 56px;
+    padding: 12px 16px;
+  }
+
+  &__menu {
     display: flex;
-    align-items: center;
-    height: 100vh;
-    box-shadow: 0 0 5px 2px;
-    border-radius: 0 10px 10px 0;
-  }
+    flex-direction: column;
+    padding: 32px 0 17px;
 
-  &__user-box {
-    position: relative;
-
-    img {
-      width: 100%;
-      height: 170px;
-      object-fit: cover
-    }
-  }
-
-  &__item {
-    padding: 20px 30px;
-    font-size: 16px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $hover-highlight-color;
-      color: $black;
-    }
-  }
-
-  &__item.active-menu-item {
-    background-color: $highlight-color;
-    color: $white;
-  }
-
-  &__cover-img {
-    position: relative;
-
-    img {
-      width: 165px;
-      object-fit: cover
-    }
-  }
-  &__avatar-user {
-    position: absolute;
-    top: 35px;
-    left: 20px;
-    justify-content: center;
-
-    &-img {
+    &-item {
       display: flex;
-      justify-content: center;
       align-items: center;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background-color: $hover-highlight-color;
+      height: 56px;
+      padding: 0 20px;
       cursor: pointer;
+
+      & span {
+        font-family: $sans;
+        font-size: 16px;
+        color: $white;
+      }
 
       & img {
-        border-radius: 50%;
-        height: 45px;
+        padding-right: 28px;
+      }
+
+      &--active {
+        background-color: rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
       }
     }
-
-    & span {
-      cursor: pointer;
-      font-weight: bold;
-      font-style: italic;
-    }
   }
-
 }

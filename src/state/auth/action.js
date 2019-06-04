@@ -1,19 +1,20 @@
-import { cookieStorage } from "../../utils";
+import { cookieStorage } from '../../utils';
 
 const actions = {
-  CHECK_AUTHENTICATE: "CHECK_AUTHENTICATE",
-  SIGNOUT_USER: "SIGNOUT_USER",
+  CHECK_AUTHENTICATE: 'CHECK_AUTHENTICATE',
+  SIGNOUT_USER: 'SIGNOUT_USER',
 
-  UPDATE_USER_DATA: "UPDATE_USER_DATA",
-  ADD_EMAIL: "ADD_EMAIL",
-  VERIFY_EMAIL: "VERIFY_EMAIL",
+  UPDATE_USER_DATA: 'UPDATE_USER_DATA',
+  ADD_EMAIL: 'ADD_EMAIL',
+  VERIFY_EMAIL: 'VERIFY_EMAIL',
 
   $checkAuthenticate: (tokenInfo) => {
-    console.log(tokenInfo);
     if (tokenInfo) {
-      const { accessExpirationDate, accessToken, refreshToken, refreshExpirationDate } = tokenInfo;
-      cookieStorage.set('access_token', accessToken, { expires: new Date(accessExpirationDate), path: '' });
-      cookieStorage.set('refresh_token', refreshToken, { expires: new Date(refreshExpirationDate), path: '' });
+      const {
+        accessExpirationDate, accessToken, refreshToken, refreshExpirationDate,
+      } = tokenInfo;
+      cookieStorage.set('access_token', accessToken, { expires: new Date(accessExpirationDate), path: '/' });
+      cookieStorage.set('refresh_token', refreshToken, { expires: new Date(refreshExpirationDate), path: '/' });
     }
 
     return ({
@@ -36,12 +37,12 @@ const actions = {
     payload: email,
   }),
 
-  $signOut: () => async dispatch => {
-    cookieStorage.remove('access_token', { path: '' });
-    cookieStorage.remove('refresh_token', { path: '' });
+  $signOut: () => async (dispatch) => {
+    cookieStorage.remove('access_token');
+    cookieStorage.remove('refresh_token');
 
     await dispatch({ type: actions.SIGNOUT_USER });
-  }
+  },
 };
 
 export default actions;

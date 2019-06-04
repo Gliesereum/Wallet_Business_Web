@@ -1,0 +1,14 @@
+.coupler-business-schedule-list {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  .coupler-business-schedule-item-day {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .schedule-submit-button {
+    margin-top: 1em;
+  }
+
+}

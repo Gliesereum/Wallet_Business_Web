@@ -1,0 +1,31 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import './index.scss';
+
+const Footer = () => (
+  <div className="karma-app-footer">
+    <div className="karma-app-footer-wrapper">
+      <div className="karma-app-footer-wrapper-descr">
+        Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.
+        Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.
+      </div>
+      <div className="karma-app-footer-wrapper-links">
+        <Link to="/profile/mainInfo">Профиль </Link>
+        <Link to="/businessList">Мои бизнесы</Link>
+      </div>
+      <div className="karma-app-footer-wrapper-links">
+        <Link to="/">FAQ</Link>
+        <Link to="/profile">Contact Us </Link>
+      </div>
+      <div className="karma-app-footer-wrapper-brand">
+        <div className="karma-app-footer-wrapper-brand-name">Karma Business</div>
+      </div>
+    </div>
+    <div className="karma-app-footer-rightsBlock">
+      <p>©Copyright. All rights reserved</p>
+    </div>
+  </div>
+);
+
+export default Footer;

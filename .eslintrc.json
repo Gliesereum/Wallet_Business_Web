@@ -1,0 +1,59 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "react-app",
+        //"airbnb",
+        "plugin:flowtype/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "flowtype"
+    ],
+    "rules": {
+        "quotes": ["warn", "single"],
+        "comma-dangle": ["error", "always-multiline"],
+        "no-return-await": "off",
+        "max-len": "off",
+        "consistent-return": "off",
+        "camelcase": "off",
+        "no-underscore-dangle": "off",
+        "no-unused-expressions": "off",
+        "no-restricted-syntax": "off",
+        "no-return-assign": "off",
+        "no-param-reassign": "off",
+
+        "react/prop-types": 0,
+        "react/destructuring-assignment": 0,
+
+        "jsx-a11y/interactive-supports-focus": 0,
+        "jsx-a11y/no-static-element-interactions": 0,
+        "jsx-a11y/click-events-have-key-events": 0,
+
+        "import/prefer-default-export": 0,
+
+        "flowtype/require-return-type": [
+            2,
+            "always"
+        ],
+        "flowtype/require-parameter-type": 2
+    },
+    "settings": {
+        "flowtype": {
+            "onlyFilesWithFlowAnnotation": true
+        }
+    }
+}
