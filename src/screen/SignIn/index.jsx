@@ -113,7 +113,7 @@ class SignIn extends Component {
             ) : (
               <SignInForm
                 firstStep
-                buttonText="Получить одноразовый пароль"
+                buttonText="Скоро откроемся"
                 labelText="Введите номер телефона"
                 placeholder="+380507595188"
                 getCodeHandler={this.getCodeHandler}
