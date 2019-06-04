@@ -67,7 +67,8 @@ class SignInForm extends Component {
               validateTrigger: 'onBlur',
             })(
               <Input
-                autoFocus
+                autoFocus={false}
+                disabled={true}
                 size="large"
                 placeholder={placeholder}
                 className={b('number', { phoneInput: true })}
@@ -79,6 +80,7 @@ class SignInForm extends Component {
               getValueFromEvent: this.checkPasswordHandler,
             })(
               <Input.Password
+                disabled={false}
                 autoFocus
                 size="large"
                 placeholder={placeholder}
@@ -91,6 +93,7 @@ class SignInForm extends Component {
           className={b('number', { buttonBox: true })}
         >
           <Button
+            disabled={true}
             onClick={this.onSubmit}
             size="large"
             className={b('number', { button: true })}

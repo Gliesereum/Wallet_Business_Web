@@ -5,7 +5,7 @@
     },
     "extends": [
         "react-app",
-        "airbnb",
+        //"airbnb",
         "plugin:flowtype/recommended"
     ],
     "globals": {
