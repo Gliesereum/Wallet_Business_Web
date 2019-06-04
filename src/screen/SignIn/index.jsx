@@ -113,7 +113,7 @@ class SignIn extends Component {
             ) : (
               <SignInForm
                 firstStep
-                buttonText="Скоро откроемся"
+                buttonText="Сервис в разработке"
                 labelText="Введите номер телефона"
                 placeholder="+380507595188"
                 getCodeHandler={this.getCodeHandler}
