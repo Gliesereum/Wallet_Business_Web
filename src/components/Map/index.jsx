@@ -34,7 +34,7 @@ class Map extends React.Component {
           draggable={draggable}
           onDragEnd={onSelect}
           position={{ lat: currentLocation.lat, lng: currentLocation.lng }}
-          icon={icon}
+          icon={undefined}
         />
         {nearbyBusinesses.length && nearbyBusinesses.map(business => (
           <Marker
