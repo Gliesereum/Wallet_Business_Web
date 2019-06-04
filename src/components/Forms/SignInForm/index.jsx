@@ -42,7 +42,7 @@ class SignInForm extends Component {
 
   render() {
     const {
-      form, labelText, buttonText, placeholder, firstStep,
+      form, labelText, buttonText, placeholder, firstStep, validateStatus,
     } = this.props;
 
     return (
@@ -54,42 +54,38 @@ class SignInForm extends Component {
           colon={false}
           label={labelText}
           className={b('number', { labelBox: true })}
+          validateStatus={validateStatus}
+          hasFeedback
         >
-          {firstStep ? (
-            <>
-              {form.getFieldDecorator('phoneInput', {
-                initialValue: '+380',
-                rules: [
-                  { required: true, message: 'Please enter your phone number!' },
-                  { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
-                ],
-                validateTrigger: 'onBlur',
-              })(
-                <Input
-                  autoFocus
-                  size="large"
-                  placeholder={placeholder}
-                  className={b('number', { phoneInput: true })}
-                  onChange={this.checkPasswordHandler}
-                />
-              )}
-            </>
-          ) : (
-            <>
-              {form.getFieldDecorator('codeInput', {
-                validateTrigger: 'onBlur',
-                getValueFromEvent: this.checkPasswordHandler,
-              })(
-                <Input.Password
-                  autoFocus
-                  size="large"
-                  placeholder={placeholder}
-                  className={b('number', { codeInput: true })}
-                  maxLength={6}
-                />
-              )}
-            </>
-          )}
+          {firstStep
+            ? form.getFieldDecorator('phoneInput', {
+              initialValue: '+380',
+              rules: [
+                { required: true, message: 'Please enter your phone number!' },
+                { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
+              ],
+              validateTrigger: 'onBlur',
+            })(
+              <Input
+                autoFocus
+                size="large"
+                placeholder={placeholder}
+                className={b('number', { phoneInput: true })}
+                onChange={this.checkPasswordHandler}
+              />
+            )
+            : form.getFieldDecorator('codeInput', {
+              validateTrigger: 'onBlur',
+              getValueFromEvent: this.checkPasswordHandler,
+            })(
+              <Input.Password
+                autoFocus
+                size="large"
+                placeholder={placeholder}
+                className={b('number', { codeInput: true })}
+                maxLength={6}
+              />
+            )}
         </Form.Item>
         <Form.Item
           className={b('number', { buttonBox: true })}

@@ -7,12 +7,15 @@
     height: 56px;
     background-color: $white;
     color: $coupler-blue;
-    font-family: $sans;
     line-height: 16px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     border: none;
+
+    & > span {
+      font-family: $sans;
+    }
 
     // primary
     &-primary {
@@ -46,6 +49,8 @@
   }
 
   &-input {
+    font-family: $sans;
+
     &:read-only {
       background: #F7F7F7;
       border: 1px solid #CCC;
