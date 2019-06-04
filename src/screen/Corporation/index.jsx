@@ -99,16 +99,18 @@ class Corporation extends PureComponent {
 
         <div className={b('otherCorpBox')}>
           <h1 className={b('otherCorpBox-header')}>Мои другие компании</h1>
-          { corporations.length && corporations.map(({ name, logoUrl, id }) => (
-            <Link
-              to={`/corporations/single/${id}`}
-              key={id}
-              className={b('otherCorpBox-list-item')}
-            >
-              <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={logoUrl || DefaultBlueCorporationLogo} />
-              <span>{name}</span>
-            </Link>
-          )) }
+          {
+            corporations.length && corporations.map(({ name, logoUrl, id }) => (
+              <Link
+                to={`/corporations/single/${id}`}
+                key={id}
+                className={b('otherCorpBox-list-item')}
+              >
+                <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={logoUrl || DefaultBlueCorporationLogo} />
+                <span>{name}</span>
+              </Link>
+            ))
+          }
         </div>
       </div>
     );

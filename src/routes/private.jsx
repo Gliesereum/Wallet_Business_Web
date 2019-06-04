@@ -16,6 +16,7 @@ import {
   CorporationsContainer,
   Corporation,
   ProfileEmailScreen,
+  FAQ,
 } from '../screen';
 
 const privateRouter = ({ user }) => (
@@ -29,7 +30,7 @@ const privateRouter = ({ user }) => (
         <Route path="/corporations/single/:id" exact component={Corporation} />
         <Route path="/corporations/add" exact component={Corporation} />
         <Route path="/settings" exact component={CorporationsContainer} />
-        <Route path="/help" exact component={CorporationsContainer} />
+        <Route path="/help" exact component={FAQ} />
       </Switch>
 
       <Route

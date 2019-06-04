@@ -8,6 +8,7 @@ import CorporationsContainer from './CorporationsContainer';
 import Corporation from './Corporation';
 import ProfileEmailScreen from './ProfileEmailScreen';
 import ProfileMainInfo from './ProfileMainInfo';
+import FAQ from './FAQ';
 
 export {
   BusinessPage,
@@ -20,4 +21,5 @@ export {
   Corporation,
   ProfileEmailScreen,
   ProfileMainInfo,
+  FAQ,
 };

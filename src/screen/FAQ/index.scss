@@ -1,10 +1,11 @@
-@import "../../styles/theme.scss";
+@import '../../styles/theme';
 
-.corporation {
+.help {
   display: flex;
   height: calc(100% - 56px);
 
-  &__formBox {
+  &__mainInfo {
+    overflow-y: scroll;
     flex: 1;
     padding: 0 16px;
 
@@ -20,7 +21,8 @@
     }
   }
 
-  &__otherCorpBox {
+  &__summary {
+    overflow-y: scroll;
     width: 320px;
     box-shadow: $shadow-left;
     background: linear-gradient(0deg, #FCFCFC, #FCFCFC), $white;
