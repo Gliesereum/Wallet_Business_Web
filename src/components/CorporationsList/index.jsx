@@ -42,7 +42,7 @@ class CorporationsList extends PureComponent {
                 <p className={b('panel-name')}>{name}</p>
                 <p className={b('panel-descr')}>{description}</p>
                 <Button className={b('panel-editBtn')}>
-                  <Link to={`/corporations/single/${id}`}>Редактировать информацию</Link>
+                  <Link to={`/corporations/${id}`}>Редактировать информацию</Link>
                 </Button>
               </Panel>
             ))

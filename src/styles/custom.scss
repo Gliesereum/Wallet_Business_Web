@@ -26,6 +26,8 @@
 
   //---- Forms ----
   &-form-item {
+    margin-bottom: 40px;
+
     &-label {
       line-height: 16px;
       padding-bottom: 8px;
@@ -48,8 +50,13 @@
     }
   }
 
+  //---- Inputs ----
   &-input {
     font-family: $sans;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    height: 48px;
+    padding: 16px;
 
     &:read-only {
       background: #F7F7F7;
@@ -57,8 +64,88 @@
       color: rgba(72, 84, 101, 0.64);
     }
 
-    &:focus {
+    &:focus,
+    &:hover {
       box-shadow: none;
+      border-color: #d9d9d9;
     }
+  }
+
+  &-select {
+    &-selection {
+      &--single {
+        height: 48px;
+      }
+
+      &__rendered {
+        position: static;
+        margin: 0;
+      }
+
+      &__placeholder {
+        font-size: 14px;
+        font-family: $sans;
+        letter-spacing: 0.02em;
+        color: rgba(72, 84, 101, 0.32);
+        padding-left: 16px;
+        margin-right: 0;
+        margin-left: 0;
+      }
+
+      &-selected {
+        &-value {
+          padding: 0 16px;
+          line-height: 48px;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        box-shadow: none;
+        border-color: #d9d9d9;
+      }
+    }
+
+  }
+
+  //---- Tabs ----
+  &-tabs {
+    &-bar {
+      margin: 0 0 32px 0;
+    }
+    &-nav {
+      width: 100%;
+
+      div {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    &-tab {
+      padding: 16px;
+      margin: 0;
+      width: 100%;
+
+      &-active {
+        color: $coupler-blue;
+        border-bottom: 3px solid $coupler-blue;
+      }
+    }
+
+    &-ink-bar {
+      opacity: 0;
+    }
+  }
+}
+
+#root .has-error {
+  & .ant-select.ant-select-auto-complete .ant-input:focus,
+  & .ant-input:not([disabled]):hover {
+    border-color: red;
+  }
+
+  & .ant-input:not([disabled]):hover {
+
   }
 }

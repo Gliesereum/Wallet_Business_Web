@@ -102,7 +102,7 @@ class Corporation extends PureComponent {
           {
             corporations.length && corporations.map(({ name, logoUrl, id }) => (
               <Link
-                to={`/corporations/single/${id}`}
+                to={`/corporations/${id}`}
                 key={id}
                 className={b('otherCorpBox-list-item')}
               >

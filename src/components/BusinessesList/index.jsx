@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import bem from 'bem-join';
-import compose from 'recompose/compose';
 
 import { List, Card } from 'antd';
 
-import { fetchDecorator } from '../../utils';
-import { fetchBusinessesByCorp } from '../../fetches';
 import DefaultBusinessLogo from '../../assets/defaultBusinessLogo.svg';
 import AddIcon from '../../assets/AddIcon.svg';
 
@@ -14,21 +12,13 @@ import './index.scss';
 const b = bem('businessesList');
 
 class BusinessesList extends PureComponent {
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.chosenCorp
-      && ((this.props.chosenCorp && (nextProps.chosenCorp.id !== this.props.chosenCorp.id)) || !this.props.chosenCorp)
-    ) {
-      this.props.fetch();
-    }
-  }
-
   render() {
     const { chosenCorp, business } = this.props;
     const data = business.map(item => ({
       name: item.name,
       category: item.businessCategory.name,
       logoUrl: item.logoUrl,
+      id: item.id,
     }));
 
     data.push({ addCard: true });
@@ -45,25 +35,29 @@ class BusinessesList extends PureComponent {
           }}
           dataSource={data}
           renderItem={({
-            name, category, logoUrl, addCard,
+            name, category, logoUrl, id, addCard,
           }) => (
             <List.Item className={b('item')}>
               {
                 addCard ? (
                   <Card className={b('card', { addCard: true })}>
-                    <img src={AddIcon} alt="addBusiness" />
-                    <div className={b('card--addCard-addText')}>Добавить бизнес</div>
+                    <Link to="/business/add">
+                      <img src={AddIcon} alt="addBusiness" />
+                      <div className={b('card--addCard-addText')}>Добавить бизнес</div>
+                    </Link>
                   </Card>
                 ) : (
                   <Card className={b('card')}>
-                    <div
-                      style={{ backgroundImage: `url(${logoUrl || DefaultBusinessLogo})` }}
-                      className={b('card-img')}
-                    />
-                    <div className={b('card-text')}>
-                      <p>{name}</p>
-                      <p>{category}</p>
-                    </div>
+                    <Link to={`/business/${id}`}>
+                      <div
+                        style={{ backgroundImage: `url(${logoUrl || DefaultBusinessLogo})` }}
+                        className={b('card-img')}
+                      />
+                      <div className={b('card-text')}>
+                        <p>{name}</p>
+                        <p>{category}</p>
+                      </div>
+                    </Link>
                   </Card>
                 )
               }
@@ -75,6 +69,4 @@ class BusinessesList extends PureComponent {
   }
 }
 
-export default compose(
-  fetchDecorator({ actions: [fetchBusinessesByCorp], config: { loader: true } }),
-)(BusinessesList);
+export default BusinessesList;

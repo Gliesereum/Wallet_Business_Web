@@ -1,0 +1,9 @@
+.businessMainForm {
+  &__controlBtn {
+    width: 100%;
+
+    &:not(.ant-btn-primary) {
+      background-color: #F5F5F5 !important;
+    }
+  }
+}
