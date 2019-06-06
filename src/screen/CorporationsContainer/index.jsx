@@ -52,6 +52,8 @@ class CorporationsContainer extends Component {
   };
 
   chooseCorporation = (corpId) => {
+    if (!corpId) return;
+
     const [chosenCorp] = this.props.corporations.filter(item => item.id === corpId);
     this.setState({ chosenCorp });
   };

@@ -1,7 +1,7 @@
 import PackageForm from './PackageForm';
 import BusinessMainInfo from './BusinessMainInfo';
 import ServiceAdditional from './ServiceAdditional';
-import ServiceMainInfoForm from './ServiceMainInfoForm';
+import ServiceMainInfoForm from './ServiceMainInfoFrom';
 import SignInForm from './SignInForm';
 import CorporationForm from './CorporationForm';
 

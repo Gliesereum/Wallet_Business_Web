@@ -5,20 +5,22 @@ import compose from 'recompose/compose';
 import bem from 'bem-join';
 import qs from 'qs';
 
-import {
-  Tabs,
-} from 'antd';
+import { Tabs } from 'antd';
 
 import { BusinessMainInfo } from '../../components/Forms';
 import {
   BusinessPackages,
   BusinessSchedule,
-  // BusinessServicesList,
+  BusinessServices,
 } from './children/SingleBusinessPage/tabs';
 
 import { actions } from '../../state';
-// import { fetchDecorator } from '../../utils';
-// import { fetchGetPriceServices, fetchGetBusinessPackages, fetchGetBusinessOrders } from '../../fetches';
+import { fetchDecorator } from '../../utils';
+import {
+  fetchGetPriceServices,
+  // fetchGetBusinessPackages,
+  // fetchGetBusinessOrders,
+} from '../../fetches';
 
 import './index.scss';
 
@@ -27,6 +29,11 @@ const b = bem('business');
 export const BusinessPageContext = React.createContext();
 
 class BusinessPage extends Component {
+  state = {
+    currentBusiness: null,
+    disabledTab: Boolean(this.props.location.pathname.match('/add')),
+  };
+
   changeActiveTab = (activeTab) => {
     const { history, location } = this.props;
 
@@ -36,6 +43,12 @@ class BusinessPage extends Component {
     });
   };
 
+  handleAddBusiness = (business) => {
+    this.setState({ currentBusiness: business, disabledTab: false });
+
+    this.props.addNewBusiness(business);
+  };
+
   render() {
     const {
       location,
@@ -43,11 +56,13 @@ class BusinessPage extends Component {
       businessCategories,
       businessTypes,
       corporations,
-      addNewBusiness,
       updateBusiness,
       business,
+      servicePrices,
     } = this.props;
+    const { currentBusiness, disabledTab } = this.state;
     const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const isAddMode = Boolean(location.pathname.match('/add'));
     const [singleBusiness] = business.filter(item => item.id === match.params.id);
 
     const businessTabs = [
@@ -59,18 +74,24 @@ class BusinessPage extends Component {
           businessCategories,
           businessTypes,
           corporations,
-          addNewBusiness,
-          updateBusiness,
-          isAddMode: Boolean(location.pathname.match('/add')),
+          isAddMode,
           singleBusiness,
+          updateBusiness,
+          addNewBusiness: this.handleAddBusiness,
+          validFieldHandler: this.validFieldHandler,
+          changeActiveTab: this.changeActiveTab,
+          chosenCorp: location.state.chosenCorp,
         },
       },
       {
         tabName: 'Услуги',
         keyName: 'services',
-        ContentComponent: BusinessMainInfo,
+        disabled: disabledTab,
+        ContentComponent: BusinessServices,
         props: {
-          // servicePrices,
+          servicePrices,
+          isAddMode,
+          singleBusiness: isAddMode ? currentBusiness : singleBusiness,
         },
       },
       {
@@ -98,7 +119,9 @@ class BusinessPage extends Component {
     return (
       <div className={b()}>
         <div className={b('header')}>
-          <h1 className={b('header-title')}>Добавить бизнес</h1>
+          <h1 className={b('header-title')}>
+            {isAddMode ? 'Добавить бизнес' : 'Изменить бизнес'}
+          </h1>
         </div>
         <Tabs
           className={b('tabsContainer')}
@@ -110,12 +133,14 @@ class BusinessPage extends Component {
             businessTabs.map(({
               tabName,
               keyName,
+              disabled = false,
               ContentComponent,
               props,
             }) => (
               <Tabs.TabPane
                 tab={tabName}
                 key={keyName}
+                disabled={disabled}
               >
                 <ContentComponent
                   {...props}
@@ -134,68 +159,19 @@ const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
   businessCategories: state.business.businessCategories,
   businessTypes: state.business.businessTypes,
+  servicePrices: state.business.servicePrices,
 });
 
 const mapDispatchToProps = dispatch => ({
   addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
   updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
-  // getPriceService: data => dispatch(actions.business.$getPriceService(data)),
+  getPriceService: data => dispatch(actions.business.$getPriceService(data)),
   // getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
   // getBusinessOrders: (id, data) => dispatch(actions.business.$getBusinessOrders(id, data)),
 });
-//
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  fetchDecorator({ actions: [fetchGetPriceServices], config: { loader: true } }),
   withRouter
 )(BusinessPage);
-
-
-// export default compose(
-//   connect(mapStateToProps, mapDispatchToProps),
-//   withRouter,
-//   fetchDecorator({ actions: [fetchGetPriceServices, fetchGetBusinessPackages, fetchGetBusinessOrders], config: { loader: true } }),
-// )(BusinessPage);
-// <div className="karma-app-business">
-//   <div className="karma-app-business-header">
-//     {!isAddPage && (
-//       <div className="karma-app-business-header-addBtn">
-//         <Button
-//           type="primary"
-//           onClick={this.toggleAddModalVisible}
-//         >
-//           <Icon type="plus" />
-//           <span className="karma-app-business-header-addBtn-text">Добавить бизнесс</span>
-//         </Button>
-//       </div>
-//     )}
-//   </div>
-//   <div className="karma-app-business-contentBox">
-//     <BusinessPageContext.Provider
-//       value={{
-//         business,
-//         corporations,
-//         businessTypes,
-//         businessCategories,
-//         dataLoading,
-//       }}
-//     >
-//       {children}
-//     </BusinessPageContext.Provider>
-//   </div>
-//   {addModalVisible && (
-//     <Modal
-//       visible={addModalVisible}
-//       footer={null}
-//       closable={false}
-//     >
-//       <BusinessMainInfo
-//         corporations={corporations}
-//         businessCategories={businessCategories}
-//         businessTypes={businessTypes}
-//         addNewBusiness={this.addNewBusiness}
-//         dataLoading={dataLoading}
-//       />
-//     </Modal>
-// {/*  )} */}
-// {/*</div>*/}

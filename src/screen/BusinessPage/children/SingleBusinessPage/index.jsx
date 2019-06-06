@@ -7,7 +7,7 @@ import { Tabs } from 'antd/lib/index';
 import qs from 'qs';
 
 import {
-  BusinessMainInfo, BusinessServicesList, BusinessPackages, BusinessSchedule, BusinessOrders,
+  BusinessMainInfo, BusinessServices, BusinessPackages, BusinessSchedule, BusinessOrders,
 } from './tabs';
 import { BusinessPageContext } from '../../index';
 import { actions } from '../../../../state';
@@ -63,7 +63,7 @@ class SingleBusinessPage extends Component {
       {
         tabName: 'Услуги',
         keyName: 'services',
-        ContentComponent: BusinessServicesList,
+        ContentComponent: BusinessServices,
         props: {
           servicePrices,
         },

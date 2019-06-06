@@ -4,7 +4,7 @@ import {
   Form, Collapse, Checkbox, Button, Row, Col, notification,
 } from 'antd';
 
-import { asyncRequest, withToken } from '../../utils';
+import { asyncRequest, withToken } from '../../../utils';
 
 const FormItem = Form.Item;
 const { Panel } = Collapse;
@@ -12,13 +12,8 @@ const CheckboxGroup = Checkbox.Group;
 
 const ServiceAdditional = (props) => {
   const {
-    form, filters, servicePrice, onCancel, modals, updateServicePrice,
+    form, filters, servicePrice, updateServicePrice,
   } = props;
-
-  function handleCancel() {
-    form.resetFields();
-    onCancel(modals.ADDITIONAL, false, null)();
-  }
 
   function handleSaveChange(e) {
     e.preventDefault();
@@ -44,8 +39,6 @@ const ServiceAdditional = (props) => {
             message: err.message || 'Ошибка',
             description: 'Возникла ошибка',
           });
-        } finally {
-          handleCancel();
         }
       }
     });
@@ -74,13 +67,13 @@ const ServiceAdditional = (props) => {
             <Collapse>
               <Panel header={filter.title} key={filter.id}>
                 {form.getFieldDecorator(filter.value, {
-                  initialValue: getCheckedOpts(filter.attributes),
+                  initialValue: servicePrice ? getCheckedOpts(filter.attributes) : undefined,
                 })(
                   <CheckboxGroup>
                     <Row>
                       {
                         filter.attributes.map(attr => (
-                          <Col span={24} key={attr.id}>
+                          <Col span={filter.length === 1 ? 24 : 7} key={attr.id}>
                             <Checkbox value={attr.id}>{attr.title}</Checkbox>
                           </Col>
                         ))
@@ -95,7 +88,7 @@ const ServiceAdditional = (props) => {
       }
 
       <Button type="primary" htmlType="submit">Сохранить</Button>
-      <Button onClick={handleCancel}>Отмена</Button>
+      <Button>Отмена</Button>
     </Form>
   );
 };

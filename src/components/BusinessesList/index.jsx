@@ -20,7 +20,6 @@ class BusinessesList extends PureComponent {
       logoUrl: item.logoUrl,
       id: item.id,
     }));
-
     data.push({ addCard: true });
 
     return (
@@ -40,15 +39,23 @@ class BusinessesList extends PureComponent {
             <List.Item className={b('item')}>
               {
                 addCard ? (
-                  <Card className={b('card', { addCard: true })}>
-                    <Link to="/business/add">
+                  <Link to={{
+                    pathname: '/business/add',
+                    state: {
+                      chosenCorp,
+                    },
+                  }}
+                  >
+                    <Card className={b('card', { addCard: true })}>
                       <img src={AddIcon} alt="addBusiness" />
                       <div className={b('card--addCard-addText')}>Добавить бизнес</div>
-                    </Link>
-                  </Card>
+                    </Card>
+                  </Link>
                 ) : (
                   <Card className={b('card')}>
-                    <Link to={`/business/${id}`}>
+                    <Link
+                      to={`/business/${id}`}
+                    >
                       <div
                         style={{ backgroundImage: `url(${logoUrl || DefaultBusinessLogo})` }}
                         className={b('card-img')}

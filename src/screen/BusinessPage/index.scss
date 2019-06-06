@@ -1,6 +1,9 @@
 @import '../../styles/theme.scss';
 
 .business {
+  overflow-y: scroll;
+  height: calc(100% - 54px);
+
   &__header {
     display: flex;
     justify-content: center;
@@ -19,6 +22,6 @@
   }
 
   &__tabsContainer {
-    padding: 0 24px 0 16px;
+    padding: 0 24px 40px 16px;
   }
 }

@@ -1,0 +1,24 @@
+@import '../../../../../../styles/theme';
+
+.businessServices {
+  &__panelHeader {
+    &.ant-collapse-item {
+      &-active .ant-collapse-header {
+        border-bottom: 1px solid #d9d9d9;
+      }
+
+      & .ant-collapse-header {
+        font-family: $sans;
+        font-size: 16px;
+        letter-spacing: 0.02em;
+        color: $font-title-black;
+      }
+
+      & .ant-collapse-content {
+        &-active {
+          padding-top: 16px;
+        }
+      }
+    }
+  }
+}

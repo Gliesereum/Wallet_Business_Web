@@ -44,8 +44,8 @@ type State = {
   currentLocation: {},
 }
 
-const initialFieldValues = {
-  corporationId: undefined,
+const initialFieldValues = (chosenCorpId: {} = undefined): {} => ({
+  corporationId: chosenCorpId,
   name: '',
   description: '',
   phone: '',
@@ -53,10 +53,11 @@ const initialFieldValues = {
   businessCategory: undefined,
   currentAddressValue: '',
   currentLocationValue: defaultGeoPosition,
-};
+});
 
 class BusinessMainInfo extends Component<Prop, State> {
   state = {
+    disabled: false,
     addressNodes: [],
     currentAddress: null,
     currentLocation: defaultGeoPosition,
@@ -124,7 +125,12 @@ class BusinessMainInfo extends Component<Prop, State> {
     e.preventDefault();
 
     const {
-      form, updateBusiness, isAddMode, addNewBusiness, singleBusiness,
+      form,
+      updateBusiness,
+      isAddMode,
+      addNewBusiness,
+      singleBusiness,
+      changeActiveTab,
     } = this.props;
     const { currentLocation } = this.state;
     const businessHandler = isAddMode ? addNewBusiness : updateBusiness;
@@ -147,6 +153,7 @@ class BusinessMainInfo extends Component<Prop, State> {
             url: businessUrl, method, moduleUrl, body,
           });
           await businessHandler(newBusiness);
+          changeActiveTab('services');
         } catch (err) {
           notification.error({
             duration: 5,
@@ -166,8 +173,11 @@ class BusinessMainInfo extends Component<Prop, State> {
       form,
       corporations,
       isAddMode,
+      chosenCorp,
     } = this.props;
-    const { addressNodes, currentLocation, currentAddress } = this.state;
+    const {
+      addressNodes, currentLocation, currentAddress,
+    } = this.state;
 
     const formInitValues = singleBusiness ? {
       corporationId: corporations.filter((corp: {}): {} => corp.id === singleBusiness.corporationId)[0].id,
@@ -181,10 +191,13 @@ class BusinessMainInfo extends Component<Prop, State> {
         lat: singleBusiness.latitude,
         lng: singleBusiness.longitude,
       },
-    } : initialFieldValues;
+    } : initialFieldValues(chosenCorp.id);
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form
+        onSubmit={this.handleSubmit}
+        className={b()}
+      >
         <Row gutter={40}>
           <Col lg={12}>
             <FormItem
@@ -356,7 +369,7 @@ class BusinessMainInfo extends Component<Prop, State> {
               htmlType="submit"
               type="primary"
             >
-              Далее
+              {isAddMode ? 'Сохранить' : 'Далее'}
             </Button>
           </Col>
         </Row>

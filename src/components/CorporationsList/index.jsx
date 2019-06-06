@@ -12,7 +12,18 @@ const { Panel } = Collapse;
 const b = bem('corporationsList');
 
 class CorporationsList extends PureComponent {
-  chooseCorporationHandle = corpId => this.props.chooseCorporation(corpId);
+  state = {
+    activeKey: this.props.corporations[0].id,
+  };
+
+  chooseCorporationHandle = (corpId) => {
+    const { chooseCorporation } = this.props;
+
+    if (!corpId || this.state.activeKey === corpId) return;
+
+    this.setState({ activeKey: corpId });
+    chooseCorporation(corpId);
+  };
 
   render() {
     const { corporations } = this.props;
@@ -20,7 +31,7 @@ class CorporationsList extends PureComponent {
     return (
       <div className={b()}>
         <Collapse
-          defaultActiveKey={corporations[0].id}
+          activeKey={this.state.activeKey}
           accordion
           onChange={this.chooseCorporationHandle}
         >
