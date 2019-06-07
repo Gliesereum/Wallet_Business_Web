@@ -115,6 +115,8 @@ export const fetchGetBusinessOrders = async (props) => {
 };
 
 export const fetchGetServiceTypes = async (props) => {
+  if (!props.singleBusiness) return;
+
   const result = [];
 
   try {
@@ -138,6 +140,8 @@ export const fetchGetServiceTypes = async (props) => {
 };
 
 export const fetchGetFilters = async (props) => {
+  if (!props.singleBusiness) return;
+
   const result = [];
 
   try {

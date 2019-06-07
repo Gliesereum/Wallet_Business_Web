@@ -64,7 +64,7 @@ const ServiceMainInfoForm = (props) => {
               ],
             })(
               <Select placeholder="Выбрать">
-                {serviceTypes.length && serviceTypes.map(svType => (
+                {serviceTypes && serviceTypes.map(svType => (
                   <Select.Option
                     value={svType.id}
                     key={svType.businessCategoryId}

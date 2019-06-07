@@ -30,23 +30,36 @@ export const BusinessPageContext = React.createContext();
 
 class BusinessPage extends Component {
   state = {
-    currentBusiness: null,
-    disabledTab: Boolean(this.props.location.pathname.match('/add')),
+    disabledTab: Boolean(
+      this.props.location.pathname.match('/add')
+      && !(
+        this.props.location.search
+        && qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+          .newBusiness)
+    ),
   };
 
-  changeActiveTab = (activeTab) => {
+  changeActiveTab = (activeTab, id) => {
     const { history, location } = this.props;
+    const { newBusiness } = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
 
     history.replace({
       location: location.pathname,
-      search: qs.stringify({ activeTab }),
+      search: qs.stringify({ activeTab, newBusiness: newBusiness || id }),
     });
   };
 
-  handleAddBusiness = (business) => {
-    this.setState({ currentBusiness: business, disabledTab: false });
+  handleAddBusiness = async (business) => {
+    await this.props.addNewBusiness(business);
 
-    this.props.addNewBusiness(business);
+    this.setState({ disabledTab: false });
+    this.changeActiveTab('services', business.id);
+  };
+
+  handleUpdateBusiness = async (business) => {
+    await this.props.updateBusiness(business);
+
+    this.changeActiveTab('services', business.id);
   };
 
   render() {
@@ -56,14 +69,20 @@ class BusinessPage extends Component {
       businessCategories,
       businessTypes,
       corporations,
-      updateBusiness,
       business,
       servicePrices,
     } = this.props;
-    const { currentBusiness, disabledTab } = this.state;
+    const { disabledTab } = this.state;
     const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
     const isAddMode = Boolean(location.pathname.match('/add'));
-    const [singleBusiness] = business.filter(item => item.id === match.params.id);
+
+    const [singleBusiness] = business.filter((item) => {
+      if (match.params && match.params.id) {
+        return item.id === match.params.id;
+      }
+      const { newBusiness: newBusinessId } = qs.parse(location.search, { ignoreQueryPrefix: true });
+      return item.id === newBusinessId;
+    });
 
     const businessTabs = [
       {
@@ -76,11 +95,10 @@ class BusinessPage extends Component {
           corporations,
           isAddMode,
           singleBusiness,
-          updateBusiness,
+          updateBusiness: this.handleUpdateBusiness,
           addNewBusiness: this.handleAddBusiness,
           validFieldHandler: this.validFieldHandler,
-          changeActiveTab: this.changeActiveTab,
-          chosenCorp: location.state.chosenCorp,
+          chosenCorpId: location.state ? location.state.chosenCorp.id : undefined,
         },
       },
       {
@@ -91,7 +109,8 @@ class BusinessPage extends Component {
         props: {
           servicePrices,
           isAddMode,
-          singleBusiness: isAddMode ? currentBusiness : singleBusiness,
+          changeActiveTab: this.changeActiveTab,
+          singleBusiness,
         },
       },
       {

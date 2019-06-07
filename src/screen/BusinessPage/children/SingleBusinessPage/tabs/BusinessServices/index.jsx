@@ -3,15 +3,8 @@ import bem from 'bem-join';
 // import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 
-import {
-  Collapse,
-  Icon,
-  List,
-  Card,
-} from 'antd';
-import { ServiceMainInfoForm, ServiceAdditional } from '../../../../../../components/Forms';
+import { BusinessServiceInfo, BusinessServicesList } from '../../../../../../components';
 
-// import { ServiceClasses } from '../../../../../components';
 import {
   // asyncRequest,
   // withToken,
@@ -22,12 +15,9 @@ import { fetchGetServiceTypes, fetchGetFilters } from '../../../../../../fetches
 import './index.scss';
 
 const b = bem('businessServices');
-const { Panel } = Collapse;
-const { Item } = List;
 
 class BusinessServices extends Component {
   state = {
-    activeKey: 'mainInfo',
     chosenService: null,
   //   classes: [],
   };
@@ -76,9 +66,8 @@ class BusinessServices extends Component {
   //     });
   //   }
   // };
-  triggerPanel = activeKey => this.setState({ activeKey });
 
-  chosenService = service => () => this.setState({ chosenService: service });
+  changeActiveService = service => () => this.setState({ chosenService: service });
 
   render() {
     const {
@@ -87,62 +76,27 @@ class BusinessServices extends Component {
       filters,
       servicePrices,
       isAddMode,
+      changeActiveTab,
     } = this.props;
-    const { activeKey, chosenService } = this.state;
+    const { chosenService } = this.state;
     const services = servicePrices[singleBusiness.id];
 
     return (
       <div className={b()}>
         {
           isAddMode || chosenService ? (
-            <Collapse
-              activeKey={activeKey}
-              accordion
-              bordered={false}
-              expandIcon={({ isActive }) => <Icon type={isActive ? 'minus' : 'plus'} />}
-              expandIconPosition="right"
-              onChange={this.triggerPanel}
-            >
-              <Panel
-                className={b('panelHeader')}
-                header="Основная информация об услуге"
-                key="mainInfo"
-              >
-                <ServiceMainInfoForm
-                  serviceTypes={serviceTypes}
-                  servicePrice={chosenService}
-                />
-              </Panel>
-              <Panel
-                className={b('panelHeader')}
-                header="Дополнительная информация"
-                key="additionalInfo"
-              >
-                <ServiceAdditional
-                  filters={filters}
-                  servicePrice={chosenService}
-                />
-              </Panel>
-              <Panel
-                className={b('panelHeader')}
-                header="Класс обслуживания"
-                key="classes"
-              >
-                classes
-              </Panel>
-            </Collapse>
+            <BusinessServiceInfo
+              serviceTypes={serviceTypes}
+              filters={filters}
+              chosenService={chosenService}
+              changeActiveService={this.changeActiveService}
+              changeActiveTab={changeActiveTab}
+            />
           ) : (
-            <List
-              grid={{
-                gutter: 8,
-                lg: 4,
-              }}
-              dataSource={services}
-              renderItem={item => (
-                <Item onClick={this.chosenService(item)}>
-                  <Card>{item.name}</Card>
-                </Item>
-              )}
+            <BusinessServicesList
+              services={services}
+              changeActiveService={this.changeActiveService}
+              changeActiveTab={changeActiveTab}
             />
           )
         }
@@ -156,11 +110,6 @@ class BusinessServices extends Component {
 //   updateServicePrice: servicePrice => dispatch(actions.business.$updateServicePrice(servicePrice)),
 //   addServicePrice: servicePrice => dispatch(actions.business.$addServicePrice(servicePrice)),
 // });
-//
-// export default compose(
-//   connect(null, mapDispatchToProps),
-//   fetchDecorator({ actions: [fetchGetServiceTypes], config: { loader: true } }),
-// )(BusinessServicesList);
 
 export default compose(
   fetchDecorator({ actions: [fetchGetServiceTypes, fetchGetFilters], config: { loader: true } }),

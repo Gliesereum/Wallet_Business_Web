@@ -130,15 +130,14 @@ class BusinessMainInfo extends Component<Prop, State> {
       isAddMode,
       addNewBusiness,
       singleBusiness,
-      changeActiveTab,
     } = this.props;
     const { currentLocation } = this.state;
-    const businessHandler = isAddMode ? addNewBusiness : updateBusiness;
+    const businessHandler = isAddMode && !singleBusiness ? addNewBusiness : updateBusiness;
 
     form.validateFields(async (error: {}, values: {}) => {
       if (!error) {
         const businessUrl = 'business';
-        const method = isAddMode ? 'POST' : 'PUT';
+        const method = isAddMode && !singleBusiness ? 'POST' : 'PUT';
         const moduleUrl = 'karma';
         const body = {
           ...singleBusiness,
@@ -153,7 +152,6 @@ class BusinessMainInfo extends Component<Prop, State> {
             url: businessUrl, method, moduleUrl, body,
           });
           await businessHandler(newBusiness);
-          changeActiveTab('services');
         } catch (err) {
           notification.error({
             duration: 5,
@@ -173,7 +171,7 @@ class BusinessMainInfo extends Component<Prop, State> {
       form,
       corporations,
       isAddMode,
-      chosenCorp,
+      chosenCorpId,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
@@ -185,13 +183,13 @@ class BusinessMainInfo extends Component<Prop, State> {
       description: singleBusiness.description,
       phone: singleBusiness.phone,
       businessType: singleBusiness.businessCategory.businessType,
-      businessCategory: singleBusiness.businessCategory.description,
+      businessCategory: singleBusiness.businessCategory.id,
       currentAddressValue: singleBusiness.address,
       currentLocationValue: {
         lat: singleBusiness.latitude,
         lng: singleBusiness.longitude,
       },
-    } : initialFieldValues(chosenCorp.id);
+    } : initialFieldValues(chosenCorpId);
 
     return (
       <Form
@@ -355,17 +353,20 @@ class BusinessMainInfo extends Component<Prop, State> {
             />
           </Col>
         </Row>
-        <Row gutter={40}>
+        <Row
+          gutter={40}
+          className={b('controlBtns')}
+        >
           <Col lg={12}>
-            <Button className={b('controlBtn', { back: true })}>
+            <Button className={b('controlBtns-btn', { back: true })}>
               <Link to="/corporations">
-              Назад
+                Назад
               </Link>
             </Button>
           </Col>
           <Col lg={12}>
             <Button
-              className={b('controlBtn')}
+              className={b('controlBtns-btn')}
               htmlType="submit"
               type="primary"
             >

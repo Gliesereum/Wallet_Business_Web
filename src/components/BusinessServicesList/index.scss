@@ -1,0 +1,57 @@
+@import '../../styles/theme';
+
+.businessServicesList {
+  &__item {
+    & .ant-card-bordered {
+      height: 64px;
+
+      &:hover {
+        border: 2px solid $coupler-blue;
+        color: $coupler-blue;
+      }
+
+      & .ant-card-body  {
+        display: flex;
+        align-items: center;
+        font-family: $sans;
+        font-size: 14px;
+        line-height: 20px;
+        color: $font-title-black;
+        padding: 8px 15px;
+        height: 100%;
+      }
+    }
+
+    &--addCard {
+      & .ant-card-bordered {
+        border: 1px dashed #DCE2E9;
+
+        & .ant-card-body {
+          color: #C8CED3;
+
+          & img {
+            width: 32px;
+            height: 32px;
+            margin-right: 16px;
+          }
+        }
+
+        &:hover {
+          border: 2px dashed $coupler-blue;
+        }
+      }
+    }
+  }
+
+  &__controlBtns {
+    margin-top: 56px;
+
+    &-btn {
+      width: 100%;
+
+      &:not(.ant-btn-primary) {
+        background-color: #F5F5F5 !important;
+      }
+    }
+  }
+}

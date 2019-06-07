@@ -8,6 +8,8 @@ import ScreenLoading from './ScreenLoading';
 import Map from './Map';
 import CorporationsList from './CorporationsList';
 import BusinessesList from './BusinessesList';
+import BusinessServiceInfo from './BusinessServiceInfo';
+import BusinessServicesList from './BusinessServicesList';
 
 export {
   Header,
@@ -20,4 +22,6 @@ export {
   Map,
   CorporationsList,
   BusinessesList,
+  BusinessServiceInfo,
+  BusinessServicesList,
 };
