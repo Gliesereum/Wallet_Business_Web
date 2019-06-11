@@ -1,50 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
+import bem from 'bem-join';
 
 import {
-  Form, Collapse, Checkbox, Button, Row, Col, notification,
+  Form,
+  Card,
+  Checkbox,
+  Row,
+  Col,
 } from 'antd';
 
-import { asyncRequest, withToken } from '../../../utils';
+import './index.scss';
 
-const FormItem = Form.Item;
-const { Panel } = Collapse;
+const b = bem('serviceAdditional');
+const { Item: FormItem } = Form;
 const CheckboxGroup = Checkbox.Group;
 
-const ServiceAdditional = (props) => {
-  const {
-    form, filters, servicePrice, updateServicePrice,
-  } = props;
-
-  function handleSaveChange(e) {
-    e.preventDefault();
-
+class ServiceAdditional extends Component {
+  componentDidMount() {
+    const { updateFormData, form } = this.props;
     form.validateFields(async (error, values) => {
       if (!error) {
-        const filterAttrUrl = `price/filter-attributes/${servicePrice.id}`;
-        let body = [];
-        for (const key in values) {
-          if (Object.prototype.hasOwnProperty.call(values, key)) {
-            body = [...body, ...values[key]];
-          }
-        }
-
-        try {
-          const newServicePrice = await withToken(asyncRequest)({
-            url: filterAttrUrl, method: 'POST', moduleUrl: 'karma', body,
-          });
-          await updateServicePrice(newServicePrice);
-        } catch (err) {
-          notification.error({
-            duration: 5,
-            message: err.message || 'Ошибка',
-            description: 'Возникла ошибка',
-          });
-        }
+        updateFormData('additionalInfo', values);
       }
     });
   }
 
-  function getCheckedOpts(attrs) {
+  getCheckedOpts = (attrs) => {
+    const { servicePrice } = this.props;
     const checkedFilters = [];
 
     servicePrice.attributes.forEach((item) => {
@@ -55,42 +37,56 @@ const ServiceAdditional = (props) => {
       });
     });
     return checkedFilters;
+  };
+
+  render() {
+    const { form, filters, servicePrice } = this.props;
+    return (
+      <Form className={b()}>
+        <Row
+          gutter={40}
+          className={b('container')}
+        >
+          {
+            filters.map(filter => (
+              <Col
+                span={7}
+                key={filter.id}
+              >
+                <FormItem key={filter.id}>
+                  <Card
+                    title={filter.title}
+                    key={filter.id}
+                    className={b('card')}
+                  >
+                    {form.getFieldDecorator(filter.value, {
+                      initialValue: servicePrice && servicePrice.attributes ? this.getCheckedOpts(filter.attributes) : undefined,
+                    })(
+                      <CheckboxGroup>
+                        {
+                          filter.attributes.map(attr => (
+                            <Checkbox
+                              value={attr.id}
+                              key={attr.id}
+                            >
+                              {attr.title}
+                            </Checkbox>
+                          ))
+                        }
+                      </CheckboxGroup>
+                    )}
+                    <div className={b('card-footerBlurer')} />
+                  </Card>
+                </FormItem>
+              </Col>
+            ))
+          }
+        </Row>
+      </Form>
+    );
   }
+}
 
-  return (
-    <Form
-      onSubmit={handleSaveChange}
-    >
-      {
-        filters.map(filter => (
-          <FormItem key={filter.id}>
-            <Collapse>
-              <Panel header={filter.title} key={filter.id}>
-                {form.getFieldDecorator(filter.value, {
-                  initialValue: servicePrice ? getCheckedOpts(filter.attributes) : undefined,
-                })(
-                  <CheckboxGroup>
-                    <Row>
-                      {
-                        filter.attributes.map(attr => (
-                          <Col span={filter.length === 1 ? 24 : 7} key={attr.id}>
-                            <Checkbox value={attr.id}>{attr.title}</Checkbox>
-                          </Col>
-                        ))
-                      }
-                    </Row>
-                  </CheckboxGroup>
-                )}
-              </Panel>
-            </Collapse>
-          </FormItem>
-        ))
-      }
-
-      <Button type="primary" htmlType="submit">Сохранить</Button>
-      <Button>Отмена</Button>
-    </Form>
-  );
-};
-
-export default Form.create({})(ServiceAdditional);
+export default Form.create({
+  onValuesChange: ({ updateFormData }, changedValues) => updateFormData('additionalInfo', changedValues),
+})(ServiceAdditional);

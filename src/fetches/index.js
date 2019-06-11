@@ -164,6 +164,31 @@ export const fetchGetFilters = async (props) => {
   };
 };
 
+export const fetchGetClasses = async (props) => {
+  if (!props.singleBusiness) return;
+
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: 'class',
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'classes',
+  };
+};
+
 export const fetchGetNearbyBusinesses = async ({ currentLocation }) => {
   const result = [];
 

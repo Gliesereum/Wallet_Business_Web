@@ -3,15 +3,19 @@
 .businessServiceInfo {
   &__panelHeader {
     &.ant-collapse-item {
-      &-active .ant-collapse-header {
+      &-active.ant-collapse-item .ant-collapse-header {
         border-bottom: 1px solid #d9d9d9;
+        color: $font-title-black;
       }
 
       & .ant-collapse-header {
         font-family: $sans;
         font-size: 16px;
         letter-spacing: 0.02em;
-        color: $font-title-black;
+        color: rgba(72, 84, 101, 0.64);
+        height: 63px;
+        line-height: 63px;
+        padding: 0 16px;
       }
 
       & .ant-collapse-content {

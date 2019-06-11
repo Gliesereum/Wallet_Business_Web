@@ -1,0 +1,64 @@
+@import '../../../styles/theme';
+
+.serviceAdditional {
+  &__container {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__card {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+    border: 1px solid #D2E0F5;
+    border-radius: 4px;
+    position: relative;
+
+    &-footerBlurer {
+      background: linear-gradient(360deg, $white 40%, rgba(255, 255, 255, 0) 80%);
+      height: 65px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    & .ant-card-head {
+      margin-bottom: 0;
+      padding: 0 16px;
+      border: unset;
+      color: $font-title-black;
+      font-size: 14px;
+      font-family: $sans;
+      letter-spacing: 0.02em;
+    }
+
+    & .ant-card-body {
+      height: 160px;
+      overflow-y: scroll;
+      padding: 0 16px;
+
+      & .ant-checkbox-group {
+        display: flex;
+        flex-direction: column;
+
+        & .ant-checkbox-wrapper {
+          margin-bottom: 16px;
+
+          & + .ant-checkbox-wrapper {
+            margin-left: 0;
+          }
+
+          & .ant-checkbox {
+            margin-right: 8px;
+          }
+
+          & span:not(.ant-checkbox) {
+            color: $gray;
+            font-family: $sans;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+          }
+        }
+      }
+    }
+  }
+}

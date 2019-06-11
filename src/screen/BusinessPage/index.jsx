@@ -30,14 +30,28 @@ export const BusinessPageContext = React.createContext();
 
 class BusinessPage extends Component {
   state = {
-    disabledTab: Boolean(
+    disabledTab: {
+      isServicesDisabled: null,
+      isPackageDisabled: null,
+    },
+  };
+
+  componentDidMount() {
+    const initialTabDisabled = Boolean(
       this.props.location.pathname.match('/add')
       && !(
         this.props.location.search
-        && qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
-          .newBusiness)
-    ),
-  };
+      && qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+        .newBusiness)
+    );
+
+    this.setState({
+      disabledTab: {
+        isServicesDisabled: initialTabDisabled,
+        isPackageDisabled: initialTabDisabled,
+      },
+    });
+  }
 
   changeActiveTab = (activeTab, id) => {
     const { history, location } = this.props;
@@ -52,7 +66,13 @@ class BusinessPage extends Component {
   handleAddBusiness = async (business) => {
     await this.props.addNewBusiness(business);
 
-    this.setState({ disabledTab: false });
+    this.setState(prevState => ({
+      disabledTab: {
+        ...prevState.disabledTab,
+        isServicesDisabled: false,
+      },
+    }));
+
     this.changeActiveTab('services', business.id);
   };
 
@@ -60,6 +80,15 @@ class BusinessPage extends Component {
     await this.props.updateBusiness(business);
 
     this.changeActiveTab('services', business.id);
+  };
+
+  handleUpdateBusinessService = () => {
+    this.setState(prevState => ({
+      disabledTab: {
+        ...prevState.disabledTab,
+        isPackageDisabled: false,
+      },
+    }));
   };
 
   render() {
@@ -104,18 +133,20 @@ class BusinessPage extends Component {
       {
         tabName: 'Услуги',
         keyName: 'services',
-        disabled: disabledTab,
+        disabled: disabledTab.isServicesDisabled,
         ContentComponent: BusinessServices,
         props: {
           servicePrices,
           isAddMode,
           changeActiveTab: this.changeActiveTab,
+          updateBusinessService: this.handleUpdateBusinessService,
           singleBusiness,
         },
       },
       {
         tabName: 'Пакет Услуг',
         keyName: 'packages',
+        disabled: disabledTab.isPackageDisabled,
         ContentComponent: BusinessPackages,
         props: {
           // packages: packagesList || [],

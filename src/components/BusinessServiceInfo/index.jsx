@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import bem from 'bem-join';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 
 import {
   Button,
   Col,
   Collapse,
   Icon,
+  notification,
   Row,
 } from 'antd';
 
-import { ServiceMainInfoForm, ServiceAdditional } from '../Forms';
-// import { ServiceClasses } from '../../../../../components';
+import {
+  ServiceMainInfoForm,
+  ServiceAdditional,
+  ServiceClasses,
+} from '../Forms';
+
+import { asyncRequest, withToken, fetchDecorator } from '../../utils';
+import {
+  fetchGetServiceTypes,
+  fetchGetFilters,
+  fetchGetClasses,
+} from '../../fetches';
+import { actions } from '../../state';
 
 import './index.scss';
 
@@ -20,17 +34,103 @@ const b = bem('businessServiceInfo');
 class BusinessServiceInfo extends Component {
   state = {
     activeKey: 'mainInfo',
+    mainInfo: null,
+    additionalInfo: null,
+    classes: null,
   };
 
-  triggerPanel = activeKey => this.setState({ activeKey });
+  updateFormData = (formName, changedData) => {
+    this.setState(prevState => ({
+      [formName]: {
+        ...prevState[formName],
+        ...changedData,
+      },
+    }));
+  };
 
-  handleChangeActiveTab = (toTab, id) => () => this.props.changeActiveTab(toTab, id);
+  triggerPanel = activeKey => this.setState(prevState => ({
+    activeKey: !activeKey ? prevState.activeKey : activeKey,
+  }));
+
+  handleUpdateBusinessService = async (e) => {
+    e.preventDefault();
+
+    const {
+      chosenService,
+      changeActiveService,
+      updateBusinessService,
+      changeActiveTab,
+      isAddMode,
+      addServicePrice,
+      updateServicePrice,
+    } = this.props;
+    const {
+      mainInfo,
+      additionalInfo,
+      // classes,
+    } = this.state;
+
+    if (chosenService) {
+      if (mainInfo) {
+        const servicePriceUrl = 'price';
+        const body = {
+          ...chosenService,
+          ...mainInfo,
+        };
+
+        try {
+          const newServicePrice = await withToken(asyncRequest)({
+            url: servicePriceUrl,
+            method: isAddMode ? 'POST' : 'PUT',
+            moduleUrl: 'karma',
+            body,
+          });
+          await isAddMode ? addServicePrice(newServicePrice) : updateServicePrice(newServicePrice);
+        } catch (err) {
+          notification.error({
+            duration: 5,
+            message: err.message || 'Ошибка',
+            description: 'Возникла ошибка',
+          });
+        }
+      }
+
+      if (additionalInfo) {
+        const filterAttrUrl = `price/filter-attributes/${chosenService.id}`;
+        let body = [];
+        for (const key in additionalInfo) {
+          if (Object.prototype.hasOwnProperty.call(additionalInfo, key)) {
+            body = [...body, ...additionalInfo[key]];
+          }
+        }
+
+        try {
+          const newServicePrice = await withToken(asyncRequest)({
+            url: filterAttrUrl, method: 'POST', moduleUrl: 'karma', body,
+          });
+          updateServicePrice(newServicePrice);
+        } catch (err) {
+          notification.error({
+            duration: 5,
+            message: err.message || 'Ошибка',
+            description: 'Возникла ошибка',
+          });
+        }
+      }
+    }
+
+    updateBusinessService();
+    chosenService ? changeActiveService(null)() : changeActiveTab('packages');
+  };
+
+  handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
 
   render() {
     const { activeKey } = this.state;
     const {
       serviceTypes,
       filters,
+      classes,
       chosenService,
       changeActiveService,
     } = this.props;
@@ -54,6 +154,7 @@ class BusinessServiceInfo extends Component {
             <ServiceMainInfoForm
               serviceTypes={serviceTypes}
               servicePrice={chosenService}
+              updateFormData={this.updateFormData}
             />
           </Panel>
           <Panel
@@ -64,6 +165,7 @@ class BusinessServiceInfo extends Component {
             <ServiceAdditional
               filters={filters}
               servicePrice={chosenService}
+              updateFormData={this.updateFormData}
             />
           </Panel>
           <Panel
@@ -71,7 +173,11 @@ class BusinessServiceInfo extends Component {
             header="Класс обслуживания"
             key="classes"
           >
-            classes
+            <ServiceClasses
+              classes={classes}
+              servicePrice={chosenService}
+              updateFormData={this.updateFormData}
+            />
           </Panel>
         </Collapse>
         <Row
@@ -91,10 +197,10 @@ class BusinessServiceInfo extends Component {
           <Col lg={12}>
             <Button
               className={b('controlBtns-btn')}
-              onClick={this.handleChangeActiveTab('packages')}
+              onClick={this.handleUpdateBusinessService}
               type="primary"
             >
-              Далее
+              Сохранить
             </Button>
           </Col>
         </Row>
@@ -103,4 +209,16 @@ class BusinessServiceInfo extends Component {
   }
 }
 
-export default BusinessServiceInfo;
+const mapDispatchToProps = dispatch => ({
+  removeServicePrice: servicePrice => dispatch(actions.business.$removeServicePrice(servicePrice)),
+  updateServicePrice: servicePrice => dispatch(actions.business.$updateServicePrice(servicePrice)),
+  addServicePrice: servicePrice => dispatch(actions.business.$addServicePrice(servicePrice)),
+});
+
+export default compose(
+  connect(null, mapDispatchToProps),
+  fetchDecorator({
+    actions: [fetchGetServiceTypes, fetchGetFilters, fetchGetClasses],
+    config: { loader: true },
+  }),
+)(BusinessServiceInfo);
