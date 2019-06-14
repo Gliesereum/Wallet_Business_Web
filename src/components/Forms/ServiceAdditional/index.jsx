@@ -50,7 +50,7 @@ class ServiceAdditional extends Component {
           {
             filters.map(filter => (
               <Col
-                span={7}
+                span={8}
                 key={filter.id}
               >
                 <FormItem key={filter.id}>

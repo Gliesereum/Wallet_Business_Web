@@ -7,7 +7,10 @@ import {
   Col,
   Button,
   Row,
+  Icon,
 } from 'antd';
+
+import EmptyState from '../EmptyState';
 
 import AddIcon from '../../assets/AddIcon.svg';
 
@@ -19,14 +22,13 @@ const { Item } = List;
 class BusinessServicesList extends Component {
   handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
 
-  render() {
-    const { services, changeActiveService } = this.props;
-    if (!services.some(item => item.addCard)) services.push({ addCard: true });
+  renderServicesList = (services) => {
+    const { changeActiveService } = this.props;
 
     return (
       <>
         <List
-          className={b()}
+          className={b('grid')}
           grid={{
             gutter: 8,
             lg: 4,
@@ -35,8 +37,8 @@ class BusinessServicesList extends Component {
           renderItem={item => (
             item.addCard ? (
               <Item
-                onClick={changeActiveService({})}
-                className={b('item', { addCard: true })}
+                onClick={changeActiveService(null, true)}
+                className={b('grid-item', { addCard: true })}
               >
                 <Card>
                   <img src={AddIcon} alt="addService" />
@@ -45,8 +47,8 @@ class BusinessServicesList extends Component {
               </Item>
             ) : (
               <Item
-                onClick={changeActiveService(item)}
-                className={b('item')}
+                onClick={changeActiveService(item, false)}
+                className={b('grid-item')}
               >
                 <Card>{item.name}</Card>
               </Item>
@@ -56,19 +58,20 @@ class BusinessServicesList extends Component {
         />
         <Row
           gutter={40}
-          className={b('controlBtns')}
+          className={b('grid-controlBtns')}
         >
           <Col lg={12}>
             <Button
-              className={b('controlBtns-btn', { back: true })}
+              className={b('grid-controlBtns-btn backBtn')}
               onClick={this.handleChangeActiveTab('mainInfo')}
             >
+              <Icon type="left" />
               Назад
             </Button>
           </Col>
           <Col lg={12}>
             <Button
-              className={b('controlBtns-btn')}
+              className={b('grid-controlBtns-btn')}
               onClick={this.handleChangeActiveTab('packages')}
               type="primary"
             >
@@ -77,6 +80,29 @@ class BusinessServicesList extends Component {
           </Col>
         </Row>
       </>
+    );
+  };
+
+  render() {
+    const { services, changeActiveService } = this.props;
+    if (!services.some(item => item.addCard)) services.push({ addCard: true });
+
+    return (
+      <div className={b()}>
+        <h1 className={b('title')}>Список послуг</h1>
+        {
+          services.length > 1 ? (
+            this.renderServicesList(services)
+          ) : (
+            <EmptyState
+              title="У вас нету услуг"
+              descrText="Сучасна методологія розробки в значній мірі обумовлює важливість своєчасного виконання надзавдання. Тому, створіть послугу!"
+              addItemText="Создать услугу"
+              addItemHandler={changeActiveService}
+            />
+          )
+        }
+      </div>
     );
   }
 }

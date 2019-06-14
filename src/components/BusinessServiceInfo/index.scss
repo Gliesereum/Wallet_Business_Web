@@ -1,27 +1,35 @@
 @import '../../styles/theme';
 
 .businessServiceInfo {
-  &__panelHeader {
-    &.ant-collapse-item {
-      &-active.ant-collapse-item .ant-collapse-header {
-        border-bottom: 1px solid #d9d9d9;
-        color: $font-title-black;
-      }
+  &__header {
+    border-bottom: 1px solid #DCE2E9;
+    padding-bottom: 13px;
+    color: $font-title-black;
+    font-family: $sans;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    margin-bottom: 16px;
+  }
 
-      & .ant-collapse-header {
-        font-family: $sans;
+  &__infoBlock {
+    background: radial-gradient(263.92px at 64.37% 115.28%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(24.82deg, #0E4BF1 -27.29%, #1CACFE 111.55%);
+    border-radius: 4px;
+    padding: 24px 50px;
+    text-align: center;
+
+    &-text {
+      font-family: $sans;
+      font-size: 14px;
+      line-height: 24px;
+      color: $white;
+
+      &--firstParagraph {
+        margin-bottom: 12px;
         font-size: 16px;
+        line-height: 16px;
         letter-spacing: 0.02em;
-        color: rgba(72, 84, 101, 0.64);
-        height: 63px;
-        line-height: 63px;
-        padding: 0 16px;
-      }
-
-      & .ant-collapse-content {
-        &-active {
-          padding-top: 16px;
-        }
+        font-feature-settings: 'pnum' on, 'lnum' on;
       }
     }
   }
@@ -31,10 +39,6 @@
 
     &-btn {
       width: 100%;
-
-      &:not(.ant-btn-primary) {
-        background-color: #F5F5F5 !important;
-      }
     }
   }
 }

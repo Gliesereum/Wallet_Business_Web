@@ -9,12 +9,26 @@
     color: $coupler-blue;
     line-height: 16px;
     font-size: 12px;
+    font-family: $sans;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     border: none;
 
     & > span {
       font-family: $sans;
+    }
+
+    &.deleteBtn {
+      border: 2px solid $coupler-red;
+      color: $coupler-red;
+    }
+
+    &.backBtn {
+      border: 2px solid $coupler-blue;
+
+      & .anticon-left {
+        float: left;
+      }
     }
 
     // primary
@@ -119,13 +133,39 @@
         border-color: #d9d9d9;
       }
     }
+  }
 
+  &-checkbox {
+    &-wrapper {
+      & + .ant-checkbox-wrapper {
+        margin-right: 16px;
+      }
+    }
+
+    & + span {
+      font-size: 12px;
+      font-family: $sans;
+      line-height: 16px;
+      color: $gray;
+      padding: 0 16px;
+    }
+
+    &-inner {
+      border-color: #CCCCCC;
+    }
+
+    &-checked {
+      .ant-checkbox-inner {
+        border-color: $coupler-blue;
+        background-color: $coupler-blue;
+      }
+    }
   }
 
   //---- Tabs ----
   &-tabs {
     &-bar {
-      margin: 0 0 32px 0;
+      margin: 0 0 22px 0;
     }
     &-nav {
       width: 100%;

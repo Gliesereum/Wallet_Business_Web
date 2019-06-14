@@ -13,6 +13,7 @@ import {
   Select,
   Button,
   notification,
+  Icon,
 } from 'antd';
 
 import Map from '../../Map';
@@ -35,7 +36,7 @@ type Prop = {
   businessCategories: {}[],
   form: Form,
   corporations: {}[],
-  isAddMode: boolean,
+  isAddBusinessMode: boolean,
 }
 
 type State = {
@@ -127,17 +128,17 @@ class BusinessMainInfo extends Component<Prop, State> {
     const {
       form,
       updateBusiness,
-      isAddMode,
+      isAddBusinessMode,
       addNewBusiness,
       singleBusiness,
     } = this.props;
     const { currentLocation } = this.state;
-    const businessHandler = isAddMode && !singleBusiness ? addNewBusiness : updateBusiness;
+    const businessHandler = isAddBusinessMode && !singleBusiness ? addNewBusiness : updateBusiness;
 
     form.validateFields(async (error: {}, values: {}) => {
       if (!error) {
         const businessUrl = 'business';
-        const method = isAddMode && !singleBusiness ? 'POST' : 'PUT';
+        const method = isAddBusinessMode && !singleBusiness ? 'POST' : 'PUT';
         const moduleUrl = 'karma';
         const body = {
           ...singleBusiness,
@@ -170,7 +171,7 @@ class BusinessMainInfo extends Component<Prop, State> {
       businessCategories,
       form,
       corporations,
-      isAddMode,
+      isAddBusinessMode,
       chosenCorpId,
     } = this.props;
     const {
@@ -233,7 +234,7 @@ class BusinessMainInfo extends Component<Prop, State> {
                   })(<Input placeholder="Название бизнесса" />)}
                 </FormItem>
                 {
-                  isAddMode ? (
+                  isAddBusinessMode ? (
                     <FormItem
                       label="Деловая активность"
                     >
@@ -281,7 +282,7 @@ class BusinessMainInfo extends Component<Prop, State> {
                   )}
                 </FormItem>
                 {
-                  isAddMode ? (
+                  isAddBusinessMode ? (
                     <FormItem
                       label="Категория бизнесса"
                     >
@@ -358,8 +359,9 @@ class BusinessMainInfo extends Component<Prop, State> {
           className={b('controlBtns')}
         >
           <Col lg={12}>
-            <Button className={b('controlBtns-btn', { back: true })}>
+            <Button className={b('controlBtns-btn backBtn')}>
               <Link to="/corporations">
+                <Icon type="left" />
                 Назад
               </Link>
             </Button>
@@ -370,7 +372,7 @@ class BusinessMainInfo extends Component<Prop, State> {
               htmlType="submit"
               type="primary"
             >
-              {isAddMode ? 'Сохранить' : 'Далее'}
+              {isAddBusinessMode ? 'Сохранить' : 'Далее'}
             </Button>
           </Col>
         </Row>

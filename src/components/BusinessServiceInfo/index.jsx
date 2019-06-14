@@ -6,10 +6,9 @@ import compose from 'recompose/compose';
 import {
   Button,
   Col,
-  Collapse,
-  Icon,
   notification,
   Row,
+  Icon,
 } from 'antd';
 
 import {
@@ -28,7 +27,6 @@ import { actions } from '../../state';
 
 import './index.scss';
 
-const { Panel } = Collapse;
 const b = bem('businessServiceInfo');
 
 class BusinessServiceInfo extends Component {
@@ -37,6 +35,7 @@ class BusinessServiceInfo extends Component {
     mainInfo: null,
     additionalInfo: null,
     classes: null,
+    additionalInfoVisible: Boolean(this.props.chosenService),
   };
 
   updateFormData = (formName, changedData) => {
@@ -48,18 +47,14 @@ class BusinessServiceInfo extends Component {
     }));
   };
 
-  triggerPanel = activeKey => this.setState(prevState => ({
-    activeKey: !activeKey ? prevState.activeKey : activeKey,
-  }));
-
   handleUpdateBusinessService = async (e) => {
     e.preventDefault();
 
     const {
       chosenService,
+      singleBusiness,
       changeActiveService,
       updateBusinessService,
-      changeActiveTab,
       isAddMode,
       addServicePrice,
       updateServicePrice,
@@ -68,143 +63,202 @@ class BusinessServiceInfo extends Component {
       mainInfo,
       additionalInfo,
       // classes,
+      additionalInfoVisible,
     } = this.state;
 
-    if (chosenService) {
-      if (mainInfo) {
-        const servicePriceUrl = 'price';
-        const body = {
-          ...chosenService,
-          ...mainInfo,
-        };
+    this.mainInfoForm.props.form.validateFieldsAndScroll(
+      (errors, values) => console.log(errors, values),
+    ); // TODO: check if forms has error;
 
-        try {
-          const newServicePrice = await withToken(asyncRequest)({
-            url: servicePriceUrl,
-            method: isAddMode ? 'POST' : 'PUT',
-            moduleUrl: 'karma',
-            body,
-          });
-          await isAddMode ? addServicePrice(newServicePrice) : updateServicePrice(newServicePrice);
-        } catch (err) {
-          notification.error({
-            duration: 5,
-            message: err.message || 'Ошибка',
-            description: 'Возникла ошибка',
-          });
+    if (mainInfo) {
+      const servicePriceUrl = 'price';
+      const body = {
+        ...(chosenService || {}),
+        ...mainInfo,
+        businessId: singleBusiness.id,
+      };
+
+      try {
+        const newServicePrice = await withToken(asyncRequest)({
+          url: servicePriceUrl,
+          method: isAddMode ? 'POST' : 'PUT',
+          moduleUrl: 'karma',
+          body,
+        });
+        if (isAddMode) {
+          await addServicePrice(newServicePrice);
+          changeActiveService(newServicePrice, true)();
+          this.setState({ additionalInfoVisible: true });
+        } else {
+          updateServicePrice(newServicePrice);
+          updateBusinessService();
+        }
+      } catch (err) {
+        notification.error({
+          duration: 5,
+          message: err.message || 'Ошибка',
+          description: 'Возникла ошибка',
+        });
+      }
+    }
+    if (additionalInfo) {
+      const filterAttrUrl = `price/filter-attributes/${chosenService.id}`;
+      let body = [];
+      for (const key in additionalInfo) {
+        if (Object.prototype.hasOwnProperty.call(additionalInfo, key)) {
+          body = [...body, ...additionalInfo[key]];
         }
       }
 
-      if (additionalInfo) {
-        const filterAttrUrl = `price/filter-attributes/${chosenService.id}`;
-        let body = [];
-        for (const key in additionalInfo) {
-          if (Object.prototype.hasOwnProperty.call(additionalInfo, key)) {
-            body = [...body, ...additionalInfo[key]];
-          }
-        }
-
-        try {
-          const newServicePrice = await withToken(asyncRequest)({
-            url: filterAttrUrl, method: 'POST', moduleUrl: 'karma', body,
-          });
-          updateServicePrice(newServicePrice);
-        } catch (err) {
-          notification.error({
-            duration: 5,
-            message: err.message || 'Ошибка',
-            description: 'Возникла ошибка',
-          });
-        }
+      try {
+        const newServicePrice = await withToken(asyncRequest)({
+          url: filterAttrUrl, method: 'POST', moduleUrl: 'karma', body,
+        });
+        updateServicePrice(newServicePrice);
+      } catch (err) {
+        notification.error({
+          duration: 5,
+          message: err.message || 'Ошибка',
+          description: 'Возникла ошибка',
+        });
       }
     }
 
-    updateBusinessService();
-    chosenService ? changeActiveService(null)() : changeActiveTab('packages');
+    additionalInfoVisible && changeActiveService(null, false)();
   };
 
-  handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
+  handleRemoveServicePrice = async () => {
+    const {
+      removeServicePrice,
+      chosenService,
+      singleBusiness,
+      changeActiveService,
+    } = this.props;
+    const removeServicePriceUrl = `price/${chosenService.id}`;
+
+    try {
+      await withToken(asyncRequest)({ url: removeServicePriceUrl, method: 'DELETE', moduleUrl: 'karma' });
+      await removeServicePrice({ servicePriceId: chosenService.id, businessId: singleBusiness.id });
+
+      changeActiveService(null, false)();
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
+  };
 
   render() {
-    const { activeKey } = this.state;
+    const { additionalInfoVisible } = this.state;
     const {
       serviceTypes,
       filters,
       classes,
       chosenService,
       changeActiveService,
+      isAddMode,
     } = this.props;
 
     return (
-      <>
-        <Collapse
-          activeKey={activeKey}
-          accordion
-          bordered={false}
-          expandIcon={({ isActive }) => <Icon type={isActive ? 'minus' : 'plus'} />}
-          expandIconPosition="right"
-          onChange={this.triggerPanel}
-          className={b()}
-        >
-          <Panel
-            className={b('panelHeader')}
-            header="Основная информация об услуге"
-            key="mainInfo"
+      <div className={b()}>
+        <h1 className={b('header')}>Основная информация</h1>
+        <ServiceMainInfoForm
+          serviceTypes={serviceTypes}
+          servicePrice={chosenService}
+          updateFormData={this.updateFormData}
+          wrappedComponentRef={form => this.mainInfoForm = form}
+        />
+        {
+          additionalInfoVisible ? (
+            <div>
+              <h1 className={b('header')}>Дополнительная информация</h1>
+              <ServiceAdditional
+                filters={filters}
+                servicePrice={chosenService}
+                updateFormData={this.updateFormData}
+              />
+              <h1 className={b('header')}>Класс обслуживания</h1>
+              <ServiceClasses
+                classes={classes}
+                servicePrice={chosenService}
+                updateFormData={this.updateFormData}
+              />
+            </div>
+          ) : (
+            <div className={b('infoBlock')}>
+              <p className={b('infoBlock-text')}>
+                <span className={b('infoBlock-text', { firstParagraph: true })}>Внимание!</span>
+                <br />
+                <span>
+                  Введите и сохраните основную информацию услуги для доступа к редакции дополнительной информации
+                  Вы не можете создать пакет услуг пока не создадите услугу (Гы :))
+                </span>
+              </p>
+            </div>
+          )
+        }
+        {isAddMode ? (
+          <Row
+            gutter={40}
+            className={b('controlBtns')}
           >
-            <ServiceMainInfoForm
-              serviceTypes={serviceTypes}
-              servicePrice={chosenService}
-              updateFormData={this.updateFormData}
-            />
-          </Panel>
-          <Panel
-            className={b('panelHeader')}
-            header="Дополнительная информация"
-            key="additionalInfo"
+            <Col lg={12}>
+              <Button
+                className={b('controlBtns-btn backBtn')}
+                onClick={changeActiveService(null, false)}
+              >
+                <Icon type="left" />
+                Назад к списку
+              </Button>
+            </Col>
+            <Col lg={12}>
+              <Button
+                className={b('controlBtns-btn')}
+                onClick={this.handleUpdateBusinessService}
+                type="primary"
+              >
+                {
+                  !additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'
+                }
+              </Button>
+            </Col>
+          </Row>
+        ) : (
+          <Row
+            gutter={40}
+            className={b('controlBtns')}
           >
-            <ServiceAdditional
-              filters={filters}
-              servicePrice={chosenService}
-              updateFormData={this.updateFormData}
-            />
-          </Panel>
-          <Panel
-            className={b('panelHeader')}
-            header="Класс обслуживания"
-            key="classes"
-          >
-            <ServiceClasses
-              classes={classes}
-              servicePrice={chosenService}
-              updateFormData={this.updateFormData}
-            />
-          </Panel>
-        </Collapse>
-        <Row
-          gutter={40}
-          className={b('controlBtns')}
-        >
-          <Col lg={12}>
-            <Button
-              className={b('controlBtns-btn', { back: true })}
-              onClick={chosenService
-                ? changeActiveService(null)
-                : this.handleChangeActiveTab('mainInfo')}
-            >
-              Назад
-            </Button>
-          </Col>
-          <Col lg={12}>
-            <Button
-              className={b('controlBtns-btn')}
-              onClick={this.handleUpdateBusinessService}
-              type="primary"
-            >
-              Сохранить
-            </Button>
-          </Col>
-        </Row>
-      </>
+            <Col lg={8}>
+              <Button
+                className={b('controlBtns-btn backBtn')}
+                onClick={changeActiveService(null, false)}
+              >
+                <Icon type="left" />
+                Назад
+              </Button>
+            </Col>
+            <Col lg={8}>
+              <Button
+                className={b('controlBtns-btn deleteBtn')}
+                onClick={this.handleRemoveServicePrice}
+              >
+                Удалить сервис
+              </Button>
+            </Col>
+            <Col lg={8}>
+              <Button
+                className={b('controlBtns-btn')}
+                onClick={this.handleUpdateBusinessService}
+                type="primary"
+              >
+                Сохранить
+              </Button>
+            </Col>
+          </Row>
+        )}
+      </div>
     );
   }
 }

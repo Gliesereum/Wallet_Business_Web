@@ -103,7 +103,7 @@ class BusinessPage extends Component {
     } = this.props;
     const { disabledTab } = this.state;
     const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
-    const isAddMode = Boolean(location.pathname.match('/add'));
+    const isAddBusinessMode = location.pathname.match('/add');
 
     const [singleBusiness] = business.filter((item) => {
       if (match.params && match.params.id) {
@@ -122,7 +122,7 @@ class BusinessPage extends Component {
           businessCategories,
           businessTypes,
           corporations,
-          isAddMode,
+          isAddBusinessMode,
           singleBusiness,
           updateBusiness: this.handleUpdateBusiness,
           addNewBusiness: this.handleAddBusiness,
@@ -137,7 +137,6 @@ class BusinessPage extends Component {
         ContentComponent: BusinessServices,
         props: {
           servicePrices,
-          isAddMode,
           changeActiveTab: this.changeActiveTab,
           updateBusinessService: this.handleUpdateBusinessService,
           singleBusiness,
@@ -170,7 +169,7 @@ class BusinessPage extends Component {
       <div className={b()}>
         <div className={b('header')}>
           <h1 className={b('header-title')}>
-            {isAddMode ? 'Добавить бизнес' : 'Изменить бизнес'}
+            {isAddBusinessMode ? 'Добавить бизнес' : 'Изменить бизнес'}
           </h1>
         </div>
         <Tabs

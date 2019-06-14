@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
   Form, Select, Input, InputNumber, Row, Col,
@@ -6,16 +6,7 @@ import {
 
 import './index.scss';
 
-class ServiceMainInfoForm extends Component {
-  componentDidMount() {
-    const { updateFormData, form } = this.props;
-    form.validateFields(async (error, values) => {
-      if (!error) {
-        updateFormData('mainInfo', values);
-      }
-    });
-  }
-
+class ServiceMainInfoForm extends PureComponent {
   render() {
     const { form, serviceTypes, servicePrice } = this.props;
 

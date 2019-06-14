@@ -3,7 +3,7 @@
 .serviceAdditional {
   &__container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
   &__card {
@@ -45,10 +45,6 @@
 
           & + .ant-checkbox-wrapper {
             margin-left: 0;
-          }
-
-          & .ant-checkbox {
-            margin-right: 8px;
           }
 
           & span:not(.ant-checkbox) {

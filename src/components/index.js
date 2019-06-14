@@ -7,6 +7,7 @@ import CorporationsList from './CorporationsList';
 import BusinessesList from './BusinessesList';
 import BusinessServiceInfo from './BusinessServiceInfo';
 import BusinessServicesList from './BusinessServicesList';
+import EmptyState from './EmptyState';
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   BusinessesList,
   BusinessServiceInfo,
   BusinessServicesList,
+  EmptyState,
 };

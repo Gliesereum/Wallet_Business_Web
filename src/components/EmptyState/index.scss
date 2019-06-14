@@ -1,0 +1,36 @@
+@import '../../styles/theme';
+
+.emptyList {
+  border: 1px solid rgba(164, 174, 184, 0.4);
+  border-radius: 4px;
+  margin-top: 18px;
+  padding: 32px 0 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__content {
+    width: 424px;
+    text-align: center;
+
+    &-title {
+      color: $font-title-black;
+      font-size: 16px;
+      line-height: 16px;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      margin-bottom: 40px;
+    }
+
+    &-descr {
+      color: rgba(72, 84, 101, 0.64);
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.01em;
+      margin: 40px 0;
+    }
+
+    &-btn {
+      width: 264px;
+    }
+  }
+}

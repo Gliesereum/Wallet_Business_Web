@@ -27,7 +27,7 @@ export const fetchGetPriceServices = async (props) => {
 
   await Promise.all(props.business.map(async ({ id }) => {
     const request = await withToken(fetchHelper)({
-      urlPath: `price/by-business/${id}`,
+      urlPath: `price/by-business/${id}`, // TODO: fetch by single business (Important!)
       moduleUrl: 'karma',
     });
 

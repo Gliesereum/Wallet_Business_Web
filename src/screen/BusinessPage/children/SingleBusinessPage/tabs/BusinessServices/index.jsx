@@ -10,48 +10,32 @@ const b = bem('businessServices');
 class BusinessServices extends Component {
   state = {
     chosenService: null,
+    isAddServiceMode: this.props.isAddBusinessMode,
   };
 
-  // handleRemoveService = item => async () => {
-  //   const { removeServicePrice, singleBusiness } = this.props;
-  //   const removeServicePriceUrl = `price/${item.id}`;
-  //
-  //   try {
-  //     await withToken(asyncRequest)`({ url: removeServicePriceUrl, method: 'DELETE', moduleUrl: 'karma' });
-  //     await removeServicePrice({ servicePriceId: item.id, businessId: singleBusiness.id });
-  //   } catch (err) {
-  //     notification.error({
-  //       duration: 5,
-  //       message: err.message || 'Ошибка',
-  //       description: 'Возникла ошибка',
-  //     });
-  //   }
-  // };
-
-  changeActiveService = service => () => this.setState({ chosenService: service });
+  changeActiveService = (service, isAddServiceMode) => () => this.setState({ chosenService: service, isAddServiceMode });
 
   render() {
     const {
       singleBusiness,
       servicePrices,
-      isAddMode,
       changeActiveTab,
       updateBusinessService,
     } = this.props;
-    const { chosenService } = this.state;
+    const { chosenService, isAddServiceMode } = this.state;
     const services = servicePrices[singleBusiness.id] || [];
 
     return (
       <div className={b()}>
         {
-          isAddMode || chosenService ? (
+          // if add service mode or some of service was chosen from servicesList
+          isAddServiceMode || (chosenService && chosenService.id) ? (
             <BusinessServiceInfo
               singleBusiness={singleBusiness}
-              isAddMode={isAddMode}
+              isAddMode={isAddServiceMode}
               chosenService={chosenService}
               changeActiveService={this.changeActiveService}
               updateBusinessService={updateBusinessService}
-              changeActiveTab={changeActiveTab}
             />
           ) : (
             <BusinessServicesList

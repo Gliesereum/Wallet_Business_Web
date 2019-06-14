@@ -1,27 +1,24 @@
 import React, { Component } from 'react';
+import bem from 'bem-join';
 
 import { Form, Checkbox, notification } from 'antd';
 
 import { asyncRequest, withToken } from '../../../utils';
 
+import './index.scss';
+
 const { Item: FormItem } = Form;
 const CheckboxGroup = Checkbox.Group;
+const b = bem('serviceClasses');
 
 class ServiceClasses extends Component {
-  componentDidMount() {
-    const { updateFormData, form } = this.props;
-    form.validateFields(async (error, values) => {
-      if (!error) {
-        updateFormData('classes', values);
-      }
-    });
-  }
-
   classChecked = () => {
     const { servicePrice, classes } = this.props;
     const checkedFilters = [];
 
-    if (servicePrice.serviceClass.length === 0) {
+    if (!servicePrice) return;
+
+    if (!servicePrice.serviceClass || servicePrice.serviceClass.length === 0) {
       classes.forEach(classItem => checkedFilters.push(classItem.id));
     } else {
       classes.forEach(classItem => servicePrice.serviceClass.forEach((serviceClassItem) => {
@@ -81,7 +78,7 @@ class ServiceClasses extends Component {
 
 
     return (
-      <Form>
+      <Form className={b()}>
         <FormItem>
           {form.getFieldDecorator('classes', {
             initialValue: this.classChecked(),
@@ -90,6 +87,7 @@ class ServiceClasses extends Component {
               {
                 classes.map(item => (
                   <Checkbox
+                    className={b('checkbox')}
                     key={item.id}
                     value={item.id}
                   >
