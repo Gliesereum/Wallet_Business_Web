@@ -27,7 +27,7 @@ export const fetchGetPriceServices = async (props) => {
 
   await Promise.all(props.business.map(async ({ id }) => {
     const request = await withToken(fetchHelper)({
-      urlPath: `price/by-business/${id}`,
+      urlPath: `price/by-business/${id}`, // TODO: fetch by single business (Important!)
       moduleUrl: 'karma',
     });
 
@@ -115,6 +115,8 @@ export const fetchGetBusinessOrders = async (props) => {
 };
 
 export const fetchGetServiceTypes = async (props) => {
+  if (!props.singleBusiness) return;
+
   const result = [];
 
   try {
@@ -134,6 +136,56 @@ export const fetchGetServiceTypes = async (props) => {
   return {
     data: result,
     fieldName: 'serviceTypes',
+  };
+};
+
+export const fetchGetFilters = async (props) => {
+  if (!props.singleBusiness) return;
+
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `filter/by-business-category?businessCategoryId=${props.singleBusiness.businessCategoryId}`,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'filters',
+  };
+};
+
+export const fetchGetClasses = async (props) => {
+  if (!props.singleBusiness) return;
+
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: 'class',
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'classes',
   };
 };
 

@@ -134,6 +134,7 @@ class SignIn extends Component {
           {/*<div className={b('right-supportBlock')}>1</div>*/}
           <div className={b('right-mapBlock')}>
             <Map
+              singlePin={false}
               draggable={false}
               containerElement={<div style={{ height: '100%' }} />}
               mapElement={<div style={{ height: '100%' }} />}

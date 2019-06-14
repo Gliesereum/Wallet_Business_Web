@@ -4,7 +4,6 @@ import {
   Button, List, message, Popconfirm,
 } from 'antd/lib/index';
 
-import Modal from '../../../../../components/ModalLayout';
 import { PackageForm } from '../../../../../components/Forms';
 import { asyncRequest, withToken } from '../../../../../utils';
 
@@ -16,8 +15,6 @@ const MODALS = {
 
 class BusinessPackages extends Component {
   state = {
-    modal: {},
-    loading: false,
     deleteLoading: '', // Package id
   };
 
@@ -26,7 +23,6 @@ class BusinessPackages extends Component {
     const method = mode === 'update' ? 'PUT' : 'POST';
     const successMessage = mode === 'update' ? 'сохранено' : 'создан пакет услуг';
     try {
-      this.setState({ loading: true });
       const newPackage = await withToken(asyncRequest)({
         url, body: data, method, moduleUrl: 'karma',
       });
@@ -41,8 +37,6 @@ class BusinessPackages extends Component {
     } catch (e) {
       message.error('Упс! Что-то пошло не так!');
       console.log(e);
-    } finally {
-      this.setState({ loading: false, modal: {} });
     }
   };
 
@@ -60,17 +54,6 @@ class BusinessPackages extends Component {
     } finally {
       this.setState({ deleteLoading: '' });
     }
-  };
-
-  triggerServiceModal = (modalName, bool, mode = 'create', data) => () => {
-    this.setState({
-      modal: {
-        visible: bool,
-        Component: modalName,
-        mode,
-        data,
-      },
-    });
   };
 
   renderItemPackage = itemPackage => (
@@ -112,31 +95,6 @@ class BusinessPackages extends Component {
   <div>Пустой список</div>
   );
 
-  renderModal = () => {
-    const { modal } = this.state;
-    const servicePricesList = this.props.servicePrices[this.props.singleBusiness.id] || [];
-    return (
-      <Modal
-        visible={modal.visible}
-        closable
-        handleCancel={() => this.setState({ modal: {} })}
-        footer={null}
-      >
-        {modal.visible && (
-        <modal.Component
-          servicePrices={servicePricesList}
-          onCancel={this.triggerServiceModal}
-          mode={modal.mode}
-          data={modal.data}
-          businessId={this.props.singleBusiness.id}
-          onSubmit={this.onSubmitForm}
-          loading={this.state.loading}
-        />
-        )}
-      </Modal>
-    );
-  };
-
   renderBusinessListTab = () => (
     <Fragment>
       <Button
@@ -147,7 +105,6 @@ class BusinessPackages extends Component {
       </Button>
       {this.renderEmptyList()}
       {this.renderPackagesList()}
-      {this.renderModal()}
     </Fragment>
   );
 

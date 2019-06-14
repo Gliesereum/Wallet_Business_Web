@@ -2,12 +2,12 @@ import { BusinessMainInfo } from '../../../../../components/Forms';
 import BusinessOrders from './BusinessOrders';
 import BusinessPackages from './BusinessPackages';
 import BusinessSchedule from './BusinessSchedule';
-import BusinessServicesList from './BusinessServicesList';
+import BusinessServices from './BusinessServices';
 
 
 export {
   BusinessMainInfo,
-  BusinessServicesList,
+  BusinessServices,
   BusinessPackages,
   BusinessSchedule,
   BusinessOrders,

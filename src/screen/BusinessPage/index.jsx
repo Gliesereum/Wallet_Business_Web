@@ -2,103 +2,225 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+import bem from 'bem-join';
+import qs from 'qs';
 
-import { Button, Icon } from 'antd';
+import { Tabs } from 'antd';
 
-import { Modal } from '../../components';
 import { BusinessMainInfo } from '../../components/Forms';
+import {
+  BusinessPackages,
+  BusinessSchedule,
+  BusinessServices,
+} from './children/SingleBusinessPage/tabs';
 
 import { actions } from '../../state';
 import { fetchDecorator } from '../../utils';
-import { fetchGetPriceServices, fetchGetBusinessPackages, fetchGetBusinessOrders } from '../../fetches';
+import {
+  fetchGetPriceServices,
+  // fetchGetBusinessPackages,
+  // fetchGetBusinessOrders,
+} from '../../fetches';
 
 import './index.scss';
+
+const b = bem('business');
 
 export const BusinessPageContext = React.createContext();
 
 class BusinessPage extends Component {
   state = {
-    addModalVisible: false,
+    disabledTab: {
+      isServicesDisabled: null,
+      isPackageDisabled: null,
+    },
   };
 
-  toggleAddModalVisible = () => {
-    this.setState(state => ({ addModalVisible: !state.addModalVisible }));
+  componentDidMount() {
+    const initialTabDisabled = Boolean(
+      this.props.location.pathname.match('/add')
+      && !(
+        this.props.location.search
+      && qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+        .newBusiness)
+    );
+
+    this.setState({
+      disabledTab: {
+        isServicesDisabled: initialTabDisabled,
+        isPackageDisabled: initialTabDisabled,
+      },
+    });
+  }
+
+  changeActiveTab = (activeTab, id) => {
+    const { history, location } = this.props;
+    const { newBusiness } = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
+
+    history.replace({
+      location: location.pathname,
+      search: qs.stringify({ activeTab, newBusiness: newBusiness || id }),
+    });
+  };
+
+  handleAddBusiness = async (business) => {
+    await this.props.addNewBusiness(business);
+
+    this.setState(prevState => ({
+      disabledTab: {
+        ...prevState.disabledTab,
+        isServicesDisabled: false,
+      },
+    }));
+
+    this.changeActiveTab('services', business.id);
+  };
+
+  handleUpdateBusiness = async (business) => {
+    await this.props.updateBusiness(business);
+
+    this.changeActiveTab('services', business.id);
+  };
+
+  handleUpdateBusinessService = () => {
+    this.setState(prevState => ({
+      disabledTab: {
+        ...prevState.disabledTab,
+        isPackageDisabled: false,
+      },
+    }));
   };
 
   render() {
-    const isAddPage = this.props.location.pathname.match('/add');
-    const { addModalVisible } = this.state;
     const {
-      business, corporations, businessTypes, businessCategories, children, dataLoading,
+      location,
+      match,
+      businessCategories,
+      businessTypes,
+      corporations,
+      business,
+      servicePrices,
     } = this.props;
+    const { disabledTab } = this.state;
+    const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const isAddBusinessMode = location.pathname.match('/add');
+
+    const [singleBusiness] = business.filter((item) => {
+      if (match.params && match.params.id) {
+        return item.id === match.params.id;
+      }
+      const { newBusiness: newBusinessId } = qs.parse(location.search, { ignoreQueryPrefix: true });
+      return item.id === newBusinessId;
+    });
+
+    const businessTabs = [
+      {
+        tabName: 'Основная информация',
+        keyName: 'mainInfo',
+        ContentComponent: BusinessMainInfo,
+        props: {
+          businessCategories,
+          businessTypes,
+          corporations,
+          isAddBusinessMode,
+          singleBusiness,
+          updateBusiness: this.handleUpdateBusiness,
+          addNewBusiness: this.handleAddBusiness,
+          validFieldHandler: this.validFieldHandler,
+          chosenCorpId: location.state ? location.state.chosenCorp.id : undefined,
+        },
+      },
+      {
+        tabName: 'Услуги',
+        keyName: 'services',
+        disabled: disabledTab.isServicesDisabled,
+        ContentComponent: BusinessServices,
+        props: {
+          servicePrices,
+          changeActiveTab: this.changeActiveTab,
+          updateBusinessService: this.handleUpdateBusinessService,
+          singleBusiness,
+        },
+      },
+      {
+        tabName: 'Пакет Услуг',
+        keyName: 'packages',
+        disabled: disabledTab.isPackageDisabled,
+        ContentComponent: BusinessPackages,
+        props: {
+          // packages: packagesList || [],
+          // updatePackage,
+          // createPackage,
+          // deletePackage,
+          // servicePrices,
+        },
+      },
+      {
+        tabName: 'Рассписание',
+        keyName: 'schedule',
+        ContentComponent: BusinessSchedule,
+        props: {
+          // updateSchedule,
+        },
+      },
+    ];
 
     return (
-      <div className="karma-app-business">
-        <div className="karma-app-business-header">
-          {!isAddPage && (
-            <div className="karma-app-business-header-addBtn">
-              <Button
-                type="primary"
-                onClick={this.toggleAddModalVisible}
+      <div className={b()}>
+        <div className={b('header')}>
+          <h1 className={b('header-title')}>
+            {isAddBusinessMode ? 'Добавить бизнес' : 'Изменить бизнес'}
+          </h1>
+        </div>
+        <Tabs
+          className={b('tabsContainer')}
+          activeKey={activeTab || 'mainInfo'}
+          animated={false}
+          onChange={this.changeActiveTab}
+        >
+          {
+            businessTabs.map(({
+              tabName,
+              keyName,
+              disabled = false,
+              ContentComponent,
+              props,
+            }) => (
+              <Tabs.TabPane
+                tab={tabName}
+                key={keyName}
+                disabled={disabled}
               >
-                <Icon type="plus" />
-                <span className="karma-app-business-header-addBtn-text">Добавить бизнесс</span>
-              </Button>
-            </div>
-          )}
-        </div>
-        <div className="karma-app-business-contentBox">
-          <BusinessPageContext.Provider
-            value={{
-              business,
-              corporations,
-              businessTypes,
-              businessCategories,
-              dataLoading,
-            }}
-          >
-            {children}
-          </BusinessPageContext.Provider>
-        </div>
-        {addModalVisible && (
-          <Modal
-            visible={addModalVisible}
-            footer={null}
-            closable={false}
-          >
-            <BusinessMainInfo
-              corporations={corporations}
-              isAddMode
-              onToggleModal={this.toggleAddModalVisible}
-              businessCategories={businessCategories}
-              businessTypes={businessTypes}
-              addNewBusiness={this.addNewBusiness}
-              dataLoading={dataLoading}
-            />
-          </Modal>
-        )}
+                <ContentComponent
+                  {...props}
+                />
+              </Tabs.TabPane>
+            ))
+          }
+        </Tabs>
       </div>
     );
   }
 }
-
-const mapDispatchToProps = dispatch => ({
-  addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
-  dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
-  getPriceService: data => dispatch(actions.business.$getPriceService(data)),
-  getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
-  getBusinessOrders: (id, data) => dispatch(actions.business.$getBusinessOrders(id, data)),
-});
 
 const mapStateToProps = state => ({
   business: state.business.business,
   corporations: state.corporations.corporations,
   businessCategories: state.business.businessCategories,
   businessTypes: state.business.businessTypes,
+  servicePrices: state.business.servicePrices,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
+  updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
+  getPriceService: data => dispatch(actions.business.$getPriceService(data)),
+  // getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
+  // getBusinessOrders: (id, data) => dispatch(actions.business.$getBusinessOrders(id, data)),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withRouter,
-  fetchDecorator({ actions: [fetchGetPriceServices, fetchGetBusinessPackages, fetchGetBusinessOrders], config: { loader: true } }),
+  fetchDecorator({ actions: [fetchGetPriceServices], config: { loader: true } }),
+  withRouter
 )(BusinessPage);

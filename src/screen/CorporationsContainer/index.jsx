@@ -52,13 +52,16 @@ class CorporationsContainer extends Component {
   };
 
   chooseCorporation = (corpId) => {
+    if (!corpId) return;
+
     const [chosenCorp] = this.props.corporations.filter(item => item.id === corpId);
     this.setState({ chosenCorp });
   };
 
   render() {
-    const { corporations } = this.props;
+    const { corporations, business: allBusiness } = this.props;
     const { chosenCorp } = this.state;
+    const businessForCorp = allBusiness.filter(item => item.corporationId === chosenCorp.id);
 
     return (
       <Row className={b()}>
@@ -71,6 +74,7 @@ class CorporationsContainer extends Component {
         <Col lg={16} className={b('col')}>
           <BusinessesList
             chosenCorp={chosenCorp}
+            business={businessForCorp}
           />
         </Col>
       </Row>
@@ -80,11 +84,11 @@ class CorporationsContainer extends Component {
 
 const mapDispatchToProps = dispatch => ({
   deleteCorporation: id => dispatch(actions.corporations.$deleteCorporation(id)),
-  dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
 });
 
 const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
+  business: state.business.business,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CorporationsContainer);

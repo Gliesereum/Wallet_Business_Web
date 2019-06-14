@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -16,11 +16,7 @@ import './index.scss';
 
 const b = bem('corporation');
 
-class Corporation extends PureComponent {
-  state = {
-    // loading: false,
-  };
-
+class Corporation extends Component {
   // handleChangeCorpLogo = async (info) => {
   //   const body = new FormData();
   //   await body.append('file', info.file);
@@ -102,7 +98,7 @@ class Corporation extends PureComponent {
           {
             corporations.length && corporations.map(({ name, logoUrl, id }) => (
               <Link
-                to={`/corporations/single/${id}`}
+                to={`/corporations/${id}`}
                 key={id}
                 className={b('otherCorpBox-list-item')}
               >

@@ -21,7 +21,7 @@ class Map extends React.Component {
 
   render() {
     const {
-      currentLocation, draggable, icon, nearbyBusinesses, onSelect,
+      singlePin, currentLocation, draggable, icon, nearbyBusinesses, onSelect,
     } = this.props;
 
     return (
@@ -36,7 +36,7 @@ class Map extends React.Component {
           position={{ lat: currentLocation.lat, lng: currentLocation.lng }}
           icon={undefined}
         />
-        {nearbyBusinesses.length && nearbyBusinesses.map(business => (
+        {!singlePin && nearbyBusinesses.length && nearbyBusinesses.map(business => (
           <Marker
             key={business.id}
             draggable={draggable}
