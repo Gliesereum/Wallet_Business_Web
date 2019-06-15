@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 
-import { Tabs } from 'antd/lib/index';
+import { Tabs } from 'antd';
 import qs from 'qs';
 
 import {

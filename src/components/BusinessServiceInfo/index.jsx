@@ -87,7 +87,7 @@ class BusinessServiceInfo extends Component {
         });
         if (isAddMode) {
           await addServicePrice(newServicePrice);
-          changeActiveService(newServicePrice, true)();
+          changeActiveService(newServicePrice, false)();
           this.setState({ additionalInfoVisible: true });
         } else {
           updateServicePrice(newServicePrice);
