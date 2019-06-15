@@ -23,7 +23,7 @@ const privateRouter = ({ user }) => (
   <Router>
     <Container user={user}>
       <Switch>
-        <Route path="/" exact>
+        <Route path={['/', '/login']} exact>
           <Redirect to="/corporations" />
         </Route>
         <Route path="/corporations" exact component={CorporationsContainer} />

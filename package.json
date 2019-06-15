@@ -27,7 +27,6 @@
     "file-loader": "2.0.0",
     "flow": "^0.2.3",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
-    "formik": "^1.5.4",
     "fs-extra": "7.0.0",
     "history": "latest",
     "html-webpack-plugin": "4.0.0-alpha.2",

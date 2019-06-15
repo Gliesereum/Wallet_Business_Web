@@ -8,7 +8,7 @@ import {
 import compose from 'recompose/compose';
 
 import { fetchDecorator } from '../../utils';
-import { fetchGetNearbyBusinesses } from '../../fetches';
+import { fetchGetNearbyBusinesses } from '../../fetches'; // TODO: encapsulate fetch
 
 import { mapConfig } from './mapConfig';
 

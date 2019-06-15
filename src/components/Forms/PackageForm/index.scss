@@ -1,0 +1,48 @@
+@import '../../../styles/theme';
+
+.packageForm {
+  &__card {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+    border: 1px solid #D2E0F5;
+    border-radius: 4px;
+
+    & .ant-card-body {
+      height: 280px;
+      overflow-y: scroll;
+      padding: 0 16px;
+
+      & .ant-checkbox-group {
+        width: 100%;
+      }
+    }
+
+    &-checkbox {
+      padding: 15px;
+    }
+  }
+
+  &__totalPrice {
+    height: 96px;
+    background: linear-gradient(67.14deg, #0E84F1 0%, #1C9FFE 106.54%);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
+    border-radius: 4px;
+    padding: 24px;
+    color: $white;
+    display: flex;
+    justify-content: space-between;
+
+    &-sum {
+      border: 1px solid $white;
+      border-radius: 4px;
+      height: 48px;
+      width: 40%;
+      line-height: 48px;
+      text-align: center;
+    }
+
+    &-text {
+      margin-right: 33px;
+      width: 60%;
+    }
+  }
+}

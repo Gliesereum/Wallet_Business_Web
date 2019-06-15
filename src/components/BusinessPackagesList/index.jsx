@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import bem from 'bem-join';
 
 import {
-  List,
+  Button,
   Card,
   Col,
-  Button,
-  Row,
   Icon,
+  List,
+  Row,
 } from 'antd';
 
 import EmptyState from '../EmptyState';
@@ -16,14 +16,14 @@ import AddIcon from '../../assets/AddIcon.svg';
 
 import './index.scss';
 
-const b = bem('businessServicesList');
+const b = bem('businessPackagesList');
 const { Item } = List;
 
-class BusinessServicesList extends Component {
+class BusinessPackagesList extends PureComponent {
   handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
 
-  renderServicesList = (services) => {
-    const { changeActiveService } = this.props;
+  renderPackagesList = (packagesList) => {
+    const { changeActivePackage } = this.props;
 
     return (
       <>
@@ -33,21 +33,21 @@ class BusinessServicesList extends Component {
             gutter: 8,
             lg: 4,
           }}
-          dataSource={services}
+          dataSource={packagesList}
           renderItem={item => (
             item.addCard ? (
               <Item
-                onClick={changeActiveService(null, true)}
+                onClick={changeActivePackage(null, true)}
                 className={b('grid-item', { addCard: true })}
               >
                 <Card>
-                  <img src={AddIcon} alt="addService" />
-                  {'Добавить услугу'.toUpperCase()}
+                  <img src={AddIcon} alt="addPackage" />
+                  {'Добавить пакет услуг'.toUpperCase()}
                 </Card>
               </Item>
             ) : (
               <Item
-                onClick={changeActiveService(item, false)}
+                onClick={changeActivePackage(item, false)}
                 className={b('grid-item')}
               >
                 <Card>{item.name}</Card>
@@ -62,7 +62,7 @@ class BusinessServicesList extends Component {
           <Col lg={12}>
             <Button
               className={b('grid-controlBtns-btn backBtn')}
-              onClick={this.handleChangeActiveTab('mainInfo')}
+              onClick={this.handleChangeActiveTab('services')}
             >
               <Icon type="left" />
               Назад
@@ -71,7 +71,7 @@ class BusinessServicesList extends Component {
           <Col lg={12}>
             <Button
               className={b('grid-controlBtns-btn')}
-              onClick={this.handleChangeActiveTab('packages')}
+              onClick={this.handleChangeActiveTab('schedule')}
               type="primary"
             >
               Далее
@@ -83,9 +83,9 @@ class BusinessServicesList extends Component {
   };
 
   render() {
-    const { services, changeActiveService } = this.props;
-    const servicesList = [
-      ...services,
+    const { packages, changeActivePackage } = this.props;
+    const packagesList = [
+      ...packages,
       {
         addCard: true,
       },
@@ -93,16 +93,16 @@ class BusinessServicesList extends Component {
 
     return (
       <div className={b()}>
-        <h1 className={b('title')}>Список услуг</h1>
+        <h1 className={b('title')}>Список пакетов услуг</h1>
         {
-          servicesList.length > 1 ? (
-            this.renderServicesList(servicesList)
+          packagesList.length > 1 ? (
+            this.renderPackagesList(packagesList)
           ) : (
             <EmptyState
-              title="У вас нету услуг"
+              title="У вас нету пакетов услуг"
               descrText="Сучасна методологія розробки в значній мірі обумовлює важливість своєчасного виконання надзавдання. Тому, створіть послугу!"
-              addItemText="Создать услугу"
-              addItemHandler={changeActiveService}
+              addItemText="Создать пакет услуг"
+              addItemHandler={changeActivePackage}
             />
           )
         }
@@ -111,4 +111,4 @@ class BusinessServicesList extends Component {
   }
 }
 
-export default BusinessServicesList;
+export default BusinessPackagesList;

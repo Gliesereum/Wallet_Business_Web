@@ -22,29 +22,26 @@ const fetchHelper = async ({
   return await fetch(fullUrl, _requestConfig);
 };
 
-export const fetchGetPriceServices = async (props) => {
+export const fetchGetPriceServices = async ({ singleBusiness, getPriceService }) => {
+  if (!singleBusiness) return;
   const result = [];
 
-  await Promise.all(props.business.map(async ({ id }) => {
-    const request = await withToken(fetchHelper)({
-      urlPath: `price/by-business/${id}`, // TODO: fetch by single business (Important!)
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `price/by-business/${singleBusiness.id}`,
       moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then((data) => {
+      getPriceService(data);
+      result.push(data);
     });
-
-    try {
-      await Promise.resolve(request).then(async (item) => {
-        if (item.status === 204) return [];
-        if (item.status === 200) return await item.json();
-        if (item.status >= 400) throw Error('error');
-        return [];
-      }).then((data) => {
-        props.getPriceService(data);
-        result.push(data);
-      });
-    } catch (e) {
-      throw Error(e);
-    }
-  }));
+  } catch (e) {
+    throw Error(e);
+  }
 
   return {
     data: result,
@@ -52,29 +49,26 @@ export const fetchGetPriceServices = async (props) => {
   };
 };
 
-export const fetchGetBusinessPackages = async (props) => {
+export const fetchGetBusinessPackages = async ({ singleBusiness, getBusinessPackages }) => {
+  if (!singleBusiness) return;
   const result = [];
 
-  await Promise.all(props.business.map(async ({ id }) => {
-    const request = await withToken(fetchHelper)({
-      urlPath: `package/by-business/${id}`,
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `package/by-business/${singleBusiness.id}`,
       moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then((data) => {
+      getBusinessPackages(data);
+      result.push(data);
     });
-
-    try {
-      await Promise.resolve(request).then(async (item) => {
-        if (item.status === 204) return [];
-        if (item.status === 200) return await item.json();
-        if (item.status >= 400) throw Error('error');
-        return [];
-      }).then((data) => {
-        props.getBusinessPackages(data);
-        result.push(data);
-      });
-    } catch (e) {
-      throw Error(e);
-    }
-  }));
+  } catch (e) {
+    throw Error(e);
+  }
 
   return {
     data: result,

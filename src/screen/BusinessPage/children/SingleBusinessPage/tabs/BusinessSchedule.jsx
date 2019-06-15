@@ -86,7 +86,6 @@ class BusinessSchedule extends Component {
       this.props.updateSchedule(newSchedules);
       message.success('Успешно сохранено');
     } catch (e) {
-      console.log(e);
       message.error('Упс! Что-то пошло не так!');
     } finally {
       this.setState({ loading: false });

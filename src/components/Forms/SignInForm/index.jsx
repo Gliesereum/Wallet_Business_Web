@@ -68,7 +68,6 @@ class SignInForm extends Component {
             })(
               <Input
                 autoFocus={false}
-                disabled={true}
                 size="large"
                 placeholder={placeholder}
                 className={b('number', { phoneInput: true })}
@@ -93,7 +92,6 @@ class SignInForm extends Component {
           className={b('number', { buttonBox: true })}
         >
           <Button
-            disabled={true}
             onClick={this.onSubmit}
             size="large"
             className={b('number', { button: true })}
