@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
+import bem from 'bem-join';
 
 import {
-  Checkbox, List, TimePicker, Button, message,
-} from 'antd/lib/index';
+  Input,
+  Checkbox,
+  List,
+  Button,
+  notification,
+  Row,
+  Col,
+  Icon,
+} from 'antd';
 
 import moment from 'moment/moment';
 
-import { asyncRequest, withToken } from '../../../../../utils';
+import { asyncRequest, withToken } from '../../../utils';
 
+import './index.scss';
+
+const b = bem('businessScheduleForm');
 
 const scheduleList = [
   {
@@ -63,12 +74,10 @@ const dayTranslate = {
   SATURDAY: 'Суббота',
   SUNDAY: 'Воскресенье',
 };
-
 const mask = 'HH:mm';
 
-
-class BusinessSchedule extends Component {
-  state = { scheduleList: [], loading: false };
+class BusinessScheduleForm extends Component {
+  state = { scheduleList: [] };
 
   componentDidMount() {
     this.initForm();
@@ -80,15 +89,15 @@ class BusinessSchedule extends Component {
     const method = this.isNewSchedules() ? 'POST' : 'PUT';
     const requests = this.state.scheduleList.map(day => this.createPromise('work-time', method, day));
     try {
-      this.setState({ loading: true });
       const newSchedules = await Promise.all(requests);
       this.setState({ scheduleList: newSchedules });
       this.props.updateSchedule(newSchedules);
-      message.success('Успешно сохранено');
-    } catch (e) {
-      message.error('Упс! Что-то пошло не так!');
-    } finally {
-      this.setState({ loading: false });
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     }
   };
 
@@ -140,50 +149,60 @@ class BusinessSchedule extends Component {
     const {
       isWork, from, to, dayOfWeek,
     } = day;
-    const fromTime = moment.utc(from);
-    const toTime = moment.utc(to);
+    const fromTime = moment.utc(from).format(mask);
+    const toTime = moment.utc(to).format(mask);
     return (
-      <List.Item className="coupler-business-schedule-item-day">
-
-        <div className="coupler-business-schedule-item-day-left">
-          <Checkbox defaultChecked={isWork} onChange={this.isWorkToggle(day)}>
-            {dayTranslate[dayOfWeek]}
-          </Checkbox>
+      <List.Item className={b('listItem')}>
+        <Checkbox defaultChecked={isWork} onChange={this.isWorkToggle(day)}>
+          {dayTranslate[dayOfWeek]}
+        </Checkbox>
+        <div className={b('listItem-inputGroup')}>
+          <Input value={fromTime} onChange={this.timeHandler(day, 'from')} />
+          <Input value={toTime} onChange={this.timeHandler(day, 'to')} />
         </div>
-        <div className="coupler-business-schedule-item-day-right">
-          Начало:
-          <TimePicker value={fromTime} format={mask} onChange={this.timeHandler(day, 'from')} />
-          Конец:
-          <TimePicker value={toTime} format={mask} onChange={this.timeHandler(day, 'to')} />
-        </div>
-
       </List.Item>
     );
   };
 
-  renderForm = () => (
-    <div className="coupler-business-schedule-list">
-      <List
-        header={<div className="coupler-business-schedule-list-header">Рассписание</div>}
-        bordered
-        dataSource={this.state.scheduleList}
-        renderItem={this.renderItemDay}
-      />
-      <Button
-        className="schedule-submit-button"
-        type="primary"
-        onClick={this.onSubmit}
-        loading={this.state.loading}
-        block
-      >
-          Сохранить
-      </Button>
-    </div>
-  );
+  handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
 
   render() {
-    return this.renderForm();
+    return (
+      <div className={b()}>
+        <List
+          grid={{
+            column: 2,
+            gutter: 65,
+          }}
+          dataSource={this.state.scheduleList}
+          renderItem={this.renderItemDay}
+        />
+        <Row
+          gutter={40}
+          className={b('controlBtns')}
+        >
+          <Col lg={12}>
+            <Button
+              className={b('controlBtns-btn backBtn')}
+              onClick={this.handleChangeActiveTab('packages')}
+            >
+              <Icon type="left" />
+              Назад
+            </Button>
+          </Col>
+          <Col lg={12}>
+            <Button
+              className={b('controlBtns-btn')}
+              onClick={this.onSubmit}
+              type="primary"
+            >
+              Сохранить
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    );
   }
 }
 
-export default BusinessSchedule;
+export default BusinessScheduleForm;
