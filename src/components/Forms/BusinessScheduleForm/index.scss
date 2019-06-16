@@ -1,0 +1,22 @@
+.businessScheduleForm {
+  &__listItem {
+    display: flex !important;
+
+    &-inputGroup {
+      display: flex;
+      flex-direction: row;
+    }
+
+    & .ant-checkbox-wrapper {
+      display: flex;
+    }
+  }
+
+  &__controlBtns {
+    margin-top: 56px;
+
+    &-btn {
+      width: 100%;
+    }
+  }
+}

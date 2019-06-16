@@ -5,7 +5,7 @@ import compose from 'recompose/compose';
 import bem from 'bem-join';
 
 import { actions } from '../../state';
-import CouplerBrandLogo from '../../assets/logo_with_name.svg';
+import CouplerBrandLogo from '../../assets/coupler_logo_beta.svg';
 import MyCorporations from '../../assets/myCorporations.svg';
 import Analytics from '../../assets/analytics.svg';
 import Settings from '../../assets/settings.svg';
@@ -24,12 +24,12 @@ const navbarItems = [
   },
   {
     icon: Analytics,
-    text: 'Аналитика',
+    text: 'Аналитика (Coming Soon)',
     linkTo: '/analytics',
   },
   {
     icon: Settings,
-    text: 'Настройки',
+    text: 'Настройки (Coming Soon)',
     linkTo: '/settings',
   },
   {

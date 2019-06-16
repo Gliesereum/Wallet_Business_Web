@@ -307,7 +307,7 @@ class BusinessMainInfo extends Component<Prop, State> {
                   ) : (
                     <div style={{ marginBottom: '40px' }}>
                       <span>Категория бизнесса</span>
-                      <p>{formInitValues.businessCategory}</p>
+                      <p>{singleBusiness.businessCategory.name}</p>
                     </div>
                   )
                 }

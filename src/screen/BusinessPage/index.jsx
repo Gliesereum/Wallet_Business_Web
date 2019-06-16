@@ -8,9 +8,9 @@ import qs from 'qs';
 import { Tabs } from 'antd';
 
 import { BusinessMainInfo } from '../../components/Forms';
+import { BusinessScheduleInfo } from '../../components';
 import {
   BusinessPackages,
-  BusinessSchedule,
   BusinessServices,
 } from './children/SingleBusinessPage/tabs';
 
@@ -115,8 +115,6 @@ class BusinessPage extends Component {
           businessCategories,
           businessTypes,
           corporations,
-          isAddBusinessMode,
-          singleBusiness,
           updateBusiness: this.handleUpdateBusiness,
           addNewBusiness: this.handleAddBusiness,
           validFieldHandler: this.validFieldHandler,
@@ -130,10 +128,8 @@ class BusinessPage extends Component {
         ContentComponent: BusinessServices,
         props: {
           servicePrices,
-          isAddBusinessMode,
           changeActiveTab: this.changeActiveTab,
           updateBusinessService: this.handleUpdateBusinessService,
-          singleBusiness,
         },
       },
       {
@@ -144,17 +140,16 @@ class BusinessPage extends Component {
         props: {
           packages: businessPackages,
           servicePrices,
-          isAddBusinessMode,
           changeActiveTab: this.changeActiveTab,
-          singleBusiness,
         },
       },
       {
         tabName: 'Рассписание',
         keyName: 'schedule',
-        ContentComponent: BusinessSchedule,
+        ContentComponent: BusinessScheduleInfo,
         props: {
           // updateSchedule,
+          changeActiveTab: this.changeActiveTab,
         },
       },
     ];
@@ -186,6 +181,8 @@ class BusinessPage extends Component {
                 disabled={disabled}
               >
                 <ContentComponent
+                  singleBusiness={singleBusiness}
+                  isAddBusinessMode={isAddBusinessMode}
                   {...props}
                 />
               </Tabs.TabPane>
