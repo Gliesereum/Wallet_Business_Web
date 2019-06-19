@@ -13,4 +13,12 @@
     font-feature-settings: 'pnum' on, 'lnum' on;
     margin-bottom: 16px;
   }
+
+  &__controlBtns {
+    margin-top: 56px;
+
+    &-btn {
+      width: 100%;
+    }
+  }
 }
