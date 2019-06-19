@@ -35,6 +35,7 @@
         "no-restricted-syntax": "off",
         "no-return-assign": "off",
         "no-param-reassign": "off",
+        "guard-for-in": "off",
 
         "react/prop-types": 0,
         "react/destructuring-assignment": 0,

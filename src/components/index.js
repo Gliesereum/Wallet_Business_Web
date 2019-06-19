@@ -11,6 +11,7 @@ import BusinessScheduleInfo from './BusinessScheduleInfo';
 import BusinessServicesList from './BusinessServicesList';
 import BusinessPackagesList from './BusinessPackagesList';
 import EmptyState from './EmptyState';
+import FromToInput from './FromToInput';
 
 export {
   Header,
@@ -26,4 +27,5 @@ export {
   BusinessServicesList,
   BusinessPackagesList,
   EmptyState,
+  FromToInput,
 };
