@@ -1,14 +1,34 @@
+@import '../../../styles/theme';
+
 .businessScheduleForm {
-  &__listItem {
-    display: flex !important;
+  &__dayForm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-    &-inputGroup {
-      display: flex;
-      flex-direction: row;
-    }
+    &-formItem {
+      &--isWorkItem {
+        width: 40%;
 
-    & .ant-checkbox-wrapper {
-      display: flex;
+        & .ant-form-item-control-wrapper .ant-checkbox + span {
+          font-size: 14px !important;
+        }
+      }
+
+      &--timeItem {
+        width: 60%;
+
+        & .ant-form-item-label {
+          line-height: 48px !important;
+          padding-bottom: 0 !important;
+
+          & label {
+            font-family: $sans;
+            color: #888888;
+            letter-spacing: 0.02em;
+          }
+        }
+      }
     }
   }
 

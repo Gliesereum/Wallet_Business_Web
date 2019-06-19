@@ -30,10 +30,18 @@ class BusinessScheduleForm extends Component {
       scheduleList,
     } = this.props;
 
+    const formItemLayout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+    };
+
     return (
       <div className={b()}>
-        <Form>
-          <Row>
+        <Form
+          colon={false}
+          layout="horizontal"
+        >
+          <Row gutter={65}>
             <Col lg={12}>
               {scheduleList.slice(0, 4).map(({
                 dayOfWeek,
@@ -41,8 +49,13 @@ class BusinessScheduleForm extends Component {
                 from,
                 to,
               }) => (
-                <>
-                  <Form.Item>
+                <div
+                  className={b('dayForm')}
+                  key={dayOfWeek}
+                >
+                  <Form.Item
+                    className={b('dayForm-formItem', { isWorkItem: true })}
+                  >
                     {form.getFieldDecorator(`${dayOfWeek}-isWork`, {
                       initialValue: isWork,
                       valuePropName: 'checked',
@@ -50,7 +63,11 @@ class BusinessScheduleForm extends Component {
                       <Checkbox value={isWork}>{dayTranslate[dayOfWeek]}</Checkbox>
                     )}
                   </Form.Item>
-                  <Form.Item>
+                  <Form.Item
+                    {...formItemLayout}
+                    label="Время"
+                    className={b('dayForm-formItem', { timeItem: true })}
+                  >
                     {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                       initialValue: { from, to },
                       rules: [{ validator: this.checkHours }],
@@ -58,7 +75,7 @@ class BusinessScheduleForm extends Component {
                       <FromToInput />
                     )}
                   </Form.Item>
-                </>
+                </div>
               ))}
             </Col>
 
@@ -69,8 +86,13 @@ class BusinessScheduleForm extends Component {
                 from,
                 to,
               }) => (
-                <>
-                  <Form.Item>
+                <div
+                  className={b('dayForm')}
+                  key={dayOfWeek}
+                >
+                  <Form.Item
+                    className={b('dayForm-formItem', { isWorkItem: true })}
+                  >
                     {form.getFieldDecorator(`${dayOfWeek}-isWork`, {
                       initialValue: isWork,
                       valuePropName: 'checked',
@@ -78,7 +100,11 @@ class BusinessScheduleForm extends Component {
                       <Checkbox value={isWork}>{dayTranslate[dayOfWeek]}</Checkbox>
                     )}
                   </Form.Item>
-                  <Form.Item>
+                  <Form.Item
+                    {...formItemLayout}
+                    label="Время"
+                    className={b('dayForm-formItem', { timeItem: true })}
+                  >
                     {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                       initialValue: { from, to },
                       rules: [{ validator: this.checkHours }],
@@ -86,7 +112,7 @@ class BusinessScheduleForm extends Component {
                       <FromToInput />
                     )}
                   </Form.Item>
-                </>
+                </div>
               ))}
             </Col>
           </Row>

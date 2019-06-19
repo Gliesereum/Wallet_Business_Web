@@ -1,1 +1,25 @@
 @import '../../styles/theme';
+
+.fromToInput {
+  display: flex;
+  flex-direction: row;
+
+  &__input-block:after {
+    content: "";
+    border-right: 1px solid #d9d9d9;
+    position: absolute;
+    z-index: 1;
+    height: 20px;
+    top: 13px;
+  }
+
+  &__fromTime {
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+  }
+
+  &__toTime {
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+  }
+}

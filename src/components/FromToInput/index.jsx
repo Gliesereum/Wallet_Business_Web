@@ -57,28 +57,34 @@ class FromToInput extends Component {
     const toTime = moment.utc(to).format(mask);
 
     return (
-      <span className={b()}>
-        <InputMask
-          disabled={false}
-          value={fromTime}
-          mask="99\:99"
-          maskChar={null}
-          alwaysShowMask={false}
-          onChange={this.handleNumberChange('from')}
-        >
-          {inputProps => <Input {...inputProps} />}
-        </InputMask>
-        <InputMask
-          disabled={false}
-          value={toTime}
-          mask="99\:99"
-          maskChar={null}
-          alwaysShowMask={false}
-          onChange={this.handleNumberChange('to')}
-        >
-          {inputProps => <Input {...inputProps} />}
-        </InputMask>
-      </span>
+      <div className={b()}>
+        <div className={b('input-block')}>
+          <InputMask
+            className={b('fromTime')}
+            disabled={false}
+            value={fromTime}
+            mask="99\:99"
+            maskChar={null}
+            alwaysShowMask={false}
+            onChange={this.handleNumberChange('from')}
+          >
+            {inputProps => <Input {...inputProps} />}
+          </InputMask>
+        </div>
+        <div>
+          <InputMask
+            className={b('toTime')}
+            disabled={false}
+            value={toTime}
+            mask="99\:99"
+            maskChar={null}
+            alwaysShowMask={false}
+            onChange={this.handleNumberChange('to')}
+          >
+            {inputProps => <Input {...inputProps} />}
+          </InputMask>
+        </div>
+      </div>
     );
   }
 }

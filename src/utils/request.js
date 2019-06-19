@@ -26,12 +26,12 @@ export const withToken = fn => (params) => {
   const token = cookieStorage.get('access_token');
   try {
     if (!token) {
-      alert('There is not access_token in cookies!');
+      console.log('There is not access_token in cookies!');
       return;
     }
     return fn({ ...params, token });
   } catch (e) {
-    alert('Usage function error. Take a look at console');
+    console.log('Usage function error. Take a look at console');
     console.log(e);
   }
 };
