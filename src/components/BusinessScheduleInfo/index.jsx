@@ -31,7 +31,7 @@ class BusinessScheduleInfo extends PureComponent {
   }
 
   initForm = () => {
-    const { workTimes } = this.props.singleBusiness || [];
+    const { workTimes } = this.props.singleBusiness || { workTimes: [] };
     const initDaysList = scheduleListDefault.reduce((acc, day) => {
       const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
       acc.push({ ...day, ...initDay });
@@ -92,6 +92,7 @@ class BusinessScheduleInfo extends PureComponent {
 
   render() {
     const { scheduleList } = this.state;
+    const { packagesDisable } = this.props;
 
     return (
       <div className={b()}>
@@ -108,6 +109,7 @@ class BusinessScheduleInfo extends PureComponent {
         >
           <Col lg={12}>
             <Button
+              disabled={packagesDisable}
               className={b('controlBtns-btn backBtn')}
               onClick={this.handleChangeActiveTab('packages')}
             >

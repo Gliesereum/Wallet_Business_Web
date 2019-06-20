@@ -20,6 +20,7 @@ class BusinessServices extends Component {
       singleBusiness,
       servicePrices,
       changeActiveTab,
+      changeTabDisable,
       updateBusinessService,
     } = this.props;
     const { chosenService, isAddServiceMode } = this.state;
@@ -34,12 +35,14 @@ class BusinessServices extends Component {
               singleBusiness={singleBusiness}
               isAddMode={isAddServiceMode}
               chosenService={chosenService}
+              changeTabDisable={changeTabDisable}
               changeActiveService={this.changeActiveService}
               updateBusinessService={updateBusinessService}
             />
           ) : (
             <BusinessServicesList
               services={services}
+              changeTabDisable={changeTabDisable}
               changeActiveService={this.changeActiveService}
               changeActiveTab={changeActiveTab}
             />

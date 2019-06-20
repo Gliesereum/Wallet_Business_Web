@@ -19,7 +19,6 @@ import { fetchDecorator } from '../../utils';
 import {
   fetchGetPriceServices,
   fetchGetBusinessPackages,
-  // fetchGetBusinessOrders,
 } from '../../fetches';
 
 import './index.scss';
@@ -31,8 +30,8 @@ export const BusinessPageContext = React.createContext();
 class BusinessPage extends Component {
   state = {
     disabledTab: {
-      isServicesDisabled: null,
-      isPackageDisabled: null,
+      servicesDisable: null,
+      packagesDisable: null,
     },
   };
 
@@ -48,8 +47,8 @@ class BusinessPage extends Component {
 
     this.setState({
       disabledTab: {
-        isServicesDisabled: initialTabDisabled,
-        isPackageDisabled: !singleBusiness || (singleBusiness && servicePrices && !servicePrices[singleBusiness.id]),
+        servicesDisable: initialTabDisabled,
+        packagesDisable: !singleBusiness || (singleBusiness && servicePrices && !servicePrices[singleBusiness.id]),
       },
     });
   }
@@ -64,33 +63,12 @@ class BusinessPage extends Component {
     });
   };
 
-  handleAddBusiness = async (business) => {
-    await this.props.addNewBusiness(business);
-
-    this.setState(prevState => ({
-      disabledTab: {
-        ...prevState.disabledTab,
-        isServicesDisabled: false,
-      },
-    }));
-
-    this.changeActiveTab('services', business.id);
-  };
-
-  handleUpdateBusiness = async (business) => {
-    await this.props.updateBusiness(business);
-
-    this.changeActiveTab('services', business.id);
-  };
-
-  handleUpdateBusinessService = () => {
-    this.setState(prevState => ({
-      disabledTab: {
-        ...prevState.disabledTab,
-        isPackageDisabled: false,
-      },
-    }));
-  };
+  handleChangeTabDisable = (tabName, disable = false) => this.setState(prevState => ({
+    disabledTab: {
+      ...prevState.disabledTab,
+      [`${tabName}Disable`]: disable,
+    },
+  }));
 
   render() {
     const {
@@ -101,6 +79,8 @@ class BusinessPage extends Component {
       corporations,
       servicePrices,
       businessPackages,
+      addNewBusiness,
+      updateBusiness,
     } = this.props;
     const { disabledTab } = this.state;
     const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -115,8 +95,9 @@ class BusinessPage extends Component {
           businessCategories,
           businessTypes,
           corporations,
-          updateBusiness: this.handleUpdateBusiness,
-          addNewBusiness: this.handleAddBusiness,
+          updateBusiness,
+          addNewBusiness,
+          changeTabDisable: this.handleChangeTabDisable,
           validFieldHandler: this.validFieldHandler,
           chosenCorpId: location.state ? location.state.chosenCorp.id : undefined,
         },
@@ -124,23 +105,21 @@ class BusinessPage extends Component {
       {
         tabName: 'Услуги',
         keyName: 'services',
-        disabled: disabledTab.isServicesDisabled,
+        disabled: disabledTab.servicesDisable,
         ContentComponent: BusinessServices,
         props: {
           servicePrices,
-          changeActiveTab: this.changeActiveTab,
-          updateBusinessService: this.handleUpdateBusinessService,
+          changeTabDisable: this.handleChangeTabDisable,
         },
       },
       {
         tabName: 'Пакет Услуг',
         keyName: 'packages',
-        disabled: disabledTab.isPackageDisabled,
+        disabled: disabledTab.packagesDisable,
         ContentComponent: BusinessPackages,
         props: {
           packages: businessPackages,
           servicePrices,
-          changeActiveTab: this.changeActiveTab,
         },
       },
       {
@@ -148,8 +127,8 @@ class BusinessPage extends Component {
         keyName: 'schedule',
         ContentComponent: BusinessScheduleInfo,
         props: {
-          // updateSchedule,
           changeActiveTab: this.changeActiveTab,
+          packagesDisable: disabledTab.packagesDisable,
         },
       },
     ];
@@ -158,7 +137,7 @@ class BusinessPage extends Component {
       <div className={b()}>
         <div className={b('header')}>
           <h1 className={b('header-title')}>
-            {isAddBusinessMode ? 'Добавить бизнес' : 'Изменить бизнес'}
+            {isAddBusinessMode ? 'Добавить бизнес' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
           </h1>
         </div>
         <Tabs
@@ -183,6 +162,7 @@ class BusinessPage extends Component {
                 <ContentComponent
                   singleBusiness={singleBusiness}
                   isAddBusinessMode={isAddBusinessMode}
+                  changeActiveTab={this.changeActiveTab}
                   {...props}
                 />
               </Tabs.TabPane>

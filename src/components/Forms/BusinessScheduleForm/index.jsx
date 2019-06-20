@@ -36,7 +36,7 @@ class BusinessScheduleForm extends Component {
     };
 
     return (
-      <div className={b()}>
+      <div id="scheduleForm" className={b()}>
         <Form
           colon={false}
           layout="horizontal"

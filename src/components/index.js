@@ -12,6 +12,7 @@ import BusinessServicesList from './BusinessServicesList';
 import BusinessPackagesList from './BusinessPackagesList';
 import EmptyState from './EmptyState';
 import FromToInput from './FromToInput';
+import ProneInput from './ProneInput';
 
 export {
   Header,
@@ -28,4 +29,5 @@ export {
   BusinessPackagesList,
   EmptyState,
   FromToInput,
+  ProneInput,
 };
