@@ -81,6 +81,7 @@ class BusinessPage extends Component {
       businessPackages,
       addNewBusiness,
       updateBusiness,
+      removeBusiness,
     } = this.props;
     const { disabledTab } = this.state;
     const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -97,6 +98,7 @@ class BusinessPage extends Component {
           corporations,
           updateBusiness,
           addNewBusiness,
+          removeBusiness,
           changeTabDisable: this.handleChangeTabDisable,
           validFieldHandler: this.validFieldHandler,
           chosenCorpId: location.state ? location.state.chosenCorp.id : undefined,
@@ -195,6 +197,7 @@ const mapStateToProps = (state, { match, location }) => {
 const mapDispatchToProps = dispatch => ({
   addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
   updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
+  removeBusiness: businessId => dispatch(actions.business.$removeBusiness(businessId)),
   getPriceService: data => dispatch(actions.business.$getPriceService(data)),
   getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
   // getBusinessOrders: (id, data) => dispatch(actions.business.$getBusinessOrders(id, data)),
