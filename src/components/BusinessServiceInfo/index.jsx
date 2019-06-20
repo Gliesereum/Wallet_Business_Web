@@ -54,7 +54,7 @@ class BusinessServiceInfo extends Component {
       chosenService,
       singleBusiness,
       changeActiveService,
-      updateBusinessService,
+      changeTabDisable,
       isAddMode,
       addServicePrice,
       updateServicePrice,
@@ -62,7 +62,6 @@ class BusinessServiceInfo extends Component {
     const {
       mainInfo,
       additionalInfo,
-      // classes,
       additionalInfoVisible,
     } = this.state;
 
@@ -88,10 +87,10 @@ class BusinessServiceInfo extends Component {
         if (isAddMode) {
           await addServicePrice(newServicePrice);
           changeActiveService(newServicePrice, false)();
+          changeTabDisable('packages');
           this.setState({ additionalInfoVisible: true });
         } else {
           updateServicePrice(newServicePrice);
-          updateBusinessService();
         }
       } catch (err) {
         notification.error({
@@ -135,7 +134,6 @@ class BusinessServiceInfo extends Component {
       changeActiveService,
     } = this.props;
     const removeServicePriceUrl = `price/${chosenService.id}`;
-
     try {
       await withToken(asyncRequest)({ url: removeServicePriceUrl, method: 'DELETE', moduleUrl: 'karma' });
       await removeServicePrice({ servicePriceId: chosenService.id, businessId: singleBusiness.id });
@@ -193,7 +191,7 @@ class BusinessServiceInfo extends Component {
                 <br />
                 <span>
                   Введите и сохраните основную информацию услуги для доступа к редакции дополнительной информации
-                  Вы не можете создать пакет услуг пока не создадите услугу (Гы :))
+                  Вы не можете создать пакет услуг пока не создадите услугу.
                 </span>
               </p>
             </div>

@@ -20,6 +20,13 @@ const b = bem('businessServicesList');
 const { Item } = List;
 
 class BusinessServicesList extends Component {
+  componentDidMount() {
+    const { services, changeTabDisable } = this.props;
+    if (services && !services.length) {
+      changeTabDisable('packages', true);
+    }
+  }
+
   handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
 
   renderServicesList = (services) => {

@@ -14,6 +14,12 @@
     letter-spacing: 0.04em;
     border: none;
 
+    &[disabled] {
+      color: rgba(164, 174, 184, 0.4);
+      background: linear-gradient(0deg, #F6F6F6, #F6F6F6);
+      border: 2px solid rgba(164, 174, 184, 0.4) !important;
+    }
+
     & > span {
       font-family: $sans;
     }
@@ -124,6 +130,8 @@
         &-value {
           padding: 0 16px;
           line-height: 48px;
+          letter-spacing: 0.02em;
+          font-family: $sans;
         }
       }
 

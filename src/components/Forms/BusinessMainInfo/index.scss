@@ -1,8 +1,16 @@
 .businessMainForm {
-  padding: 0 16px;
+  &__content {
+    overflow-y: scroll;
+    height: 452px;
+  }
+
+  &__outerRow {
+    margin: 0 !important;
+  }
 
   &__controlBtns {
-    margin-top: 56px;
+    margin-top: 16px;
+    padding: 0 20px;
 
     &-btn {
       width: 100%;

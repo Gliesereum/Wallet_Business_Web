@@ -1,0 +1,8 @@
+.phoneInput {
+  & .react-tel-input {
+    .phoneInput__inputClass.form-control {
+        width: 100%;
+        height: 48px;
+    }
+  }
+}

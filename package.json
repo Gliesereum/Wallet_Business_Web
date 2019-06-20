@@ -51,6 +51,7 @@
     "react-google-maps": "^9.4.5",
     "react-helmet": "^5.2.0",
     "react-input-mask": "^2.0.4",
+    "react-phone-input-2": "^2.9.4",
     "react-redux": "^7.0.3",
     "react-router-dom": "^4.4.0-beta.5",
     "react-scroll": "^1.7.11",
