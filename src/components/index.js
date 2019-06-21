@@ -5,11 +5,9 @@ import ScreenLoading from './ScreenLoading';
 import Map from './Map';
 import CorporationsList from './CorporationsList';
 import BusinessesList from './BusinessesList';
-import BusinessServiceInfo from './BusinessServiceInfo';
-import BusinessPackagesInfo from './BusinessPackagesInfo';
+import BusinessServices from './BusinessServices';
+import BusinessPackages from './BusinessPackages';
 import BusinessScheduleInfo from './BusinessScheduleInfo';
-import BusinessServicesList from './BusinessServicesList';
-import BusinessPackagesList from './BusinessPackagesList';
 import EmptyState from './EmptyState';
 import FromToInput from './FromToInput';
 import ProneInput from './ProneInput';
@@ -20,13 +18,11 @@ export {
   Timer,
   ScreenLoading,
   Map,
+  BusinessServices,
+  BusinessPackages,
   CorporationsList,
   BusinessesList,
-  BusinessServiceInfo,
-  BusinessPackagesInfo,
   BusinessScheduleInfo,
-  BusinessServicesList,
-  BusinessPackagesList,
   EmptyState,
   FromToInput,
   ProneInput,

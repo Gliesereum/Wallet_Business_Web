@@ -7,12 +7,12 @@ import qs from 'qs';
 
 import { Tabs } from 'antd';
 
-import { BusinessMainInfo } from '../../components/Forms';
-import { BusinessScheduleInfo } from '../../components';
+import { BusinessMainInfoForm } from '../../components/Forms';
 import {
+  BusinessScheduleInfo,
   BusinessPackages,
   BusinessServices,
-} from './children/SingleBusinessPage/tabs';
+} from '../../components';
 
 import { actions } from '../../state';
 import { fetchDecorator } from '../../utils';
@@ -91,7 +91,7 @@ class BusinessPage extends Component {
       {
         tabName: 'Основная информация',
         keyName: 'mainInfo',
-        ContentComponent: BusinessMainInfo,
+        ContentComponent: BusinessMainInfoForm,
         props: {
           businessCategories,
           businessTypes,

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import bem from 'bem-join';
 
-import {
-  BusinessPackagesList,
-  BusinessPackagesInfo,
-} from '../../../../../../components';
+import BusinessPackagesList from '../BusinessPackagesList';
+import BusinessPackagesInfo from '../BusinessPackagesInfo';
 
 import './index.scss';
 

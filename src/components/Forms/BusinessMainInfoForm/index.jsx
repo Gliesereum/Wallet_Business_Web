@@ -62,7 +62,7 @@ const initialFieldValues = (chosenCorpId: {} = undefined): {} => ({
   currentLocationValue: defaultGeoPosition,
 });
 
-class BusinessMainInfo extends Component<Prop, State> {
+class BusinessMainInfoForm extends Component<Prop, State> {
   state = {
     disabled: false,
     addressNodes: [],
@@ -437,4 +437,4 @@ class BusinessMainInfo extends Component<Prop, State> {
 export default compose(
   withRouter,
   Form.create({}),
-)(BusinessMainInfo);
+)(BusinessMainInfoForm);
