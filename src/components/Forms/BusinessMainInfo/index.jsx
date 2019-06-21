@@ -184,8 +184,8 @@ class BusinessMainInfo extends Component<Prop, State> {
 
     try {
       await withToken(asyncRequest)({ url: removeBusinessUrl, method: 'DELETE', moduleUrl: 'karma' });
-      await removeBusiness(singleBusiness.id);
       history.replace('/corporations');
+      await removeBusiness(singleBusiness.id);
     } catch (err) {
       notification.error({
         duration: 5,
