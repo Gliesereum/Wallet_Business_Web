@@ -1,0 +1,12 @@
+@import '../../styles/theme';
+
+.businessMainInfo {
+  &__controlBtns {
+    margin-top: 16px;
+    padding: 0 20px;
+
+    &-btn {
+      width: 100%;
+    }
+  }
+}

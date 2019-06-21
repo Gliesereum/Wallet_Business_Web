@@ -1,5 +1,5 @@
 import PackageForm from './PackageForm';
-import BusinessMainInfo from './BusinessMainInfo';
+import BusinessMainInfoForm from './BusinessMainInfoForm';
 import BusinessScheduleForm from './BusinessScheduleForm';
 
 import ServiceMainInfoForm from './ServiceMainInfoFrom';
@@ -12,7 +12,7 @@ import CorporationForm from './CorporationForm';
 
 export {
   PackageForm,
-  BusinessMainInfo,
+  BusinessMainInfoForm,
   BusinessScheduleForm,
   ServiceAdditional,
   ServiceMainInfoForm,
