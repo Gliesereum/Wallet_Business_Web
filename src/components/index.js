@@ -8,6 +8,7 @@ import BusinessesList from './BusinessesList';
 import BusinessServices from './BusinessServices';
 import BusinessPackages from './BusinessPackages';
 import BusinessScheduleInfo from './BusinessScheduleInfo';
+import BusinessMainInfo from './BusinessMainInfo';
 import EmptyState from './EmptyState';
 import FromToInput from './FromToInput';
 import ProneInput from './ProneInput';
@@ -23,6 +24,7 @@ export {
   CorporationsList,
   BusinessesList,
   BusinessScheduleInfo,
+  BusinessMainInfo,
   EmptyState,
   FromToInput,
   ProneInput,

@@ -1,8 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import compose from 'recompose/compose';
 import bem from 'bem-join';
 
 import {
@@ -12,18 +10,11 @@ import {
   Input,
   AutoComplete,
   Select,
-  Button,
-  notification,
-  Icon,
 } from 'antd';
 
 import Map from '../../Map';
 import ProneInput from '../../ProneInput';
 
-import {
-  asyncRequest,
-  withToken,
-} from '../../../utils';
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
 
@@ -101,16 +92,18 @@ class BusinessMainInfoForm extends Component<Prop, State> {
 
   selectAddressByInputHandler = async (value: string, addressObj: {}) => {
     const { result } = await this.getPlaceInfo(addressObj.props.address.place_id);
-    this.setState((prevState: State): {} => ({
-      ...prevState,
-      currentAddress: value,
-      currentLocation: result.geometry.location,
-    }));
+    this.setState((prevState: State): {} => {
+      this.props.changeCurrentLocation(result.geometry.location);
+      return {
+        ...prevState,
+        currentAddress: value,
+        currentLocation: result.geometry.location,
+      };
+    });
   };
 
-  // TODO: change type for return
   selectAddressByMarkerHandler = async ({ latLng }: { latLng: {} }): any => {
-    const { form } = this.props;
+    const { form, changeCurrentLocation } = this.props;
     const location = {
       lat: latLng.lat(),
       lng: latLng.lng(),
@@ -120,79 +113,15 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     const request = await fetch(addressUrl);
     const { results } = await request.json();
     const address = results[0].formatted_address;
-    this.setState((prevState: State): {} => ({
-      ...prevState,
-      currentAddress: address,
-      currentLocation: location,
-    }));
-    form.setFieldsValue({ address });
-  };
-
-  handleSubmit = (e: SyntheticEvent<>) => {
-    e.preventDefault();
-
-    const {
-      form,
-      updateBusiness,
-      isAddBusinessMode,
-      addNewBusiness,
-      singleBusiness,
-      changeActiveTab,
-      changeTabDisable,
-    } = this.props;
-    const { currentLocation } = this.state;
-
-    form.validateFields(async (error: {}, values: {}) => {
-      if (!error) {
-        const businessUrl = 'business';
-        const method = isAddBusinessMode && !singleBusiness ? 'POST' : 'PUT';
-        const moduleUrl = 'karma';
-
-        const body = {
-          ...singleBusiness,
-          ...values,
-          latitude: currentLocation ? currentLocation.lat : singleBusiness.latitude,
-          longitude: currentLocation ? currentLocation.lng : singleBusiness.longitude,
-          timeZone: singleBusiness ? singleBusiness.timeZone : -new Date().getTimezoneOffset(),
-        };
-
-        try {
-          const newBusiness = await withToken(asyncRequest)({
-            url: businessUrl, method, moduleUrl, body,
-          });
-          if (isAddBusinessMode && !singleBusiness) {
-            await addNewBusiness(newBusiness);
-            changeTabDisable('services');
-          } else {
-            await updateBusiness(newBusiness);
-          }
-          changeActiveTab('services', newBusiness.id);
-        } catch (err) {
-          notification.error({
-            duration: 5,
-            message: err.message || 'Ошибка',
-            description: 'Возникла ошибка',
-          });
-        }
-      }
+    this.setState((prevState: State): {} => {
+      changeCurrentLocation(location);
+      return {
+        ...prevState,
+        currentAddress: address,
+        currentLocation: location,
+      };
     });
-  };
-
-  handleRemoveBusiness = async () => {
-    const { removeBusiness, singleBusiness, history } = this.props;
-    const removeBusinessUrl = `business/${singleBusiness.id}`;
-
-    try {
-      await withToken(asyncRequest)({ url: removeBusinessUrl, method: 'DELETE', moduleUrl: 'karma' });
-      history.replace('/corporations');
-      await removeBusiness(singleBusiness.id);
-    } catch (err) {
-      notification.error({
-        duration: 5,
-        message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
-      });
-    }
+    form.setFieldsValue({ address });
   };
 
   render(): React.Node {
@@ -213,8 +142,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
       corporationId: corporations.filter((corp: {}): {} => corp.id === singleBusiness.corporationId)[0].id,
       name: singleBusiness.name,
       description: singleBusiness.description,
-      phonePrefix: singleBusiness.phone.match(),
-      phone: singleBusiness.phone,
+      phone: singleBusiness.phone.replace(/[()\s+]/g, ''),
       businessType: singleBusiness.businessCategory.businessType,
       businessCategory: singleBusiness.businessCategory.id,
       currentAddressValue: singleBusiness.address,
@@ -226,7 +154,6 @@ class BusinessMainInfoForm extends Component<Prop, State> {
 
     return (
       <Form
-        onSubmit={this.handleSubmit}
         className={b()}
       >
         <div className={b('content')}>
@@ -395,46 +322,9 @@ class BusinessMainInfoForm extends Component<Prop, State> {
             </Col>
           </Row>
         </div>
-        <Row
-          gutter={40}
-          className={b('controlBtns')}
-        >
-          <Col lg={isAddBusinessMode ? 12 : 8}>
-            <Button className={b('controlBtns-btn backBtn')}>
-              <Link to="/corporations">
-                <Icon type="left" />
-                Назад к списку
-              </Link>
-            </Button>
-          </Col>
-          {
-            !isAddBusinessMode && (
-              <Col lg={8}>
-                <Button
-                  className={b('controlBtns-btn deleteBtn')}
-                  onClick={this.handleRemoveBusiness}
-                >
-                  Удалить бизнес
-                </Button>
-              </Col>
-            )
-          }
-          <Col lg={isAddBusinessMode ? 12 : 8}>
-            <Button
-              className={b('controlBtns-btn')}
-              htmlType="submit"
-              type="primary"
-            >
-              {isAddBusinessMode ? 'Сохранить' : 'Далее'}
-            </Button>
-          </Col>
-        </Row>
       </Form>
     );
   }
 }
 
-export default compose(
-  withRouter,
-  Form.create({}),
-)(BusinessMainInfoForm);
+export default Form.create({})(BusinessMainInfoForm);

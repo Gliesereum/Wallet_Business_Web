@@ -7,8 +7,8 @@ import qs from 'qs';
 
 import { Tabs } from 'antd';
 
-import { BusinessMainInfoForm } from '../../components/Forms';
 import {
+  BusinessMainInfo,
   BusinessScheduleInfo,
   BusinessPackages,
   BusinessServices,
@@ -24,8 +24,6 @@ import {
 import './index.scss';
 
 const b = bem('business');
-
-export const BusinessPageContext = React.createContext();
 
 class BusinessPage extends Component {
   state = {
@@ -79,9 +77,6 @@ class BusinessPage extends Component {
       corporations,
       servicePrices,
       businessPackages,
-      addNewBusiness,
-      updateBusiness,
-      removeBusiness,
     } = this.props;
     const { disabledTab } = this.state;
     const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -91,14 +86,11 @@ class BusinessPage extends Component {
       {
         tabName: 'Основная информация',
         keyName: 'mainInfo',
-        ContentComponent: BusinessMainInfoForm,
+        ContentComponent: BusinessMainInfo,
         props: {
           businessCategories,
           businessTypes,
           corporations,
-          updateBusiness,
-          addNewBusiness,
-          removeBusiness,
           changeTabDisable: this.handleChangeTabDisable,
           validFieldHandler: this.validFieldHandler,
           chosenCorpId: location.state ? location.state.chosenCorp.id : undefined,
@@ -195,9 +187,6 @@ const mapStateToProps = (state, { match, location }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
-  updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
-  removeBusiness: businessId => dispatch(actions.business.$removeBusiness(businessId)),
   getPriceService: data => dispatch(actions.business.$getPriceService(data)),
   getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
   // getBusinessOrders: (id, data) => dispatch(actions.business.$getBusinessOrders(id, data)),
