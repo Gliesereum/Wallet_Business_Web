@@ -67,14 +67,31 @@ class Corporation extends Component {
     try {
       const newCorporation = await withToken(asyncRequest)({ url, method, body });
       await addCorporation(newCorporation);
+      history.replace('/corporations');
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
         description: 'Возникла ошибка',
       });
-    } finally {
+    }
+  };
+
+  handleRemoveCorporation = async () => {
+    const { match, history, removeCorporation } = this.props;
+    const { id: corporationId } = match.params;
+    const removeCorporationUrl = `corporation/${corporationId}`;
+
+    try {
+      await withToken(asyncRequest)({ url: removeCorporationUrl, method: 'DELETE' });
       history.replace('/corporations');
+      await removeCorporation(corporationId);
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     }
   };
 
@@ -90,6 +107,7 @@ class Corporation extends Component {
             isEditMod={Boolean(match.params.id)}
             singleCorporation={singleCorporation}
             onSubmit={match.params && match.params.id ? this.handleUpdateCorporation : this.handleAddCorporation}
+            onRemove={this.handleRemoveCorporation}
           />
         </div>
 
@@ -120,6 +138,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addCorporation: corporation => dispatch(actions.corporations.$addCorporation(corporation)),
   updateCorporation: corporation => dispatch(actions.corporations.$updateCorporation(corporation)),
+  removeCorporation: corporationId => dispatch(actions.corporations.$deleteCorporation(corporationId)),
 });
 
 export default compose(
