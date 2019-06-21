@@ -78,12 +78,14 @@ class Corporation extends Component {
   };
 
   handleRemoveCorporation = async () => {
-    const { match, history } = this.props;
-    const removeCorporationUrl = `corporation/${match.params.id}`;
+    const { match, history, removeCorporation } = this.props;
+    const { id: corporationId } = match.params;
+    const removeCorporationUrl = `corporation/${corporationId}`;
 
     try {
       await withToken(asyncRequest)({ url: removeCorporationUrl, method: 'DELETE' });
       history.replace('/corporations');
+      await removeCorporation(corporationId);
     } catch (err) {
       notification.error({
         duration: 5,
@@ -136,6 +138,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addCorporation: corporation => dispatch(actions.corporations.$addCorporation(corporation)),
   updateCorporation: corporation => dispatch(actions.corporations.$updateCorporation(corporation)),
+  removeCorporation: corporationId => dispatch(actions.corporations.$deleteCorporation(corporationId)),
 });
 
 export default compose(
