@@ -7,11 +7,13 @@ import compose from 'recompose/compose';
 import {
   Button,
   Col,
-  Icon, notification,
+  Icon,
+  notification,
   Row,
 } from 'antd';
 
 import { BusinessMainInfoForm } from '../Forms';
+import DeleteModal from '../DeleteModal';
 import { defaultGeoPosition } from '../Map/mapConfig';
 
 import { asyncRequest, withToken } from '../../utils';
@@ -24,6 +26,7 @@ const b = bem('businessMainInfo');
 
 class BusinessMainInfo extends Component {
   state = {
+    deleteModalVisible: false,
     currentLocation: defaultGeoPosition,
   };
 
@@ -97,6 +100,12 @@ class BusinessMainInfo extends Component {
     });
   };
 
+  toggleDeleteModal = () => {
+    this.setState(prevState => ({
+      deleteModalVisible: !prevState.deleteModalVisible,
+    }));
+  };
+
   render() {
     const {
       isAddBusinessMode,
@@ -106,6 +115,7 @@ class BusinessMainInfo extends Component {
       chosenCorpId,
       singleBusiness,
     } = this.props;
+    const { deleteModalVisible } = this.state;
 
     return (
       <div className={b()}>
@@ -137,7 +147,7 @@ class BusinessMainInfo extends Component {
               <Col lg={8}>
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
-                  onClick={this.handleRemoveBusiness}
+                  onClick={this.toggleDeleteModal}
                 >
                   Удалить бизнес
                 </Button>
@@ -154,6 +164,20 @@ class BusinessMainInfo extends Component {
             </Button>
           </Col>
         </Row>
+
+        {
+          deleteModalVisible && (
+            <DeleteModal
+              visible={deleteModalVisible}
+              okText="Удалить"
+              cancelText="Отменить"
+              onOk={this.handleRemoveBusiness}
+              onCancel={this.toggleDeleteModal}
+              deletedName={singleBusiness.name}
+              deletedItem="бизнес"
+            />
+          )
+        }
       </div>
     );
   }

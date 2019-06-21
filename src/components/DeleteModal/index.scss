@@ -1,0 +1,56 @@
+@import "../../styles/theme.scss";
+
+.deleteModal {
+
+  &__content-text {
+    padding: 16px 0;
+
+    & p {
+      font-family: $sans;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      color: $font-title-black;
+      line-height: 20px;
+    }
+  }
+
+  & .ant-modal {
+    &-header {
+      text-align: center;
+      color: $font-title-black;
+      line-height: 16px;
+      font-size: 16px;
+      font-family: $sans;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+    }
+
+    &-body {
+      text-align: center;
+      height: 130px;
+    }
+
+    &-footer {
+      text-align: center;
+      border-top: none;
+      padding: 30px 16px 42px;
+
+      & .ant-btn {
+        height: 48px;
+        background-color: $white;
+        color: $coupler-blue;
+        line-height: 16px;
+        font-size: 12px;
+        font-family: $sans;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border: 2px solid $coupler-blue;
+        width: 160px;
+
+        &.deleteBtn {
+          border: 2px solid $coupler-red;
+          color: $coupler-red;
+        }
+      }
+    }
+  }
+}
