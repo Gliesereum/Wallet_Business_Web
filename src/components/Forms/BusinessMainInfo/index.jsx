@@ -1,7 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import compose from 'recompose/compose';
 import bem from 'bem-join';
 
 import {
@@ -175,6 +176,23 @@ class BusinessMainInfo extends Component<Prop, State> {
         }
       }
     });
+  };
+
+  handleRemoveBusiness = async () => {
+    const { removeBusiness, singleBusiness, history } = this.props;
+    const removeBusinessUrl = `business/${singleBusiness.id}`;
+
+    try {
+      await withToken(asyncRequest)({ url: removeBusinessUrl, method: 'DELETE', moduleUrl: 'karma' });
+      history.replace('/corporations');
+      await removeBusiness(singleBusiness.id);
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
   };
 
   render(): React.Node {
@@ -381,15 +399,27 @@ class BusinessMainInfo extends Component<Prop, State> {
           gutter={40}
           className={b('controlBtns')}
         >
-          <Col lg={12}>
+          <Col lg={isAddBusinessMode ? 12 : 8}>
             <Button className={b('controlBtns-btn backBtn')}>
               <Link to="/corporations">
                 <Icon type="left" />
-                Назад
+                Назад к списку
               </Link>
             </Button>
           </Col>
-          <Col lg={12}>
+          {
+            !isAddBusinessMode && (
+              <Col lg={8}>
+                <Button
+                  className={b('controlBtns-btn deleteBtn')}
+                  onClick={this.handleRemoveBusiness}
+                >
+                  Удалить бизнес
+                </Button>
+              </Col>
+            )
+          }
+          <Col lg={isAddBusinessMode ? 12 : 8}>
             <Button
               className={b('controlBtns-btn')}
               htmlType="submit"
@@ -404,4 +434,7 @@ class BusinessMainInfo extends Component<Prop, State> {
   }
 }
 
-export default Form.create({})(BusinessMainInfo);
+export default compose(
+  withRouter,
+  Form.create({}),
+)(BusinessMainInfo);

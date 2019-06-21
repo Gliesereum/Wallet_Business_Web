@@ -197,65 +197,43 @@ class BusinessServiceInfo extends Component {
             </div>
           )
         }
-        {isAddMode ? (
-          <Row
-            gutter={40}
-            className={b('controlBtns')}
-          >
-            <Col lg={12}>
-              <Button
-                className={b('controlBtns-btn backBtn')}
-                onClick={changeActiveService(null, false)}
-              >
-                <Icon type="left" />
-                Назад к списку
-              </Button>
-            </Col>
-            <Col lg={12}>
-              <Button
-                className={b('controlBtns-btn')}
-                onClick={this.handleUpdateBusinessService}
-                type="primary"
-              >
-                {
-                  !additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'
-                }
-              </Button>
-            </Col>
-          </Row>
-        ) : (
-          <Row
-            gutter={40}
-            className={b('controlBtns')}
-          >
-            <Col lg={8}>
-              <Button
-                className={b('controlBtns-btn backBtn')}
-                onClick={changeActiveService(null, false)}
-              >
-                <Icon type="left" />
-                Назад
-              </Button>
-            </Col>
-            <Col lg={8}>
-              <Button
-                className={b('controlBtns-btn deleteBtn')}
-                onClick={this.handleRemoveServicePrice}
-              >
-                Удалить сервис
-              </Button>
-            </Col>
-            <Col lg={8}>
-              <Button
-                className={b('controlBtns-btn')}
-                onClick={this.handleUpdateBusinessService}
-                type="primary"
-              >
-                Сохранить
-              </Button>
-            </Col>
-          </Row>
-        )}
+        <Row
+          gutter={40}
+          className={b('controlBtns')}
+        >
+          <Col lg={isAddMode ? 12 : 8}>
+            <Button
+              className={b('controlBtns-btn backBtn')}
+              onClick={changeActiveService(null, false)}
+            >
+              <Icon type="left" />
+              Назад к списку
+            </Button>
+          </Col>
+          {
+            !isAddMode && (
+              <Col lg={8}>
+                <Button
+                  className={b('controlBtns-btn deleteBtn')}
+                  onClick={this.handleRemoveServicePrice}
+                >
+                  Удалить сервис
+                </Button>
+              </Col>
+            )
+          }
+          <Col lg={isAddMode ? 12 : 8}>
+            <Button
+              className={b('controlBtns-btn')}
+              onClick={this.handleUpdateBusinessService}
+              type="primary"
+            >
+              {
+                !additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'
+              }
+            </Button>
+          </Col>
+        </Row>
       </div>
     );
   }
