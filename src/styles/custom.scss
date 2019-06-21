@@ -13,6 +13,7 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     border: none;
+    text-overflow: ellipsis;
 
     &[disabled] {
       color: rgba(164, 174, 184, 0.4);
@@ -22,6 +23,9 @@
 
     & > span {
       font-family: $sans;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
     }
 
     &.deleteBtn {

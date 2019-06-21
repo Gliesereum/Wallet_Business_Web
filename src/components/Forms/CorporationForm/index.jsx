@@ -65,6 +65,8 @@ class CorporationForm extends Component {
     const {
       form,
       singleCorporation,
+      isEditMod,
+      onRemove,
     } = this.props;
     const {
       okText, cancelText, okMethod, cancelMethod,
@@ -188,10 +190,10 @@ class CorporationForm extends Component {
             </Form.Item>
           </Col>
         </Row>
-        <Row className={b('buttonGroup')} gutter={32}>
-          <Col lg={12}>
+        <Row className={b('controlBtns')} gutter={isEditMod ? 20 : 32}>
+          <Col lg={!isEditMod ? 12 : 8}>
             <Button
-              className={b('buttonGroup-cancelBtn')}
+              className={b('controlBtns-btn backBtn')}
               onClick={cancelMethod}
             >
               <Link to="/corporations">
@@ -199,9 +201,21 @@ class CorporationForm extends Component {
               </Link>
             </Button>
           </Col>
-          <Col lg={12}>
+          {
+            isEditMod && (
+              <Col lg={8}>
+                <Button
+                  className={b('controlBtns-btn deleteBtn')}
+                  onClick={onRemove}
+                >
+                  Удалить компанию
+                </Button>
+              </Col>
+            )
+          }
+          <Col lg={!isEditMod ? 12 : 8}>
             <Button
-              className={b('buttonGroup-okBtn')}
+              className={b('controlBtns-btn')}
               type="primary"
               onClick={okMethod}
             >
