@@ -1,5 +1,6 @@
 import React from 'react';
 import bem from 'bem-join';
+import { Link } from 'react-router-dom';
 
 import { Button } from 'antd';
 
@@ -14,6 +15,7 @@ const EmptyState = ({
   descrText,
   addItemText,
   addItemHandler,
+  linkToData = {},
 }) => (
   <div className={b()}>
     <div className={b('content')}>
@@ -22,13 +24,26 @@ const EmptyState = ({
       <p className={b('content-descr')}>
         {descrText}
       </p>
-      <Button
-        type="primary"
-        onClick={addItemHandler(null, true)}
-        className={b('content-btn')}
-      >
-        {addItemText}
-      </Button>
+      {
+        addItemHandler ? (
+          <Button
+            type="primary"
+            onClick={addItemHandler(null, true)}
+            className={b('content-btn')}
+          >
+            {addItemText}
+          </Button>
+        ) : (
+          <Link to={linkToData}>
+            <Button
+              type="primary"
+              className={b('content-btn')}
+            >
+              {addItemText}
+            </Button>
+          </Link>
+        )
+      }
     </div>
   </div>
 );
