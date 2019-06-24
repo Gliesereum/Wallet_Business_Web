@@ -13,10 +13,23 @@ import './index.scss';
 const b = bem('header');
 
 const ProfileMenu = () => (
-  <Menu>
-    <Menu.Item>Item 1</Menu.Item>
-    <Menu.Item>Item 2</Menu.Item>
-    <Menu.Item>Item 3</Menu.Item>
+  <Menu className={b('menu')}>
+    <Menu.Item
+      className={b('menu-item')}
+    >
+      <Icon type="user" />
+      <span>Мой профиль</span>
+    </Menu.Item>
+    <Menu.Item
+      disabled
+      className={b('menu-item')}
+    >
+      <Icon type="safety-certificate" />
+      <span className={b('menu-item-text')}>
+        Личный помощник
+        <div className={b('menu-item-indicator')}>for premium</div>
+      </span>
+    </Menu.Item>
   </Menu>
 );
 
@@ -37,7 +50,6 @@ const Header = ({ user }) => (
         </Avatar>
         <div className={b('content-box-naming')}>
           <h1>{`${user.firstName} ${user.lastName}`}</h1>
-          {/* TODO: add app type for each person */}
           <p>trial</p>
         </div>
         <Icon type="down" />
