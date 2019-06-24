@@ -29,8 +29,8 @@ const actions = {
         const { tokenInfo } = await asyncRequest({ url: `${authCheckUrl}?accessToken=${access_token}` });
         const user = await withToken(asyncRequest)({ url: userUrl });
         const email = await withToken(asyncRequest)({ url: emailUrl });
-        const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' });
-        const corporations = await withToken(asyncRequest)({ url: corporationsUrl });
+        const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
+        const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
         const businessTypes = await withToken(asyncRequest)({ url: businessTypeUrl, moduleUrl: 'karma' });
         const businessCategories = await withToken(asyncRequest)({ url: businessCategoryUrl, moduleUrl: 'karma' });
 

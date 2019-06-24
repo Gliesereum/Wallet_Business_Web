@@ -36,6 +36,7 @@
         "no-return-assign": "off",
         "no-param-reassign": "off",
         "guard-for-in": "off",
+        "no-debugger": "off",
 
         "react/prop-types": 0,
         "react/destructuring-assignment": 0,
