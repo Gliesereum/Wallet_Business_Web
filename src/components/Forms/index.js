@@ -8,6 +8,7 @@ import ServiceClasses from './ServiceClasses';
 
 import SignInForm from './SignInForm';
 import CorporationForm from './CorporationForm';
+import ProfileForm from './ProfileForm';
 
 
 export {
@@ -19,4 +20,5 @@ export {
   SignInForm,
   CorporationForm,
   ServiceClasses,
+  ProfileForm,
 };

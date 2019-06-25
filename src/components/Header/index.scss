@@ -60,6 +60,10 @@
       width: 208px;
       cursor: pointer;
 
+      & i {
+        margin-right: 8px;
+      }
+
       &-text {
         position: relative;
       }

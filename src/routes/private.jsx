@@ -9,8 +9,7 @@ import {
 import {
   Container,
   BusinessPage,
-  // ProfilePage,
-  // ProfileMainInfo,
+  ProfileInfo,
   CorporationsContainer,
   Corporation,
   // ProfileEmailScreen,
@@ -33,6 +32,8 @@ const privateRouter = ({ user }) => (
         <Route path="/analytics" exact>
           <Redirect to="/corporations" />
         </Route>
+
+        <Route path="/profile" exact component={ProfileInfo} />
 
         <Route path="/help" exact component={FAQ} />
 

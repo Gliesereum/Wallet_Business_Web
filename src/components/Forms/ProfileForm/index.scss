@@ -1,0 +1,66 @@
+@import '../../../styles/theme';
+
+.profileForm {
+  padding: 40px 56px 0 48px;
+  height: 456px;
+  overflow-y: scroll;
+
+  & .ant-upload.ant-upload-drag {
+    background-color: $white;
+    & .ant-upload {
+      padding: 0;
+    }
+  }
+
+  & .ant-form-item {
+    margin-bottom: 32px !important;
+  }
+
+  &__uploader {
+    &-image {
+      border-radius: 4px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &-container {
+      width: 100%;
+      height: 264px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-inside {
+      &-icon {
+        font-size: 56px;
+        color: rgba(164, 174, 184, 0.4);
+      }
+
+      &-text {
+        padding-top: 48px;
+        font-family: $sans;
+        font-size: 12px;
+        line-height: 16px;
+        color: #C8CED3;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  &__avatar {
+    padding-top: 24px;
+
+    &-text {
+      font-family: $sans;
+      font-size: 14px;
+      line-height: 23px;
+      text-align: center;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: rgba(119, 119, 119, 0.64);
+    }
+  }
+}
