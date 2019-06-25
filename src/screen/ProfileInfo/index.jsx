@@ -22,16 +22,21 @@ const b = bem('profileInfo');
 class ProfileInfo extends Component {
   state = {
     avatarImageUrl: this.props.user ? this.props.user.avatarUrl : '',
+    isError: false,
   };
 
   uploadAvatarImage = async (info) => {
+    if ((info.file.size / 1024 / 1024) > 2) {
+      this.setState({ isError: true });
+      return;
+    }
     const url = 'upload';
     const body = new FormData();
     await body.append('file', info.file);
     await body.append('open', true);
     const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
 
-    this.setState({ avatarImageUrl: imageUrl });
+    this.setState({ avatarImageUrl: imageUrl, isError: false });
   };
 
   handleUpdateUserData = () => {
@@ -61,6 +66,7 @@ class ProfileInfo extends Component {
   };
 
   render() {
+    const { avatarImageUrl, isError } = this.state;
     const { user } = this.props;
 
     return (
@@ -75,7 +81,8 @@ class ProfileInfo extends Component {
             wrappedComponentRef={form => this.profileForm = form}
             user={user}
             uploadAvatarImage={this.uploadAvatarImage}
-            avatarImageUrl={this.state.avatarImageUrl}
+            avatarImageUrl={avatarImageUrl}
+            isError={isError}
           />
         </div>
 

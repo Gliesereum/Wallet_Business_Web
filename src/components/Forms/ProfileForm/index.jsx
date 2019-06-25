@@ -22,6 +22,7 @@ class ProfileForm extends PureComponent {
       user,
       uploadAvatarImage,
       avatarImageUrl,
+      isError,
     } = this.props;
 
     return (
@@ -35,7 +36,7 @@ class ProfileForm extends PureComponent {
               className={b('uploader')}
               name="file"
               listType="picture-card"
-              showUploadList
+              showUploadList={false}
               customRequest={uploadAvatarImage}
             >
               <div className={b('uploader-container')}>
@@ -56,7 +57,7 @@ class ProfileForm extends PureComponent {
               </div>
             </Upload.Dragger>
             <div className={b('avatar')}>
-              <p className={b('avatar-text')}>
+              <p className={b('avatar-text', { isError })}>
                 Аватар не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
               </p>
             </div>
