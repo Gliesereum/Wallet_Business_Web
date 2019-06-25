@@ -1,5 +1,6 @@
 import React from 'react';
 import bem from 'bem-join';
+import { Link } from 'react-router-dom';
 
 import {
   Badge, Avatar, Dropdown, Menu, Icon,
@@ -17,8 +18,10 @@ const ProfileMenu = () => (
     <Menu.Item
       className={b('menu-item')}
     >
-      <Icon type="user" />
-      <span>Мой профиль</span>
+      <Link to="/profile">
+        <Icon type="user" />
+        <span className={b('menu-item-text')}>Мой профиль</span>
+      </Link>
     </Menu.Item>
     <Menu.Item
       disabled

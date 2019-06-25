@@ -27,7 +27,7 @@ const actions = {
 
       if (access_token && access_token !== 'undefined') {
         const { tokenInfo } = await asyncRequest({ url: `${authCheckUrl}?accessToken=${access_token}` });
-        const user = await withToken(asyncRequest)({ url: userUrl });
+        const user = await withToken(asyncRequest)({ url: userUrl }) || {};
         const email = await withToken(asyncRequest)({ url: emailUrl });
         const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
         const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];

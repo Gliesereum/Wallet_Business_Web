@@ -54,6 +54,12 @@
     &-label {
       line-height: 16px;
       padding-bottom: 8px;
+
+      & > label {
+        font-family: $sans;
+        letter-spacing: 0.02em;
+        color: $font-title-black;
+      }
     }
 
     &-required {
