@@ -61,6 +61,10 @@
       letter-spacing: 0.02em;
       font-feature-settings: 'pnum' on, 'lnum' on;
       color: rgba(119, 119, 119, 0.64);
+
+      &--isError {
+        color: $coupler-red;
+      }
     }
   }
 }
