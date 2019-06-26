@@ -90,10 +90,23 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     return request.json();
   };
 
+  getTimeZoneInfo = async (location: {}): {} => {
+    // get timestamp in seconds for knowing if Daylight Savings Time offset is exist;
+    const timestamp = new Date().getTime() / 1000;
+    const timeZoneUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${location.lat},${location.lng}&timestamp=${timestamp}&key=${config.googleAPIKey}`;
+    const request = await fetch(config.corsUrl + timeZoneUrl);
+    const { dstOffset, rawOffset } = await request.json();
+    return (rawOffset + dstOffset) / 60; // get timezone in hours;
+  };
+
   selectAddressByInputHandler = async (value: string, addressObj: {}) => {
+    const { changeCurrentLocation, changeCurrentTimeZone } = this.props;
     const { result } = await this.getPlaceInfo(addressObj.props.address.place_id);
+    const timezone = await this.getTimeZoneInfo(result.geometry.location);
+
     this.setState((prevState: State): {} => {
-      this.props.changeCurrentLocation(result.geometry.location);
+      changeCurrentLocation(result.geometry.location);
+      changeCurrentTimeZone(timezone);
       return {
         ...prevState,
         currentAddress: value,

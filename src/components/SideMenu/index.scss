@@ -5,11 +5,16 @@
   background-image: linear-gradient(50.21deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
   padding: 0 8px;
-  z-index: 2;
+  z-index: 3;
 
   &__logo {
+    background: no-repeat 16px 16px url("../../assets/coupler_logo_beta.svg");
     height: 56px;
     padding: 12px 16px;
+
+    @media screen and (max-width: $max-lg) {
+      background: no-repeat center url("../../assets/logo-single-white.svg");
+    }
   }
 
   &__menu {
@@ -20,18 +25,30 @@
     &-item {
       display: flex;
       align-items: center;
+      justify-content: left;
       height: 56px;
       padding: 0 20px;
       cursor: pointer;
+
+      @media screen and (max-width: $max-lg) {
+        justify-content: center;
+      }
 
       & span {
         font-family: $sans;
         font-size: 16px;
         color: $white;
+
+        @media screen and (max-width: $max-lg) {
+          display: none;
+        }
       }
 
       & img {
         padding-right: 28px;
+        @media screen and (max-width: $max-lg) {
+          padding-right: 0;
+        }
       }
 
       &--active {

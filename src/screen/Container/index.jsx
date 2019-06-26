@@ -15,10 +15,10 @@ const b = bem('container');
 
 const Container = ({ user, children }) => (
   <Row className={b()}>
-    <Col lg={8} xl={6} className={b('sidebar')}>
+    <Col md={2} lg={2} xl={6} className={b('sidebar')}>
       <SideMenu />
     </Col>
-    <Col lg={16} xl={18}>
+    <Col md={22} lg={22} xl={18}>
       <Header user={user} />
       {children}
     </Col>

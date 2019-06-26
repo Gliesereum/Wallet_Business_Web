@@ -39,7 +39,7 @@ class BusinessMainInfo extends Component {
       changeActiveTab,
       changeTabDisable,
     } = this.props;
-    const { currentLocation } = this.state;
+    const { currentLocation, timeZone } = this.state;
 
     this.mainInfoForm.props.form.validateFields(async (error, values) => {
       if (!error) {
@@ -52,7 +52,7 @@ class BusinessMainInfo extends Component {
           ...values,
           latitude: currentLocation ? currentLocation.lat : singleBusiness.latitude,
           longitude: currentLocation ? currentLocation.lng : singleBusiness.longitude,
-          timeZone: singleBusiness ? singleBusiness.timeZone : -new Date().getTimezoneOffset(),
+          timeZone: timeZone || singleBusiness.timeZone,
         };
 
         try {
@@ -100,6 +100,8 @@ class BusinessMainInfo extends Component {
     });
   };
 
+  changeCurrentTimeZone = timeZone => this.setState({ timeZone });
+
   toggleDeleteModal = () => {
     this.setState(prevState => ({
       deleteModalVisible: !prevState.deleteModalVisible,
@@ -128,6 +130,7 @@ class BusinessMainInfo extends Component {
           chosenCorpId={chosenCorpId}
           singleBusiness={singleBusiness}
           changeCurrentLocation={this.changeCurrentLocation}
+          changeCurrentTimeZone={this.changeCurrentTimeZone}
         />
 
         <Row
