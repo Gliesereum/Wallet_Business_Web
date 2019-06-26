@@ -5,7 +5,6 @@ import compose from 'recompose/compose';
 import bem from 'bem-join';
 
 import { actions } from '../../state';
-import CouplerBrandLogo from '../../assets/coupler_logo_beta.svg';
 import MyCorporations from '../../assets/myCorporations.svg';
 import Analytics from '../../assets/analytics.svg';
 import Settings from '../../assets/settings.svg';
@@ -49,9 +48,7 @@ class SideMenu extends Component {
   render() {
     return (
       <div className={b()}>
-        <div className={b('logo')}>
-          <img src={CouplerBrandLogo} alt="coupler_logo" />
-        </div>
+        <div className={b('logo')} />
         <div className={b('menu')}>
           {
             navbarItems.map(({ icon, text, linkTo }) => (

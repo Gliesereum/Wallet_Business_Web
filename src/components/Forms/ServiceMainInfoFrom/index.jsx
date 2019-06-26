@@ -15,7 +15,7 @@ class ServiceMainInfoForm extends PureComponent {
         <Row gutter={40}>
           <Col lg={12}>
             <Form.Item
-              label="Вид услуги"
+              label="Категория услуги"
             >
               {form.getFieldDecorator('serviceId', {
                 initialValue: servicePrice ? servicePrice.serviceId : undefined,
