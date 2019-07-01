@@ -13,7 +13,7 @@ const b = bem('corporationsList');
 
 class CorporationsList extends PureComponent {
   state = {
-    activeKey: this.props.corporations[0].id,
+    activeKey: this.props.corporations[0] ? this.props.corporations[0].id : undefined,
   };
 
   chooseCorporationHandle = (corpId) => {

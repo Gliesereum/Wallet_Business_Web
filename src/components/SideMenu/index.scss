@@ -44,7 +44,7 @@
         }
       }
 
-      & img {
+      & i.anticon {
         padding-right: 28px;
         @media screen and (max-width: $max-lg) {
           padding-right: 0;
@@ -54,6 +54,14 @@
       &--active {
         background-color: rgba(255, 255, 255, 0.08);
         border-radius: 4px;
+      }
+
+      &--disabled {
+        pointer-events: none;
+
+        & span {
+          color: $gray;
+        }
       }
     }
   }
