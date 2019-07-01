@@ -45,17 +45,17 @@ class ProfileEmail extends PureComponent {
         this.setState({ loading: false });
       }
     } else {
-      this.setState({ errorMessage: 'Введите валидный E-mail!' });
+      this.setState({ errorMessage: 'Введите валидный E-mail!', loading: false });
     }
   };
 
   verifyCode = async () => {
     const { email, code } = this.state;
-    const { verifyUserEmail } = this.props;
+    const { verifyUserEmail, email: emailFromServer } = this.props;
 
     const url = 'email';
     const body = { code, email };
-    const method = 'PUT';
+    const method = emailFromServer ? 'PUT' : 'POST';
 
     try {
       this.setState({ loading: true });
@@ -68,11 +68,11 @@ class ProfileEmail extends PureComponent {
         description: 'Возникла ошибка',
       });
     } finally {
-      this.setState({ loading: false, gotCode: false });
+      this.setState({ loading: false, gotCode: false, errorMessage: false });
     }
   };
 
-  handleInputChange = inputName => (e) => this.setState({ [inputName]: e.target.value });
+  handleInputChange = inputName => e => this.setState({ [inputName]: e.target.value });
 
   render() {
     const {
@@ -98,7 +98,7 @@ class ProfileEmail extends PureComponent {
                 value={code}
                 onChange={this.handleInputChange('code')}
               />
-              <div className={b('emailInput', { isError: errorMessage })}>{errorMessage}</div>
+              <div className={b('errorMessage')}>{errorMessage}</div>
               <Button
                 className={b('controlBtn')}
                 type="primary"
@@ -120,7 +120,7 @@ class ProfileEmail extends PureComponent {
                 value={email}
                 onChange={this.handleInputChange('email')}
               />
-              <div className={b('emailInput', { isError: errorMessage })}>{errorMessage}</div>
+              <div className={b('errorMessage')}>{errorMessage}</div>
               <Button
                 className={b('controlBtn')}
                 type="primary"
