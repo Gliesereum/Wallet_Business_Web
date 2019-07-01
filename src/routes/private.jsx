@@ -12,7 +12,6 @@ import {
   ProfileInfo,
   CorporationsContainer,
   Corporation,
-  // ProfileEmailScreen,
   FAQ,
 } from '../screen';
 
