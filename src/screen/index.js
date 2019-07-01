@@ -4,7 +4,6 @@ import ProfileInfo from './ProfileInfo';
 import SignIn from './SignIn';
 import CorporationsContainer from './CorporationsContainer';
 import Corporation from './Corporation';
-import ProfileEmailScreen from './ProfileEmailScreen';
 import FAQ from './FAQ';
 
 export {
@@ -14,6 +13,5 @@ export {
   SignIn,
   CorporationsContainer,
   Corporation,
-  ProfileEmailScreen,
   FAQ,
 };

@@ -1,0 +1,25 @@
+@import '../../../styles/theme';
+
+.profileEmail {
+  &__label {
+    line-height: 16px;
+    margin-bottom: 8px;
+  }
+
+  &__inputLine#emailInput {
+    position: relative;
+
+    & ~ .profileEmail__controlBtn {
+      position: absolute;
+      top: 24px;
+      right: 16px;
+      height: 48px;
+      background: $coupler-blue;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  &__errorMessage {
+    color: $coupler-red;
+  }
+}

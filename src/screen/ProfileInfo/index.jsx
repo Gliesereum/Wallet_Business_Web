@@ -67,7 +67,7 @@ class ProfileInfo extends Component {
 
   render() {
     const { avatarImageUrl, isError } = this.state;
-    const { user } = this.props;
+    const { user, email, verifyUserEmail } = this.props;
 
     return (
       <div className={b()}>
@@ -83,6 +83,8 @@ class ProfileInfo extends Component {
             uploadAvatarImage={this.uploadAvatarImage}
             avatarImageUrl={avatarImageUrl}
             isError={isError}
+            email={email}
+            verifyUserEmail={verifyUserEmail}
           />
         </div>
 
@@ -132,10 +134,12 @@ class ProfileInfo extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  email: state.auth.email.email,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateUserData: user => dispatch(actions.auth.$updateUserData(user)),
+  verifyUserEmail: email => dispatch(actions.auth.$verifyUserEmail(email)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfo);
