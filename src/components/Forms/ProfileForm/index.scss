@@ -38,7 +38,7 @@
         color: rgba(164, 174, 184, 0.4);
       }
 
-      &-text {
+      &-header {
         padding-top: 48px;
         font-family: $sans;
         font-size: 12px;
@@ -47,23 +47,20 @@
         letter-spacing: 0.04em;
         text-transform: uppercase;
       }
-    }
-  }
 
-  &__avatar {
-    padding-top: 24px;
+      &-text {
+        font-family: $sans;
+        font-size: 12px;
+        line-height: 23px;
+        text-align: center;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+        color: rgba(119, 119, 119, 0.64);
+        padding-top: 23px;
 
-    &-text {
-      font-family: $sans;
-      font-size: 14px;
-      line-height: 23px;
-      text-align: center;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
-      color: rgba(119, 119, 119, 0.64);
-
-      &--isError {
-        color: $coupler-red;
+        &--isError {
+          color: $coupler-red;
+        }
       }
     }
   }
