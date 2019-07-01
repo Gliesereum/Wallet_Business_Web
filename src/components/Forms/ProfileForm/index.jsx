@@ -45,22 +45,21 @@ class ProfileForm extends PureComponent {
             >
               <div className={b('uploader-container')}>
                 {
-                  avatarImageUrl ? (
+                  avatarImageUrl && (
                     <img
                       className={b('uploader-image')}
                       src={avatarImageUrl}
                       alt="uploaded_image"
                     />
-                  ) : (
-                    <div className={b('uploader-inside')}>
-                      <Icon className={b('uploader-inside-icon')} type="plus-circle" />
-                      <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                      <p className={b('uploader-inside-text', { isError })}>
-                        Аватар не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                      </p>
-                    </div>
                   )
                 }
+                <div className={b('uploader-inside')}>
+                  <Icon className={b('uploader-inside-icon')} type="plus-circle" />
+                  <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                  <p className={b('uploader-inside-text', { isError })}>
+                    Аватар не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                  </p>
+                </div>
               </div>
             </Upload.Dragger>
           </Col>
