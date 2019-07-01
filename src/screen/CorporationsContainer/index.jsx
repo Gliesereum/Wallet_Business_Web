@@ -5,15 +5,10 @@ import bem from 'bem-join';
 import {
   Row,
   Col,
-  // List,
-  // Card,
   notification,
-  // Button,
 } from 'antd';
 
-import { CorporationsList, BusinessesList } from '../../components';
-// import { Modal } from '../../components';
-// import { CorporationForm } from '../../components/Forms';
+import { CorporationsList, BusinessesList, EmptyState } from '../../components';
 
 import { asyncRequest, withToken } from '../../utils';
 import { actions } from '../../state';
@@ -65,18 +60,40 @@ class CorporationsContainer extends Component {
 
     return (
       <Row className={b()}>
-        <Col lg={8} className={b('col')}>
-          <CorporationsList
-            chooseCorporation={this.chooseCorporation}
-            corporations={corporations}
-          />
-        </Col>
-        <Col lg={16} className={b('col')}>
-          <BusinessesList
-            chosenCorp={chosenCorp}
-            business={businessForCorp}
-          />
-        </Col>
+        {
+          corporations && corporations.length ? (
+            <>
+              <Col lg={8} className={b('col')}>
+                <CorporationsList
+                  chooseCorporation={this.chooseCorporation}
+                  corporations={corporations}
+                />
+              </Col>
+              <Col lg={16} className={b('col')}>
+                <BusinessesList
+                  chosenCorp={chosenCorp}
+                  business={businessForCorp}
+                />
+              </Col>
+            </>
+          ) : (
+            <Col lg={24}>
+              <div className={b('header')}>
+                <h1 className={b('header-title')}>
+                  Информация о компании
+                </h1>
+              </div>
+              <div className={b('emptyState-wrapper')}>
+                <EmptyState
+                  title="У вас нету компаний"
+                  descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
+                  addItemText="Создать компанию"
+                  linkToData={{ pathname: '/corporations/add' }}
+                />
+              </div>
+            </Col>
+          )
+        }
       </Row>
     );
   }

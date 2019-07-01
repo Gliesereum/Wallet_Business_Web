@@ -6,7 +6,6 @@ import { Row, Col } from 'antd';
 import {
   Header,
   SideMenu,
-  // Footer,
 } from '../../components';
 
 import './index.scss';
@@ -19,10 +18,9 @@ const Container = ({ user, children }) => (
       <SideMenu />
     </Col>
     <Col md={22} lg={22} xl={18}>
-      <Header user={user} />
+      {user && user.firstName && <Header user={user} />}
       {children}
     </Col>
-    {/* <Footer /> */}
   </Row>
 );
 

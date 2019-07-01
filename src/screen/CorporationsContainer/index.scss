@@ -1,7 +1,30 @@
+@import '../../styles/theme.scss';
+
 .corporationsContainer {
   display: flex;
   flex-direction: row;
   height: calc(100% - 54px);
+
+  &__emptyState-wrapper {
+    padding: 0 24px 0 16px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(408.93px at 64.37% 115.28%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(17.62deg, #0E4BF1 -27.29%, #1CACFE 111.55%);
+    height: 72px;
+
+    &-title {
+      color: $white;
+      font-family: $sans;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+    }
+  }
 
   &__col {
     display: flex;

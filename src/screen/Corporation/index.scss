@@ -4,6 +4,10 @@
   display: flex;
   height: calc(100% - 56px);
 
+  &__emptyState-wrapper {
+    padding: 0 24px 0 16px;
+  }
+
   &__formBox {
     flex: 1;
     padding: 0 16px;

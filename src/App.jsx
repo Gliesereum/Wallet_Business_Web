@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import { withRouter } from 'react-router-dom';
 
 import { actions } from './state';
@@ -13,8 +14,7 @@ class App extends Component {
   }
 
   render() {
-    const { appStatus } = this.props.app;
-    const { authenticated, user } = this.props.auth;
+    const { authenticated, user, appStatus } = this.props;
 
     switch (appStatus) {
       case 'loading':
@@ -32,9 +32,17 @@ class App extends Component {
     }
   }
 }
+const mapStateToProps = state => ({
+  appStatus: state.app.appStatus,
+  authenticated: state.auth.authenticated,
+  user: state.auth.user,
+});
 
 const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
 });
 
-export default withRouter(connect(state => state, mapDispatchToProps)(App));
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+)(App);

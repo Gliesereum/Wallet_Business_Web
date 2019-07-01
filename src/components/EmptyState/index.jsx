@@ -16,6 +16,7 @@ const EmptyState = ({
   addItemText,
   addItemHandler,
   linkToData = {},
+  withoutBtn = false,
 }) => (
   <div className={b()}>
     <div className={b('content')}>
@@ -25,7 +26,7 @@ const EmptyState = ({
         {descrText}
       </p>
       {
-        addItemHandler ? (
+        !withoutBtn && (addItemHandler ? (
           <Button
             type="primary"
             onClick={addItemHandler(null, true)}
@@ -42,7 +43,7 @@ const EmptyState = ({
               {addItemText}
             </Button>
           </Link>
-        )
+        ))
       }
     </div>
   </div>
