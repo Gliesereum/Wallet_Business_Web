@@ -12,6 +12,7 @@ import {
   BusinessScheduleInfo,
   BusinessPackages,
   BusinessServices,
+  BusinessWorkingSpaces,
 } from '../../components';
 
 import { actions } from '../../state';
@@ -124,6 +125,11 @@ class BusinessPage extends Component {
           changeActiveTab: this.changeActiveTab,
           packagesDisable: disabledTab.packagesDisable,
         },
+      },
+      {
+        tabName: 'Рабочие места',
+        keyName: 'workingSpace',
+        ContentComponent: BusinessWorkingSpaces,
       },
     ];
 
