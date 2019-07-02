@@ -113,7 +113,7 @@ class SignIn extends Component {
             ) : (
               <SignInForm
                 firstStep
-                buttonText="Сервис в разработке"
+                buttonText="Получить одноразовый пароль"
                 labelText="Введите номер телефона"
                 placeholder="+380507595188"
                 getCodeHandler={this.getCodeHandler}
@@ -146,7 +146,7 @@ class SignIn extends Component {
           </div>
           <div className={b('right-footerBlock')}>
             <span>
-              All rights reserved. Copyright &copy; 2019
+              All rights reserved. Copyright &copy; 2019 &nbsp;
               <a
                 href="https://www.gliesereum.com/"
                 target="_blank"
