@@ -1,29 +1,23 @@
 import React, { PureComponent } from 'react';
 import bem from 'bem-join';
-import { scroller, Element } from 'react-scroll';
 
-import { Collapse, Icon } from 'antd';
+import { Collapse, Icon, Anchor } from 'antd';
 
 import './index.scss';
 
 const b = bem('help');
 const { Panel } = Collapse;
-const a = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a20', 'a30', 'a40', 'a50', 'a60', 'a70', 'a80', 'a90', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const { Link } = Anchor;
+const links = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a20', 'a30', 'a40', 'a50', 'a60', 'a70', 'a80', 'a90', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 class FAQ extends PureComponent {
   state = {
-    activeKey: a[0],
+    activeKey: links[0],
   };
 
-  changeActivePanel = activeKey => () => {
-    scroller.scrollTo(activeKey, {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-      containerId: 'containerElement',
-      offset: a.indexOf(activeKey) > a.indexOf(this.state.activeKey) ? -114 : -68, // header.height + panel header
-      isDynamic: true,
-    });
+  changeActivePanel = (e, { title: activeKey }) => {
+    e.preventDefault();
+
     this.setState({ activeKey });
   };
 
@@ -34,7 +28,7 @@ class FAQ extends PureComponent {
 
     return (
       <div className={b()}>
-        <div className={b('mainInfo')}>
+        <div className={b('mainInfo')} id="scrollContainer">
           <h1 className={b('mainInfo-header')}>Вопросы и ответы</h1>
           <Collapse
             activeKey={activeKey}
@@ -45,9 +39,10 @@ class FAQ extends PureComponent {
             onChange={this.triggerPanel}
           >
             {
-              a.map(item => (
+              links.map(item => (
                 <Panel
-                  header={<Element name={item}>{item}</Element>}
+                  id={item}
+                  header={item}
                   key={item}
                 >
                   {item}
@@ -58,17 +53,23 @@ class FAQ extends PureComponent {
         </div>
         <div className={b('summary')}>
           <h1 className={b('summary-header')}>Другая информация</h1>
-          {
-            a.map(item => (
-              <div
-                key={item}
-                className={b('summary-list-item')}
-                onClick={this.changeActivePanel(item)}
-              >
-                {item}
-              </div>
-            ))
-          }
+          <Anchor
+            offsetTop={41}
+            onClick={this.changeActivePanel}
+            affix={false}
+            getContainer={() => document.getElementById('scrollContainer')}
+          >
+            {
+              links.map(item => (
+                <Link
+                  title={item}
+                  href={`#${item}`}
+                  key={item}
+                  className={b('summary-list-item')}
+                />
+              ))
+            }
+          </Anchor>
         </div>
       </div>
     );
