@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import bem from 'bem-join';
-import compose from 'recompose/compose';
 
 import { List, Card } from 'antd';
 
-import { fetchDecorator } from '../../utils';
-import { fetchBusinessesByCorp } from '../../fetches';
+import EmptyState from '../EmptyState';
+
 import DefaultBusinessLogo from '../../assets/defaultBusinessLogo.svg';
 import AddIcon from '../../assets/AddIcon.svg';
 
@@ -14,48 +14,46 @@ import './index.scss';
 const b = bem('businessesList');
 
 class BusinessesList extends PureComponent {
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.chosenCorp
-      && ((this.props.chosenCorp && (nextProps.chosenCorp.id !== this.props.chosenCorp.id)) || !this.props.chosenCorp)
-    ) {
-      this.props.fetch();
-    }
-  }
-
-  render() {
+  renderBusinessesList = () => {
     const { chosenCorp, business } = this.props;
     const data = business.map(item => ({
       name: item.name,
       category: item.businessCategory.name,
       logoUrl: item.logoUrl,
+      id: item.id,
     }));
-
     data.push({ addCard: true });
 
     return (
-      <div className={b()}>
-        <div className={b('corpName')}>
-          <p>{chosenCorp.name}</p>
-        </div>
-        <List
-          grid={{
-            gutter: 16,
-            xl: 2,
-          }}
-          dataSource={data}
-          renderItem={({
-            name, category, logoUrl, addCard,
-          }) => (
-            <List.Item className={b('item')}>
-              {
-                addCard ? (
+      <List
+        grid={{
+          gutter: 16,
+          xl: 2,
+        }}
+        dataSource={data}
+        renderItem={({
+          name, category, logoUrl, id, addCard,
+        }) => (
+          <List.Item className={b('item')}>
+            {
+              addCard ? (
+                <Link to={{
+                  pathname: '/business/add',
+                  state: {
+                    chosenCorp,
+                  },
+                }}
+                >
                   <Card className={b('card', { addCard: true })}>
                     <img src={AddIcon} alt="addBusiness" />
                     <div className={b('card--addCard-addText')}>Добавить бизнес</div>
                   </Card>
-                ) : (
-                  <Card className={b('card')}>
+                </Link>
+              ) : (
+                <Card className={b('card')}>
+                  <Link
+                    to={`/business/${id}`}
+                  >
                     <div
                       style={{ backgroundImage: `url(${logoUrl || DefaultBusinessLogo})` }}
                       className={b('card-img')}
@@ -64,17 +62,44 @@ class BusinessesList extends PureComponent {
                       <p>{name}</p>
                       <p>{category}</p>
                     </div>
-                  </Card>
-                )
-              }
-            </List.Item>
-          )}
-        />
+                  </Link>
+                </Card>
+              )
+            }
+          </List.Item>
+        )}
+      />
+    );
+  };
+
+  render() {
+    const { business, chosenCorp } = this.props;
+
+    return (
+      <div className={b()}>
+        <div className={b('corpName')}>
+          <p>{chosenCorp.name}</p>
+        </div>
+        {
+          business && business.length ? (
+            this.renderBusinessesList()
+          ) : (
+            <EmptyState
+              title="У вас нету бизнеса"
+              descrText="Создайте первый бизнес внутри вашей компании. После вы сможете создать для бизнеса услуги, их пакетные конфигурации, создать рабочие места и проставить режим работы"
+              addItemText="Создать бизнес"
+              linkToData={{
+                pathname: '/business/add',
+                state: {
+                  chosenCorp,
+                },
+              }}
+            />
+          )
+        }
       </div>
     );
   }
 }
 
-export default compose(
-  fetchDecorator({ actions: [fetchBusinessesByCorp], config: { loader: true } }),
-)(BusinessesList);
+export default BusinessesList;

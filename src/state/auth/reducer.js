@@ -4,7 +4,7 @@ import { createReducer } from '../../utils';
 const initState = {
   authenticated: false,
   user: {},
-  email: null,
+  email: {},
 };
 
 const initReducers = {

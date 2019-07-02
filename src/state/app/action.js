@@ -16,6 +16,7 @@ const actions = {
     const userUrl = 'user/me';
     const emailUrl = 'email/by-user';
     const refreshUrl = 'auth/refresh';
+    const businessesUrl = 'business/by-user';
     const corporationsUrl = 'corporation/by-user';
     const businessTypeUrl = 'business-category/business-type';
     const businessCategoryUrl = 'business-category';
@@ -26,14 +27,16 @@ const actions = {
 
       if (access_token && access_token !== 'undefined') {
         const { tokenInfo } = await asyncRequest({ url: `${authCheckUrl}?accessToken=${access_token}` });
-        const user = await withToken(asyncRequest)({ url: userUrl });
-        const email = await withToken(asyncRequest)({ url: emailUrl });
-        const corporations = await withToken(asyncRequest)({ url: corporationsUrl });
+        const user = await withToken(asyncRequest)({ url: userUrl }) || {};
+        const email = await withToken(asyncRequest)({ url: emailUrl }) || {};
+        const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
+        const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
         const businessTypes = await withToken(asyncRequest)({ url: businessTypeUrl, moduleUrl: 'karma' });
         const businessCategories = await withToken(asyncRequest)({ url: businessCategoryUrl, moduleUrl: 'karma' });
 
         await dispatch(authActions.$updateUserData(user));
         await dispatch(authActions.$addUserEmail(email));
+        await dispatch(businessActions.$getBusiness(business));
         await dispatch(corporationsActions.$getCorporations(corporations));
         await dispatch(businessActions.$getBusinessTypes(businessTypes));
         await dispatch(businessActions.$getBusinessCategories(businessCategories));

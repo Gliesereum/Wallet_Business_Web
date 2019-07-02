@@ -2,6 +2,7 @@
 
 .businessesList {
   width: 100%;
+  overflow-y: scroll;
   padding: 43px 24px 43px 16px;
 
   &__corpName {

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import bem from 'bem-join';
 
 import { Avatar as CorpAvatar, notification } from 'antd';
 
+import { EmptyState } from '../../components';
 import { CorporationForm } from '../../components/Forms';
 
 import { asyncRequest, withToken } from '../../utils';
@@ -16,11 +17,7 @@ import './index.scss';
 
 const b = bem('corporation');
 
-class Corporation extends PureComponent {
-  state = {
-    // loading: false,
-  };
-
+class Corporation extends Component {
   // handleChangeCorpLogo = async (info) => {
   //   const body = new FormData();
   //   await body.append('file', info.file);
@@ -71,14 +68,31 @@ class Corporation extends PureComponent {
     try {
       const newCorporation = await withToken(asyncRequest)({ url, method, body });
       await addCorporation(newCorporation);
+      history.replace('/corporations');
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
         description: 'Возникла ошибка',
       });
-    } finally {
+    }
+  };
+
+  handleRemoveCorporation = async () => {
+    const { match, history, removeCorporation } = this.props;
+    const { id: corporationId } = match.params;
+    const removeCorporationUrl = `corporation/${corporationId}`;
+
+    try {
+      await withToken(asyncRequest)({ url: removeCorporationUrl, method: 'DELETE' });
       history.replace('/corporations');
+      await removeCorporation(corporationId);
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
     }
   };
 
@@ -94,22 +108,32 @@ class Corporation extends PureComponent {
             isEditMod={Boolean(match.params.id)}
             singleCorporation={singleCorporation}
             onSubmit={match.params && match.params.id ? this.handleUpdateCorporation : this.handleAddCorporation}
+            onRemove={this.handleRemoveCorporation}
           />
         </div>
 
         <div className={b('otherCorpBox')}>
           <h1 className={b('otherCorpBox-header')}>Мои другие компании</h1>
           {
-            corporations.length && corporations.map(({ name, logoUrl, id }) => (
-              <Link
-                to={`/corporations/single/${id}`}
-                key={id}
-                className={b('otherCorpBox-list-item')}
-              >
-                <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={logoUrl || DefaultBlueCorporationLogo} />
-                <span>{name}</span>
-              </Link>
-            ))
+            corporations.length ? (
+              corporations.map(({ name, logoUrl, id }) => (
+                <Link
+                  to={`/corporations/${id}`}
+                  key={id}
+                  className={b('otherCorpBox-list-item')}
+                >
+                  <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={logoUrl || DefaultBlueCorporationLogo} />
+                  <span>{name}</span>
+                </Link>
+              ))) : (
+                <div className={b('emptyState-wrapper')}>
+                  <EmptyState
+                    title="У вас нету компаний"
+                    descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
+                    withoutBtn
+                  />
+                </div>
+            )
           }
         </div>
       </div>
@@ -124,6 +148,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addCorporation: corporation => dispatch(actions.corporations.$addCorporation(corporation)),
   updateCorporation: corporation => dispatch(actions.corporations.$updateCorporation(corporation)),
+  removeCorporation: corporationId => dispatch(actions.corporations.$deleteCorporation(corporationId)),
 });
 
 export default compose(

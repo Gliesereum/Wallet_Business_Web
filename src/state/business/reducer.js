@@ -39,6 +39,11 @@ const initReducers = {
     business: [...state.business, payload],
   }),
 
+  [actions.REMOVE_BUSINESS]: (state, businessId) => ({
+    ...state,
+    business: state.business.filter(item => item.id !== businessId),
+  }),
+
   [actions.GET_SERVICE_PRICE]: (state, payload) => {
     if (!payload.length) return state;
 
@@ -72,14 +77,19 @@ const initReducers = {
 
   [actions.ADD_SERVICE_PRICE]: (state, payload) => {
     const { businessId } = payload;
+    const isServicePriceExist = state.servicePrices[businessId];
+
     return {
       ...state,
       servicePrices: {
         ...state.servicePrices,
-        [businessId]: [
-          ...state.servicePrices[businessId],
-          payload,
-        ],
+        [businessId]: isServicePriceExist
+          ? [
+            ...state.servicePrices[businessId],
+            payload,
+          ] : [
+            payload,
+          ],
       },
     };
   },
@@ -109,8 +119,9 @@ const initReducers = {
   },
 
   [actions.UPDATE_BUSINESS_PACKAGE]: (state, payload) => {
-    const businessPackages = state.businessPackages[payload.businessId];
-    const packagesUpdatedIndex = businessPackages.findIndex(item => item.id === payload.id);
+    const { businessId, id } = payload;
+    const businessPackages = state.businessPackages[businessId];
+    const packagesUpdatedIndex = businessPackages.findIndex(item => item.id === id);
     const newArray = [
       ...businessPackages.slice(0, packagesUpdatedIndex),
       payload,
@@ -120,7 +131,7 @@ const initReducers = {
       ...state,
       businessPackages: {
         ...state.businessPackages,
-        [state.businessPackages[payload.businessId]]: newArray,
+        [businessId]: newArray,
       },
     };
   },

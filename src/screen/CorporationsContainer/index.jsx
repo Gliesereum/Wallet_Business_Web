@@ -5,15 +5,10 @@ import bem from 'bem-join';
 import {
   Row,
   Col,
-  // List,
-  // Card,
   notification,
-  // Button,
 } from 'antd';
 
-import { CorporationsList, BusinessesList } from '../../components';
-// import { Modal } from '../../components';
-// import { CorporationForm } from '../../components/Forms';
+import { CorporationsList, BusinessesList, EmptyState } from '../../components';
 
 import { asyncRequest, withToken } from '../../utils';
 import { actions } from '../../state';
@@ -52,27 +47,53 @@ class CorporationsContainer extends Component {
   };
 
   chooseCorporation = (corpId) => {
+    if (!corpId) return;
+
     const [chosenCorp] = this.props.corporations.filter(item => item.id === corpId);
     this.setState({ chosenCorp });
   };
 
   render() {
-    const { corporations } = this.props;
+    const { corporations, business: allBusiness } = this.props;
     const { chosenCorp } = this.state;
+    const businessForCorp = allBusiness.filter(item => item.corporationId === chosenCorp.id);
 
     return (
       <Row className={b()}>
-        <Col lg={8} className={b('col')}>
-          <CorporationsList
-            chooseCorporation={this.chooseCorporation}
-            corporations={corporations}
-          />
-        </Col>
-        <Col lg={16} className={b('col')}>
-          <BusinessesList
-            chosenCorp={chosenCorp}
-          />
-        </Col>
+        {
+          corporations && corporations.length ? (
+            <>
+              <Col lg={8} className={b('col')}>
+                <CorporationsList
+                  chooseCorporation={this.chooseCorporation}
+                  corporations={corporations}
+                />
+              </Col>
+              <Col lg={16} className={b('col')}>
+                <BusinessesList
+                  chosenCorp={chosenCorp}
+                  business={businessForCorp}
+                />
+              </Col>
+            </>
+          ) : (
+            <Col lg={24}>
+              <div className={b('header')}>
+                <h1 className={b('header-title')}>
+                  Информация о компании
+                </h1>
+              </div>
+              <div className={b('emptyState-wrapper')}>
+                <EmptyState
+                  title="У вас нету компаний"
+                  descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
+                  addItemText="Создать компанию"
+                  linkToData={{ pathname: '/corporations/add' }}
+                />
+              </div>
+            </Col>
+          )
+        }
       </Row>
     );
   }
@@ -80,11 +101,11 @@ class CorporationsContainer extends Component {
 
 const mapDispatchToProps = dispatch => ({
   deleteCorporation: id => dispatch(actions.corporations.$deleteCorporation(id)),
-  dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
 });
 
 const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
+  business: state.business.business,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CorporationsContainer);

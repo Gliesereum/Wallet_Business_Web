@@ -1,161 +1,157 @@
 import React, { Component } from 'react';
+import bem from 'bem-join';
 
 import {
-  Button, Input, Checkbox, Form as AntdForm,
+  Input,
+  InputNumber,
+  Checkbox,
+  Form,
+  Row,
+  Col,
+  Card,
 } from 'antd';
-import { Formik, Field, Form } from 'formik';
 
+import './index.scss';
 
-// import type { Props } from './children/types';
-import PackageSchema from './children/schema';
-import Fields from './children/fields';
+const { Item: FormItem } = Form;
+const CheckboxGroup = Checkbox.Group;
+const b = bem('packageForm');
 
-import './styles.scss';
+class PackageForm extends Component {
+  getCheckedOpts = () => {
+    const { chosenPackage, servicePricesList } = this.props;
+    const checkedServices = [];
 
-
-class Index extends Component {
-  initValues = () => {
-    if (this.props.mode === 'update') {
-      const { data } = this.props;
-      return { ...data, servicesIds: data.services.map(item => item.id) };
-    }
-    return Fields.reduce((acc, field) => {
-      if (field.key === 'businessId') {
-        acc[field.key] = this.props.businessId;
-        return acc;
-      }
-      acc[field.key] = field.defaultValue;
-      return acc;
-    }, {});
+    chosenPackage.services.forEach((item) => {
+      servicePricesList.forEach((service) => {
+        if (service.id === item.id) {
+          checkedServices.push(service.id);
+        }
+      });
+    });
+    return checkedServices;
   };
 
-  onSubmit = async (values) => {
-    this.props.onSubmit(values, this.props.mode);
-  };
+  getPackagePrice = () => {
+    const { form, servicePricesList } = this.props;
+    const { servicesIds = [], discount } = form.getFieldsValue(['servicesIds', 'discount']);
 
-  serviceListChecked = (checked, serviceId, packageServicesList, setFieldValue) => {
-    if (checked) {
-      setFieldValue('servicesIds', packageServicesList.filter(item => item !== serviceId));
-      return;
-    }
-    if (!checked) {
-      setFieldValue('servicesIds', [...packageServicesList, serviceId]);
-    }
-  };
-
-  renderPackagePrice = (serviceIds, discount) => {
-    const sumServicesPrice = this.props.servicePrices
-      .filter(item => serviceIds.includes(item.id))
+    const sumServicesPrice = servicePricesList
+      .filter(item => servicesIds.includes(item.id))
       .reduce((acc, service) => acc += service.price, 0);
-    const price = discount <= 0 ? sumServicesPrice : sumServicesPrice - sumServicesPrice * discount / 100;
-    return (
-      <div className="package-total-price">
-        <p>
-          Стоимость пакета:
-          {price.toFixed(2)}
-          грн.
-        </p>
-      </div>
-    );
-  };
-
-  renderServiceItem = (service, packageServicesList, setFieldValue) => {
-    const checked = packageServicesList.findIndex(item => item === service.id) !== -1;
-    return (
-      <div className="coupler-packages-service-prices-item" key={service.id}>
-        <Checkbox
-          checked={checked}
-          onChange={() => this.serviceListChecked(checked, service.id, packageServicesList, setFieldValue)}
-          className="package-service-price-item"
-        >
-          <p>{service.name}</p>
-          <p>
-            {service.price.toFixed(2)}
-            {' '}
-            грн.
-          </p>
-        </Checkbox>
-      </div>
-    );
-  };
-
-  renderServicesList = (servicesList, setFieldValue) => (
-    <div className="coupler-packages-service-prices-list">
-      {this.props.servicePrices.map(item => this.renderServiceItem(item, servicesList, setFieldValue))}
-    </div>
-  );
-
-  renderField = ({
-    type, error, touched, value, label, name, setFieldValue,
-  }) => {
-    if (type === 'text') {
-      return (
-        <AntdForm.Item label={label} validateStatus={(touched && error) && 'error'} help={touched && error && error}>
-          <Input value={value} onChange={e => setFieldValue(name, e.target.value)} />
-        </AntdForm.Item>
-      );
-    }
-    if (type === 'array') {
-      return (
-        <AntdForm.Item label={label} validateStatus={error && 'error'} help={error}>
-          {this.renderServicesList(value, setFieldValue)}
-        </AntdForm.Item>
-      );
-    }
-  };
-
-  renderForm = () => {
-    const renderFields = Fields.filter(field => field.render);
-    const RenderField = this.renderField;
-    const buttonMessage = this.props.mode === 'update' ? 'Сохранить' : 'Создать';
-    return (
-      <div className="coupler-business-package-form">
-        <Formik
-          initialValues={this.initValues()}
-          validationSchema={PackageSchema}
-          onSubmit={this.onSubmit}
-          render={({
-            errors, touched, values, setFieldValue,
-          }) => (
-            <Form>
-              {renderFields.map(fieldProps => (
-                <Field
-                  key={fieldProps.key}
-                  name={fieldProps.key}
-                  render={({ field }) => (
-                    <RenderField {...{
-                      ...fieldProps,
-                      ...field,
-                      error: errors[fieldProps.key],
-                      touched: touched[fieldProps.key],
-                      setFieldValue,
-                    }}
-                    />
-                  )}
-                />
-              ))}
-
-              <div className="package-form-footer">
-
-                <div className="package-form-footer-submit">
-                  <Button htmlType="submit" type="primary" loading={this.props.loading}>{buttonMessage}</Button>
-                </div>
-                <div className="package-form-footer-price">
-                  {this.renderPackagePrice(values.servicesIds, values.discount)}
-                </div>
-
-              </div>
-
-            </Form>
-          )}
-        />
-      </div>
-    );
+    return discount <= 0 ? sumServicesPrice : sumServicesPrice - sumServicesPrice * discount / 100;
   };
 
   render() {
-    return this.renderForm();
+    const {
+      form,
+      servicePricesList,
+      chosenPackage,
+    } = this.props;
+
+    return (
+      <Form className={b()}>
+        <Row gutter={40}>
+          <Col lg={12}>
+            <FormItem>
+              <Card
+                title="Услуги для пакета"
+                className={b('card')}
+              >
+                {form.getFieldDecorator('servicesIds', {
+                  initialValue: chosenPackage && chosenPackage.services ? this.getCheckedOpts() : undefined,
+                  rules: [
+                    { required: true, message: 'Для создания пакета нужно выбрать хотя бы одну услугу' },
+                  ],
+                })(
+                  <CheckboxGroup>
+                    <Row gutter={10}>
+                      {
+                      servicePricesList.map(({ id, name }) => (
+                        <Col
+                          key={id}
+                          lg={8}
+                          className={b('card-checkbox')}
+                        >
+                          <Checkbox
+                            key={id}
+                            value={id}
+                          >
+                            {name}
+                          </Checkbox>
+                        </Col>
+                      ))
+                    }
+                    </Row>
+                  </CheckboxGroup>
+                )}
+              </Card>
+            </FormItem>
+          </Col>
+          <Col lg={12}>
+            <FormItem
+              label="Название пакета услуг"
+            >
+              {form.getFieldDecorator('name', {
+                initialValue: chosenPackage ? chosenPackage.name : '',
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                  { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                ],
+              })(
+                <Input placeholder="Ввод..." />
+              )}
+            </FormItem>
+            <Row gutter={40}>
+              <Col lg={12}>
+                <FormItem
+                  label="Скидка (процентов)"
+                >
+                  {form.getFieldDecorator('discount', {
+                    initialValue: chosenPackage ? chosenPackage.discount : '',
+                    rules: [
+                      { required: true, message: 'Поле обязательное для заполнения' },
+                    ],
+                  })(
+                    <InputNumber
+                      step={5}
+                      min={0}
+                      max={100}
+                      parser={value => value.replace(/\D/g, '')}
+                      placeholder="00"
+                    />
+                  )}
+                </FormItem>
+              </Col>
+              <Col lg={12}>
+                <FormItem
+                  label="Длительность (минут)"
+                >
+                  {form.getFieldDecorator('duration', {
+                    initialValue: chosenPackage ? chosenPackage.duration : '',
+                    rules: [
+                      { required: true, message: 'Поле обязательное для заполнения' },
+                    ],
+                  })(
+                    <InputNumber
+                      step={5}
+                      min={1}
+                      parser={value => value.replace(/\D/g, '')}
+                      placeholder="00"
+                    />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <div className={b('totalPrice')}>
+              <div className={b('totalPrice-text')}>Общая стоимость пакета услуг (гривен)</div>
+              <div className={b('totalPrice-sum')}>{this.getPackagePrice()}</div>
+            </div>
+          </Col>
+        </Row>
+      </Form>
+    );
   }
 }
 
-export default Index;
+export default Form.create({})(PackageForm);

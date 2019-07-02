@@ -1,0 +1,48 @@
+@import '../../../styles/theme';
+
+.businessScheduleForm {
+  &__dayForm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid #E5E5E5;
+    height: 80px;
+
+    &-formItem {
+      &--isWorkItem {
+        width: 40%;
+
+        & .ant-form-item-control-wrapper .ant-checkbox + span {
+          font-size: 14px !important;
+        }
+      }
+
+      &--timeItem {
+        width: 60%;
+
+        & .ant-form-item-label {
+          line-height: 48px !important;
+          padding-bottom: 0 !important;
+
+          & label {
+            font-family: $sans;
+            color: #888888;
+            letter-spacing: 0.02em;
+          }
+        }
+      }
+    }
+  }
+
+  &__controlBtns {
+    margin-top: 56px;
+
+    &-btn {
+      width: 100%;
+    }
+  }
+}
+
+#scheduleForm .ant-form-item {
+  margin-bottom: 0;
+}

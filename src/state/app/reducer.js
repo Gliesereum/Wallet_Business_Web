@@ -2,7 +2,7 @@ import actions from './action';
 import { createReducer } from '../../utils';
 
 const initState = {
-  appStatus: undefined,
+  appStatus: 'loading',
   loading: false,
   message: 'Start server connect!',
   error: undefined,

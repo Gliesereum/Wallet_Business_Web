@@ -1,0 +1,10 @@
+.businessMainForm {
+  &__content {
+    overflow-y: scroll;
+    height: 452px;
+  }
+
+  &__outerRow {
+    margin: 0 !important;
+  }
+}

@@ -1,0 +1,44 @@
+@import '../../styles/theme';
+
+.businessServiceInfo {
+  &__header {
+    border-bottom: 1px solid #DCE2E9;
+    padding-bottom: 13px;
+    color: $font-title-black;
+    font-family: $sans;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    margin-bottom: 16px;
+  }
+
+  &__infoBlock {
+    background: radial-gradient(263.92px at 64.37% 115.28%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(24.82deg, #0E4BF1 -27.29%, #1CACFE 111.55%);
+    border-radius: 4px;
+    padding: 24px 50px;
+    text-align: center;
+
+    &-text {
+      font-family: $sans;
+      font-size: 14px;
+      line-height: 24px;
+      color: $white;
+
+      &--firstParagraph {
+        margin-bottom: 12px;
+        font-size: 16px;
+        line-height: 16px;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+    }
+  }
+
+  &__controlBtns {
+    margin-top: 56px;
+
+    &-btn {
+      width: 100%;
+    }
+  }
+}

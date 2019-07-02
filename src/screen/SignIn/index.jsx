@@ -131,9 +131,10 @@ class SignIn extends Component {
         </div>
 
         <div className={b('right')}>
-          {/*<div className={b('right-supportBlock')}>1</div>*/}
+          {/* <div className={b('right-supportBlock')}>1</div> */}
           <div className={b('right-mapBlock')}>
             <Map
+              singlePin={false}
               draggable={false}
               containerElement={<div style={{ height: '100%' }} />}
               mapElement={<div style={{ height: '100%' }} />}
@@ -144,8 +145,14 @@ class SignIn extends Component {
             />
           </div>
           <div className={b('right-footerBlock')}>
-            <span>All rights reserved. Copyright &copy; 2019
-              <a href="https://www.gliesereum.com/" target="_blank"> Gliesereum Ukraine</a>
+            <span>
+              All rights reserved. Copyright &copy; 2019
+              <a
+                href="https://www.gliesereum.com/"
+                target="_blank"
+              >
+                Gliesereum Ukraine
+              </a>
             </span>
           </div>
         </div>

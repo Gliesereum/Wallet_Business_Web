@@ -8,14 +8,10 @@ import {
 
 import {
   Container,
-  // BusinessPage,
-  // BusinessesList,
-  // SingleBusinessPage,
-  ProfilePage,
-  ProfileMainInfo,
+  BusinessPage,
+  ProfileInfo,
   CorporationsContainer,
   Corporation,
-  ProfileEmailScreen,
   FAQ,
 } from '../screen';
 
@@ -23,29 +19,26 @@ const privateRouter = ({ user }) => (
   <Router>
     <Container user={user}>
       <Switch>
+        <Route path={['/', '/login', '/analytics', !(user && user.firstName) ? '/corporations' : '/profile']} exact>
+          <Redirect to={(user && user.firstName) ? '/corporations' : '/profile'} />
+        </Route>
+
         <Route path="/corporations" exact component={CorporationsContainer} />
-        <Route path="/" exact>
+        <Route path={['/corporations/add', '/corporations/:id']} exact component={Corporation} />
+
+        <Route path="/settings" exact>
           <Redirect to="/corporations" />
         </Route>
-        <Route path="/corporations/single/:id" exact component={Corporation} />
-        <Route path="/corporations/add" exact component={Corporation} />
-        <Route path="/settings" exact component={CorporationsContainer} />
-        <Route path="/help" exact component={FAQ} />
-      </Switch>
+        <Route path="/analytics" exact>
+          <Redirect to="/corporations" />
+        </Route>
 
-      <Route
-        path="/profile"
-        render={() => (
-          <ProfilePage>
-            <Switch>
-              <Route exact path="/profile/mainInfo" component={ProfileMainInfo} />
-              <Route exact path="/profile/corporations" component={CorporationsContainer} />
-              <Route exact path="/profile/email" component={ProfileEmailScreen} />
-              {/* <Route component={NoMatch} /> */}
-            </Switch>
-          </ProfilePage>
-        )}
-      />
+        <Route path="/profile" exact component={ProfileInfo} />
+
+        <Route path="/help" exact component={FAQ} />
+
+        <Route path={['/business/add', '/business/:id']} exact component={BusinessPage} />
+      </Switch>
     </Container>
   </Router>
 );

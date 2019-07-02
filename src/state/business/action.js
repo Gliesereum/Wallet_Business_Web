@@ -5,6 +5,7 @@ const actions = {
   GET_BUSINESS: 'GET_BUSINESS',
   UPDATE_BUSINESS: 'UPDATE_BUSINESS',
   ADD_BUSINESS: 'ADD_BUSINESS',
+  REMOVE_BUSINESS: 'REMOVE_BUSINESS',
 
   GET_SERVICE_PRICE: 'GET_SERVICE_PRICE',
   UPDATE_SERVICE_PRICE: 'UPDATE_SERVICE_PRICE',
@@ -43,6 +44,11 @@ const actions = {
   $addNewBusiness: newBusiness => ({
     type: actions.ADD_BUSINESS,
     payload: newBusiness,
+  }),
+
+  $removeBusiness: businessId => ({
+    type: actions.REMOVE_BUSINESS,
+    payload: businessId,
   }),
 
   $getPriceService: data => ({
