@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import bem from 'bem-join';
 
 import {
@@ -6,6 +7,9 @@ import {
   List,
   Card,
   Divider,
+  Row,
+  Col,
+  Button,
 } from 'antd';
 
 import EmptyState from '../EmptyState';
@@ -21,6 +25,8 @@ class BusinessWorkingSpacesList extends Component {
   state = {
     mode: 'grid',
   };
+
+  handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
 
   render() {
     const { spaces, changeActiveWorkingSpace } = this.props;
@@ -44,34 +50,60 @@ class BusinessWorkingSpacesList extends Component {
         </div>
         {
           spaces.length > 1 ? (
-            <List
-              className={b('grid')}
-              grid={{
-                gutter: 24,
-                lg: 3,
-              }}
-              dataSource={spacesList}
-              renderItem={item => (
-                item.addCard ? (
-                  <Item
-                    onClick={changeActiveWorkingSpace(null, true)}
-                    className={b('grid-item', { addCard: true })}
+            <>
+              <List
+                className={b('grid')}
+                grid={{
+                  gutter: 24,
+                  lg: 3,
+                }}
+                dataSource={spacesList}
+                renderItem={item => (
+                  item.addCard ? (
+                    <Item
+                      onClick={changeActiveWorkingSpace(null, true)}
+                      className={b('grid-item', { addCard: true })}
+                    >
+                      <Card>
+                        <img src={AddIcon} alt="addWorkingSpace" />
+                        <span>{'Добавить рабочее место'.toUpperCase()}</span>
+                      </Card>
+                    </Item>
+                  ) : (
+                    <Item
+                      onClick={changeActiveWorkingSpace(item, false)}
+                      className={b('grid-item')}
+                    >
+                      <Card>{item.name}</Card>
+                    </Item>
+                  )
+                )}
+              />
+              <Row
+                gutter={24}
+                className={b('grid-controlBtns')}
+              >
+                <Col lg={12}>
+                  <Button
+                    className={b('grid-controlBtns-btn backBtn')}
+                    onClick={this.handleChangeActiveTab('schedule')}
                   >
-                    <Card>
-                      <img src={AddIcon} alt="addWorkingSpace" />
-                      <span>{'Добавить рабочее место'.toUpperCase()}</span>
-                    </Card>
-                  </Item>
-                ) : (
-                  <Item
-                    onClick={changeActiveWorkingSpace(item, false)}
-                    className={b('grid-item')}
+                    <Icon type="left" />
+                    Назад
+                  </Button>
+                </Col>
+                <Col lg={12}>
+                  <Button
+                    className={b('grid-controlBtns-btn')}
+                    type="primary"
                   >
-                    <Card>{item.name}</Card>
-                  </Item>
-                )
-              )}
-            />
+                    <Link to="/corporations">
+                      Далее
+                    </Link>
+                  </Button>
+                </Col>
+              </Row>
+            </>
           ) : (
             <EmptyState
               title="У вас нету рабочих мест"

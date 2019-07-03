@@ -20,7 +20,7 @@ class BusinessWorkingSpaces extends Component {
   });
 
   render() {
-    const { singleBusiness } = this.props;
+    const { singleBusiness, changeActiveTab } = this.props;
     const { chosenSpace, isAddWorkingSpaceMode } = this.state;
 
     return (
@@ -37,6 +37,7 @@ class BusinessWorkingSpaces extends Component {
             <BusinessWorkingSpacesList
               spaces={singleBusiness.spaces}
               changeActiveWorkingSpace={this.changeActiveWorkingSpace}
+              changeActiveTab={changeActiveTab}
             />
           )
         }
