@@ -38,6 +38,11 @@
     }
   }
 
+  &__spacesListContainer {
+    height: 400px;
+    overflow-y: scroll;
+  }
+
   &__controlBtns {
     margin-top: 40px;
 

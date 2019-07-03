@@ -17,13 +17,19 @@ import EmptyState from '../EmptyState';
 import './index.scss';
 
 const b = bem('businessWorkingSpacesList');
+const viewMode = {
+  LIST: 'LIST',
+  GRID: 'GRID',
+};
 
 class BusinessWorkingSpacesList extends Component {
   state = {
-    mode: 'grid',
+    mode: viewMode.GRID,
   };
 
   handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
+
+  handleToggleViewMode = toMode => () => this.setState({ mode: toMode });
 
   render() {
     const { spaces, changeActiveWorkingSpace } = this.props;
@@ -40,24 +46,34 @@ class BusinessWorkingSpacesList extends Component {
         <div className={b('header')}>
           <h1 className={b('header-title')}>Список рабочих мест</h1>
           <div className={b('header-optionsBlock')}>
-            <Icon type="unordered-list" className={b('header-optionsBlock-icon', { active: mode === 'grid' })} />
+            <Icon
+              type="unordered-list"
+              className={b('header-optionsBlock-icon', { active: mode === viewMode.GRID })}
+              onClick={this.handleToggleViewMode(viewMode.GRID)}
+            />
             <Divider className={b('header-optionsBlock-divider')} type="vertical" />
-            <Icon type="appstore" className={b('header-optionsBlock-icon', { active: mode === 'list' })} />
+            <Icon
+              type="appstore"
+              className={b('header-optionsBlock-icon', { active: mode === viewMode.LIST })}
+              onClick={this.handleToggleViewMode(viewMode.LIST)}
+            />
           </div>
         </div>
         {
           spaces.length > 1 ? (
             <>
-              {
-                mode === 'grid' ? (
-                  <BusinessWorkingSpacesGridMode
-                    spacesList={spacesList}
-                    changeActiveWorkingSpace={changeActiveWorkingSpace}
-                  />
-                ) : (
-                  <BusinessWorkingSpacesListMode />
-                )
-              }
+              <div className={b('spacesListContainer')}>
+                {
+                  mode === viewMode.GRID ? (
+                    <BusinessWorkingSpacesGridMode
+                      spacesList={spacesList}
+                      changeActiveWorkingSpace={changeActiveWorkingSpace}
+                    />
+                  ) : (
+                    <BusinessWorkingSpacesListMode />
+                  )
+                }
+              </div>
               <Row
                 gutter={24}
                 className={b('controlBtns')}
