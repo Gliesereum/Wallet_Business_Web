@@ -4,22 +4,19 @@ import bem from 'bem-join';
 
 import {
   Icon,
-  List,
-  Card,
   Divider,
   Row,
   Col,
   Button,
 } from 'antd';
 
+import BusinessWorkingSpacesListMode from '../BusinessWorkingSpacesListMode';
+import BusinessWorkingSpacesGridMode from '../BusinessWorkingSpacesGridMode';
 import EmptyState from '../EmptyState';
-
-import AddIcon from '../../assets/AddIcon.svg';
 
 import './index.scss';
 
 const b = bem('businessWorkingSpacesList');
-const { Item } = List;
 
 class BusinessWorkingSpacesList extends Component {
   state = {
@@ -51,41 +48,23 @@ class BusinessWorkingSpacesList extends Component {
         {
           spaces.length > 1 ? (
             <>
-              <List
-                className={b('grid')}
-                grid={{
-                  gutter: 24,
-                  lg: 3,
-                }}
-                dataSource={spacesList}
-                renderItem={item => (
-                  item.addCard ? (
-                    <Item
-                      onClick={changeActiveWorkingSpace(null, true)}
-                      className={b('grid-item', { addCard: true })}
-                    >
-                      <Card>
-                        <img src={AddIcon} alt="addWorkingSpace" />
-                        <span>{'Добавить рабочее место'.toUpperCase()}</span>
-                      </Card>
-                    </Item>
-                  ) : (
-                    <Item
-                      onClick={changeActiveWorkingSpace(item, false)}
-                      className={b('grid-item')}
-                    >
-                      <Card>{item.name}</Card>
-                    </Item>
-                  )
-                )}
-              />
+              {
+                mode === 'grid' ? (
+                  <BusinessWorkingSpacesGridMode
+                    spacesList={spacesList}
+                    changeActiveWorkingSpace={changeActiveWorkingSpace}
+                  />
+                ) : (
+                  <BusinessWorkingSpacesListMode />
+                )
+              }
               <Row
                 gutter={24}
-                className={b('grid-controlBtns')}
+                className={b('controlBtns')}
               >
                 <Col lg={12}>
                   <Button
-                    className={b('grid-controlBtns-btn backBtn')}
+                    className={b('controlBtns-btn backBtn')}
                     onClick={this.handleChangeActiveTab('schedule')}
                   >
                     <Icon type="left" />
@@ -94,7 +73,7 @@ class BusinessWorkingSpacesList extends Component {
                 </Col>
                 <Col lg={12}>
                   <Button
-                    className={b('grid-controlBtns-btn')}
+                    className={b('controlBtns-btn')}
                     type="primary"
                   >
                     <Link to="/corporations">

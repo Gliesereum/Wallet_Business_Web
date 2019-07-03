@@ -22,7 +22,7 @@ class BusinessWorkingSpaces extends Component {
   render() {
     const { singleBusiness, changeActiveTab } = this.props;
     const { chosenSpace, isAddWorkingSpaceMode } = this.state;
-
+    console.log(singleBusiness.spaces.sort((first, second) => first - second));
     return (
       <div className={b()}>
         {
@@ -35,7 +35,7 @@ class BusinessWorkingSpaces extends Component {
             />
           ) : (
             <BusinessWorkingSpacesList
-              spaces={singleBusiness.spaces}
+              spaces={singleBusiness.spaces.sort((first, second) => first.indexNumber - second.indexNumber)}
               changeActiveWorkingSpace={this.changeActiveWorkingSpace}
               changeActiveTab={changeActiveTab}
             />
