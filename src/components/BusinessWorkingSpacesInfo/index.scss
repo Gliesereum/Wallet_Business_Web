@@ -1,0 +1,11 @@
+@import '../../styles/theme';
+
+.workingSpaceInfo {
+  &__controlBtns {
+    margin-top: 48px;
+
+    &-btn {
+      width: 100%;
+    }
+  }
+}

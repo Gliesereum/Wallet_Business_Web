@@ -1,7 +1,7 @@
 import React from 'react';
 import bem from 'bem-join';
 
-import { Table, Button } from 'antd';
+import { Table, Button, List } from 'antd';
 
 import './index.scss';
 
@@ -27,6 +27,15 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
       title: 'Список сотрудников',
       dataIndex: 'workers',
       key: 'workers',
+      render: (text, record) => (
+        <List>
+          {
+            record.workers.map(item => (
+              <List.Item>{item.id}</List.Item>
+            ))
+          }
+        </List>
+      ),
       width: '30%',
     },
     {
@@ -35,7 +44,7 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
       render: (text, record) => (
         <Button
           className={b('table-editBtn')}
-          onClick={changeActiveWorkingSpace(record, false)}
+          onClick={changeActiveWorkingSpace(record.self, false)}
         >
           Редактировать
         </Button>
@@ -45,8 +54,11 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
   ];
 
   const spaces = spacesList.map(item => ({
-    ...item,
+    name: item.name,
+    description: item.description,
+    workers: item.workers,
     key: item.id || 0,
+    self: item,
   }));
 
   return (

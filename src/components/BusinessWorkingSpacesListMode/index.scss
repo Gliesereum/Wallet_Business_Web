@@ -24,12 +24,6 @@
   }
 
   &__table {
-    & .ant-table-header .ant-table-thead > tr {
-      background-color: $white;
-      height: 63px;
-      line-height: 31px;
-    }
-
     &-editBtn {
       width: 105px;
       height: 48px !important;
