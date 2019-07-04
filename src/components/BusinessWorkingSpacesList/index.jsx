@@ -48,14 +48,14 @@ class BusinessWorkingSpacesList extends Component {
           <div className={b('header-optionsBlock')}>
             <Icon
               type="unordered-list"
-              className={b('header-optionsBlock-icon', { active: mode === viewMode.GRID })}
-              onClick={this.handleToggleViewMode(viewMode.GRID)}
+              className={b('header-optionsBlock-icon', { active: mode === viewMode.LIST })}
+              onClick={this.handleToggleViewMode(viewMode.LIST)}
             />
             <Divider className={b('header-optionsBlock-divider')} type="vertical" />
             <Icon
               type="appstore"
-              className={b('header-optionsBlock-icon', { active: mode === viewMode.LIST })}
-              onClick={this.handleToggleViewMode(viewMode.LIST)}
+              className={b('header-optionsBlock-icon', { active: mode === viewMode.GRID })}
+              onClick={this.handleToggleViewMode(viewMode.GRID)}
             />
           </div>
         </div>
@@ -70,7 +70,10 @@ class BusinessWorkingSpacesList extends Component {
                       changeActiveWorkingSpace={changeActiveWorkingSpace}
                     />
                   ) : (
-                    <BusinessWorkingSpacesListMode />
+                    <BusinessWorkingSpacesListMode
+                      spacesList={spaces}
+                      changeActiveWorkingSpace={changeActiveWorkingSpace}
+                    />
                   )
                 }
               </div>

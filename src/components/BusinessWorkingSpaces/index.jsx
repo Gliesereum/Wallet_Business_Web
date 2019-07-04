@@ -22,7 +22,7 @@ class BusinessWorkingSpaces extends Component {
   render() {
     const { singleBusiness, changeActiveTab } = this.props;
     const { chosenSpace, isAddWorkingSpaceMode } = this.state;
-    console.log(singleBusiness.spaces.sort((first, second) => first - second));
+
     return (
       <div className={b()}>
         {

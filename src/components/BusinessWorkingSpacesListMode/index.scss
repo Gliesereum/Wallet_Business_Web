@@ -1,0 +1,40 @@
+@import '../../styles/theme';
+
+.businessWorkingSpacesListMode {
+  &__addBox {
+    display: flex;
+    align-items: center;
+    padding: 0 8px 16px 8px;
+    border-bottom: 1px solid rgba(164, 174, 184, 0.24);
+    cursor: pointer;
+
+    & > img {
+      width: 32px;
+      height: 32px;
+      margin-right: 16px;
+    }
+
+    & > span {
+      font-family: $sans;
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.04em;
+      color: #C8CED3;
+    }
+  }
+
+  &__table {
+    & .ant-table-header .ant-table-thead > tr {
+      background-color: $white;
+      height: 63px;
+      line-height: 31px;
+    }
+
+    &-editBtn {
+      width: 105px;
+      height: 48px !important;
+      border: 2px solid $coupler-blue !important;
+      padding: 0 10px !important;
+    }
+  }
+}
