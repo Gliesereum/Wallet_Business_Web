@@ -6,10 +6,13 @@ import {
   Col,
   Button,
   Icon,
+  notification,
 } from 'antd';
 
 import { WorkingSpaceForm } from '../Forms';
 import WorkingSpaceInfoReadOnly from '../WorkingSpaceInfoReadOnly';
+
+import { asyncRequest, withToken } from '../../utils';
 
 import './index.scss';
 
@@ -21,6 +24,22 @@ class BusinessWorkingSpacesInfo extends Component {
   };
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
+
+  handleRemoveWorkingSpace = async () => {
+    const { chosenSpace, changeActiveWorkingSpace } = this.props;
+    const url = `working-space/${chosenSpace.id}`;
+
+    try {
+      await withToken(asyncRequest)({ url, method: 'DELETE', moduleUrl: 'karma' });
+      changeActiveWorkingSpace(null, false)();
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
+  };
 
   render() {
     const { chosenSpace, changeActiveWorkingSpace } = this.props;
@@ -69,6 +88,7 @@ class BusinessWorkingSpacesInfo extends Component {
               readOnlyMode ? (
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
+                  onClick={this.handleRemoveWorkingSpace}
                 >
                   Удалить рабочее место
                 </Button>
