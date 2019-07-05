@@ -72,6 +72,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
       <div className={b('workersTable')}>
         <h1 className={b('workersTable-title')}>Сотрудники рабочего места</h1>
         <Table
+          rowKey={record => record.id}
           className={b('workersTable-list')}
           pagination={false}
           columns={columns}
