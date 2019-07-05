@@ -222,6 +222,12 @@
     &-tbody {
       & > tr {
         height: 63px;
+
+        &:hover {
+          &:not(.ant-table-expanded-row) > td {
+            background-color: unset;
+          }
+        }
       }
     }
   }

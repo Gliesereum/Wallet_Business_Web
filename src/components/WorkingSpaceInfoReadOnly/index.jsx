@@ -16,27 +16,31 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
   const columns = [
     {
       title: 'ФИО работника',
-      dataIndex: 'id',
       key: 'fullName',
       width: '35%',
-      sorter: (first, second) => first.id.localeCompare(second.id),
+      sorter: (first, second) => first.user.lastName && first.user.lastName.localeCompare(second.user.lastName),
       sortDirections: ['ascend', 'descend'],
+      render: (text, { user }) => (
+        <span>{`${user.lastName} ${user.firstName} ${user.middleName}`}</span>
+      ),
     },
     {
       title: 'Должность',
       dataIndex: 'position',
       key: 'workPosition',
       width: '30%',
-      sorter: (first, second) => first.id.localeCompare(second.id),
+      sorter: (first, second) => first.position.localeCompare(second.position),
       sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Телефон',
-      dataIndex: 'id',
       key: 'phone',
       width: '35%',
-      sorter: (first, second) => first.id.localeCompare(second.id),
+      sorter: (first, second) => first.user.phone && first.user.phone.localeCompare(second.user.phone),
       sortDirections: ['ascend', 'descend'],
+      render: (text, { user }) => (
+        <span>{user.phone}</span>
+      ),
     },
   ];
 

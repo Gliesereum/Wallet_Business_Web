@@ -13,13 +13,13 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
   const columns = [
     {
       title: 'Название рабочего места',
-      dataIndex: 'name',
+      dataIndex: 'key',
       key: 'name',
       width: '25%',
     },
     {
       title: 'Описание рабочего места',
-      dataIndex: 'description',
+      dataIndex: 'key',
       key: 'description',
       width: '30%',
     },
@@ -28,10 +28,10 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
       dataIndex: 'workers',
       key: 'workers',
       render: (text, record) => (
-        <List>
+        <List className={b('table-row-userList')}>
           {
-            record.workers.map(item => (
-              <List.Item>{item.id}</List.Item>
+            record.workers.map(({ user }) => (
+              <div className={b('table-row-userList-item')}>{`${user.lastName} ${user.firstName} ${user.middleName}`}</div>
             ))
           }
         </List>
@@ -43,7 +43,7 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
       key: 'edit',
       render: (text, record) => (
         <Button
-          className={b('table-editBtn')}
+          className={b('table-row-editBtn')}
           onClick={changeActiveWorkingSpace(record.self, false)}
         >
           Редактировать
@@ -71,6 +71,7 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
         <span>{'Добавить рабочее место'.toUpperCase()}</span>
       </div>
       <Table
+        rowClassName={b('table-row')}
         pagination={false}
         columns={columns}
         dataSource={spaces}

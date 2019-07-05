@@ -24,11 +24,32 @@
   }
 
   &__table {
-    &-editBtn {
-      width: 105px;
-      height: 48px !important;
-      border: 2px solid $coupler-blue !important;
-      padding: 0 10px !important;
+    &-row {
+      & > td {
+        padding: 8px 16px;
+        vertical-align: middle;
+      }
+
+      &-editBtn {
+        width: 105px;
+        height: 48px !important;
+        border: 2px solid $coupler-blue !important;
+        padding: 0 10px !important;
+      }
+
+      &-userList {
+        height: 40px;
+        overflow-y: scroll;
+
+        &-item {
+          cursor: pointer;
+          font-size: 12px;
+          line-height: 18px;
+          font-family: $sans;
+          color: $coupler-blue;
+          letter-spacing: 0.02em;
+        }
+      }
     }
   }
 }

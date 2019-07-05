@@ -81,18 +81,34 @@
           line-height: 16px;
           font-size: 12px;
           font-family: $sans;
+          padding-bottom: 12px;
         }
 
         &-list {
           max-height: 100px;
           overflow-y: scroll;
 
-          & .ant-list-empty {
-            padding: 0;
+          &-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(164, 174, 184, 0.24);
+            padding: 12px 0 15px 0;
 
-            & .ant-empty-normal {
-              margin: 15px 0;
+            & > div {
+              font-size: 12px;
+              font-family: $sans;
+              color: $coupler-blue;
+              letter-spacing: 0.01em;
             }
+
+            & > i {
+              font-size: 16px;
+              color: $coupler-blue;
+            }
+          }
+
+          & .ant-empty-normal {
+            margin: 0;
           }
         }
 

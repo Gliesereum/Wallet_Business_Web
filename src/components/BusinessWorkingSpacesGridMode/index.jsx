@@ -1,7 +1,12 @@
 import React from 'react';
 import bem from 'bem-join';
 
-import { Button, Card, List } from 'antd';
+import {
+  Button,
+  Card,
+  List,
+  Icon,
+} from 'antd';
 
 import AddIcon from '../../assets/AddIcon.svg';
 
@@ -51,7 +56,12 @@ const BusinessWorkingSpacesGridMode = ({ spacesList, changeActiveWorkingSpace })
                 <List
                   className={b('item-body-workers-list')}
                   dataSource={item.workers}
-                  renderItem={worker => <List.Item>{worker.id}</List.Item>} // TODO: refactoring
+                  renderItem={({ user }) => (
+                    <div className={b('item-body-workers-list-item')}>
+                      <div>{`${user.lastName} ${user.firstName} ${user.middleName}`}</div>
+                      <Icon type="info-circle" theme="filled" />
+                    </div>
+                  )}
                 />
                 <Button
                   className={b('item-body-workers-btn')}
