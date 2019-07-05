@@ -20,6 +20,7 @@ import { fetchDecorator } from '../../utils';
 import {
   fetchGetPriceServices,
   fetchGetBusinessPackages,
+  fetchGetWorkingSpaces,
 } from '../../fetches';
 
 import './index.scss';
@@ -78,7 +79,9 @@ class BusinessPage extends Component {
       corporations,
       servicePrices,
       businessPackages,
+      workingSpaces,
     } = this.props;
+
     const { disabledTab } = this.state;
     const { activeTab } = qs.parse(location.search, { ignoreQueryPrefix: true });
     const isAddBusinessMode = location.pathname.match('/add');
@@ -130,6 +133,9 @@ class BusinessPage extends Component {
         tabName: 'Рабочие места',
         keyName: 'workingSpace',
         ContentComponent: BusinessWorkingSpaces,
+        props: {
+          workingSpaces,
+        },
       },
     ];
 
@@ -188,6 +194,7 @@ const mapStateToProps = (state, { match, location }) => {
     businessCategories: state.business.businessCategories,
     businessTypes: state.business.businessTypes,
     servicePrices: state.business.servicePrices,
+    workingSpaces: state.business.workingSpaces,
     singleBusiness,
   };
 };
@@ -195,11 +202,14 @@ const mapStateToProps = (state, { match, location }) => {
 const mapDispatchToProps = dispatch => ({
   getPriceService: data => dispatch(actions.business.$getPriceService(data)),
   getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
-  // getBusinessOrders: (id, data) => dispatch(actions.business.$getBusinessOrders(id, data)),
+  getWorkingSpaces: data => dispatch(actions.business.$getWorkingSpaces(data)),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchDecorator({ actions: [fetchGetPriceServices, fetchGetBusinessPackages], config: { loader: true } }),
+  fetchDecorator({
+    actions: [fetchGetPriceServices, fetchGetBusinessPackages, fetchGetWorkingSpaces],
+    config: { loader: true },
+  }),
   withRouter
 )(BusinessPage);

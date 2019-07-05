@@ -19,6 +19,9 @@ const actions = {
 
   UPDATE_SCHEDULE: 'UPDATE_SCHEDULE',
 
+  GET_WORKING_SPACES: 'GET_WORKING_SPACES',
+  DELETE_WORKING_SPACE: 'DELETE_WORKING_SPACE',
+
   GET_BUSINESS_ORDERS: 'GET_BUSINESS_ORDERS',
 
   $getBusiness: business => ({
@@ -94,6 +97,16 @@ const actions = {
   $updateSchedule: scheduleList => ({
     type: actions.UPDATE_SCHEDULE,
     payload: scheduleList,
+  }),
+
+  $getWorkingSpaces: payload => ({
+    type: actions.GET_WORKING_SPACES,
+    payload,
+  }),
+
+  $deleteWorkingSpace: workingSpaceId => ({
+    type: actions.DELETE_WORKING_SPACE,
+    payload: workingSpaceId,
   }),
 
   $getBusinessOrders: (businessId, data) => ({

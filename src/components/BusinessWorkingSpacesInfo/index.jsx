@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import bem from 'bem-join';
 
 import {
@@ -13,6 +14,7 @@ import { WorkingSpaceForm } from '../Forms';
 import WorkingSpaceInfoReadOnly from '../WorkingSpaceInfoReadOnly';
 
 import { asyncRequest, withToken } from '../../utils';
+import { actions } from '../../state';
 
 import './index.scss';
 
@@ -26,11 +28,12 @@ class BusinessWorkingSpacesInfo extends Component {
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
   handleRemoveWorkingSpace = async () => {
-    const { chosenSpace, changeActiveWorkingSpace } = this.props;
+    const { chosenSpace, changeActiveWorkingSpace, deleteWorkingSpace } = this.props;
     const url = `working-space/${chosenSpace.id}`;
 
     try {
       await withToken(asyncRequest)({ url, method: 'DELETE', moduleUrl: 'karma' });
+      await deleteWorkingSpace(chosenSpace.id);
       changeActiveWorkingSpace(null, false)();
     } catch (err) {
       notification.error({
@@ -127,4 +130,8 @@ class BusinessWorkingSpacesInfo extends Component {
   }
 }
 
-export default BusinessWorkingSpacesInfo;
+const mapDispatchToProps = dispatch => ({
+  deleteWorkingSpace: workingServiceId => dispatch(actions.business.$deleteWorkingSpace(workingServiceId)),
+});
+
+export default connect(null, mapDispatchToProps)(BusinessWorkingSpacesInfo);

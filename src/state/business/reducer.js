@@ -7,6 +7,7 @@ const initState = {
   businessCategories: [],
   servicePrices: {},
   businessPackages: {},
+  workingSpaces: [],
   businessOrders: {},
 };
 
@@ -185,6 +186,25 @@ const initReducers = {
       ],
     };
   },
+
+  [actions.GET_WORKING_SPACES]: (state, payload) => {
+    if (!payload.length) return state;
+
+    return {
+      ...state,
+      workingSpaces: [
+        ...state.workingSpaces,
+        ...payload,
+      ],
+    };
+  },
+
+  [actions.DELETE_WORKING_SPACE]: (state, payload) => ({
+    ...state,
+    workingSpaces: [
+      ...state.workingSpaces.filter(item => item.id !== payload),
+    ],
+  }),
 
   [actions.GET_BUSINESS_ORDERS]: (state, payload) => {
     const { data, businessId } = payload;
