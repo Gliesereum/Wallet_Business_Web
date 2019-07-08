@@ -10,6 +10,7 @@ import {
   Card,
   List,
   Icon,
+  Divider,
 } from 'antd';
 
 import './index.scss';
@@ -19,16 +20,40 @@ const { Item: FormItem } = Form;
 
 class WorkingSpaceForm extends PureComponent {
   state = {
-    workers: this.props.chosenSpace.workers,
+    workers: this.props.chosenSpace.workers, // TODO: get workers by corp ID
+    selectedWorkers: this.props.chosenSpace.workers,
+  };
+
+  handleSelectCheckboxes = (records, selected) => {
+    if (selected && records.length === 1) { // if checked single worker
+      this.setState(prevState => ({
+        ...prevState,
+        selectedWorkers: [
+          ...records,
+          ...prevState.selectedWorkers,
+        ],
+      }));
+    } else if (selected) { // if checked all workers
+      this.setState(prevState => ({
+        ...prevState,
+        selectedWorkers: records,
+      }));
+    } else if (records.length === 1) { // if unchecked single worker
+      this.setState(prevState => ({
+        selectedWorkers: prevState.selectedWorkers.filter(worker => worker.id !== records[0].id),
+      }));
+    } else { // if unchecked all workers
+      this.setState({ selectedWorkers: [] });
+    }
   };
 
   handleSearch = (e) => {
-    const searchStr = e.target.value.toString();
+    const searchStr = e.target.value.toString().toLowerCase();
 
     const searchedWorkers = this.props.chosenSpace.workers.filter(({ user: workerUserData }) => {
       function checkIfStrInclude(field) {
         if (field) {
-          return field.indexOf(searchStr) !== -1;
+          return field.toLowerCase().indexOf(searchStr) !== -1;
         }
         return false;
       }
@@ -50,8 +75,15 @@ class WorkingSpaceForm extends PureComponent {
     this.setState({ workers: searchedWorkers });
   };
 
+  handleDeleteWorkerFromSelected = userId => () => {
+    this.setState(prevState => ({
+      ...prevState,
+      selectedWorkers: prevState.selectedWorkers.filter(user => user.id !== userId),
+    }));
+  };
+
   render() {
-    const { workers } = this.state;
+    const { workers, selectedWorkers } = this.state;
     const { form, chosenSpace } = this.props;
 
     const renderContent = (value, row, index) => {
@@ -70,7 +102,10 @@ class WorkingSpaceForm extends PureComponent {
         title: 'ФИО работника',
         key: 'fullName',
         width: '35%',
-        sorter: (first, second) => first.user.lastName && first.user.lastName.localeCompare(second.user.lastName),
+        sorter: (first, second) => {
+          if (first.id === 'searchRow' || second.id === 'searchRow') return;
+          return first.user.lastName && first.user.lastName.localeCompare(second.user.lastName);
+        },
         sortDirections: ['ascend', 'descend'],
         render: (text, { user }, index) => {
           if (index === 0) {
@@ -85,7 +120,7 @@ class WorkingSpaceForm extends PureComponent {
                 </div>
               ),
               props: {
-                colSpan: 3,
+                colSpan: 4,
               },
             };
           }
@@ -98,14 +133,20 @@ class WorkingSpaceForm extends PureComponent {
         key: 'workPosition',
         width: '30%',
         render: renderContent,
-        sorter: (first, second) => first.position.localeCompare(second.position),
+        sorter: (first, second) => {
+          if (first.id === 'searchRow' || second.id === 'searchRow') return;
+          return first.position.localeCompare(second.position);
+        },
         sortDirections: ['ascend', 'descend'],
       },
       {
         title: 'Телефон',
         key: 'phone',
         width: '35%',
-        sorter: (first, second) => first.user.phone && first.user.phone.localeCompare(second.user.phone),
+        sorter: (first, second) => {
+          if (first.id === 'searchRow' || second.id === 'searchRow') return;
+          return first.user.phone && first.user.phone.localeCompare(second.user.phone);
+        },
         sortDirections: ['ascend', 'descend'],
         render: (text, { user }, index) => {
           if (index === 0) {
@@ -120,6 +161,15 @@ class WorkingSpaceForm extends PureComponent {
         },
       },
     ];
+
+    const rowSelection = {
+      onSelect: (record, selected) => this.handleSelectCheckboxes([record], selected),
+      onSelectAll: (selected, selectedRows) => this.handleSelectCheckboxes(selectedRows, selected),
+      getCheckboxProps: record => ({
+        disabled: record.id === 'searchRow',
+      }),
+      selectedRowKeys: selectedWorkers.map(user => user.id),
+    };
 
     const workersWS = [{ id: 'searchRow' }, ...workers];
 
@@ -171,11 +221,13 @@ class WorkingSpaceForm extends PureComponent {
           >
             <Col lg={16}>
               <Table
+                rowClassName={b('workersBox-table-list-row')}
                 rowKey={record => record.id}
                 className={b('workersBox-table-list')}
                 pagination={false}
                 columns={columns}
                 dataSource={workersWS}
+                rowSelection={rowSelection}
                 scroll={{ y: 224 }}
               />
             </Col>
@@ -191,11 +243,21 @@ class WorkingSpaceForm extends PureComponent {
                   <div className={b('workersBox-table-chosenCard-item-body-workers')}>
                     <List
                       className={b('workersBox-table-chosenCard-item-body-workers-list')}
-                      dataSource={workers}
-                      renderItem={({ user }) => (
+                      dataSource={selectedWorkers}
+                      renderItem={({ user, id }) => (
                         <div className={b('workersBox-table-chosenCard-item-body-workers-list-item')}>
-                          <div>{`${user.lastName} ${user.firstName} ${user.middleName}`}</div>
-                          <Icon type="info-circle" theme="filled" />
+                          <Icon className={b('workersBox-table-chosenCard-linkIcon')} type="export" />
+                          <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}>
+                            {`${user.lastName} ${user.firstName} ${user.middleName}`}
+                          </div>
+                          <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-deleteBox')}>
+                            <Divider type="vertical" />
+                            <Icon
+                              className={b('workersBox-table-chosenCard-deleteIcon')}
+                              type="close"
+                              onClick={this.handleDeleteWorkerFromSelected(id)}
+                            />
+                          </div>
                         </div>
                       )}
                     />
