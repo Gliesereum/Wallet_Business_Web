@@ -5,13 +5,9 @@ import bem from 'bem-join';
 import {
   Row,
   Col,
-  notification,
 } from 'antd';
 
 import { CorporationsList, BusinessesList, EmptyState } from '../../components';
-
-import { asyncRequest, withToken } from '../../utils';
-import { actions } from '../../state';
 
 import './index.scss';
 
@@ -20,30 +16,6 @@ const b = bem('corporationsContainer');
 class CorporationsContainer extends Component {
   state = {
     chosenCorp: this.props.corporations[0],
-  };
-
-  handleDeleteCorporation = async (corp) => {
-    const { deleteCorporation, dataLoading } = this.props;
-    await dataLoading(true);
-
-    const corpId = corp.fullItemData.id;
-    const url = `corporation/${corpId}`;
-    const method = 'DELETE';
-    try {
-      await withToken(asyncRequest)({ url, method });
-      await deleteCorporation(corpId);
-    } catch (err) {
-      notification.error({
-        duration: 5,
-        message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
-      });
-    } finally {
-      this.setState({
-        // deleteModal: false,
-      },
-      async () => await dataLoading(false),);
-    }
   };
 
   chooseCorporation = (corpId) => {
@@ -99,13 +71,9 @@ class CorporationsContainer extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  deleteCorporation: id => dispatch(actions.corporations.$deleteCorporation(id)),
-});
-
 const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
   business: state.business.business,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CorporationsContainer);
+export default connect(mapStateToProps)(CorporationsContainer);
