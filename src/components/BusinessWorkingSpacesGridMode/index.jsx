@@ -42,14 +42,14 @@ const BusinessWorkingSpacesGridMode = ({ spacesList, changeActiveWorkingSpace })
                 <div className={b('item-title-circle')}>
                   <div className={b('item-title-circle-number')}>{item.indexNumber}</div>
                 </div>
-                <div className={b('item-title-text')}>{`Рабочее место ${item.name || item.indexNumber}`}</div>
+                <div className={b('item-title-text')}>{item.name}</div>
               </div>
             )}
           >
             <div className={b('item-body')}>
               <div className={b('item-body-descr')}>
                 <h1>Описание места</h1>
-                <p>{item.description || `Рабочее место ${item.name || item.indexNumber}`}</p>
+                <p>{item.description}</p>
               </div>
               <div className={b('item-body-workers')}>
                 <h1>Список сотрудников</h1>
@@ -58,8 +58,14 @@ const BusinessWorkingSpacesGridMode = ({ spacesList, changeActiveWorkingSpace })
                   dataSource={item.workers}
                   renderItem={({ user }) => (
                     <div className={b('item-body-workers-list-item')}>
-                      <div>{`${user.lastName} ${user.firstName} ${user.middleName}`}</div>
-                      <Icon type="info-circle" theme="filled" />
+                      {
+                        user && (
+                          <>
+                            <div>{`${user.lastName} ${user.firstName} ${user.middleName}`}</div>
+                            <Icon type="info-circle" theme="filled" />
+                          </>
+                        )
+                      }
                     </div>
                   )}
                 />

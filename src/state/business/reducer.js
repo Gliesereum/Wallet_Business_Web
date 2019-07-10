@@ -199,6 +199,27 @@ const initReducers = {
     };
   },
 
+  [actions.ADD_WORKING_SPACE]: (state, payload) => ({
+    ...state,
+    workingSpaces: [
+      ...state.workingSpaces,
+      payload,
+    ],
+  }),
+
+  [actions.UPDATE_WORKING_SPACE]: (state, payload) => {
+    const updatedWorkingSpaceIndex = state.workingSpaces.findIndex(item => item.id === payload.id);
+    const newWorkingSpaceArray = [
+      ...state.workingSpaces.slice(0, updatedWorkingSpaceIndex),
+      payload,
+      ...state.workingSpaces.slice(updatedWorkingSpaceIndex + 1),
+    ];
+    return {
+      ...state,
+      workingSpaces: newWorkingSpaceArray,
+    };
+  },
+
   [actions.DELETE_WORKING_SPACE]: (state, payload) => ({
     ...state,
     workingSpaces: [

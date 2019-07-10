@@ -20,6 +20,8 @@ const actions = {
   UPDATE_SCHEDULE: 'UPDATE_SCHEDULE',
 
   GET_WORKING_SPACES: 'GET_WORKING_SPACES',
+  ADD_WORKING_SPACE: 'ADD_WORKING_SPACE',
+  UPDATE_WORKING_SPACE: 'UPDATE_WORKING_SPACE',
   DELETE_WORKING_SPACE: 'DELETE_WORKING_SPACE',
 
   GET_BUSINESS_ORDERS: 'GET_BUSINESS_ORDERS',
@@ -102,6 +104,16 @@ const actions = {
   $getWorkingSpaces: payload => ({
     type: actions.GET_WORKING_SPACES,
     payload,
+  }),
+
+  $addWorkingSpace: workingSpace => ({
+    type: actions.ADD_WORKING_SPACE,
+    payload: workingSpace,
+  }),
+
+  $updateWorkingSpace: workingSpace => ({
+    type: actions.UPDATE_WORKING_SPACE,
+    payload: workingSpace,
   }),
 
   $deleteWorkingSpace: workingSpaceId => ({

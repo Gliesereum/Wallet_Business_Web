@@ -13,13 +13,13 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
   const columns = [
     {
       title: 'Название рабочего места',
-      dataIndex: 'key',
+      dataIndex: 'name',
       key: 'name',
       width: '25%',
     },
     {
       title: 'Описание рабочего места',
-      dataIndex: 'key',
+      dataIndex: 'description',
       key: 'description',
       width: '30%',
     },
@@ -30,8 +30,13 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
       render: (text, record) => (
         <List className={b('table-row-userList')}>
           {
-            record.workers.map(({ user }) => (
-              <div className={b('table-row-userList-item')}>{`${user.lastName} ${user.firstName} ${user.middleName}`}</div>
+            record.workers && record.workers.map(({ user }) => (
+              <div
+                key={user.id}
+                className={b('table-row-userList-item')}
+              >
+                {`${user.lastName} ${user.firstName} ${user.middleName}`}
+              </div>
             ))
           }
         </List>

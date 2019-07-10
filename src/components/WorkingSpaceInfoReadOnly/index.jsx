@@ -54,7 +54,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
           <Input
             id="nameInput"
             disabled
-            value={chosenSpace.name}
+            value={chosenSpace ? chosenSpace.name : ''}
           />
         </Col>
         <Col lg={12}>
@@ -64,7 +64,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
           <Input
             id="descrInput"
             disabled
-            value={chosenSpace.description}
+            value={chosenSpace ? chosenSpace.description : ''}
           />
         </Col>
       </Row>
@@ -76,7 +76,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
           className={b('workersTable-list')}
           pagination={false}
           columns={columns}
-          dataSource={chosenSpace.workers}
+          dataSource={chosenSpace ? chosenSpace.workers : []}
           scroll={{ y: 224 }}
         />
       </div>

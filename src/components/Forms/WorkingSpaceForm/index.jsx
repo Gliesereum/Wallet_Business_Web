@@ -20,8 +20,8 @@ const { Item: FormItem } = Form;
 
 class WorkingSpaceForm extends PureComponent {
   state = {
-    workers: this.props.chosenSpace.workers, // TODO: get workers by corp ID
-    selectedWorkers: this.props.chosenSpace.workers,
+    workers: this.props.chosenSpace ? this.props.chosenSpace.workers : [], // TODO: get workers by corp ID
+    selectedWorkers: this.props.chosenSpace ? this.props.chosenSpace.workers : [],
   };
 
   handleSelectCheckboxes = (records, selected) => {
@@ -50,6 +50,7 @@ class WorkingSpaceForm extends PureComponent {
   handleSearch = (e) => {
     const searchStr = e.target.value.toString().toLowerCase();
 
+    if (!this.props.chosenSpace) return false;
     const searchedWorkers = this.props.chosenSpace.workers.filter(({ user: workerUserData }) => {
       function checkIfStrInclude(field) {
         if (field) {
@@ -186,7 +187,7 @@ class WorkingSpaceForm extends PureComponent {
             <FormItem label="Название рабочего места">
               {
                 form.getFieldDecorator('name', {
-                  initialValue: chosenSpace.name,
+                  initialValue: chosenSpace ? chosenSpace.name : '',
                   rules: [
                     { required: true, message: 'Поле обязательное для заполнения' },
                   ],
@@ -201,8 +202,8 @@ class WorkingSpaceForm extends PureComponent {
           <Col lg={12}>
             <FormItem label="Описание рабочего места">
               {
-                form.getFieldDecorator('name', {
-                  initialValue: chosenSpace.description,
+                form.getFieldDecorator('description', {
+                  initialValue: chosenSpace ? chosenSpace.description : '',
                 })(
                   <Input
                     placeholder="Ввод..."
