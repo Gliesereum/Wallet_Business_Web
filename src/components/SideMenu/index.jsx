@@ -9,7 +9,10 @@ import { Icon } from 'antd';
 import { actions } from '../../state';
 import {
   MyCorporations,
+  Orders,
   Analytics,
+  Workers,
+  Clients,
   Settings,
   Help,
   Exit,
@@ -19,7 +22,7 @@ import './index.scss';
 
 const b = bem('sidebar');
 
-const navbarItems = [
+const mainMenuItems = [
   {
     icon: MyCorporations,
     text: 'Мои компании',
@@ -27,14 +30,35 @@ const navbarItems = [
     canDisabled: true,
   },
   {
+    icon: Orders,
+    text: 'Заказы',
+    linkTo: '/analytics',
+    // canDisabled: true,
+  },
+  {
     icon: Analytics,
-    text: 'Аналитика (Coming Soon)',
+    text: 'Аналитика',
     linkTo: '/analytics',
     canDisabled: true,
   },
   {
+    icon: Workers,
+    text: 'Сотрудники',
+    linkTo: '/analytics',
+    // canDisabled: true,
+  },
+  {
+    icon: Clients,
+    text: 'Клиенты',
+    linkTo: '/analytics',
+    // canDisabled: true,
+  },
+];
+
+const supportMenuItems = [
+  {
     icon: Settings,
-    text: 'Настройки (Coming Soon)',
+    text: 'Настройки',
     linkTo: '/settings',
     canDisabled: true,
   },
@@ -61,7 +85,7 @@ class SideMenu extends Component {
         <div className={b('logo')} />
         <div className={b('menu')}>
           {
-            navbarItems.map(({
+            mainMenuItems.map(({
               icon,
               text,
               linkTo,
@@ -78,10 +102,29 @@ class SideMenu extends Component {
             ))
           }
         </div>
-        <div>
+        <div className={b('menu')}>
+          {
+            supportMenuItems.map(({
+              icon,
+              text,
+              linkTo,
+              canDisabled,
+            }) => (
+              <Link
+                className={b('menu-item', { active: location.pathname.match(linkTo), disabled: !isUserExist && canDisabled })}
+                key={text}
+                to={linkTo}
+              >
+                <Icon style={{ color: !isUserExist && canDisabled ? '#485465' : 'white' }} component={icon} />
+                <span>{text}</span>
+              </Link>
+            ))
+          }
+        </div>
+        <div className={b('exit')}>
           <div className={b('menu-item')} onClick={this.signOutHandler}>
             <Icon style={{ color: 'white' }} component={Exit} />
-            <span>Exit</span>
+            <span>Выход</span>
           </div>
         </div>
       </div>
