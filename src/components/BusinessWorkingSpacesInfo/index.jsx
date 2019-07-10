@@ -119,7 +119,9 @@ class BusinessWorkingSpacesInfo extends Component {
               ) : (
                 <Button
                   className={b('controlBtns-btn backBtn')}
-                  onClick={this.handleToggleReadOnlyMode(true)}
+                  onClick={chosenSpace
+                    ? this.handleToggleReadOnlyMode(true)
+                    : changeActiveWorkingSpace(null, false)}
                 >
                   <Icon type="left" />
                   Отмена

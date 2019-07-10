@@ -187,17 +187,10 @@ const initReducers = {
     };
   },
 
-  [actions.GET_WORKING_SPACES]: (state, payload) => {
-    if (!payload.length) return state;
-
-    return {
-      ...state,
-      workingSpaces: [
-        ...state.workingSpaces,
-        ...payload,
-      ],
-    };
-  },
+  [actions.GET_WORKING_SPACES]: (state, payload) => ({
+    ...state,
+    workingSpaces: payload,
+  }),
 
   [actions.ADD_WORKING_SPACE]: (state, payload) => ({
     ...state,
