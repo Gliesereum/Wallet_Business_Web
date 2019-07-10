@@ -1,0 +1,119 @@
+@import '../../../styles/theme';
+
+.workingSpaceForm {
+  &__inputsBlock {
+    & .ant-form-item {
+      margin-bottom: 32px !important;
+    }
+  }
+
+  &__workersBox {
+    &-title {
+      color: $font-title-black;
+      font-size: 14px;
+      font-family: $sans;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      padding: 0 8px 24px;
+    }
+
+    &-table {
+      &-list {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 4px;
+
+        &-row {
+          &:first-child {
+            & .ant-table-selection-column {
+              &:first-child {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
+      &-chosenCard {
+        height: 288px;
+
+        &-deleteIcon {
+          color: rgba(0, 0, 0, 0.08);
+          font-size: 16px;
+        }
+
+        &-linkIcon {
+          color: $coupler-blue;
+          font-size: 16px;
+          padding-right: 16px;
+        }
+
+        &-item {
+          &-body {
+            &-title {
+              padding: 24px 16px 16px;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+              & > h1 {
+                font-family: $sans;
+                font-size: 12px;
+                letter-spacing: 0.02em;
+                color: #7B858C;
+              }
+            }
+
+            &-workers {
+              &-list {
+                height: 165px;
+                overflow-y: scroll;
+
+                &-item {
+                  display: flex;
+                  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                  height: 46px;
+                  align-items: center;
+                  padding-left: 19px;
+
+                  &:hover {
+                    background: linear-gradient(0deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.01));
+                  }
+
+                  &-deleteBox {
+                    position: absolute;
+                    right: 10px;
+                  }
+
+                  &-worker {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    width: 190px;
+                    font-family: $sans;
+                    font-size: 12px;
+                    color: $coupler-blue;
+                    letter-spacing: 0.01em;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        & .ant-card-body {
+          padding: 0;
+        }
+
+        & .ant-card-head {
+          height: 63px;
+
+          &-title {
+            color: $font-title-black;
+            font-family: $sans;
+            font-size: 14px;
+            letter-spacing: 0.02em;
+            font-feature-settings: 'pnum' on, 'lnum' on;
+          }
+        }
+      }
+    }
+  }
+}

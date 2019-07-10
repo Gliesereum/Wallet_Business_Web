@@ -7,6 +7,8 @@ import CorporationsList from './CorporationsList';
 import BusinessesList from './BusinessesList';
 import BusinessServices from './BusinessServices';
 import BusinessPackages from './BusinessPackages';
+import BusinessWorkingSpaces from './BusinessWorkingSpaces';
+import WorkingSpaceInfoReadOnly from './WorkingSpaceInfoReadOnly';
 import BusinessScheduleInfo from './BusinessScheduleInfo';
 import BusinessMainInfo from './BusinessMainInfo';
 import EmptyState from './EmptyState';
@@ -21,6 +23,8 @@ export {
   Map,
   BusinessServices,
   BusinessPackages,
+  BusinessWorkingSpaces,
+  WorkingSpaceInfoReadOnly,
   CorporationsList,
   BusinessesList,
   BusinessScheduleInfo,

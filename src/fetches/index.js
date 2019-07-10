@@ -76,6 +76,33 @@ export const fetchGetBusinessPackages = async ({ singleBusiness, getBusinessPack
   };
 };
 
+export const fetchGetWorkingSpaces = async ({ singleBusiness, getWorkingSpaces }) => {
+  if (!singleBusiness) return;
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `working-space/${singleBusiness.id}`,
+      moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then((data) => {
+      getWorkingSpaces(data);
+      result.push(data);
+    });
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'workingSpaces',
+  };
+};
+
 export const fetchGetBusinessOrders = async (props) => {
   const result = [];
 
