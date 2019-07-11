@@ -72,7 +72,10 @@ class WorkersList extends Component {
                 ))
               }
             </Select>
-            <Icon type="right" />
+            <Icon
+              type="right"
+              className={b('header-selectorBox-rightArrow')}
+            />
             <Select
               style={{ width: '280px' }}
               value={chosenBusiness}
