@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import bem from 'bem-join';
 
-import { Select, Icon, notification } from 'antd';
+import {
+  Select,
+  Icon,
+  notification,
+  Input,
+  Table,
+} from 'antd';
 
 import EmptyState from '../EmptyState';
 
@@ -12,18 +18,30 @@ import './index.scss';
 
 const b = bem('workersList');
 const { Option } = Select;
+const { Search } = Input;
 
 class WorkersList extends Component {
   state = {
     businesses: [],
     chosenCorporation: '',
     chosenBusiness: undefined,
+    searchedWorkers: [],
+    columnSortOrder: {
+      name: 'ascend',
+      phone: 'ascend',
+      position: 'ascend',
+    },
   };
 
   componentDidMount() {
-    const { corporations } = this.props;
+    const { corporations, workers } = this.props;
 
     corporations && corporations[0] && this.handleCorpChange(corporations[0].id);
+    this.setState({ searchedWorkers: workers });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ searchedWorkers: nextProps.workers });
   }
 
   handleCorpChange = async (corporationId) => {
@@ -47,16 +65,88 @@ class WorkersList extends Component {
 
   handleBusinessChange = businessId => this.setState({ chosenBusiness: businessId });
 
+  handleSortColumn = (columnName, prevOrder) => {
+    const { searchedWorkers } = this.state;
+    let newSearchedWorkers = searchedWorkers;
+
+    if (columnName === 'phone') {
+      newSearchedWorkers = prevOrder === 'ascend'
+        ? searchedWorkers.sort((a, c) => a.user.phone - c.user.phone)
+        : searchedWorkers.sort((a, c) => c.user.phone - a.user.phone);
+    } else if (columnName === 'name' || columnName === 'position') {
+      newSearchedWorkers = prevOrder === 'ascend'
+        ? searchedWorkers.sort((a, c) => a.user && a.user.lastName.localeCompare(c.user.lastName))
+        : searchedWorkers.sort((a, c) => c.user && c.user.lastName.localeCompare(a.user.lastName));
+    }
+
+    this.setState(prevState => ({
+      ...prevState,
+      columnSortOrder: {
+        ...prevState.columnSortOrder,
+        [columnName]: prevOrder === 'ascend' ? 'descend' : 'ascend',
+      },
+      searchedWorkers: newSearchedWorkers,
+    }));
+  };
+
   render() {
-    let { workers } = this.props;
     const {
       changeActiveWorker,
       corporations,
+      workers,
     } = this.props;
-    const { chosenCorporation, chosenBusiness, businesses } = this.state;
+    const {
+      chosenCorporation,
+      chosenBusiness,
+      businesses,
+      columnSortOrder: { name, phone, position },
+    } = this.state;
+    let { searchedWorkers } = this.state;
+    const isWorkersExist = workers && workers.length;
+
+    const columns = [
+      {
+        title: (
+          <div className={b('content-workersTable-columnHeaderText')}>
+            <span>Имя</span>
+            <Icon type={name === 'ascend' ? 'arrow-up' : 'arrow-down'} />
+          </div>
+        ),
+        key: 'name',
+        onHeaderCell: () => ({
+          onClick: () => this.handleSortColumn('name', name),
+        }),
+        render: (text, { user }) => <span>{`${user.lastName} ${user.firstName} ${user.middleName}`}</span>,
+      },
+      {
+        title: (
+          <div className={b('content-workersTable-columnHeaderText')}>
+            <span>Телефон</span>
+            <Icon type={phone === 'ascend' ? 'arrow-up' : 'arrow-down'} />
+          </div>
+        ),
+        key: 'phone',
+        onHeaderCell: () => ({
+          onClick: () => this.handleSortColumn('phone', phone),
+        }),
+        render: (text, { user }) => <span>{user.phone}</span>,
+      },
+      {
+        title: (
+          <div className={b('content-workersTable-columnHeaderText')}>
+            <span>Рабочее место</span>
+            <Icon type={position === 'ascend' ? 'arrow-up' : 'arrow-down'} />
+          </div>
+        ),
+        dataIndex: 'position',
+        onHeaderCell: () => ({
+          onClick: () => this.handleSortColumn('position', position),
+        }),
+      },
+    ];
 
     if (chosenBusiness) {
-      workers = workers.filter(worker => chosenBusiness === worker.businessId);
+      searchedWorkers = searchedWorkers.filter(worker => chosenBusiness === worker.businessId);
     }
 
     return (
@@ -103,10 +193,25 @@ class WorkersList extends Component {
             </Select>
           </div>
         </div>
-        <div className={b('content')}>
+        <div className={b('content', { isWorkersExist })}>
           {
-            workers && workers.length ? (
-              <div>WorkingList</div>
+            isWorkersExist ? (
+              <>
+                <div className={b('content-searchBox')}>
+                  <label htmlFor="searchWorkerInput">Поиск по имени или номеру телефона</label>
+                  <Search
+                    placeholder="Поиск..."
+                    id="searchWorkerInput"
+                  />
+                </div>
+                <Table
+                  rowKey={record => record.id}
+                  className={b('content-workersTable')}
+                  columns={columns}
+                  dataSource={searchedWorkers}
+                  pagination={false}
+                />
+              </>
             ) : (
               <EmptyState
                 title="У вас нету зарегистрированных сотрудников"

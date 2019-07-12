@@ -216,6 +216,14 @@
         background-color: $white;
         height: 63px;
         line-height: 31px;
+
+        & th {
+          font-family: $sans;
+          font-weight: bold;
+          color: $font-title-black;
+          letter-spacing: 0.02em;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+        }
       }
     }
 

@@ -43,6 +43,62 @@
   }
 
   &__content {
-    padding: 46px 32px;
+    padding: 46px 32px 0;
+
+    &--isWorkersExist {
+      padding: 0 32px;
+    }
+
+    &-searchBox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+
+      & > label {
+        cursor: pointer;
+        color: $font-title-black;
+        font-family: $sans;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+
+      & .ant-input-search {
+        width: 600px;
+      }
+    }
+
+    &-workersTable {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+
+      &-columnHeaderText {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      & .ant-table {
+        &-thead {
+          & > tr {
+            height: 48px !important;
+            font-size: 12px;
+            line-height: 24px !important;
+
+            & > th .ant-table-header-column {
+              width: 100% !important;
+            }
+          }
+        }
+
+        &-tbody {
+          & > tr {
+            height: 48px !important;
+          }
+        }
+      }
+    }
   }
 }
