@@ -6,7 +6,7 @@ import { Select, Icon, notification } from 'antd';
 
 import EmptyState from '../EmptyState';
 
-import { asyncRequest, withToken } from '../../utils';
+import { fetchBusinessesByCorp } from '../../fetches';
 
 import './index.scss';
 
@@ -27,13 +27,14 @@ class WorkersList extends Component {
   }
 
   handleCorpChange = async (corporationId) => {
+    const { getWorkers } = this.props;
+
     try {
-      const url = `business/by-corporation-id?corporationId=${corporationId}`;
-      const businesses = await withToken(asyncRequest)({ url, method: 'GET', moduleUrl: 'karma' }) || [];
+      const { data: businesses = [] } = await fetchBusinessesByCorp({ corporationId });
       this.setState({
         businesses,
         chosenCorporation: corporationId,
-      });
+      }, () => getWorkers(corporationId));
     } catch (err) {
       notification.error({
         duration: 5,
@@ -50,7 +51,7 @@ class WorkersList extends Component {
       corporations,
     } = this.props;
     const { chosenCorporation, chosenBusiness, businesses } = this.state;
-    console.log(businesses);
+
     return (
       <div className={b()}>
         <div className={b('header')}>
@@ -94,18 +95,20 @@ class WorkersList extends Component {
             </Select>
           </div>
         </div>
-        {
-          workers && workers.length ? (
-            <div>WorkingList</div>
-          ) : (
-            <EmptyState
-              title="У вас нету зарегистрированных сотрудников"
-              descrText="Создайте работника, чтобы просматривать и редактировать информацию о нем"
-              addItemText="Создать сотрудника"
-              addItemHandler={changeActiveWorker}
-            />
-          )
-        }
+        <div className={b('content')}>
+          {
+            workers && workers.length ? (
+              <div>WorkingList</div>
+            ) : (
+              <EmptyState
+                title="У вас нету зарегистрированных сотрудников"
+                descrText="Создайте работника, чтобы просматривать и редактировать информацию о нем"
+                addItemText="Создать сотрудника"
+                addItemHandler={changeActiveWorker}
+              />
+            )
+          }
+        </div>
       </div>
     );
   }

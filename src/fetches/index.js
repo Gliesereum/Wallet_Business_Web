@@ -241,12 +241,12 @@ export const fetchGetNearbyBusinesses = async ({ currentLocation }) => {
   };
 };
 
-export const fetchBusinessesByCorp = async ({ chosenCorp }) => {
+export const fetchBusinessesByCorp = async ({ corporationId }) => {
   const result = [];
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `business/by-corporation-id?corporationId=${chosenCorp.id}`,
+      urlPath: `business/by-corporation-id?corporationId=${corporationId}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
       if (response.status === 204) return [];
@@ -261,6 +261,29 @@ export const fetchBusinessesByCorp = async ({ chosenCorp }) => {
   return {
     data: result,
     fieldName: 'business',
+  };
+};
+
+export const fetchWorkersByCorporationId = async ({ corporationId }) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `working-space/workers?corporationId=${corporationId}`,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'workers',
   };
 };
 

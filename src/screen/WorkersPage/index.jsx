@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import bem from 'bem-join';
 
+import { notification } from 'antd';
+
 import { WorkerInfo, WorkersList } from '../../components';
+
+import { fetchWorkersByCorporationId } from '../../fetches';
 
 import './index.scss';
 
@@ -11,6 +15,7 @@ class WorkingPage extends Component {
   state = {
     chosenWorker: null,
     isAddWorkerMode: false,
+    workers: [],
   };
 
   changeActiveWorker = (worker, isAddWorkerMode) => () => this.setState({
@@ -18,8 +23,21 @@ class WorkingPage extends Component {
     isAddWorkerMode,
   });
 
+  handleGetWorkers = async (corporationId) => {
+    try {
+      const { data: workers = [] } = await fetchWorkersByCorporationId({ corporationId });
+      this.setState({ workers });
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
+  };
+
   render() {
-    const { chosenWorker, isAddWorkerMode } = this.state;
+    const { chosenWorker, isAddWorkerMode, workers } = this.state;
 
     return (
       <div className={b()}>
@@ -31,7 +49,8 @@ class WorkingPage extends Component {
             />
           ) : (
             <WorkersList
-              workers={[]}
+              workers={workers}
+              getWorkers={this.handleGetWorkers}
               changeActiveWorker={this.changeActiveWorker}
             />
           )
