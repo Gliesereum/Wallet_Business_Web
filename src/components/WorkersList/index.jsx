@@ -34,6 +34,7 @@ class WorkersList extends Component {
       this.setState({
         businesses,
         chosenCorporation: corporationId,
+        chosenBusiness: undefined,
       }, () => getWorkers(corporationId));
     } catch (err) {
       notification.error({
@@ -44,13 +45,19 @@ class WorkersList extends Component {
     }
   };
 
+  handleBusinessChange = businessId => this.setState({ chosenBusiness: businessId });
+
   render() {
+    let { workers } = this.props;
     const {
-      workers,
       changeActiveWorker,
       corporations,
     } = this.props;
     const { chosenCorporation, chosenBusiness, businesses } = this.state;
+
+    if (chosenBusiness) {
+      workers = workers.filter(worker => chosenBusiness === worker.businessId);
+    }
 
     return (
       <div className={b()}>
@@ -78,6 +85,7 @@ class WorkersList extends Component {
               className={b('header-selectorBox-rightArrow')}
             />
             <Select
+              onChange={this.handleBusinessChange}
               style={{ width: '280px' }}
               value={chosenBusiness}
               placeholder="Выберите бизнес"
