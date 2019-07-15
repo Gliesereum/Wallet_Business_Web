@@ -100,5 +100,48 @@
         }
       }
     }
+
+    &-controlBtns {
+      margin-top: 56px;
+
+      &-infoBlock {
+        height: 48px;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        & > .anticon {
+          font-size: 20px;
+          color: $coupler-blue;
+          padding-right: 14px;
+        }
+
+        & > div {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          font-size: 14px;
+          font-family: $sans;
+          color: $coupler-blue;
+        }
+
+        &-arrow {
+          position: absolute;
+          top: 0;
+          width: 100%;
+
+          & > img {
+            width: 100%;
+            height: 48px
+          }
+        }
+      }
+
+      &-btn {
+        width: 100%;
+      }
+    }
   }
 }

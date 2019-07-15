@@ -8,9 +8,13 @@ import {
   notification,
   Input,
   Table,
+  Col,
+  Button,
+  Row,
 } from 'antd';
 
 import EmptyState from '../EmptyState';
+import InfoFrame from '../../assets/infoFrame.svg';
 
 import { fetchBusinessesByCorp } from '../../fetches';
 
@@ -37,7 +41,7 @@ class WorkersList extends Component {
   componentDidMount() {
     const { corporations, workers } = this.props;
 
-    corporations && corporations[0] && this.handleCorpChange(corporations[0].id);
+    corporations && corporations[1] && this.handleCorpChange(corporations[1].id);
     this.setState({ workersByBusiness: workers, searchedWorkers: workers });
   }
 
@@ -235,6 +239,30 @@ class WorkersList extends Component {
                   dataSource={searchedWorkers}
                   pagination={false}
                 />
+
+                <Row
+                  gutter={32}
+                  className={b('content-controlBtns')}
+                >
+                  <Col lg={14}>
+                    <div className={b('content-controlBtns-infoBlock')}>
+                      <Icon type="info-circle" />
+                      <div>Если профайл сотрудника отсутствует, его необходимо создать</div>
+                      <div className={b('content-controlBtns-infoBlock-arrow')}>
+                        <img src={InfoFrame} alt="InfoFrame" />
+                      </div>
+                    </div>
+                  </Col>
+                  <Col lg={10}>
+                    <Button
+                      className={b('content-controlBtns-btn')}
+                      onClick={changeActiveWorker(null, true)}
+                      type="primary"
+                    >
+                      Создать профайл сотрудника
+                    </Button>
+                  </Col>
+                </Row>
               </>
             ) : (
               <EmptyState

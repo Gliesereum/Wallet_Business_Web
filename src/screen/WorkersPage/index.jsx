@@ -42,7 +42,7 @@ class WorkingPage extends Component {
     return (
       <div className={b()}>
         {
-          chosenWorker ? (
+          isAddWorkerMode || (chosenWorker && chosenWorker.id) ? (
             <WorkerInfo
               isAddMode={isAddWorkerMode}
               changeActiveWorker={this.changeActiveWorker}
