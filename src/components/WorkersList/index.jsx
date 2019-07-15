@@ -25,7 +25,8 @@ class WorkersList extends Component {
     businesses: [],
     chosenCorporation: '',
     chosenBusiness: undefined,
-    searchedWorkers: [],
+    workersByBusiness: [],
+    searchProcess: false,
     columnSortOrder: {
       name: 'ascend',
       phone: 'ascend',
@@ -37,11 +38,11 @@ class WorkersList extends Component {
     const { corporations, workers } = this.props;
 
     corporations && corporations[0] && this.handleCorpChange(corporations[0].id);
-    this.setState({ searchedWorkers: workers });
+    this.setState({ workersByBusiness: workers, searchedWorkers: workers });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ searchedWorkers: nextProps.workers });
+    this.setState({ workersByBusiness: nextProps.workers, searchedWorkers: nextProps.workers });
   }
 
   handleCorpChange = async (corporationId) => {
@@ -63,7 +64,10 @@ class WorkersList extends Component {
     }
   };
 
-  handleBusinessChange = businessId => this.setState({ chosenBusiness: businessId });
+  handleBusinessChange = businessId => this.setState({
+    chosenBusiness: businessId,
+    workersByBusiness: this.props.workers.filter(worker => businessId === worker.businessId),
+  });
 
   handleSortColumn = (columnName, prevOrder) => {
     const { searchedWorkers } = this.state;
@@ -89,20 +93,43 @@ class WorkersList extends Component {
     }));
   };
 
+  handleSearchWorkers = (e) => {
+    const { value } = e.target;
+    const { workersByBusiness } = this.state;
+    if (!value || value === '') {
+      this.setState({ searchProcess: false, searchedWorkers: workersByBusiness });
+      return;
+    }
+
+    const type = parseInt(value, 10) ? 'number' : 'string';
+    let searchedWorkers = [];
+
+    if (type === 'number') {
+      searchedWorkers = workersByBusiness.filter(({ user }) => (user.phone ? user.phone.includes(value) : false));
+    } else if (type === 'string') {
+      searchedWorkers = workersByBusiness.filter(({ user }) => (
+        `${user.lastName} ${user.firstName} ${user.middleName}`.toUpperCase().includes(value.toUpperCase())
+      ));
+    }
+
+    this.setState({ searchProcess: true, searchedWorkers });
+  };
+
   render() {
     const {
       changeActiveWorker,
       corporations,
-      workers,
     } = this.props;
     const {
       chosenCorporation,
       chosenBusiness,
       businesses,
+      workersByBusiness,
+      searchedWorkers,
+      searchProcess,
       columnSortOrder: { name, phone, position },
     } = this.state;
-    let { searchedWorkers } = this.state;
-    const isWorkersExist = workers && workers.length;
+    const isWorkersExist = (workersByBusiness && workersByBusiness.length) || searchProcess;
 
     const columns = [
       {
@@ -144,10 +171,6 @@ class WorkersList extends Component {
         }),
       },
     ];
-
-    if (chosenBusiness) {
-      searchedWorkers = searchedWorkers.filter(worker => chosenBusiness === worker.businessId);
-    }
 
     return (
       <div className={b()}>
@@ -202,6 +225,7 @@ class WorkersList extends Component {
                   <Search
                     placeholder="Поиск..."
                     id="searchWorkerInput"
+                    onChange={this.handleSearchWorkers}
                   />
                 </div>
                 <Table
