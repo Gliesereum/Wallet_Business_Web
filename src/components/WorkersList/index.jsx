@@ -14,7 +14,6 @@ import {
 } from 'antd';
 
 import EmptyState from '../EmptyState';
-import InfoFrame from '../../assets/infoFrame.svg';
 
 import { fetchBusinessesByCorp } from '../../fetches';
 
@@ -31,6 +30,7 @@ class WorkersList extends Component {
     chosenBusiness: undefined,
     workersByBusiness: [],
     searchProcess: false,
+    expandedRowKeys: [], // for Icon type regulation
     columnSortOrder: {
       name: 'ascend',
       phone: 'ascend',
@@ -119,6 +119,24 @@ class WorkersList extends Component {
     this.setState({ searchProcess: true, searchedWorkers });
   };
 
+  handleExpandRow = record => ({
+    onClick: () => this.setState((prevState) => {
+      let newExpandedRowKeys = prevState.expandedRowKeys;
+
+      if (prevState.expandedRowKeys.includes(record.id)) {
+        newExpandedRowKeys = newExpandedRowKeys.filter(key => key !== record.id);
+      } else {
+        newExpandedRowKeys.push(record.id);
+      }
+
+      return {
+        expandedRowKeys: newExpandedRowKeys,
+      };
+    }),
+  });
+
+  renderExpandedRow = record => <p>{record.user.lastName}</p>;
+
   render() {
     const {
       changeActiveWorker,
@@ -131,6 +149,7 @@ class WorkersList extends Component {
       workersByBusiness,
       searchedWorkers,
       searchProcess,
+      expandedRowKeys,
       columnSortOrder: { name, phone, position },
     } = this.state;
     const isWorkersExist = (workersByBusiness && workersByBusiness.length) || searchProcess;
@@ -148,6 +167,7 @@ class WorkersList extends Component {
           onClick: () => this.handleSortColumn('name', name),
         }),
         render: (text, { user }) => <span>{`${user.lastName} ${user.firstName} ${user.middleName}`}</span>,
+        width: '35%',
       },
       {
         title: (
@@ -161,6 +181,7 @@ class WorkersList extends Component {
           onClick: () => this.handleSortColumn('phone', phone),
         }),
         render: (text, { user }) => <span>{user.phone}</span>,
+        width: '20%',
       },
       {
         title: (
@@ -173,6 +194,13 @@ class WorkersList extends Component {
         onHeaderCell: () => ({
           onClick: () => this.handleSortColumn('position', position),
         }),
+        width: '25%',
+      },
+      {
+        title: '',
+        align: 'right',
+        width: '20%',
+        render: record => <Icon type={expandedRowKeys.includes(record.id) ? 'up' : 'down'} />,
       },
     ];
 
@@ -238,6 +266,11 @@ class WorkersList extends Component {
                   columns={columns}
                   dataSource={searchedWorkers}
                   pagination={false}
+                  expandedRowRender={(record, rowIndex, indent, expanded) => this.renderExpandedRow(record, expanded)}
+                  expandIconAsCell={false} // need for hidden default expand icon
+                  expandRowByClick
+                  onRow={this.handleExpandRow}
+                  scroll={{ y: 368 }}
                 />
 
                 <Row
@@ -248,9 +281,7 @@ class WorkersList extends Component {
                     <div className={b('content-controlBtns-infoBlock')}>
                       <Icon type="info-circle" />
                       <div>Если профайл сотрудника отсутствует, его необходимо создать</div>
-                      <div className={b('content-controlBtns-infoBlock-arrow')}>
-                        <img src={InfoFrame} alt="InfoFrame" />
-                      </div>
+                      <div className={b('content-controlBtns-infoBlock-arrow')} />
                     </div>
                   </Col>
                   <Col lg={10}>

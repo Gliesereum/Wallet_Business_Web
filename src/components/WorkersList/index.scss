@@ -81,6 +81,9 @@
       }
 
       & .ant-table {
+        &-body {
+          min-height: 368px;
+        }
         &-thead {
           & > tr {
             height: 48px !important;
@@ -102,15 +105,19 @@
     }
 
     &-controlBtns {
-      margin-top: 56px;
+      margin-top: 24px;
 
       &-infoBlock {
+        width: calc(100% - 25px);
+        border: 1px dashed #1078E1;
+        border-right: none;
         height: 48px;
         position: relative;
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        padding: 12px 0 12px 14px;
 
         & > .anticon {
           font-size: 20px;
@@ -128,14 +135,16 @@
         }
 
         &-arrow {
+          width: 34px;
+          height: 34px;
+          border-top: 1px dashed #1078E1;
+          border-right: 1px dashed #1078E1;
           position: absolute;
-          top: 0;
-          width: 100%;
-
-          & > img {
-            width: 100%;
-            height: 48px
-          }
+          top: 6px;
+          right: -18px;
+          transform: rotate(45deg);
+          border-radius: 0 5px 0 0;
+          background: transparent;
         }
       }
 
