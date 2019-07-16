@@ -143,7 +143,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
       businessTypes,
       businessCategories,
       form,
-      corporations,
+      corporations = [],
       isAddBusinessMode,
       chosenCorpId,
     } = this.props;
@@ -185,9 +185,9 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                   ],
                 })(
                   <Select placeholder="Выбрать компанию...">
-                    {corporations && corporations.map((corporation: {}): React.Node => (
+                    {corporations.length && corporations.map((corporation: {}): React.Node => (
                       <Select.Option
-                        key={corporation.name}
+                        key={corporation.id}
                         value={corporation.id}
                       >
                         {corporation.name}

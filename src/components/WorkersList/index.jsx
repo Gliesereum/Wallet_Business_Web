@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import bem from 'bem-join';
 
 import {
@@ -100,7 +99,7 @@ class WorkersList extends Component {
   componentDidMount() {
     const { corporations, workers } = this.props;
 
-    corporations && corporations[1] && this.handleCorpChange(corporations[1].id);
+    corporations.length && corporations[1] && this.handleCorpChange(corporations[1].id); // TODO: change to [0]
     this.setState({ workersByBusiness: workers, searchedWorkers: workers });
   }
 
@@ -465,8 +464,4 @@ class WorkersList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  corporations: state.corporations.corporations,
-});
-
-export default connect(mapStateToProps)(WorkersList);
+export default WorkersList;

@@ -7,6 +7,8 @@ import {
   Icon, Button,
 } from 'antd';
 
+import { WorkerForm } from '../Forms';
+
 import './index.scss';
 
 const b = bem('workerInfo');
@@ -21,7 +23,11 @@ class WorkerInfo extends Component {
   };
 
   render() {
-    const { changeActiveWorker } = this.props;
+    const {
+      chosenWorker,
+      corporations,
+      changeActiveWorker,
+    } = this.props;
     const { readOnlyMode } = this.state;
 
     return (
@@ -29,7 +35,10 @@ class WorkerInfo extends Component {
         <div className={b('content')}>
           {
             readOnlyMode ? (
-              <div>WorkingInfoReadOnly</div>
+              <WorkerForm
+                corporations={corporations}
+                chosenWorker={chosenWorker}
+              />
             ) : (
               <div>WorkingForm</div>
             )

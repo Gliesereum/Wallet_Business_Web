@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import bem from 'bem-join';
 
 import { notification } from 'antd';
@@ -37,7 +38,12 @@ class WorkingPage extends Component {
   };
 
   render() {
-    const { chosenWorker, isAddWorkerMode, workers } = this.state;
+    const { corporations } = this.props;
+    const {
+      chosenWorker,
+      isAddWorkerMode,
+      workers,
+    } = this.state;
 
     return (
       <div className={b()}>
@@ -46,11 +52,13 @@ class WorkingPage extends Component {
             <WorkerInfo
               chosenWorker={chosenWorker}
               isAddMode={isAddWorkerMode}
+              corporations={corporations}
               changeActiveWorker={this.changeActiveWorker}
             />
           ) : (
             <WorkersList
               workers={workers}
+              corporations={corporations}
               getWorkers={this.handleGetWorkers}
               changeActiveWorker={this.changeActiveWorker}
             />
@@ -61,4 +69,8 @@ class WorkingPage extends Component {
   }
 }
 
-export default WorkingPage;
+const mapStateToProps = state => ({
+  corporations: state.corporations.corporations,
+});
+
+export default connect(mapStateToProps)(WorkingPage);
