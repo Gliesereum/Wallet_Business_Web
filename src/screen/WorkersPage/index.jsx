@@ -44,6 +44,7 @@ class WorkingPage extends Component {
         {
           isAddWorkerMode || (chosenWorker && chosenWorker.id) ? (
             <WorkerInfo
+              chosenWorker={chosenWorker}
               isAddMode={isAddWorkerMode}
               changeActiveWorker={this.changeActiveWorker}
             />

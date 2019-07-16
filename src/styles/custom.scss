@@ -237,9 +237,13 @@
 
         &:hover {
           &:not(.ant-table-expanded-row) > td {
-            background-color: rgba(72, 84, 101, 0.02);;
+            background-color: rgba(16, 120, 225, 0.08);
           }
         }
+      }
+
+      & tr.ant-table-expanded-row > td {
+        background-color: $dirty-white;
       }
     }
   }
