@@ -1,0 +1,15 @@
+@import '../../styles/theme.scss';
+
+.workerInfo {
+  &__content {
+    padding: 46px 32px 0;
+
+    &-controlBtns {
+      margin-top: 56px;
+
+      &-btn {
+        width: 100%;
+      }
+    }
+  }
+}
