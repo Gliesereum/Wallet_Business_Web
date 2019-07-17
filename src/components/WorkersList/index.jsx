@@ -13,48 +13,13 @@ import {
 
 import EmptyState from '../EmptyState';
 
+import { genders, dayTranslate } from '../../mocks';
+
 import './index.scss';
 
 const b = bem('workersList');
 const { Option } = Select;
 const { Search } = Input;
-
-const genders = {
-  FEMALE: 'Женский',
-  MALE: 'Мужской',
-  UNKNOWN: 'Не указано',
-};
-
-const dayTranslate = [
-  {
-    translate: 'Понедельник',
-    dayOfWeek: 'TUESDAY',
-  },
-  {
-    translate: 'Вторник',
-    dayOfWeek: 'WEDNESDAY',
-  },
-  {
-    translate: 'Среда',
-    dayOfWeek: 'THURSDAY',
-  },
-  {
-    translate: 'Четверг',
-    dayOfWeek: 'FRIDAY',
-  },
-  {
-    translate: 'Пятница',
-    dayOfWeek: 'MONDAY',
-  },
-  {
-    translate: 'Суббота',
-    dayOfWeek: 'SATURDAY',
-  },
-  {
-    translate: 'Воскресенье',
-    dayOfWeek: 'SUNDAY',
-  },
-];
 
 const generateDate = (date, withTimestamp = false) => {
   if (!date) return 'Невалидная дата';

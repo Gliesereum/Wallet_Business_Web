@@ -1,0 +1,14 @@
+@import '../../../styles/theme.scss';
+
+.workerForm {
+  &__formItem {
+    &-radioGroup {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      border: 1px dashed rgba(72, 84, 101, 0.32);
+      border-radius: 4px;
+      padding: 12px 16px;
+    }
+  }
+}

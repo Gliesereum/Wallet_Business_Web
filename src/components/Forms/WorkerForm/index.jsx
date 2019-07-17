@@ -7,11 +7,17 @@ import {
   Form,
   Input,
   Select,
+  Radio,
 } from 'antd';
+
+import { genders } from '../../../mocks';
+
+import './index.scss';
 
 const b = bem('workerForm');
 const { Item: FormItem } = Form;
 const { Option } = Select;
+const { Group: RadioGroup } = Radio;
 
 class WorkerForm extends PureComponent {
   getInitialBusinessValue = () => {
@@ -48,6 +54,15 @@ class WorkerForm extends PureComponent {
     form.resetFields('workingSpaceId');
   };
 
+  renderRadios = () => {
+    const radios = [];
+    for (const key in genders) {
+      const radio = <Radio key={key} value={key}>{genders[key]}</Radio>;
+      radios.push(radio);
+    }
+    return radios;
+  };
+
   render() {
     const {
       form,
@@ -69,7 +84,7 @@ class WorkerForm extends PureComponent {
                 <FormItem label="Фамилия">
                   {
                     form.getFieldDecorator('lastName', {
-                      initialValue: chosenWorker && chosenWorker.user ? chosenWorker.user.lastName : '',
+                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.lastName : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                       ],
@@ -83,7 +98,7 @@ class WorkerForm extends PureComponent {
                 <FormItem label="Имя">
                   {
                     form.getFieldDecorator('firstName', {
-                      initialValue: chosenWorker && chosenWorker.user ? chosenWorker.user.firstName : '',
+                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.firstName : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                       ],
@@ -97,13 +112,27 @@ class WorkerForm extends PureComponent {
                 <FormItem label="Отчество">
                   {
                     form.getFieldDecorator('middleName', {
-                      initialValue: chosenWorker && chosenWorker.user ? chosenWorker.user.middleName : '',
+                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.middleName : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                       ],
                     })(
                       <Input
                         placeholder="Ввод..."
+                      />
+                    )
+                  }
+                </FormItem>
+                <FormItem label="Номер телефона">
+                  {
+                    form.getFieldDecorator('phone', {
+                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.phone : '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="+380 88 888 88 88"
                       />
                     )
                   }
@@ -187,26 +216,40 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
+                <FormItem label="Должность">
+                  {
+                    form.getFieldDecorator('position', {
+                      initialValue: chosenWorker.position || '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="+380 88 888 88 88"
+                      />
+                    )
+                  }
+                </FormItem>
               </Col>
             </Row>
-            {/* <Row> */}
-            {/*  <Col lg={24}> */}
-            {/*    <FormItem label="Пол"> */}
-            {/*      { */}
-            {/*        form.getFieldDecorator('corporationId', { */}
-            {/*          initialValue: chosenWorker ? chosenWorker.corporationId : '', */}
-            {/*          rules: [ */}
-            {/*            { required: true, message: 'Поле обязательное для заполнения' }, */}
-            {/*          ], */}
-            {/*        })( */}
-            {/*          <Select placeholder="Выбрать компанию..."> */}
-            {/*            <Option value={12}>12</Option> */}
-            {/*          </Select> */}
-            {/*        ) */}
-            {/*      } */}
-            {/*    </FormItem> */}
-            {/*  </Col> */}
-            {/* </Row> */}
+            <Row>
+              <Col lg={24}>
+                <FormItem
+                  className={b('formItem')}
+                  label="Пол"
+                >
+                  {
+                    form.getFieldDecorator('gender', {
+                      initialValue: (chosenWorker && chosenWorker.user && chosenWorker.user.gender)
+                        ? chosenWorker.user.gender
+                        : 'UNKNOWN',
+                    })(
+                      <RadioGroup className={b('formItem-radioGroup')}>{this.renderRadios()}</RadioGroup>
+                    )
+                  }
+                </FormItem>
+              </Col>
+            </Row>
           </Col>
           <Col lg={8}>
             Дни та часы работы
