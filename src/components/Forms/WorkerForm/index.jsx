@@ -14,8 +14,48 @@ const { Item: FormItem } = Form;
 const { Option } = Select;
 
 class WorkerForm extends PureComponent {
+  getInitialBusinessValue = () => {
+    const { chosenWorker, businesses = [] } = this.props;
+
+    if (chosenWorker && businesses.length) {
+      const [business] = businesses.filter(businessItem => businessItem.id === chosenWorker.businessId);
+      return business ? business.id : undefined;
+    }
+    return undefined;
+  };
+
+  getInitialWorkingSpaceValue = () => {
+    const { chosenWorker, workingSpaces } = this.props;
+
+    if (chosenWorker && workingSpaces.length) {
+      const [workingSpace] = workingSpaces.filter(workingSpaceItem => workingSpaceItem.id === chosenWorker.workingSpaceId);
+      return workingSpace ? workingSpace.id : undefined;
+    }
+    return undefined;
+  };
+
+  handleGetBusinessByCorporationId = async (corporationId) => {
+    const { form, getBusinessByCorporationId } = this.props;
+
+    await getBusinessByCorporationId(corporationId);
+    form.resetFields(['businessId', 'workingSpaceId']);
+  };
+
+  handleGetWorkingSpacesByBusinessId = async (businessId) => {
+    const { form, getWorkingSpacesByBusinessId } = this.props;
+
+    await getWorkingSpacesByBusinessId(businessId);
+    form.resetFields('workingSpaceId');
+  };
+
   render() {
-    const { form, chosenWorker, corporations = [] } = this.props;
+    const {
+      form,
+      chosenWorker,
+      corporations = [],
+      businesses = [],
+      workingSpaces = [],
+    } = this.props;
 
     return (
       <Form
@@ -40,6 +80,34 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
+                <FormItem label="Имя">
+                  {
+                    form.getFieldDecorator('firstName', {
+                      initialValue: chosenWorker && chosenWorker.user ? chosenWorker.user.firstName : '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="Ввод..."
+                      />
+                    )
+                  }
+                </FormItem>
+                <FormItem label="Отчество">
+                  {
+                    form.getFieldDecorator('middleName', {
+                      initialValue: chosenWorker && chosenWorker.user ? chosenWorker.user.middleName : '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="Ввод..."
+                      />
+                    )
+                  }
+                </FormItem>
               </Col>
               <Col lg={12}>
                 <FormItem label="Компания в которой работает сотрудник">
@@ -50,7 +118,10 @@ class WorkerForm extends PureComponent {
                         { required: true, message: 'Поле обязательное для заполнения' },
                       ],
                     })(
-                      <Select placeholder="Выбрать компанию...">
+                      <Select
+                        placeholder="Выбрать..."
+                        onSelect={this.handleGetBusinessByCorporationId}
+                      >
                         {
                           corporations.length && corporations.map(corporation => (
                             <Option
@@ -65,26 +136,77 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={24}>
-                <FormItem label="Пол">
+                <FormItem label="Бизнесс в которой работает сотрудник">
                   {
-                    form.getFieldDecorator('corporationId', {
-                      initialValue: chosenWorker ? chosenWorker.corporationId : '',
+                    form.getFieldDecorator('businessId', {
+                      initialValue: this.getInitialBusinessValue(),
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                       ],
                     })(
-                      <Select placeholder="Выбрать компанию...">
-                        <Option value={12}>12</Option>
+                      <Select
+                        placeholder="Выбрать..."
+                        onSelect={this.handleGetWorkingSpacesByBusinessId}
+                      >
+                        {
+                          businesses.length && businesses.map(business => (
+                            <Option
+                              key={business.id}
+                              value={business.id}
+                            >
+                              {business.name}
+                            </Option>
+                          ))
+                        }
+                      </Select>
+                    )
+                  }
+                </FormItem>
+                <FormItem label="Рабочее место сотрудника">
+                  {
+                    form.getFieldDecorator('workingSpaceId', {
+                      initialValue: this.getInitialWorkingSpaceValue(),
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                    })(
+                      <Select
+                        placeholder="Выбрать..."
+                      >
+                        {
+                          workingSpaces.length && workingSpaces.map(ws => (
+                            <Option
+                              key={ws.id}
+                              value={ws.id}
+                            >
+                              {ws.name}
+                            </Option>
+                          ))
+                        }
                       </Select>
                     )
                   }
                 </FormItem>
               </Col>
             </Row>
+            {/* <Row> */}
+            {/*  <Col lg={24}> */}
+            {/*    <FormItem label="Пол"> */}
+            {/*      { */}
+            {/*        form.getFieldDecorator('corporationId', { */}
+            {/*          initialValue: chosenWorker ? chosenWorker.corporationId : '', */}
+            {/*          rules: [ */}
+            {/*            { required: true, message: 'Поле обязательное для заполнения' }, */}
+            {/*          ], */}
+            {/*        })( */}
+            {/*          <Select placeholder="Выбрать компанию..."> */}
+            {/*            <Option value={12}>12</Option> */}
+            {/*          </Select> */}
+            {/*        ) */}
+            {/*      } */}
+            {/*    </FormItem> */}
+            {/*  </Col> */}
+            {/* </Row> */}
           </Col>
           <Col lg={8}>
             Дни та часы работы

@@ -6,7 +6,7 @@ import { notification } from 'antd';
 
 import { WorkerInfo, WorkersList } from '../../components';
 
-import { fetchWorkersByCorporationId } from '../../fetches';
+import { fetchWorkersByCorporationId, fetchBusinessesByCorp } from '../../fetches';
 
 import './index.scss';
 
@@ -23,6 +23,24 @@ class WorkingPage extends Component {
     chosenWorker: worker,
     isAddWorkerMode,
   });
+
+  handleGetBusinessByCorporationId = async (corporationId, getWorkers = false) => {
+    let businesses = [];
+    try {
+      const { data = [] } = await fetchBusinessesByCorp({ corporationId });
+      getWorkers && await this.handleGetWorkers(corporationId);
+
+      businesses = data;
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
+
+    return businesses;
+  };
 
   handleGetWorkers = async (corporationId) => {
     try {
@@ -53,12 +71,14 @@ class WorkingPage extends Component {
               chosenWorker={chosenWorker}
               isAddMode={isAddWorkerMode}
               corporations={corporations}
+              getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               changeActiveWorker={this.changeActiveWorker}
             />
           ) : (
             <WorkersList
               workers={workers}
               corporations={corporations}
+              getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               getWorkers={this.handleGetWorkers}
               changeActiveWorker={this.changeActiveWorker}
             />

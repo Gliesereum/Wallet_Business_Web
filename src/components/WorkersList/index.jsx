@@ -4,7 +4,6 @@ import bem from 'bem-join';
 import {
   Select,
   Icon,
-  notification,
   Input,
   Table,
   Col,
@@ -13,8 +12,6 @@ import {
 } from 'antd';
 
 import EmptyState from '../EmptyState';
-
-import { fetchBusinessesByCorp } from '../../fetches';
 
 import './index.scss';
 
@@ -108,22 +105,13 @@ class WorkersList extends Component {
   }
 
   handleCorpChange = async (corporationId) => {
-    const { getWorkers } = this.props;
+    const businesses = await this.props.getBusinessByCorporationId(corporationId, true);
 
-    try {
-      const { data: businesses = [] } = await fetchBusinessesByCorp({ corporationId });
-      this.setState({
-        businesses,
-        chosenCorporation: corporationId,
-        chosenBusiness: undefined,
-      }, () => getWorkers(corporationId));
-    } catch (err) {
-      notification.error({
-        duration: 5,
-        message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
-      });
-    }
+    this.setState({
+      chosenCorporation: corporationId,
+      chosenBusiness: undefined,
+      businesses,
+    });
   };
 
   handleBusinessChange = businessId => this.setState({

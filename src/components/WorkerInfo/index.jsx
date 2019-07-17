@@ -16,6 +16,32 @@ const b = bem('workerInfo');
 class WorkerInfo extends Component {
   state = {
     readOnlyMode: !this.props.isAddMode,
+    businesses: [],
+    workingSpaces: [],
+  };
+
+  async componentDidMount() {
+    const { corporations = [], chosenWorker } = this.props;
+    if (chosenWorker) {
+      await this.handleGetBusinessByCorporationId(chosenWorker.corporationId);
+      await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
+    } else if (corporations.length) {
+      await this.handleGetBusinessByCorporationId(corporations[0].id);
+    }
+  }
+
+  handleGetBusinessByCorporationId = async (corporationId) => {
+    const { chosenWorker, getBusinessByCorporationId } = this.props;
+
+    const businesses = await getBusinessByCorporationId(corporationId, true);
+    this.setState({ businesses });
+    chosenWorker && await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
+  };
+
+  handleGetWorkingSpacesByBusinessId = (businessId) => {
+    const { businesses } = this.state;
+    const [business] = businesses.filter(item => item.id === businessId);
+    this.setState({ workingSpaces: business ? business.spaces : [] });
   };
 
   handleUpdateWorker = () => {
@@ -28,7 +54,7 @@ class WorkerInfo extends Component {
       corporations,
       changeActiveWorker,
     } = this.props;
-    const { readOnlyMode } = this.state;
+    const { readOnlyMode, businesses, workingSpaces } = this.state;
 
     return (
       <div className={b()}>
@@ -37,7 +63,12 @@ class WorkerInfo extends Component {
             readOnlyMode ? (
               <WorkerForm
                 corporations={corporations}
+                businesses={businesses}
+                workingSpaces={workingSpaces}
                 chosenWorker={chosenWorker}
+                getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
+                getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
+                onCorpChange={this.handleCorpChange}
               />
             ) : (
               <div>WorkingForm</div>
