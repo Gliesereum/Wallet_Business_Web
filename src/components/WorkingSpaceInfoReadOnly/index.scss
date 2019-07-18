@@ -1,0 +1,31 @@
+@import '../../styles/theme';
+
+.workingSpaceInfoReadOnly {
+  &__label {
+    line-height: 16px;
+    margin-bottom: 8px;
+
+    & label {
+      font-family: $sans;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: $font-title-black;
+    }
+  }
+
+  &__workersTable {
+    &-title {
+      color: $font-title-black;
+      font-size: 14px;
+      font-family: $sans;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      padding: 32px 8px 24px;
+    }
+
+    &-list {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+    }
+  }
+}

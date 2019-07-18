@@ -208,6 +208,33 @@
       opacity: 0;
     }
   }
+
+  //---- Table ----
+  &-table {
+    &-thead {
+      & > tr {
+        background-color: $white;
+        height: 63px;
+        line-height: 31px;
+      }
+    }
+
+    &-tbody {
+      & > tr {
+        height: 63px;
+
+        & > td {
+          background-color: $white;
+        }
+
+        &:hover {
+          &:not(.ant-table-expanded-row) > td {
+            background-color: rgba(72, 84, 101, 0.02);;
+          }
+        }
+      }
+    }
+  }
 }
 
 #root .has-error {
