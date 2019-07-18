@@ -8,7 +8,7 @@ const timeoutMessageError = new Error('Превишен интервал ожи�
 const timeout = (reject, time = 60000) => (setTimeout(() => reject(timeoutMessageError), time));
 
 export const header = (token) => {
-  const defaultHeaders = { 'content-type': 'application/json', accept: 'application/json' };
+  const defaultHeaders = { 'content-type': 'application/json', accept: 'application/json', 'Application-Id': 'd913ada7-a22f-44dd-a8af-ad612d0b83c3' };
   if (!token) {
     return defaultHeaders;
   }
