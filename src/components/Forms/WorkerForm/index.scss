@@ -1,6 +1,24 @@
 @import '../../../styles/theme.scss';
 
 .workerForm {
+  &__col {
+    &-scheduleBlock {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+
+      &-formItem {
+        margin-bottom: 0 !important;
+        &-checkbox {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+
   &__formItem {
     &-radioGroup {
       display: flex;

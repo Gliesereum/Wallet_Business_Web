@@ -13,7 +13,7 @@ import {
 
 import EmptyState from '../EmptyState';
 
-import { genders, dayTranslate } from '../../mocks';
+import { genders, dayTranslateTemporary } from '../../mocks';
 
 import './index.scss';
 
@@ -149,7 +149,7 @@ class WorkersList extends Component {
   renderExpandedRow = (worker) => {
     const { changeActiveWorker } = this.props;
     const { workTimes, position, user } = worker;
-    const schedules = dayTranslate.map((day, index) => ({
+    const schedules = dayTranslateTemporary.map((day, index) => ({
       from: workTimes.length ? workTimes[index].from : 0,
       to: workTimes.length ? workTimes[index].to : 0,
       isWork: workTimes.length ? workTimes[index].isWork : false,

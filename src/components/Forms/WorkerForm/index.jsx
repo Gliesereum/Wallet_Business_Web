@@ -8,8 +8,10 @@ import {
   Input,
   Select,
   Radio,
+  Checkbox,
 } from 'antd';
 
+import FromToInput from '../../FromToInput';
 import { genders } from '../../../mocks';
 
 import './index.scss';
@@ -63,6 +65,13 @@ class WorkerForm extends PureComponent {
     return radios;
   };
 
+  checkHours = (rule, value, callback) => {
+    if (value.from <= 0) callback('Время начала работы должно быть больше 0');
+    if (value.to <= 0) callback('Время конца работы должно быть больше 0');
+    callback();
+    return undefined;
+  };
+
   render() {
     const {
       form,
@@ -70,6 +79,8 @@ class WorkerForm extends PureComponent {
       corporations = [],
       businesses = [],
       workingSpaces = [],
+      scheduleList,
+      dayTranslate,
     } = this.props;
 
     return (
@@ -78,7 +89,10 @@ class WorkerForm extends PureComponent {
         className={b()}
       >
         <Row gutter={33}>
-          <Col lg={16}>
+          <Col
+            lg={16}
+            className={b('col')}
+          >
             <Row gutter={31}>
               <Col lg={12}>
                 <FormItem label="Фамилия">
@@ -251,8 +265,46 @@ class WorkerForm extends PureComponent {
               </Col>
             </Row>
           </Col>
-          <Col lg={8}>
-            Дни та часы работы
+          <Col
+            lg={8}
+            className={b('col')}
+          >
+            {
+              scheduleList.map(({
+                dayOfWeek,
+                isWork,
+                from,
+                to,
+              }) => (
+                <div className={b('col-scheduleBlock')}>
+                  <FormItem className={b('col-scheduleBlock-formItem')}>
+                    {
+                      form.getFieldDecorator(`${dayOfWeek}-isWork`, {
+                        initialValue: isWork,
+                        valuePropName: 'checked',
+                      })(
+                        <Checkbox
+                          className={b('col-scheduleBlock-formItem-checkbox')}
+                          value={isWork}
+                        >
+                          {dayTranslate[dayOfWeek]}
+                        </Checkbox>
+                      )
+                    }
+                  </FormItem>
+                  <FormItem className={b('col-scheduleBlock-formItem')}>
+                    {
+                      form.getFieldDecorator(`${dayOfWeek}-workHours`, {
+                        initialValue: { from, to },
+                        rules: [{ validator: this.checkHours }],
+                      })(
+                        <FromToInput />
+                      )
+                    }
+                  </FormItem>
+                </div>
+              ))
+            }
           </Col>
         </Row>
       </Form>

@@ -8,6 +8,7 @@ import {
 } from 'antd';
 
 import { WorkerForm } from '../Forms';
+import { scheduleListDefault, dayTranslate } from '../../mocks';
 
 import './index.scss';
 
@@ -18,6 +19,7 @@ class WorkerInfo extends Component {
     readOnlyMode: !this.props.isAddMode,
     businesses: [],
     workingSpaces: [],
+    scheduleList: [],
   };
 
   async componentDidMount() {
@@ -28,7 +30,18 @@ class WorkerInfo extends Component {
     } else if (corporations.length) {
       await this.handleGetBusinessByCorporationId(corporations[0].id);
     }
+    await this.initScheduleList();
   }
+
+  initScheduleList = () => {
+    const { workTimes } = this.props.chosenWorker || { workTimes: {} };
+    const initDaysList = scheduleListDefault.reduce((acc, day) => {
+      const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
+      acc.push({ ...day, ...initDay });
+      return acc;
+    }, []);
+    this.setState({ scheduleList: initDaysList });
+  };
 
   handleGetBusinessByCorporationId = async (corporationId) => {
     const { chosenWorker, getBusinessByCorporationId } = this.props;
@@ -54,7 +67,12 @@ class WorkerInfo extends Component {
       corporations,
       changeActiveWorker,
     } = this.props;
-    const { readOnlyMode, businesses, workingSpaces } = this.state;
+    const {
+      readOnlyMode,
+      businesses,
+      workingSpaces,
+      scheduleList,
+    } = this.state;
 
     return (
       <div className={b()}>
@@ -65,6 +83,8 @@ class WorkerInfo extends Component {
                 corporations={corporations}
                 businesses={businesses}
                 workingSpaces={workingSpaces}
+                scheduleList={scheduleList}
+                dayTranslate={dayTranslate}
                 chosenWorker={chosenWorker}
                 getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
                 getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
