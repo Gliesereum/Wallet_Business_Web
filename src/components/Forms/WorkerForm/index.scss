@@ -2,14 +2,31 @@
 
 .workerForm {
   &__col {
+    &-header {
+      font-family: $sans;
+      font-size: 14px;
+      line-height: 16px;
+      color: $font-title-black;
+      letter-spacing: 0.02em;
+      padding-bottom: 8px;
+    }
+
+    &-inputFormItem {
+      margin-bottom: 24px !important;
+    }
+
     &-scheduleBlock {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 16px;
+      padding-left: 16px;
+      margin-bottom: 16px;
+      border-radius: 4px;
+      background-color: #FBFCFE;
 
       &-formItem {
         margin-bottom: 0 !important;
+
         &-checkbox {
           display: flex;
           align-items: center;

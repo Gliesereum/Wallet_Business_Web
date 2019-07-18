@@ -95,7 +95,10 @@ class WorkerForm extends PureComponent {
           >
             <Row gutter={31}>
               <Col lg={12}>
-                <FormItem label="Фамилия">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Фамилия"
+                >
                   {
                     form.getFieldDecorator('lastName', {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.lastName : '',
@@ -109,7 +112,10 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-                <FormItem label="Имя">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Имя"
+                >
                   {
                     form.getFieldDecorator('firstName', {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.firstName : '',
@@ -123,7 +129,10 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-                <FormItem label="Отчество">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Отчество"
+                >
                   {
                     form.getFieldDecorator('middleName', {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.middleName : '',
@@ -137,7 +146,10 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-                <FormItem label="Номер телефона">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Номер телефона"
+                >
                   {
                     form.getFieldDecorator('phone', {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.phone : '',
@@ -153,7 +165,10 @@ class WorkerForm extends PureComponent {
                 </FormItem>
               </Col>
               <Col lg={12}>
-                <FormItem label="Компания в которой работает сотрудник">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Компания в которой работает сотрудник"
+                >
                   {
                     form.getFieldDecorator('corporationId', {
                       initialValue: chosenWorker ? chosenWorker.corporationId : undefined,
@@ -179,7 +194,10 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-                <FormItem label="Бизнесс в которой работает сотрудник">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Бизнесс в которой работает сотрудник"
+                >
                   {
                     form.getFieldDecorator('businessId', {
                       initialValue: this.getInitialBusinessValue(),
@@ -205,7 +223,10 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-                <FormItem label="Рабочее место сотрудника">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Рабочее место сотрудника"
+                >
                   {
                     form.getFieldDecorator('workingSpaceId', {
                       initialValue: this.getInitialWorkingSpaceValue(),
@@ -230,7 +251,10 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-                <FormItem label="Должность">
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Должность"
+                >
                   {
                     form.getFieldDecorator('position', {
                       initialValue: chosenWorker.position || '',
@@ -269,6 +293,7 @@ class WorkerForm extends PureComponent {
             lg={8}
             className={b('col')}
           >
+            <h1 className={b('col-header')}>Дни и часы работы</h1>
             {
               scheduleList.map(({
                 dayOfWeek,
