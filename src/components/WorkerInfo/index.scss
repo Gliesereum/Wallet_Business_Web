@@ -1,8 +1,24 @@
 @import '../../styles/theme.scss';
 
 .workerInfo {
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+    background: radial-gradient(408.93px at 64.37% 115.28%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(17.62deg, #0E4BF1 -27.29%, #1CACFE 111.55%);
+
+    &-title {
+      color: $white;
+      font-family: $sans;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+    }
+  }
+
   &__content {
-    padding: 46px 32px 0;
+    padding: 40px 32px 0;
 
     &-controlBtns {
       margin-top: 16px;

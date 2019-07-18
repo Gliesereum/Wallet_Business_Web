@@ -104,6 +104,7 @@ class WorkerForm extends PureComponent {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.lastName : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
                     })(
                       <Input
@@ -121,6 +122,7 @@ class WorkerForm extends PureComponent {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.firstName : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
                     })(
                       <Input
@@ -138,6 +140,7 @@ class WorkerForm extends PureComponent {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.middleName : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
                     })(
                       <Input
@@ -155,6 +158,8 @@ class WorkerForm extends PureComponent {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.phone : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                        { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
                       ],
                     })(
                       <Input
@@ -260,10 +265,11 @@ class WorkerForm extends PureComponent {
                       initialValue: chosenWorker.position || '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
                     })(
                       <Input
-                        placeholder="+380 88 888 88 88"
+                        placeholder="Ввод..."
                       />
                     )
                   }
@@ -301,7 +307,10 @@ class WorkerForm extends PureComponent {
                 from,
                 to,
               }) => (
-                <div className={b('col-scheduleBlock')}>
+                <div
+                  className={b('col-scheduleBlock')}
+                  key={dayOfWeek}
+                >
                   <FormItem className={b('col-scheduleBlock-formItem')}>
                     {
                       form.getFieldDecorator(`${dayOfWeek}-isWork`, {

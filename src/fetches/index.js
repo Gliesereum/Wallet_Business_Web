@@ -4,7 +4,12 @@ import { header, withToken } from '../utils/request';
 const requestConfig = (method, token, body, isStringifyNeeded) => ({
   method,
   cache: 'default',
-  headers: isStringifyNeeded ? header(token) : { Authorization: `Bearer ${token}` },
+  headers: isStringifyNeeded
+    ? header(token)
+    : {
+      Authorization: `Bearer ${token}`,
+      'Application-Id': globalConfig.AplicationId,
+    },
   body: isStringifyNeeded ? JSON.stringify(body) : body,
 });
 

@@ -160,45 +160,54 @@ class WorkersList extends Component {
       <>
         <Row
           className={b('expandTable')}
-          gutter={144}
+          type="flex"
+          justify="space-between"
         >
           <Col
-            lg={12}
+            lg={10}
             className={b('expandTable-row')}
           >
             <h1 className={b('expandTable-row-header')}>Данные работника</h1>
-            <div className={b('expandTable-row-userInfo', { private: true })}>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Должность:</div>
-                <div className="data">{position}</div>
-              </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Пол:</div>
-                <div className="data">{user.gender ? genders[user.gender] : genders.UNKNOWN}</div>
-              </div>
-            </div>
-            <div className={b('expandTable-row-userInfo', { dates: true })}>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Профайл создано:</div>
-                <div className="data">{generateDate(user.createDate)}</div>
-              </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Последняя сессия:</div>
-                <div className="data">{generateDate(user.lastSignIn, true)}</div>
-              </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Последняя активность:</div>
-                <div className="data">{generateDate(user.lastActivity, true)}</div>
-              </div>
-            </div>
+            <Row
+              type="flex"
+              justify="space-between"
+            >
+              <Col lg={11}>
+                <div className={b('expandTable-row-userInfo-box')}>
+                  <div className="title">Должность:</div>
+                  <div className="data">{position}</div>
+                </div>
+                <div className={b('expandTable-row-userInfo-box')}>
+                  <div className="title">Профайл создано:</div>
+                  <div className="data">{generateDate(user.createDate)}</div>
+                </div>
+                <div className={b('expandTable-row-userInfo-box')}>
+                  <div className="title">Последняя активность:</div>
+                  <div className="data">{generateDate(user.lastActivity, true)}</div>
+                </div>
+              </Col>
+              <Col lg={11}>
+                <div className={b('expandTable-row-userInfo-box')}>
+                  <div className="title">Пол:</div>
+                  <div className="data">{user.gender ? genders[user.gender] : genders.UNKNOWN}</div>
+                </div>
+                <div className={b('expandTable-row-userInfo-box')}>
+                  <div className="title">Последняя сессия:</div>
+                  <div className="data">{generateDate(user.lastSignIn, true)}</div>
+                </div>
+              </Col>
+            </Row>
           </Col>
           <Col
-            lg={12}
+            lg={10}
             className={b('expandTable-row')}
           >
             <h1 className={b('expandTable-row-header')}>Дни и время работы</h1>
-            <div className="scheduleBox">
-              <div className={b('expandTable-row-userInfo', { schedules: true })}>
+            <Row
+              type="flex"
+              justify="space-between"
+            >
+              <Col lg={11}>
                 {
                   schedules.slice(0, 4).map(day => (
                     <div
@@ -210,8 +219,8 @@ class WorkersList extends Component {
                     </div>
                   ))
                 }
-              </div>
-              <div className={b('expandTable-row-userInfo', { schedules: true })}>
+              </Col>
+              <Col lg={11}>
                 {
                   schedules.slice(4).map(day => (
                     <div
@@ -223,8 +232,8 @@ class WorkersList extends Component {
                     </div>
                   ))
                 }
-              </div>
-            </div>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row className={b('expandTable-controlBtn')}>

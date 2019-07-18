@@ -163,11 +163,6 @@
     padding: 16px;
 
     &-row {
-      & .scheduleBox {
-        display: flex;
-        flex-direction: row;
-      }
-
       &-header {
         font-family: $sans;
         font-size: 14px;
@@ -179,26 +174,6 @@
       }
 
       &-userInfo {
-        &--private {
-          display: flex;
-          flex-direction: row;
-
-          & > div:first-child {
-            margin-right: 24px;
-          }
-        }
-
-        &--dates {
-          display: flex;
-          flex-direction: column;
-        }
-
-        &--schedules {
-          display: flex;
-          flex-direction: column;
-          margin-right: 24px;
-        }
-
         &-box {
           border-bottom: 1px solid #DEE9F4;
           margin-bottom: 9px;

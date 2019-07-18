@@ -4,10 +4,14 @@ import bem from 'bem-join';
 import {
   Row,
   Col,
-  Icon, Button,
+  Icon,
+  Button,
+  notification,
 } from 'antd';
 
 import { WorkerForm } from '../Forms';
+
+import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
 
 import './index.scss';
@@ -24,17 +28,17 @@ class WorkerInfo extends Component {
 
   async componentDidMount() {
     const { corporations = [], chosenWorker } = this.props;
+    await this.initScheduleList();
     if (chosenWorker) {
       await this.handleGetBusinessByCorporationId(chosenWorker.corporationId);
       await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
     } else if (corporations.length) {
       await this.handleGetBusinessByCorporationId(corporations[0].id);
     }
-    await this.initScheduleList();
   }
 
   initScheduleList = () => {
-    const { workTimes } = this.props.chosenWorker || { workTimes: {} };
+    const { workTimes } = this.props.chosenWorker || { workTimes: [] };
     const initDaysList = scheduleListDefault.reduce((acc, day) => {
       const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
       acc.push({ ...day, ...initDay });
@@ -57,12 +61,87 @@ class WorkerInfo extends Component {
     this.setState({ workingSpaces: business ? business.spaces : [] });
   };
 
-  handleUpdateWorker = () => {
-    console.log('handleUpdateWorker');
+  handleUpdateWorker = async () => {
+    await this.workerForm.props.form.validateFields(
+      async (error, {
+        corporationId,
+        businessId,
+        workingSpaceId,
+        position,
+        firstName,
+        lastName,
+        middleName,
+        phone,
+        gender,
+        ...workTimesData
+      }) => {
+        if (!error) {
+          const {
+            isAddMode,
+            chosenWorker,
+          } = this.props;
+
+          const isWorkTiemsExist = this.state.scheduleList[0].id;
+          const workTimes = [];
+
+          if (isWorkTiemsExist) {
+            chosenWorker.workTimes.forEach((item) => {
+              workTimes.push({
+                ...item,
+                from: workTimesData[`${item.dayOfWeek}-workHours`].from,
+                to: workTimesData[`${item.dayOfWeek}-workHours`].to,
+                isWork: workTimesData[`${item.dayOfWeek}-isWork`],
+              });
+            });
+          } else {
+            for (const day in dayTranslate) {
+              workTimes.push({
+                dayOfWeek: day,
+                from: workTimesData[`${day}-workHours`].from,
+                to: workTimesData[`${day}-workHours`].to,
+                isWork: workTimesData[`${day}-isWork`],
+              });
+            }
+          }
+
+          const url = 'working-space/worker';
+          const method = isAddMode ? 'POST' : 'PUT';
+          const body = {
+            ...chosenWorker,
+            corporationId,
+            businessId,
+            workingSpaceId,
+            position,
+            user: {
+              ...chosenWorker.user,
+              firstName,
+              lastName,
+              middleName,
+              phone,
+              gender,
+            },
+            workTimes,
+          };
+
+          try {
+            await withToken(asyncRequest)({
+              url, body, method, moduleUrl: 'karma',
+            });
+          } catch (err) {
+            notification.error({
+              duration: 5,
+              message: err.message || 'Ошибка',
+              description: 'Возникла ошибка',
+            });
+          }
+        }
+      }
+    );
   };
 
   render() {
     const {
+      isAddMode,
       chosenWorker,
       corporations,
       changeActiveWorker,
@@ -74,12 +153,23 @@ class WorkerInfo extends Component {
       scheduleList,
     } = this.state;
 
+    let headerTitle = 'Редактирование профайла сотрудника';
+    if (readOnlyMode) {
+      headerTitle = 'Просмотр профайла сотрудника';
+    } else if (isAddMode) {
+      headerTitle = 'Создание профайла сотрудника';
+    }
+
     return (
       <div className={b()}>
+        <div className={b('header')}>
+          <h1 className={b('header-title')}>{headerTitle}</h1>
+        </div>
         <div className={b('content')}>
           {
             readOnlyMode ? (
               <WorkerForm
+                wrappedComponentRef={form => this.workerForm = form}
                 corporations={corporations}
                 businesses={businesses}
                 workingSpaces={workingSpaces}
