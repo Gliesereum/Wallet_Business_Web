@@ -11,6 +11,7 @@ import {
   Checkbox,
 } from 'antd';
 
+import ProneInput from '../../ProneInput';
 import FromToInput from '../../FromToInput';
 import { genders } from '../../../mocks';
 
@@ -81,6 +82,7 @@ class WorkerForm extends PureComponent {
       workingSpaces = [],
       scheduleList,
       dayTranslate,
+      readOnlyMode,
     } = this.props;
 
     return (
@@ -109,6 +111,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
+                        readOnly
                       />
                     )
                   }
@@ -127,6 +130,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
+                        readOnly
                       />
                     )
                   }
@@ -145,6 +149,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
+                        readOnly
                       />
                     )
                   }
@@ -155,16 +160,15 @@ class WorkerForm extends PureComponent {
                 >
                   {
                     form.getFieldDecorator('phone', {
-                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.phone : '',
+                      initialValue: (chosenWorker && chosenWorker.user && chosenWorker.user.phone)
+                        ? chosenWorker.user.phone
+                        : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                        { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
                       ],
                     })(
-                      <Input
-                        placeholder="+380 88 888 88 88"
-                      />
+                      <ProneInput readOnly />
                     )
                   }
                 </FormItem>
@@ -184,6 +188,7 @@ class WorkerForm extends PureComponent {
                       <Select
                         placeholder="Выбрать..."
                         onSelect={this.handleGetBusinessByCorporationId}
+                        className={readOnlyMode ? 'readOnly' : ''}
                       >
                         {
                           corporations.length && corporations.map(corporation => (
@@ -213,6 +218,7 @@ class WorkerForm extends PureComponent {
                       <Select
                         placeholder="Выбрать..."
                         onSelect={this.handleGetWorkingSpacesByBusinessId}
+                        className={readOnlyMode ? 'readOnly' : ''}
                       >
                         {
                           businesses.length && businesses.map(business => (
@@ -241,6 +247,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Select
                         placeholder="Выбрать..."
+                        className={readOnlyMode ? 'readOnly' : ''}
                       >
                         {
                           workingSpaces.length && workingSpaces.map(ws => (
@@ -270,6 +277,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
+                        readOnly={readOnlyMode}
                       />
                     )
                   }
@@ -288,7 +296,7 @@ class WorkerForm extends PureComponent {
                         ? chosenWorker.user.gender
                         : 'UNKNOWN',
                     })(
-                      <RadioGroup className={b('formItem-radioGroup')}>{this.renderRadios()}</RadioGroup>
+                      <RadioGroup className={`${b('formItem-radioGroup')} readOnly`}>{this.renderRadios()}</RadioGroup>
                     )
                   }
                 </FormItem>
@@ -320,6 +328,7 @@ class WorkerForm extends PureComponent {
                         <Checkbox
                           className={b('col-scheduleBlock-formItem-checkbox')}
                           value={isWork}
+                          disabled={readOnlyMode}
                         >
                           {dayTranslate[dayOfWeek]}
                         </Checkbox>
@@ -332,7 +341,7 @@ class WorkerForm extends PureComponent {
                         initialValue: { from, to },
                         rules: [{ validator: this.checkHours }],
                       })(
-                        <FromToInput />
+                        <FromToInput readOnly={readOnlyMode} />
                       )
                     }
                   </FormItem>

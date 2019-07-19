@@ -166,24 +166,19 @@ class WorkerInfo extends Component {
           <h1 className={b('header-title')}>{headerTitle}</h1>
         </div>
         <div className={b('content')}>
-          {
-            readOnlyMode ? (
-              <WorkerForm
-                wrappedComponentRef={form => this.workerForm = form}
-                corporations={corporations}
-                businesses={businesses}
-                workingSpaces={workingSpaces}
-                scheduleList={scheduleList}
-                dayTranslate={dayTranslate}
-                chosenWorker={chosenWorker}
-                getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
-                getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
-                onCorpChange={this.handleCorpChange}
-              />
-            ) : (
-              <div>WorkingForm</div>
-            )
-          }
+          <WorkerForm
+            wrappedComponentRef={form => this.workerForm = form}
+            corporations={corporations}
+            businesses={businesses}
+            workingSpaces={workingSpaces}
+            scheduleList={scheduleList}
+            dayTranslate={dayTranslate}
+            chosenWorker={chosenWorker}
+            readOnlyMode={readOnlyMode}
+            getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
+            getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
+            onCorpChange={this.handleCorpChange}
+          />
           <Row
             gutter={40}
             className={b('content-controlBtns')}

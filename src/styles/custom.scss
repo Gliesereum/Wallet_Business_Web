@@ -104,7 +104,7 @@
     &:read-only {
       background: #F7F7F7;
       border: 1px solid #CCC;
-      color: rgba(72, 84, 101, 0.64);
+      color: $font-title-black;
     }
 
     &:focus,
@@ -115,6 +115,16 @@
   }
 
   &-select {
+    &.readOnly {
+      pointer-events: none;
+
+      & .ant-select-selection {
+        background: #F7F7F7;
+        border: 1px solid #CCC;
+        color: $font-title-black;
+      }
+    }
+
     &-selection {
       &--single {
         height: 48px;
@@ -154,6 +164,12 @@
 
   &-checkbox {
     &-wrapper {
+      &-disabled {
+        & > span {
+          color: $middle-gray !important;
+        }
+      }
+
       & + .ant-checkbox-wrapper {
         margin-right: 16px;
       }
@@ -180,18 +196,49 @@
   }
 
   &-radio {
-    &-wrapper {
-      color: $font-title-black;
+    &-group {
+      &.readOnly {
+        .ant-radio {
+          &-wrapper {
+            color: $middle-gray;
 
-      &-checked {
-        color: $coupler-blue;
+            & > span.ant-radio {
+              & .ant-radio-inner {
+                background-color: $white !important;
+              }
+            }
 
-        & > span.ant-radio-checked {
-          & .ant-radio-inner {
-            border-color: $coupler-blue;
+            &-checked {
+              & > span.ant-radio-checked {
+                & .ant-radio-inner {
+                  border-color: #CCCCCC;
+                  background-color: $white !important;
 
-            &::after {
-              background-color: $coupler-blue;
+                  &::after {
+                    background-color: $font-title-black;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .ant-radio {
+        &-wrapper {
+          color: $font-title-black;
+
+          &-checked {
+            color: $coupler-blue;
+
+            & > span.ant-radio-checked {
+              & .ant-radio-inner {
+                border-color: $coupler-blue;
+
+                &::after {
+                  background-color: $coupler-blue;
+                }
+              }
             }
           }
         }
@@ -313,6 +360,19 @@
         &:hover {
           background-color: #ECF5FD;
         }
+      }
+    }
+  }
+}
+
+#root {
+  & .phoneInput {
+    &__inputClass {
+      &--readOnly {
+        background: #F7F7F7;
+        border: 1px solid #CCC;
+        color: $font-title-black;
+        pointer-events: none;
       }
     }
   }
