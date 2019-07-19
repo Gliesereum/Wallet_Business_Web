@@ -83,6 +83,7 @@ class WorkerForm extends PureComponent {
       scheduleList,
       dayTranslate,
       readOnlyMode,
+      isAddMode,
     } = this.props;
 
     return (
@@ -111,7 +112,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
-                        readOnly
+                        readOnly={!isAddMode}
                       />
                     )
                   }
@@ -130,7 +131,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
-                        readOnly
+                        readOnly={!isAddMode}
                       />
                     )
                   }
@@ -149,7 +150,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
-                        readOnly
+                        readOnly={!isAddMode}
                       />
                     )
                   }
@@ -168,7 +169,7 @@ class WorkerForm extends PureComponent {
                         { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
                       ],
                     })(
-                      <ProneInput readOnly />
+                      <ProneInput readOnly={!isAddMode} />
                     )
                   }
                 </FormItem>
@@ -269,7 +270,7 @@ class WorkerForm extends PureComponent {
                 >
                   {
                     form.getFieldDecorator('position', {
-                      initialValue: chosenWorker.position || '',
+                      initialValue: (chosenWorker && chosenWorker.position) ? chosenWorker.position : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                         { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },

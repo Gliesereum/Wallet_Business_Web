@@ -1,6 +1,9 @@
 @import '../../../styles/theme.scss';
 
 .workerForm {
+  height: 495px;
+  overflow-y: scroll;
+
   &__col {
     &-header {
       font-family: $sans;

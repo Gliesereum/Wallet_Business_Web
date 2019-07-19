@@ -47,6 +47,8 @@ class WorkerInfo extends Component {
     this.setState({ scheduleList: initDaysList });
   };
 
+  handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
+
   handleGetBusinessByCorporationId = async (corporationId) => {
     const { chosenWorker, getBusinessByCorporationId } = this.props;
 
@@ -139,6 +141,10 @@ class WorkerInfo extends Component {
     );
   };
 
+  handleRemoveWorker = () => {
+    console.log('handleRemoveWorker');
+  };
+
   render() {
     const {
       isAddMode,
@@ -175,6 +181,7 @@ class WorkerInfo extends Component {
             dayTranslate={dayTranslate}
             chosenWorker={chosenWorker}
             readOnlyMode={readOnlyMode}
+            isAddMode={isAddMode}
             getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
             getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
             onCorpChange={this.handleCorpChange}
@@ -184,29 +191,67 @@ class WorkerInfo extends Component {
             className={b('content-controlBtns')}
           >
             <Col lg={8}>
-              <Button
-                className={b('content-controlBtns-btn backBtn')}
-                onClick={changeActiveWorker(null, false)}
-              >
-                <Icon type="left" />
-                К списку рабочих мест
-              </Button>
+              {
+                readOnlyMode ? (
+                  <Button
+                    className={b('content-controlBtns-btn backBtn')}
+                    onClick={changeActiveWorker(null, false)}
+                  >
+                    <Icon type="left" />
+                    К списку сотрудников
+                  </Button>
+                ) : (
+                  <Button
+                    className={b('content-controlBtns-btn backBtn')}
+                    onClick={chosenWorker
+                      ? this.handleToggleReadOnlyMode(true)
+                      : changeActiveWorker(null, false)
+                    }
+                  >
+                    <Icon type="left" />
+                    Отмена
+                  </Button>
+                )
+              }
             </Col>
             <Col lg={8}>
-              <Button
-                className={b('content-controlBtns-btn deleteBtn')}
-              >
-                Інфо блок
-              </Button>
+              {
+                readOnlyMode ? (
+                  <Button
+                    className={b('content-controlBtns-btn deleteBtn')}
+                    onClick={this.handleRemoveWorker}
+                  >
+                    Удалить сотрудника
+                  </Button>
+                ) : (
+                  <Button
+                    className={b('content-controlBtns-btn deleteBtn')}
+                  >
+                    Інфо блок
+                  </Button>
+                )
+              }
             </Col>
             <Col lg={8}>
-              <Button
-                className={b('content-controlBtns-btn')}
-                type="primary"
-                onClick={this.handleUpdateWorker}
-              >
-                Сохранить
-              </Button>
+              {
+                readOnlyMode ? (
+                  <Button
+                    className={b('content-controlBtns-btn')}
+                    type="primary"
+                    onClick={this.handleToggleReadOnlyMode(false)}
+                  >
+                    Редактировать сотрудника
+                  </Button>
+                ) : (
+                  <Button
+                    className={b('content-controlBtns-btn')}
+                    type="primary"
+                    onClick={this.handleUpdateWorker}
+                  >
+                    Сохранить
+                  </Button>
+                )
+              }
             </Col>
           </Row>
         </div>
