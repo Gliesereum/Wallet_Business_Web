@@ -44,7 +44,7 @@ const mainMenuItems = [
   {
     icon: Workers,
     text: 'Сотрудники',
-    linkTo: '/analytics',
+    linkTo: '/workers',
     // canDisabled: true,
   },
   {

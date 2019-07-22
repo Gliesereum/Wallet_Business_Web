@@ -53,7 +53,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
           </div>
           <Input
             id="nameInput"
-            disabled
+            readOnly
             value={chosenSpace ? chosenSpace.name : ''}
           />
         </Col>
@@ -63,7 +63,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
           </div>
           <Input
             id="descrInput"
-            disabled
+            readOnly
             value={chosenSpace ? chosenSpace.description : ''}
           />
         </Col>

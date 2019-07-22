@@ -9,6 +9,8 @@ import BusinessServices from './BusinessServices';
 import BusinessPackages from './BusinessPackages';
 import BusinessWorkingSpaces from './BusinessWorkingSpaces';
 import WorkingSpaceInfoReadOnly from './WorkingSpaceInfoReadOnly';
+import WorkerInfo from './WorkerInfo';
+import WorkersList from './WorkersList';
 import BusinessScheduleInfo from './BusinessScheduleInfo';
 import BusinessMainInfo from './BusinessMainInfo';
 import EmptyState from './EmptyState';
@@ -25,6 +27,8 @@ export {
   BusinessPackages,
   BusinessWorkingSpaces,
   WorkingSpaceInfoReadOnly,
+  WorkerInfo,
+  WorkersList,
   CorporationsList,
   BusinessesList,
   BusinessScheduleInfo,

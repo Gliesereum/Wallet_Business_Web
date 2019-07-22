@@ -12,6 +12,7 @@ import {
   ProfileInfo,
   CorporationsContainer,
   Corporation,
+  WorkersPage,
   FAQ,
 } from '../screen';
 
@@ -19,12 +20,14 @@ const privateRouter = ({ user }) => (
   <Router>
     <Container user={user}>
       <Switch>
-        <Route path={['/', '/login', '/analytics', !(user && user.firstName) ? '/corporations' : '/profile']} exact>
-          <Redirect to={(user && user.firstName) ? '/corporations' : '/profile'} />
-        </Route>
+        {/* <Route path={['/', '/login', '/analytics', '/profile']} exact> */}
+        {/*  <Redirect to={(user && user.firstName) ? '/corporations' : '/profile'} /> */}
+        {/* </Route> */}
 
         <Route path="/corporations" exact component={CorporationsContainer} />
         <Route path={['/corporations/add', '/corporations/:id']} exact component={Corporation} />
+
+        <Route path="/workers" exact component={WorkersPage} />
 
         <Route path="/settings" exact>
           <Redirect to="/corporations" />

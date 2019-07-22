@@ -27,7 +27,7 @@ class PhoneInput extends Component {
     return (
       <div className={b()}>
         <ReactPhoneInput
-          inputClass={b('inputClass')}
+          inputClass={b('inputClass', { readOnly: this.props.readOnly })}
           onlyCountries={['ua', 'ru', 'by', 'de', 'en', 'es']}
           defaultCountry="ua"
           value={this.state.phone}

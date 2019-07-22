@@ -16,7 +16,7 @@ import { asyncRequest, withToken } from '../../utils';
 
 import { actions } from '../../state';
 
-import { scheduleListDefault, dayTranslate } from './scheduleConfig';
+import { scheduleListDefault, dayTranslate } from '../../mocks';
 import './index.scss';
 
 const b = bem('businessScheduleInfo');

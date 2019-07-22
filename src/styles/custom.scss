@@ -4,7 +4,7 @@
   //---- Buttons ----
   // default
   &-btn {
-    height: 56px;
+    height: 48px;
     background-color: $white;
     color: $coupler-blue;
     line-height: 16px;
@@ -104,7 +104,7 @@
     &:read-only {
       background: #F7F7F7;
       border: 1px solid #CCC;
-      color: rgba(72, 84, 101, 0.64);
+      color: $font-title-black;
     }
 
     &:focus,
@@ -115,6 +115,16 @@
   }
 
   &-select {
+    &.readOnly {
+      pointer-events: none;
+
+      & .ant-select-selection {
+        background: #F7F7F7;
+        border: 1px solid #CCC;
+        color: $font-title-black;
+      }
+    }
+
     &-selection {
       &--single {
         height: 48px;
@@ -154,16 +164,22 @@
 
   &-checkbox {
     &-wrapper {
+      &-disabled {
+        & > span {
+          color: $middle-gray !important;
+        }
+      }
+
       & + .ant-checkbox-wrapper {
         margin-right: 16px;
       }
     }
 
     & + span {
-      font-size: 12px;
+      font-size: 14px;
       font-family: $sans;
       line-height: 16px;
-      color: $gray;
+      color: $font-title-black;
       padding: 0 16px;
     }
 
@@ -175,6 +191,57 @@
       .ant-checkbox-inner {
         border-color: $coupler-blue;
         background-color: $coupler-blue;
+      }
+    }
+  }
+
+  &-radio {
+    &-group {
+      &.readOnly {
+        .ant-radio {
+          &-wrapper {
+            color: $middle-gray;
+
+            & > span.ant-radio {
+              & .ant-radio-inner {
+                background-color: $white !important;
+              }
+            }
+
+            &-checked {
+              & > span.ant-radio-checked {
+                & .ant-radio-inner {
+                  border-color: #CCCCCC;
+                  background-color: $white !important;
+
+                  &::after {
+                    background-color: $font-title-black;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .ant-radio {
+        &-wrapper {
+          color: $font-title-black;
+
+          &-checked {
+            color: $coupler-blue;
+
+            & > span.ant-radio-checked {
+              & .ant-radio-inner {
+                border-color: $coupler-blue;
+
+                &::after {
+                  background-color: $coupler-blue;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -216,6 +283,14 @@
         background-color: $white;
         height: 63px;
         line-height: 31px;
+
+        & th {
+          font-family: $sans;
+          font-weight: bold;
+          color: $font-title-black;
+          letter-spacing: 0.02em;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+        }
       }
     }
 
@@ -229,9 +304,13 @@
 
         &:hover {
           &:not(.ant-table-expanded-row) > td {
-            background-color: rgba(72, 84, 101, 0.02);;
+            background-color: rgba(16, 120, 225, 0.08);
           }
         }
+      }
+
+      & tr.ant-table-expanded-row > td {
+        background-color: $dirty-white;
       }
     }
   }
@@ -245,5 +324,57 @@
 
   & .ant-input:not([disabled]):hover {
 
+  }
+}
+
+.ant {
+  &-select {
+    &-dropdown {
+      &-menu {
+        li.ant-select-dropdown-menu-item {
+          font-family: $sans;
+          font-size: 14px;
+          letter-spacing: 0.02em;
+          color: $font-title-black;
+          line-height: 24px;
+          padding: 16px;
+
+          &:hover:not(&-disabled),
+          &:active:not(&-disabled),
+          &-active:not(&-disabled) {
+            background-color: #ECF5FD;
+          }
+
+          &-selected {
+            color: $coupler-blue;
+            background-color: #ECF5FD;
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+
+  &-dropdown {
+    &-menu {
+      li.ant-dropdown-menu-item {
+        &:hover {
+          background-color: #ECF5FD;
+        }
+      }
+    }
+  }
+}
+
+#root {
+  & .phoneInput {
+    &__inputClass {
+      &--readOnly {
+        background: #F7F7F7;
+        border: 1px solid #CCC;
+        color: $font-title-black;
+        pointer-events: none;
+      }
+    }
   }
 }

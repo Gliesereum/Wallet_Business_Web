@@ -8,7 +8,11 @@ const timeoutMessageError = new Error('Превишен интервал ожи�
 const timeout = (reject, time = 60000) => (setTimeout(() => reject(timeoutMessageError), time));
 
 export const header = (token) => {
-  const defaultHeaders = { 'content-type': 'application/json', accept: 'application/json' };
+  const defaultHeaders = {
+    'content-type': 'application/json',
+    'Application-Id': config.AplicationId,
+    accept: 'application/json',
+  };
   if (!token) {
     return defaultHeaders;
   }
@@ -72,7 +76,14 @@ export const asyncUploadFile = ({
 }) => new Promise(async (resolve, reject) => {
   try {
     const fullURL = `${config.urlPrefix}${moduleUrl}/v1/${url}`;
-    const _requestConfig = { method, headers: { Authorization: `Bearer ${token}` }, body };
+    const _requestConfig = {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Application-Id': config.AplicationId,
+      },
+      body,
+    };
     const request = await fetch(fullURL, _requestConfig);
     if (request.status === 204) {
       resolve();

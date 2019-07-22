@@ -11,10 +11,6 @@
     &-formItem {
       &--isWorkItem {
         width: 40%;
-
-        & .ant-form-item-control-wrapper .ant-checkbox + span {
-          font-size: 14px !important;
-        }
       }
 
       &--timeItem {

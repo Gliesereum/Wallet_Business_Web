@@ -52,6 +52,7 @@ class FromToInput extends Component {
   };
 
   render() {
+    const { readOnly } = this.props;
     const { from, to } = this.state;
     const fromTime = moment.utc(from).format(mask);
     const toTime = moment.utc(to).format(mask);
@@ -62,26 +63,28 @@ class FromToInput extends Component {
           <InputMask
             className={b('fromTime')}
             disabled={false}
+            readOnly={readOnly}
             value={fromTime}
             mask="99\:99"
             maskChar={null}
             alwaysShowMask={false}
             onChange={this.handleNumberChange('from')}
           >
-            {inputProps => <Input {...inputProps} />}
+            {inputProps => <Input {...inputProps} readOnly={readOnly} />}
           </InputMask>
         </div>
         <div>
           <InputMask
             className={b('toTime')}
             disabled={false}
+            readOnly={readOnly}
             value={toTime}
             mask="99\:99"
             maskChar={null}
             alwaysShowMask={false}
             onChange={this.handleNumberChange('to')}
           >
-            {inputProps => <Input {...inputProps} />}
+            {inputProps => <Input {...inputProps} readOnly={readOnly} />}
           </InputMask>
         </div>
       </div>
