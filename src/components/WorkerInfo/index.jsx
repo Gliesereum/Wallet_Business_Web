@@ -85,7 +85,7 @@ class WorkerInfo extends Component {
 
           const isWorkTiemsExist = this.state.scheduleList[0].id;
           const workTimes = [];
-
+          const [business] = this.state.businesses.filter(item => item.id === businessId);
           if (isWorkTiemsExist) {
             chosenWorker.workTimes.forEach((item) => {
               workTimes.push({
@@ -93,6 +93,8 @@ class WorkerInfo extends Component {
                 from: workTimesData[`${item.dayOfWeek}-workHours`].from,
                 to: workTimesData[`${item.dayOfWeek}-workHours`].to,
                 isWork: workTimesData[`${item.dayOfWeek}-isWork`],
+                objectId: chosenWorker.id,
+                businessCategoryId: business.businessCategoryId,
               });
             });
           } else {
@@ -102,12 +104,13 @@ class WorkerInfo extends Component {
                 from: workTimesData[`${day}-workHours`].from,
                 to: workTimesData[`${day}-workHours`].to,
                 isWork: workTimesData[`${day}-isWork`],
+                businessCategoryId: business.businessCategoryId,
               });
             }
           }
 
-          const url = 'working-space/worker';
           const method = isAddMode ? 'POST' : 'PUT';
+          let url = 'working-space/worker';
           const body = {
             ...chosenWorker,
             corporationId,
@@ -115,7 +118,7 @@ class WorkerInfo extends Component {
             workingSpaceId,
             position,
             user: {
-              ...chosenWorker.user,
+              ...(chosenWorker ? chosenWorker.user : {}),
               firstName,
               lastName,
               middleName,
@@ -124,6 +127,23 @@ class WorkerInfo extends Component {
             },
             workTimes,
           };
+
+          // check if worker is exist as user before adding
+          if (isAddMode) {
+            let isUserExist = false;
+            try {
+              const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${phone}` });
+              isUserExist = !!(user && user.id);
+              url = isUserExist ? 'working-space/worker' : 'working-space/worker-with-user';
+              if (isUserExist) body.userId = user.id;
+            } catch (err) {
+              notification.error({
+                duration: 5,
+                message: err.message || 'Ошибка',
+                description: 'Возникла ошибка',
+              });
+            }
+          }
 
           try {
             await withToken(asyncRequest)({

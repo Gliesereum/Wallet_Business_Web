@@ -340,7 +340,8 @@
           padding: 16px;
 
           &:hover:not(&-disabled),
-          &:active:not(&-disabled) {
+          &:active:not(&-disabled),
+          &-active:not(&-disabled) {
             background-color: #ECF5FD;
           }
 
