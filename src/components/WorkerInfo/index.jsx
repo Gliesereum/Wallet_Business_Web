@@ -161,8 +161,20 @@ class WorkerInfo extends Component {
     );
   };
 
-  handleRemoveWorker = () => {
-    console.log('handleRemoveWorker');
+  handleRemoveWorker = async () => {
+    const { chosenWorker, changeActiveWorker } = this.props;
+    const url = `working-space/worker/${chosenWorker.id}`;
+
+    try {
+      await withToken(asyncRequest)({ url, method: 'DELETE', moduleUrl: 'karma' });
+      changeActiveWorker(null, false)();
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
   };
 
   render() {
