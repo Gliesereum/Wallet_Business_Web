@@ -2,7 +2,9 @@
 
 .workerForm {
   height: 495px;
+  width: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 
   &__col {
     &-header {
@@ -34,6 +36,13 @@
           display: flex;
           align-items: center;
           justify-content: center;
+
+          & > span:last-child {
+            width: 117px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
         }
       }
     }

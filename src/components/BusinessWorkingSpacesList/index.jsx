@@ -60,7 +60,7 @@ class BusinessWorkingSpacesList extends Component {
           </div>
         </div>
         {
-          spaces.length > 1 ? (
+          spaces.length ? (
             <>
               <div className={b('spacesListContainer')}>
                 {

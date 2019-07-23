@@ -83,6 +83,21 @@
       & .ant-table {
         &-body {
           min-height: 368px;
+
+          .edit-column {
+            text-align: center;
+            border-left: 1px solid #e8e8e8;
+            border-right: 1px solid #e8e8e8;
+            cursor: pointer;
+
+            & > div {
+              font-size: 10px;
+              line-height: 16px;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+              color: $coupler-blue;
+            }
+          }
         }
 
         &-thead {
@@ -197,32 +212,6 @@
             font-feature-settings: 'pnum' on, 'lnum' on;
             padding: 6px 0 12px;
           }
-        }
-      }
-    }
-
-    &-controlBtn {
-      &-box {
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-top: 1px solid rgba(0, 0, 0, 0.08);
-        border-right: 1px solid rgba(0, 0, 0, 0.08);
-
-        &--notEmpty {
-          border-right: none;
-          background-color: $white;
-          cursor: pointer;
-        }
-
-        & > span {
-          color: $coupler-blue;
-          font-family: $sans;
-          font-size: 12px;
-          line-height: 16px;
-          letter-spacing: 0.03em;
-          text-transform: uppercase;
         }
       }
     }

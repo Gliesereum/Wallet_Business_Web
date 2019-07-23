@@ -61,7 +61,7 @@ class WorkersList extends Component {
   componentDidMount() {
     const { corporations, workers } = this.props;
 
-    corporations.length && corporations[1] && this.handleCorpChange(corporations[1].id); // TODO: change to [0]
+    corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id); // TODO: change to [0]
     this.setState({ workersByBusiness: workers, searchedWorkers: workers });
   }
 
@@ -147,7 +147,6 @@ class WorkersList extends Component {
   });
 
   renderExpandedRow = (worker) => {
-    const { changeActiveWorker } = this.props;
     const { workTimes, position, user } = worker;
     const schedules = dayTranslateTemporary.map((day, index) => ({
       from: workTimes.length ? workTimes[index].from : 0,
@@ -157,99 +156,84 @@ class WorkersList extends Component {
     }));
 
     return (
-      <>
-        <Row
-          className={b('expandTable')}
-          type="flex"
-          justify="space-between"
+      <Row
+        className={b('expandTable')}
+        type="flex"
+        justify="space-between"
+      >
+        <Col
+          lg={10}
+          className={b('expandTable-row')}
         >
-          <Col
-            lg={10}
-            className={b('expandTable-row')}
+          <h1 className={b('expandTable-row-header')}>Данные работника</h1>
+          <Row
+            type="flex"
+            justify="space-between"
           >
-            <h1 className={b('expandTable-row-header')}>Данные работника</h1>
-            <Row
-              type="flex"
-              justify="space-between"
-            >
-              <Col lg={11}>
-                <div className={b('expandTable-row-userInfo-box')}>
-                  <div className="title">Должность:</div>
-                  <div className="data">{position}</div>
-                </div>
-                <div className={b('expandTable-row-userInfo-box')}>
-                  <div className="title">Профайл создано:</div>
-                  <div className="data">{generateDate(user.createDate)}</div>
-                </div>
-                <div className={b('expandTable-row-userInfo-box')}>
-                  <div className="title">Последняя активность:</div>
-                  <div className="data">{generateDate(user.lastActivity, true)}</div>
-                </div>
-              </Col>
-              <Col lg={11}>
-                <div className={b('expandTable-row-userInfo-box')}>
-                  <div className="title">Пол:</div>
-                  <div className="data">{user.gender ? genders[user.gender] : genders.UNKNOWN}</div>
-                </div>
-                <div className={b('expandTable-row-userInfo-box')}>
-                  <div className="title">Последняя сессия:</div>
-                  <div className="data">{generateDate(user.lastSignIn, true)}</div>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col
-            lg={10}
-            className={b('expandTable-row')}
+            <Col lg={11}>
+              <div className={b('expandTable-row-userInfo-box')}>
+                <div className="title">Должность:</div>
+                <div className="data">{position}</div>
+              </div>
+              <div className={b('expandTable-row-userInfo-box')}>
+                <div className="title">Профайл создано:</div>
+                <div className="data">{generateDate(user.createDate)}</div>
+              </div>
+              <div className={b('expandTable-row-userInfo-box')}>
+                <div className="title">Последняя активность:</div>
+                <div className="data">{generateDate(user.lastActivity, true)}</div>
+              </div>
+            </Col>
+            <Col lg={11}>
+              <div className={b('expandTable-row-userInfo-box')}>
+                <div className="title">Пол:</div>
+                <div className="data">{user.gender ? genders[user.gender] : genders.UNKNOWN}</div>
+              </div>
+              <div className={b('expandTable-row-userInfo-box')}>
+                <div className="title">Последняя сессия:</div>
+                <div className="data">{generateDate(user.lastSignIn, true)}</div>
+              </div>
+            </Col>
+          </Row>
+        </Col>
+        <Col
+          lg={10}
+          className={b('expandTable-row')}
+        >
+          <h1 className={b('expandTable-row-header')}>Дни и время работы</h1>
+          <Row
+            type="flex"
+            justify="space-between"
           >
-            <h1 className={b('expandTable-row-header')}>Дни и время работы</h1>
-            <Row
-              type="flex"
-              justify="space-between"
-            >
-              <Col lg={11}>
-                {
-                  schedules.slice(0, 4).map(day => (
-                    <div
-                      key={day.dayOfWeek}
-                      className={b('expandTable-row-userInfo-box')}
-                    >
-                      <div className="title">{`${day.dayOfWeek}:`}</div>
-                      <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
-                    </div>
-                  ))
-                }
-              </Col>
-              <Col lg={11}>
-                {
-                  schedules.slice(4).map(day => (
-                    <div
-                      key={day.dayOfWeek}
-                      className={b('expandTable-row-userInfo-box')}
-                    >
-                      <div className="title">{`${day.dayOfWeek}:`}</div>
-                      <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
-                    </div>
-                  ))
-                }
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row className={b('expandTable-controlBtn')}>
-          <Col
-            className={b('expandTable-controlBtn-box')}
-            lg={12}
-          />
-          <Col
-            onClick={changeActiveWorker(worker, false)}
-            className={b('expandTable-controlBtn-box', { notEmpty: true })}
-            lg={12}
-          >
-            <span>Перейти в редактированию</span>
-          </Col>
-        </Row>
-      </>
+            <Col lg={11}>
+              {
+                schedules.slice(0, 4).map(day => (
+                  <div
+                    key={day.dayOfWeek}
+                    className={b('expandTable-row-userInfo-box')}
+                  >
+                    <div className="title">{`${day.dayOfWeek}:`}</div>
+                    <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
+                  </div>
+                ))
+              }
+            </Col>
+            <Col lg={11}>
+              {
+                schedules.slice(4).map(day => (
+                  <div
+                    key={day.dayOfWeek}
+                    className={b('expandTable-row-userInfo-box')}
+                  >
+                    <div className="title">{`${day.dayOfWeek}:`}</div>
+                    <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
+                  </div>
+                ))
+              }
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     );
   };
 
@@ -282,8 +266,16 @@ class WorkersList extends Component {
         onHeaderCell: () => ({
           onClick: () => this.handleSortColumn('name', name),
         }),
+        onCell: () => ({
+          style: {
+            whiteSpace: 'nowrap',
+            maxWidth: 325,
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+          },
+        }),
         render: (text, { user }) => <span>{`${user.lastName} ${user.firstName} ${user.middleName}`}</span>,
-        width: '35%',
+        width: 325,
       },
       {
         title: (
@@ -297,7 +289,7 @@ class WorkersList extends Component {
           onClick: () => this.handleSortColumn('phone', phone),
         }),
         render: (text, { user }) => <span>{user.phone}</span>,
-        width: '20%',
+        width: 175,
       },
       {
         title: (
@@ -310,16 +302,23 @@ class WorkersList extends Component {
         onHeaderCell: () => ({
           onClick: () => this.handleSortColumn('position', position),
         }),
-        width: '25%',
+        width: 225,
+      },
+      {
+        className: 'edit-column',
+        onCell: record => ({
+          onClick: () => changeActiveWorker(record, false)(),
+        }),
+        width: 125,
+        render: () => <div>Редактировать</div>,
       },
       {
         title: '',
         align: 'right',
-        width: '20%',
+        width: 45,
         render: record => <Icon type={expandedRowKeys.includes(record.id) ? 'up' : 'down'} />,
       },
     ];
-
     return (
       <div className={b()}>
         <div className={b('header')}>
@@ -382,7 +381,7 @@ class WorkersList extends Component {
                   columns={columns}
                   dataSource={searchedWorkers}
                   pagination={false}
-                  expandedRowRender={(record, rowIndex, indent, expanded) => this.renderExpandedRow(record, expanded)}
+                  expandedRowRender={record => this.renderExpandedRow(record)}
                   expandIconAsCell={false} // need for hidden default expand icon
                   expandRowByClick
                   onRow={this.handleExpandRow}
