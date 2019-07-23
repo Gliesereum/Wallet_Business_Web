@@ -81,6 +81,7 @@ class WorkerInfo extends Component {
           const {
             isAddMode,
             chosenWorker,
+            changeActiveWorker,
           } = this.props;
 
           const isWorkTiemsExist = this.state.scheduleList[0].id;
@@ -149,6 +150,7 @@ class WorkerInfo extends Component {
             await withToken(asyncRequest)({
               url, body, method, moduleUrl: 'karma',
             });
+            changeActiveWorker(null, false)();
           } catch (err) {
             notification.error({
               duration: 5,
