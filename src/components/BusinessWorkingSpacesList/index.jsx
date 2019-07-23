@@ -14,8 +14,6 @@ import BusinessWorkingSpacesListMode from '../BusinessWorkingSpacesListMode';
 import BusinessWorkingSpacesGridMode from '../BusinessWorkingSpacesGridMode';
 import EmptyState from '../EmptyState';
 
-import './index.scss';
-
 const b = bem('businessWorkingSpacesList');
 const viewMode = {
   LIST: 'LIST',

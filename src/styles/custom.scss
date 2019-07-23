@@ -17,7 +17,6 @@
     &[disabled] {
       color: rgba(164, 174, 184, 0.4);
       background: linear-gradient(0deg, #F6F6F6, #F6F6F6);
-      border: 2px solid rgba(164, 174, 184, 0.4) !important;
     }
 
     & > span {
@@ -35,6 +34,10 @@
     &.backBtn {
       border: 2px solid $coupler-blue;
 
+      &[disabled] {
+        border: 2px solid rgba(164, 174, 184, 0.4);
+      }
+
       & .anticon-left {
         float: left;
       }
@@ -42,14 +45,14 @@
 
     // primary
     &-primary {
-      background: linear-gradient(75.72deg, #0E84F1 0%, #1C9FFE 106.54%) !important;
+      background: linear-gradient(75.72deg, #0E84F1 0%, #1C9FFE 106.54%);
       color: $white;
     }
   }
 
   //---- Forms ----
   &-form-item {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 
     &-label {
       line-height: 16px;
@@ -166,7 +169,7 @@
     &-wrapper {
       &-disabled {
         & > span {
-          color: $middle-gray !important;
+          color: $middle-gray;
         }
       }
 
@@ -202,17 +205,10 @@
           &-wrapper {
             color: $middle-gray;
 
-            & > span.ant-radio {
-              & .ant-radio-inner {
-                background-color: $white !important;
-              }
-            }
-
             &-checked {
               & > span.ant-radio-checked {
                 & .ant-radio-inner {
                   border-color: #CCCCCC;
-                  background-color: $white !important;
 
                   &::after {
                     background-color: $font-title-black;

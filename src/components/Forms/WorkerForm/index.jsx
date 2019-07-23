@@ -15,8 +15,6 @@ import ProneInput from '../../ProneInput';
 import FromToInput from '../../FromToInput';
 import { genders } from '../../../mocks';
 
-import './index.scss';
-
 const b = bem('workerForm');
 const { Item: FormItem } = Form;
 const { Option } = Select;

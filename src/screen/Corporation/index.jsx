@@ -13,8 +13,6 @@ import { asyncRequest, withToken } from '../../utils';
 import DefaultBlueCorporationLogo from '../../assets/corporationBlueLogo.svg';
 import { actions } from '../../state';
 
-import './index.scss';
-
 const b = bem('corporation');
 
 class Corporation extends Component {

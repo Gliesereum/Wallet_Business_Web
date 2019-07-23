@@ -3,8 +3,6 @@ import bem from 'bem-join';
 import ReactPhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/dist/style.css';
 
-import './index.scss';
-
 const b = bem('phoneInput');
 
 class PhoneInput extends Component {

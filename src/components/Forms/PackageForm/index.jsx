@@ -11,8 +11,6 @@ import {
   Card,
 } from 'antd';
 
-import './index.scss';
-
 const { Item: FormItem } = Form;
 const CheckboxGroup = Checkbox.Group;
 const b = bem('packageForm');

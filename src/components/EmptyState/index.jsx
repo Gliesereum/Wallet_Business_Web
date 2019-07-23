@@ -6,8 +6,6 @@ import { Button } from 'antd';
 
 import EmptyStateSVG from '../../assets/emptyState.svg';
 
-import './index.scss';
-
 const b = bem('emptyList');
 
 const EmptyState = ({

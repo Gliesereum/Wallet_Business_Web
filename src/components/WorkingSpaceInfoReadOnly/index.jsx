@@ -8,8 +8,6 @@ import {
   Table,
 } from 'antd';
 
-import './index.scss';
-
 const b = bem('workingSpaceInfoReadOnly');
 
 const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {

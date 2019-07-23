@@ -6,8 +6,6 @@ import { Collapse, Button, Avatar as CorpAvatar } from 'antd';
 
 import DefaultLightCorporationLogo from '../../assets/corporationWhiteLogo.svg';
 
-import './index.scss';
-
 const { Panel } = Collapse;
 const b = bem('corporationsList');
 

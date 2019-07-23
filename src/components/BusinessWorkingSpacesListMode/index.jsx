@@ -3,8 +3,6 @@ import bem from 'bem-join';
 
 import { Table, Button, List } from 'antd';
 
-import './index.scss';
-
 import AddIcon from '../../assets/AddIcon.svg';
 
 const b = bem('businessWorkingSpacesListMode');

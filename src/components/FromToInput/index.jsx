@@ -5,8 +5,6 @@ import InputMask from 'react-input-mask';
 
 import { Input } from 'antd';
 
-import './index.scss';
-
 const b = bem('fromToInput');
 const mask = 'HH:mm';
 

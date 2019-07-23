@@ -10,8 +10,6 @@ import {
 
 import AddIcon from '../../assets/AddIcon.svg';
 
-import './index.scss';
-
 const b = bem('businessWorkingSpacesGridMode');
 const { Item } = List;
 
