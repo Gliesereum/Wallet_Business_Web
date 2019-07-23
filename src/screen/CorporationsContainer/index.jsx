@@ -9,8 +9,6 @@ import {
 
 import { CorporationsList, BusinessesList, EmptyState } from '../../components';
 
-import './index.scss';
-
 const b = bem('corporationsContainer');
 
 class CorporationsContainer extends Component {

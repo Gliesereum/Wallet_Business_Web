@@ -4,8 +4,6 @@ import bem from 'bem-join';
 import BusinessPackagesList from '../BusinessPackagesList';
 import BusinessPackagesInfo from '../BusinessPackagesInfo';
 
-import './index.scss';
-
 const b = bem('businessPackages');
 
 class BusinessPackages extends Component {

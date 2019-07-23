@@ -23,8 +23,6 @@ import {
   fetchGetWorkingSpaces,
 } from '../../fetches';
 
-import './index.scss';
-
 const b = bem('business');
 
 class BusinessPage extends Component {

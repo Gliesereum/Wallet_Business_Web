@@ -5,7 +5,7 @@
   display: flex;
 
   &__left {
-    background: no-repeat center/cover url("../../assets/couplerSignInBackground.png");
+    background: no-repeat center/cover $couplerSignInBackground;
     height: 100%;
     width: 440px;
     padding: 24px 60px;
@@ -35,13 +35,13 @@
       }
 
       &-img {
-        background: no-repeat center/cover url("../../assets/coupler_logo.svg");
+        background: no-repeat center/cover $coupler_logo;
         width: 72px;
         height: 112px;
         @media screen and (max-width: $max-phone) {
           width: 86px;
           height: 24px;
-          background: no-repeat center/cover url("../../assets/coupler_logo_mobile.svg");
+          background: no-repeat center/cover $coupler_logo_mobile;
         }
       }
     }

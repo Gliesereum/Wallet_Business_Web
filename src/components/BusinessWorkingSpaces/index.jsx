@@ -4,8 +4,6 @@ import bem from 'bem-join';
 import BusinessWorkingSpacesInfo from '../BusinessWorkingSpacesInfo';
 import BusinessWorkingSpacesList from '../BusinessWorkingSpacesList';
 
-import './index.scss';
-
 const b = bem('workingSpaces');
 
 class BusinessWorkingSpaces extends Component {

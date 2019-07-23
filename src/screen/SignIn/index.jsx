@@ -15,8 +15,6 @@ import { actions } from '../../state';
 import config from '../../config';
 import { defaultGeoPosition } from '../../components/Map/mapConfig';
 
-import './index.scss';
-
 const b = bem('signIn');
 
 class SignIn extends Component {

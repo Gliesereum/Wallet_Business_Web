@@ -1,14 +1,6 @@
 // -------- Colors -----------
 $primary-color: #262626;
-$info-color: yellow;
-$success-color: green;
-$processing-color: rgba(255, 187, 27, 0.81);
-$error-color: red;
-$highlight-color: rgb(218, 129, 68);
 $loading-background-color: rgba(218, 129, 68, 0.35);
-$hover-highlight-color: rgba(198, 83, 23, 0.25);
-$warning-color: orange;
-$dark-gray: #3d3d3d;
 
 $white: #fff;
 $dirty-white: #FAFAFA;
@@ -17,7 +9,6 @@ $coupler-blue: #1078E1;
 $coupler-light-blue: #E0EBF3;
 $coupler-red: #E0000D;
 $border-gray: #f0f2f4;
-$light-gray: #CAD4DE;
 $middle-gray: #A4AEB8;
 $gray: rgba(72, 84, 101, 0.8);
 $font-title-black: #485465;
@@ -45,3 +36,10 @@ $max-sm: 767px;
 $max-md: 991px;
 $max-lg: 1199px;
 $max-xl: 1599px;
+
+// -------- Image URL -----------
+$coupler_logo_beta: url('../assets/coupler_logo_beta.svg');
+$logo-single-white: url('../assets/logo-single-white.svg');
+$coupler_logo: url('../assets/coupler_logo.svg');
+$coupler_logo_mobile: url('../assets/coupler_logo_mobile.svg');
+$couplerSignInBackground: url('../assets/couplerSignInBackground.png');

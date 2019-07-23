@@ -5,8 +5,6 @@ import { Form, Checkbox, notification } from 'antd';
 
 import { asyncRequest, withToken } from '../../../utils';
 
-import './index.scss';
-
 const { Item: FormItem } = Form;
 const CheckboxGroup = Checkbox.Group;
 const b = bem('serviceClasses');

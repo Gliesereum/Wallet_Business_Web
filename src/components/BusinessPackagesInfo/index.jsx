@@ -15,8 +15,6 @@ import { PackageForm } from '../Forms';
 import { asyncRequest, withToken } from '../../utils';
 import { actions } from '../../state';
 
-import './index.scss';
-
 const b = bem('businessPackagesInfo');
 
 class BusinessPackagesInfo extends PureComponent {

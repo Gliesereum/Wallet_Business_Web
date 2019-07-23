@@ -20,8 +20,6 @@ import { asyncRequest, withToken } from '../../utils';
 
 import { actions } from '../../state';
 
-import './index.scss';
-
 const b = bem('businessMainInfo');
 
 class BusinessMainInfo extends Component {
@@ -52,7 +50,7 @@ class BusinessMainInfo extends Component {
           ...values,
           latitude: currentLocation ? currentLocation.lat : singleBusiness.latitude,
           longitude: currentLocation ? currentLocation.lng : singleBusiness.longitude,
-          timeZone: timeZone || singleBusiness.timeZone,
+          timeZone: timeZone || ((singleBusiness && singleBusiness.timeZone) ? singleBusiness.timeZone : 0),
         };
 
         try {

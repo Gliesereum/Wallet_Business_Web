@@ -1,5 +1,54 @@
-@import "theme";
-@import "custom";
+@import
+  "custom.scss",
+  "../components/Header/index.scss",
+  "../components/DeleteModal/index.scss";
+
+#root {
+  @import "theme",
+  "../components/ScreenLoading/index.scss",
+  "../components/SideMenu/index.scss",
+  "../components/CorporationsList/index.scss",
+  "../components/EmptyState/index.scss",
+  "../components/BusinessServiceInfo/index.scss",
+  "../components/BusinessServicesList/index.scss",
+  "../components/BusinessServices/index.scss",
+  "../components/BusinessPackagesInfo/index.scss",
+  "../components/BusinessPackagesList/index.scss",
+  "../components/BusinessPackages/index.scss",
+  "../components/WorkingSpaceInfoReadOnly/index.scss",
+  "../components/BusinessWorkingSpacesInfo/index.scss",
+  "../components/BusinessWorkingSpacesListMode/index.scss",
+  "../components/BusinessWorkingSpacesGridMode/index.scss",
+  "../components/BusinessWorkingSpacesList/index.scss",
+  "../components/BusinessWorkingSpaces/index.scss",
+  "../components/WorkerInfo/index.scss",
+  "../components/WorkersList/index.scss",
+  "../components/BusinessScheduleInfo/index.scss",
+  "../components/BusinessMainInfo/index.scss",
+  "../components/BusinessesList/index.scss",
+  "../components/FromToInput/index.scss",
+  "../components/ProneInput/index.scss",
+  "../components/Timer/index.scss",
+  "../components/Forms/ProfileEmail/index.scss",
+  "../components/Forms/ProfileForm/index.scss",
+  "../components/Forms/BusinessMainInfoForm/index.scss",
+  "../components/Forms/BusinessScheduleForm/index.scss",
+  "../components/Forms/CorporationForm/index.scss",
+  "../components/Forms/PackageForm/index.scss",
+  "../components/Forms/ServiceAdditional/index.scss",
+  "../components/Forms/ServiceClasses/index.scss",
+  "../components/Forms/ServiceMainInfoFrom/index.scss",
+  "../components/Forms/SignInForm/index.scss",
+  "../components/Forms/WorkerForm/index.scss",
+  "../components/Forms/WorkingSpaceForm/index.scss",
+  "../screen/BusinessPage/index.scss",
+  "../screen/Corporation/index.scss",
+  "../screen/CorporationsContainer/index.scss",
+  "../screen/ProfileInfo/index.scss",
+  "../screen/SignIn/index.scss",
+  "../screen/WorkersPage/index.scss",
+  "../screen/Container/index.scss";
+}
 
 body {
   p {

@@ -4,8 +4,6 @@ import {
   Form, Select, Input, InputNumber, Row, Col,
 } from 'antd';
 
-import './index.scss';
-
 class ServiceMainInfoForm extends PureComponent {
   render() {
     const { form, serviceTypes, servicePrice } = this.props;

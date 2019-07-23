@@ -8,8 +8,6 @@ import { WorkerInfo, WorkersList } from '../../components';
 
 import { fetchWorkersByCorporationId, fetchBusinessesByCorp } from '../../fetches';
 
-import './index.scss';
-
 const b = bem('workers');
 
 class WorkingPage extends Component {

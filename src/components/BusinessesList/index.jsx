@@ -9,8 +9,6 @@ import EmptyState from '../EmptyState';
 import DefaultBusinessLogo from '../../assets/defaultBusinessLogo.svg';
 import AddIcon from '../../assets/AddIcon.svg';
 
-import './index.scss';
-
 const b = bem('businessesList');
 
 class BusinessesList extends PureComponent {

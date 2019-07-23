@@ -15,8 +15,6 @@ import { asyncRequest, asyncUploadFile, withToken } from '../../utils';
 
 import { actions } from '../../state';
 
-import './index.scss';
-
 const b = bem('profileInfo');
 
 class ProfileInfo extends Component {

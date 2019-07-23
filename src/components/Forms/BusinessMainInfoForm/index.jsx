@@ -18,8 +18,6 @@ import ProneInput from '../../ProneInput';
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
 
-import './index.scss';
-
 const FormItem = Form.Item;
 const b = bem('businessMainForm');
 

@@ -13,8 +13,6 @@ import {
 
 import DeleteModal from '../../DeleteModal';
 
-import './index.scss';
-
 const b = bem('corporationForm');
 
 class CorporationForm extends Component {

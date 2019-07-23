@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import bem from 'bem-join';
 
 import {
-  Input, Form, Button,
-} from 'antd/lib/index';
-
-import './index.scss';
+  Input,
+  Form,
+  Button,
+} from 'antd';
 
 const b = bem('signInForm');
 

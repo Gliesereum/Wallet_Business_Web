@@ -13,8 +13,6 @@ import {
   Divider,
 } from 'antd';
 
-import './index.scss';
-
 const b = bem('workingSpaceForm');
 const { Item: FormItem } = Form;
 
@@ -179,10 +177,7 @@ class WorkingSpaceForm extends PureComponent {
         colon={false}
         className={b()}
       >
-        <Row
-          gutter={24}
-          className={b('inputsBlock')}
-        >
+        <Row gutter={24}>
           <Col lg={12}>
             <FormItem label="Название рабочего места">
               {

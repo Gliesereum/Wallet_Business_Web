@@ -26,7 +26,7 @@
         color: $white;
 
         &__placeholder {
-          color: rgba(255, 255, 255, 0.32) !important;
+          color: rgba(255, 255, 255, 0.32);
         }
 
         & .ant-select-arrow {
@@ -102,19 +102,19 @@
 
         &-thead {
           & > tr {
-            height: 48px !important;
+            height: 48px;
             font-size: 12px;
-            line-height: 24px !important;
+            line-height: 24px;
 
             & > th .ant-table-header-column {
-              width: 100% !important;
+              width: 100%;
             }
           }
         }
 
         &-tbody {
           & > tr {
-            height: 48px !important;
+            height: 48px;
 
             &.ant-table-expanded-row > td {
               padding: 0;

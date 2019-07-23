@@ -9,8 +9,6 @@ import {
 import Notification from '../../assets/Notification.svg';
 import { getFirstLetterName } from '../../utils';
 
-import './index.scss';
-
 const b = bem('header');
 
 const ProfileMenu = () => (

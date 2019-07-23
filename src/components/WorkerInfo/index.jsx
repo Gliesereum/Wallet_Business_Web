@@ -14,8 +14,6 @@ import { WorkerForm } from '../Forms';
 import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
 
-import './index.scss';
-
 const b = bem('workerInfo');
 
 class WorkerInfo extends Component {

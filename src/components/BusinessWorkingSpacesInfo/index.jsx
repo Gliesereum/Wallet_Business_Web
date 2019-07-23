@@ -16,8 +16,6 @@ import WorkingSpaceInfoReadOnly from '../WorkingSpaceInfoReadOnly';
 import { asyncRequest, withToken } from '../../utils';
 import { actions } from '../../state';
 
-import './index.scss';
-
 const b = bem('workingSpaceInfo');
 
 class BusinessWorkingSpacesInfo extends Component {

@@ -9,8 +9,6 @@ import {
   Col,
 } from 'antd';
 
-import './index.scss';
-
 const b = bem('serviceAdditional');
 const { Item: FormItem } = Form;
 const CheckboxGroup = Checkbox.Group;

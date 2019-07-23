@@ -15,8 +15,6 @@ import EmptyState from '../EmptyState';
 
 import { genders, dayTranslateTemporary } from '../../mocks';
 
-import './index.scss';
-
 const b = bem('workersList');
 const { Option } = Select;
 const { Search } = Input;

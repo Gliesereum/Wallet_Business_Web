@@ -8,8 +8,6 @@ import {
   SideMenu,
 } from '../../components';
 
-import './index.scss';
-
 const b = bem('container');
 
 const Container = ({ user, children }) => (

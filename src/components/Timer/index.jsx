@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 
-import './index.scss';
-
 class Timer extends Component {
   state = {
     time: 0,
