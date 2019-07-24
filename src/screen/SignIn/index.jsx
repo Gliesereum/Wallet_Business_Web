@@ -7,7 +7,7 @@ import bem from 'bem-join';
 import { notification } from 'antd';
 
 import { SignInForm } from '../../components/Forms';
-import { Map, Timer } from '../../components';
+import { Map } from '../../components';
 
 import meIcon from '../../assets/marker.svg';
 import { asyncRequest } from '../../utils';
@@ -19,7 +19,7 @@ const b = bem('signIn');
 
 class SignIn extends Component {
   state = {
-    phone: '',
+    phone: null,
     gotCode: false,
     currentLocation: defaultGeoPosition,
     validateStatus: '',
@@ -38,6 +38,11 @@ class SignIn extends Component {
       }
     );
   }
+
+  gotCodeHandler = () => this.setState(prevState => ({
+    ...prevState,
+    gotCode: !prevState.gotCode,
+  }));
 
   getCodeHandler = async (value) => {
     const url = `phone/code?phone=${value.slice(1, 13)}`;
@@ -80,54 +85,34 @@ class SignIn extends Component {
 
   render() {
     const {
-      gotCode, phone, currentLocation, validateStatus,
+      gotCode,
+      phone,
+      currentLocation,
+      validateStatus,
     } = this.state;
 
     return (
       <div className={b()}>
         <div className={b('left')}>
-          <div className={b('left-logoBlock')}>
-            <div className={b('left-logoBlock-img')} />
+          <div className={b('left-logo')} />
+          <div className={b('left-titleBlock')}>
+            <h1 className={b('left-titleBlock-title')}>
+              Панель управления вашим бизнесом
+            </h1>
+            <div className={b('left-titleBlock-divider')} />
+            <p className={b('left-titleBlock-subtitle')}>
+              Маркетинг и контроль в один клик
+            </p>
           </div>
-          <div className={b('left-contentBlock')}>
-            <div className={b('left-contentBlock-border')}>
-              <h1 className={b('left-contentBlock-title')}>
-                Панель управления вашим бизнесом
-              </h1>
-              <p className={b('left-contentBlock-subtitle')}>
-                Маркетинг и контроль в один клик
-              </p>
-            </div>
-
-            {gotCode ? (
-              <SignInForm
-                firstStep={false}
-                buttonText="Вход"
-                labelText="Одноразовый пароль из смс"
-                placeholder=""
-                sendCodeHandler={this.sendCodeHandler}
-                validateStatus={validateStatus}
-              />
-            ) : (
-              <SignInForm
-                firstStep
-                buttonText="Получить одноразовый пароль"
-                labelText="Введите номер телефона"
-                placeholder="+380507595188"
-                getCodeHandler={this.getCodeHandler}
-                validateStatus={validateStatus}
-              />
-            )}
-          </div>
-          {gotCode && (
-            <div className={b('left-infoBar')}>
-              <Timer time={180000} />
-              <span>код был отправлен на номер</span>
-              <span>{phone || 380507595188}</span>
-            </div>
-          )}
+          <SignInForm
+            gotCode={gotCode}
+            phone={phone}
+            validateStatus={validateStatus}
+            getCodeHandler={this.getCodeHandler}
+            sendCodeHandler={this.sendCodeHandler}
+            gotCodeHandler={this.gotCodeHandler}
+          />
         </div>
-
         <div className={b('right')}>
           {/* <div className={b('right-supportBlock')}>1</div> */}
           <div className={b('right-mapBlock')}>
@@ -161,7 +146,6 @@ class SignIn extends Component {
 
 const mapDispatchToProps = dispatch => ({
   checkAuthenticate: tokenInfo => dispatch(actions.auth.$checkAuthenticate(tokenInfo)),
-  dataLoading: bool => dispatch(actions.app.$dataLoading(bool)),
   startApp: () => dispatch(actions.app.$startApp()),
 });
 
