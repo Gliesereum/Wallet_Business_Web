@@ -170,6 +170,10 @@
       &-disabled {
         & > span {
           color: $middle-gray;
+
+          & > .ant-checkbox-inner {
+            background-color: #F7F7F7;
+          }
         }
       }
 
@@ -191,7 +195,7 @@
     }
 
     &-checked {
-      .ant-checkbox-inner {
+      & .ant-checkbox-inner {
         border-color: $coupler-blue;
         background-color: $coupler-blue;
       }
