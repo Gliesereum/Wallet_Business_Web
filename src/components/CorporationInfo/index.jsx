@@ -19,7 +19,7 @@ import { actions } from '../../state';
 
 const b = bem('corporation');
 
-class Corporation extends Component {
+class CorporationInfo extends Component {
   state = {
     readOnlyMode: !this.props.isAddMode,
     deleteModalVisible: false,
@@ -248,4 +248,4 @@ const mapDispatchToProps = dispatch => ({
   removeCorporation: corporationId => dispatch(actions.corporations.$deleteCorporation(corporationId)),
 });
 
-export default connect(null, mapDispatchToProps)(Corporation);
+export default connect(null, mapDispatchToProps)(CorporationInfo);

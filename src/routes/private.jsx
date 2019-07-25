@@ -10,7 +10,7 @@ import {
   Container,
   BusinessPage,
   ProfileInfo,
-  CorporationsContainer,
+  CorporationsPage,
   WorkersPage,
   FAQ,
 } from '../screen';
@@ -23,7 +23,7 @@ const privateRouter = ({ user }) => (
         {/*  <Redirect to={(user && user.firstName) ? '/corporations' : '/profile'} /> */}
         {/* </Route> */}
 
-        <Route path="/corporations" exact component={CorporationsContainer} />
+        <Route path="/corporations" exact component={CorporationsPage} />
 
         <Route path="/workers" exact component={WorkersPage} />
 

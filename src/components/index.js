@@ -3,7 +3,7 @@ import SideMenu from './SideMenu';
 import Timer from './Timer';
 import ScreenLoading from './ScreenLoading';
 import Map from './Map';
-import Corporation from './Corporation';
+import CorporationInfo from './CorporationInfo';
 import CorporationsList from './CorporationsList';
 import BusinessesList from './BusinessesList';
 import BusinessServices from './BusinessServices';
@@ -25,7 +25,7 @@ export {
   Timer,
   ScreenLoading,
   Map,
-  Corporation,
+  CorporationInfo,
   BusinessServices,
   BusinessPackages,
   BusinessWorkingSpaces,

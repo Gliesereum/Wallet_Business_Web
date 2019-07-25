@@ -11,12 +11,12 @@ import {
   CorporationsList,
   BusinessesList,
   EmptyState,
-  Corporation,
+  CorporationInfo,
 } from '../../components';
 
 const b = bem('corporationsContainer');
 
-class CorporationsContainer extends Component {
+class CorporationsPage extends Component {
   state = {
     chosenCorporation: null,
     isAddCorporationMode: false,
@@ -44,7 +44,7 @@ class CorporationsContainer extends Component {
         {
           isAddCorporationMode || (chosenCorporation && chosenCorporation.id) ? (
             <Col lg={24}>
-              <Corporation
+              <CorporationInfo
                 isAddMode={isAddCorporationMode}
                 corporations={corporations}
                 chosenCorporation={chosenCorporation}
@@ -112,4 +112,4 @@ const mapStateToProps = state => ({
   business: state.business.business,
 });
 
-export default connect(mapStateToProps)(CorporationsContainer);
+export default connect(mapStateToProps)(CorporationsPage);
