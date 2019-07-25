@@ -6,7 +6,6 @@ import { List, Card } from 'antd';
 
 import EmptyState from '../EmptyState';
 
-import DefaultBusinessLogo from '../../assets/defaultBusinessLogo.svg';
 import AddIcon from '../../assets/AddIcon.svg';
 
 const b = bem('businessesList');
@@ -53,7 +52,7 @@ class BusinessesList extends PureComponent {
                     to={`/business/${id}`}
                   >
                     <div
-                      style={{ backgroundImage: `url(${logoUrl || DefaultBusinessLogo})` }}
+                      style={{ backgroundImage: `url(${logoUrl})` }}
                       className={b('card-img')}
                     />
                     <div className={b('card-text')}>
