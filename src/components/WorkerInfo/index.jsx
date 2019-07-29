@@ -10,6 +10,7 @@ import {
 } from 'antd';
 
 import { WorkerForm } from '../Forms';
+import DeleteModal from '../DeleteModal';
 
 import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
@@ -22,6 +23,7 @@ class WorkerInfo extends Component {
     businesses: [],
     workingSpaces: [],
     scheduleList: [],
+    deleteModalVisible: false,
   };
 
   async componentDidMount() {
@@ -177,6 +179,12 @@ class WorkerInfo extends Component {
     }
   };
 
+  toggleDeleteModal = () => {
+    this.setState(prevState => ({
+      deleteModalVisible: !prevState.deleteModalVisible,
+    }));
+  };
+
   render() {
     const {
       isAddMode,
@@ -189,6 +197,7 @@ class WorkerInfo extends Component {
       businesses,
       workingSpaces,
       scheduleList,
+      deleteModalVisible,
     } = this.state;
 
     let headerTitle = 'Редактирование профайла сотрудника';
@@ -251,7 +260,7 @@ class WorkerInfo extends Component {
                 readOnlyMode ? (
                   <Button
                     className={b('content-controlBtns-btn deleteBtn')}
-                    onClick={this.handleRemoveWorker}
+                    onClick={this.toggleDeleteModal}
                   >
                     Удалить сотрудника
                   </Button>
@@ -282,6 +291,19 @@ class WorkerInfo extends Component {
                   >
                     Сохранить
                   </Button>
+                )
+              }
+              {
+                deleteModalVisible && (
+                  <DeleteModal
+                    visible={deleteModalVisible}
+                    okText="Удалить"
+                    cancelText="Отменить"
+                    onOk={this.handleRemoveWorkingSpace}
+                    onCancel={this.toggleDeleteModal}
+                    deletedName={`${chosenWorker.user.lastName} ${chosenWorker.user.firstName} ${chosenWorker.user.middleName}`}
+                    deletedItem="работника"
+                  />
                 )
               }
             </Col>
