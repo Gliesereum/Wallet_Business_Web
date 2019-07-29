@@ -269,8 +269,9 @@ export const fetchBusinessesByCorp = async ({ corporationId }) => {
   };
 };
 
-export const fetchWorkersByCorporationId = async ({ corporationId }) => {
+export const fetchWorkersByCorporationId = async (props) => {
   const result = [];
+  const corporationId = props.corporationId || props.singleBusiness.corporationId;
 
   try {
     await withToken(fetchHelper)({

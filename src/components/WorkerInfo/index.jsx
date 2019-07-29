@@ -114,8 +114,8 @@ class WorkerInfo extends Component {
             ...chosenWorker,
             corporationId,
             businessId,
-            workingSpaceId,
             position,
+            workingSpaceId: workingSpaceId || null,
             user: {
               ...(chosenWorker ? chosenWorker.user : {}),
               firstName,
