@@ -1,19 +1,44 @@
 @import '../../../styles/theme';
 
 .signInForm {
-  padding-top: 104px;
-  @media screen and (max-width: $max-phone) {
-    padding-top: 72px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 -32px;
+  padding: 32px;
+
+  &__title {
+    font-family: $sans;
+    font-size: 16px;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: $white;
+    padding-bottom: 32px;
+  }
+
+  &__infoBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    height: 64px;
+    padding: 0 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    font-family: $sans;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+    color: $white;
+    mix-blend-mode: normal;
+    margin-bottom: 48px;
   }
 
   &__number {
     &--labelBox {
-      width: 100%;
-
       .ant-form-item-label > label {
         color: $white;
-        font-size: 16px;
-        font-family: $sans;
       }
     }
 
@@ -22,32 +47,19 @@
       border: 2px solid $white;
       background-color: transparent;
       color: white;
-
-      &#codeInput {
-        height: 56px;
-      }
-
-      &:focus {
-        border: 2px solid $white;
-        box-shadow: 0 0 10px 6px rgba(38, 38, 38, 0.2);
-      }
     }
 
-    &--buttonBox {
-      width: 100%;
-      @media screen and (max-width: $max-tablet) {
-        margin-bottom: 56px;
-      }
+    &--codeInput.ant-input-password input {
+      text-align: center;
     }
+  }
 
-    &--button {
-      width: 100%;
-      height: 56px;
-      cursor: pointer;
-      color: $coupler-blue;
-      font-family: $sans;
-      font-size: 12px;
-      line-height: 16px;
+  &__button {
+    width: 100%;
+    cursor: pointer;
+
+    &--firstButton {
+      margin-bottom: 16px;
     }
   }
 }

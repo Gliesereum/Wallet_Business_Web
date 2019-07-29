@@ -2,8 +2,7 @@ import BusinessPage from './BusinessPage';
 import Container from './Container';
 import ProfileInfo from './ProfileInfo';
 import SignIn from './SignIn';
-import CorporationsContainer from './CorporationsContainer';
-import Corporation from './Corporation';
+import CorporationsPage from './CorporationsPage';
 import WorkersPage from './WorkersPage';
 import FAQ from './FAQ';
 
@@ -12,8 +11,7 @@ export {
   Container,
   ProfileInfo,
   SignIn,
-  CorporationsContainer,
-  Corporation,
+  CorporationsPage,
   WorkersPage,
   FAQ,
 };

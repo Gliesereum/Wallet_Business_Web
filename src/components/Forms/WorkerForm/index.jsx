@@ -240,9 +240,6 @@ class WorkerForm extends PureComponent {
                   {
                     form.getFieldDecorator('workingSpaceId', {
                       initialValue: this.getInitialWorkingSpaceValue(),
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                      ],
                     })(
                       <Select
                         placeholder="Выбрать..."

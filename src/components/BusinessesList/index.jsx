@@ -6,14 +6,13 @@ import { List, Card } from 'antd';
 
 import EmptyState from '../EmptyState';
 
-import DefaultBusinessLogo from '../../assets/defaultBusinessLogo.svg';
 import AddIcon from '../../assets/AddIcon.svg';
 
 const b = bem('businessesList');
 
 class BusinessesList extends PureComponent {
   renderBusinessesList = () => {
-    const { chosenCorp, business } = this.props;
+    const { viewCorp, business } = this.props;
     const data = business.map(item => ({
       name: item.name,
       category: item.businessCategory.name,
@@ -38,7 +37,7 @@ class BusinessesList extends PureComponent {
                 <Link to={{
                   pathname: '/business/add',
                   state: {
-                    chosenCorp,
+                    chosenCorp: viewCorp,
                   },
                 }}
                 >
@@ -53,7 +52,7 @@ class BusinessesList extends PureComponent {
                     to={`/business/${id}`}
                   >
                     <div
-                      style={{ backgroundImage: `url(${logoUrl || DefaultBusinessLogo})` }}
+                      style={{ backgroundImage: `url(${logoUrl})` }}
                       className={b('card-img')}
                     />
                     <div className={b('card-text')}>
@@ -71,12 +70,12 @@ class BusinessesList extends PureComponent {
   };
 
   render() {
-    const { business, chosenCorp } = this.props;
+    const { business, viewCorp } = this.props;
 
     return (
       <div className={b()}>
         <div className={b('corpName')}>
-          <p>{chosenCorp.name}</p>
+          <p>{viewCorp.name}</p>
         </div>
         {
           business && business.length ? (
@@ -89,7 +88,7 @@ class BusinessesList extends PureComponent {
               linkToData={{
                 pathname: '/business/add',
                 state: {
-                  chosenCorp,
+                  chosenCorp: viewCorp,
                 },
               }}
             />
