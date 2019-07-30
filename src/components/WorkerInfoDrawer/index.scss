@@ -1,0 +1,51 @@
+@import '../../styles/theme.scss';
+
+.workerInfoDrawer {
+  & .ant-drawer-title {
+    font-family: $sans;
+    font-size: 16px;
+    line-height: 16px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: $font-title-black;
+    text-align: center;
+  }
+
+  &__title {
+    padding-bottom: 12px;
+    font-family: $sans;
+    font-size: 12px;
+    line-height: 16px;
+    color: $font-title-black;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__list {
+    padding-bottom: 53px;
+
+    &-item {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      padding: 15px;
+      font-family: $sans;
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+
+      &-title {
+        color: #7B858C;
+      }
+    }
+  }
+
+  &__schedule {
+    padding: 16px;
+    &:nth-child(even) {
+      background-color: #E7F2FE;
+    }
+
+    &-workHours {
+      display: flex;
+    }
+  }
+}

@@ -158,7 +158,12 @@ class BusinessWorkingSpacesInfo extends Component {
   };
 
   render() {
-    const { chosenSpace, workers, changeActiveWorkingSpace } = this.props;
+    const {
+      chosenSpace,
+      workers,
+      changeActiveWorkingSpace,
+      toggleWorkerInfoDrawer,
+    } = this.props;
     const { readOnlyMode, deleteModalVisible } = this.state;
 
     return (
@@ -167,12 +172,14 @@ class BusinessWorkingSpacesInfo extends Component {
           readOnlyMode ? (
             <WorkingSpaceInfoReadOnly
               chosenSpace={chosenSpace}
+              toggleWorkerInfoDrawer={toggleWorkerInfoDrawer}
             />
           ) : (
             <WorkingSpaceForm
               workers={workers}
               chosenSpace={chosenSpace}
               wrappedComponentRef={form => this.workingSpaceForm = form}
+              toggleWorkerInfoDrawer={toggleWorkerInfoDrawer}
             />
           )
         }

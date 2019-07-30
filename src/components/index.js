@@ -12,6 +12,7 @@ import BusinessWorkingSpaces from './BusinessWorkingSpaces';
 import WorkingSpaceInfoReadOnly from './WorkingSpaceInfoReadOnly';
 import WorkerInfo from './WorkerInfo';
 import WorkersList from './WorkersList';
+import WorkerInfoDrawer from './WorkerInfoDrawer';
 import BusinessScheduleInfo from './BusinessScheduleInfo';
 import BusinessMainInfo from './BusinessMainInfo';
 import EmptyState from './EmptyState';
@@ -32,6 +33,7 @@ export {
   WorkingSpaceInfoReadOnly,
   WorkerInfo,
   WorkersList,
+  WorkerInfoDrawer,
   CorporationsList,
   BusinessesList,
   BusinessScheduleInfo,
