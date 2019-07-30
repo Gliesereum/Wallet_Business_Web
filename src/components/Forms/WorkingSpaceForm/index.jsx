@@ -13,6 +13,8 @@ import {
   Divider,
 } from 'antd';
 
+import { LintTo } from '../../../assets/iconComponents';
+
 const b = bem('workingSpaceForm');
 const { Item: FormItem } = Form;
 
@@ -126,7 +128,7 @@ class WorkingSpaceForm extends PureComponent {
 
   render() {
     const { workers, selectedWorkers } = this.state;
-    const { form, chosenSpace } = this.props;
+    const { form, chosenSpace, toggleWorkerInfoDrawer } = this.props;
 
     const renderContent = (value, row, index) => {
       const obj = {
@@ -283,9 +285,12 @@ class WorkingSpaceForm extends PureComponent {
                     <List
                       className={b('workersBox-table-chosenCard-item-body-workers-list')}
                       dataSource={selectedWorkers}
-                      renderItem={({ user, id }) => (
-                        <div className={b('workersBox-table-chosenCard-item-body-workers-list-item')}>
-                          <Icon className={b('workersBox-table-chosenCard-linkIcon')} type="export" />
+                      renderItem={({ user, id, ...rest }) => (
+                        <div
+                          className={b('workersBox-table-chosenCard-item-body-workers-list-item')}
+                          onClick={toggleWorkerInfoDrawer({ user, ...rest })}
+                        >
+                          <LintTo />
                           <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}>
                             {`${user.lastName} ${user.firstName} ${user.middleName}`}
                           </div>

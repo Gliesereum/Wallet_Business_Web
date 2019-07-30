@@ -26,6 +26,22 @@
     &-list {
       border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 4px;
+
+      &-item {
+        &-name {
+          display: flex;
+          align-items: center;
+          font-family: $sans;
+          font-size: 14px;
+          line-height: 24px;
+          color: $coupler-blue;
+          cursor: pointer;
+
+          & > span {
+            padding-left: 16px;
+          }
+        }
+      }
     }
   }
 }
