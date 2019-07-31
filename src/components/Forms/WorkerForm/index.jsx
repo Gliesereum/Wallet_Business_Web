@@ -110,7 +110,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
-                        readOnly={!isAddMode}
+                        readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)}
                       />
                     )
                   }
@@ -129,7 +129,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
-                        readOnly={!isAddMode}
+                        readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)}
                       />
                     )
                   }
@@ -148,7 +148,7 @@ class WorkerForm extends PureComponent {
                     })(
                       <Input
                         placeholder="Ввод..."
-                        readOnly={!isAddMode}
+                        readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)}
                       />
                     )
                   }
@@ -167,7 +167,7 @@ class WorkerForm extends PureComponent {
                         { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
                       ],
                     })(
-                      <ProneInput readOnly={!isAddMode} />
+                      <ProneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
                     )
                   }
                 </FormItem>

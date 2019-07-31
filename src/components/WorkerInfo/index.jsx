@@ -7,6 +7,7 @@ import {
   Icon,
   Button,
   notification,
+  Input,
 } from 'antd';
 
 import { WorkerForm } from '../Forms';
@@ -15,6 +16,7 @@ import DeleteModal from '../DeleteModal';
 import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
 
+const { Search } = Input;
 const b = bem('workerInfo');
 
 class WorkerInfo extends Component {
@@ -23,6 +25,7 @@ class WorkerInfo extends Component {
     businesses: [],
     workingSpaces: [],
     scheduleList: [],
+    foundUser: null,
     deleteModalVisible: false,
   };
 
@@ -84,10 +87,10 @@ class WorkerInfo extends Component {
             changeActiveWorker,
           } = this.props;
 
-          const isWorkTiemsExist = this.state.scheduleList[0].id;
+          const isWorkTimesExist = this.state.scheduleList[0].id;
           const workTimes = [];
           const [business] = this.state.businesses.filter(item => item.id === businessId);
-          if (isWorkTiemsExist) {
+          if (isWorkTimesExist) {
             chosenWorker.workTimes.forEach((item) => {
               workTimes.push({
                 ...item,
@@ -179,10 +182,61 @@ class WorkerInfo extends Component {
     }
   };
 
+  handleSearchUserByNumber = async (value) => {
+    const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${value}` }) || null;
+    this.setState({ foundUser: user });
+    if (!user) this.props.changeActiveWorker(null, true)();
+  };
+
   toggleDeleteModal = () => {
     this.setState(prevState => ({
       deleteModalVisible: !prevState.deleteModalVisible,
     }));
+  };
+
+  renderHeader = () => {
+    const { isAddMode, changeActiveWorker } = this.props;
+    const { readOnlyMode, foundUser } = this.state;
+
+    if (readOnlyMode) {
+      return (
+        <div className={b('header')}>
+          <h1 className={b('header-title')}>Просмотр профайла сотрудника</h1>
+        </div>
+      );
+    } if (isAddMode) {
+      return (
+        <div className={b('header', { isAddMode })}>
+          <h1 className={b('header-title')}>Создание профайла сотрудника</h1>
+          <Search
+            className={b('header-searchInput')}
+            placeholder="Поиск по номеру..."
+            onSearch={this.handleSearchUserByNumber}
+          />
+          <div className={b('header-searchResultBlock')}>
+            <span className={b('header-searchResultBlock-text')}>
+              {
+                foundUser
+                  ? `${foundUser.phone} | ${foundUser.lastName} ${foundUser.firstName} ${foundUser.middleName}`
+                  : 'Результат поиска...'
+              }
+            </span>
+          </div>
+          <Button
+            disabled={!foundUser}
+            className={b('header-searchResultButton')}
+            onClick={changeActiveWorker({ user: foundUser }, true)}
+          >
+            Выбрать
+          </Button>
+        </div>
+      );
+    }
+    return (
+      <div className={b('header')}>
+        <h1 className={b('header-title')}>Редактирование профайла сотрудника</h1>
+      </div>
+    );
   };
 
   render() {
@@ -200,18 +254,9 @@ class WorkerInfo extends Component {
       deleteModalVisible,
     } = this.state;
 
-    let headerTitle = 'Редактирование профайла сотрудника';
-    if (readOnlyMode) {
-      headerTitle = 'Просмотр профайла сотрудника';
-    } else if (isAddMode) {
-      headerTitle = 'Создание профайла сотрудника';
-    }
-
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <h1 className={b('header-title')}>{headerTitle}</h1>
-        </div>
+        {this.renderHeader()}
         <div className={b('content')}>
           <WorkerForm
             wrappedComponentRef={form => this.workerForm = form}
@@ -299,7 +344,7 @@ class WorkerInfo extends Component {
                     visible={deleteModalVisible}
                     okText="Удалить"
                     cancelText="Отменить"
-                    onOk={this.handleRemoveWorkingSpace}
+                    onOk={this.handleRemoveWorker}
                     onCancel={this.toggleDeleteModal}
                     deletedName={`${chosenWorker.user.lastName} ${chosenWorker.user.firstName} ${chosenWorker.user.middleName}`}
                     deletedItem="работника"
