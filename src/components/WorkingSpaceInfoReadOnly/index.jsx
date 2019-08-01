@@ -8,7 +8,7 @@ import {
   Table,
 } from 'antd';
 
-import { LintTo } from '../../assets/iconComponents';
+import { LinkTo } from '../../assets/iconComponents';
 
 const b = bem('workingSpaceInfoReadOnly');
 
@@ -25,7 +25,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace, toggleWorkerInfoDrawer }) => {
           className={b('workersTable-list-item-name')}
           onClick={toggleWorkerInfoDrawer({ user, ...rest })}
         >
-          <div><LintTo /></div>
+          <div><LinkTo /></div>
           <span>{`${user.lastName} ${user.firstName} ${user.middleName}`}</span>
         </div>
       ),

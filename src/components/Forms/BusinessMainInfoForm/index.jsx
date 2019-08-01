@@ -1,5 +1,3 @@
-// @flow // TODO: DELETE flow from project and packages
-
 import React, { Component } from 'react';
 import bem from 'bem-join';
 
@@ -10,37 +8,25 @@ import {
   Input,
   AutoComplete,
   Select,
+  Upload,
 } from 'antd';
 
 import Map from '../../Map';
 import ProneInput from '../../ProneInput';
+import { AddIcon } from '../../../assets/iconComponents';
 
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
 
 const FormItem = Form.Item;
+const { Dragger: UploadDragger } = Upload;
 const b = bem('businessMainForm');
 
 const translateBusinessType = {
   CAR: 'Машины',
 };
 
-type Prop = {
-  singleBusiness: {},
-  businessTypes: string[],
-  businessCategories: {}[],
-  form: Form,
-  corporations: {}[],
-  isAddBusinessMode: boolean,
-}
-
-type State = {
-  addressNodes: React.Node[],
-  currentAddress: {},
-  currentLocation: {},
-}
-
-const initialFieldValues = (chosenCorpId: {} = undefined): {} => ({
+const initialFieldValues = chosenCorpId => ({
   corporationId: chosenCorpId,
   name: '',
   description: '',
@@ -51,7 +37,7 @@ const initialFieldValues = (chosenCorpId: {} = undefined): {} => ({
   currentLocationValue: defaultGeoPosition,
 });
 
-class BusinessMainInfoForm extends Component<Prop, State> {
+class BusinessMainInfoForm extends Component {
   state = {
     disabled: false,
     addressNodes: [],
@@ -59,13 +45,13 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     currentLocation: defaultGeoPosition,
   };
 
-  searchAddressHandler = (value: string) => {
+  searchAddressHandler = (value) => {
     if (value.length >= 2) {
       const autoCompleteUrl = `https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=${value}&key=${config.googleAPIKey}`;
       fetch(config.corsUrl + autoCompleteUrl)
-        .then((data: Response): object => data.json())
-        .then(({ predictions }: { predictions: {}[] }) => {
-          const addressNodes = predictions.map((item: object): React.Node => (
+        .then(data => data.json())
+        .then(({ predictions }) => {
+          const addressNodes = predictions.map(item => (
             <AutoComplete.Option
               key={item.description}
               value={item.description}
@@ -74,7 +60,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
               {item.description}
             </AutoComplete.Option>
           ));
-          this.setState((prevState: State): {} => ({
+          this.setState(prevState => ({
             ...prevState,
             addressNodes,
           }));
@@ -82,13 +68,13 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     }
   };
 
-  getPlaceInfo = async (id: string): {} => {
+  getPlaceInfo = async (id) => {
     const placeDetailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&fields=geometry&key=${config.googleAPIKey}`;
     const request = await fetch(config.corsUrl + placeDetailsUrl);
     return request.json();
   };
 
-  getTimeZoneInfo = async (location: {}): {} => {
+  getTimeZoneInfo = async (location) => {
     // get timestamp in seconds for knowing if Daylight Savings Time offset is exist;
     const timestamp = new Date().getTime() / 1000;
     const timeZoneUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${location.lat},${location.lng}&timestamp=${timestamp}&key=${config.googleAPIKey}`;
@@ -97,12 +83,12 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     return (rawOffset + dstOffset) / 60; // get timezone in hours;
   };
 
-  selectAddressByInputHandler = async (value: string, addressObj: {}) => {
+  selectAddressByInputHandler = async (value, addressObj) => {
     const { changeCurrentLocation, changeCurrentTimeZone } = this.props;
     const { result } = await this.getPlaceInfo(addressObj.props.address.place_id);
     const timezone = await this.getTimeZoneInfo(result.geometry.location);
 
-    this.setState((prevState: State): {} => {
+    this.setState((prevState) => {
       changeCurrentLocation(result.geometry.location);
       changeCurrentTimeZone(timezone);
       return {
@@ -113,7 +99,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     });
   };
 
-  selectAddressByMarkerHandler = async ({ latLng }: { latLng: {} }): any => {
+  selectAddressByMarkerHandler = async ({ latLng }) => {
     const { form, changeCurrentLocation } = this.props;
     const location = {
       lat: latLng.lat(),
@@ -124,7 +110,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     const request = await fetch(addressUrl);
     const { results } = await request.json();
     const address = results[0].formatted_address;
-    this.setState((prevState: State): {} => {
+    this.setState((prevState) => {
       changeCurrentLocation(location);
       return {
         ...prevState,
@@ -135,7 +121,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
     form.setFieldsValue({ address });
   };
 
-  render(): React.Node {
+  render() {
     const {
       singleBusiness,
       businessTypes,
@@ -144,13 +130,16 @@ class BusinessMainInfoForm extends Component<Prop, State> {
       corporations = [],
       isAddBusinessMode,
       chosenCorpId,
+      businessLogoUrl,
+      isError,
+      uploadBusinessImage,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
     } = this.state;
 
     const formInitValues = singleBusiness ? {
-      corporationId: corporations.filter((corp: {}): {} => corp.id === singleBusiness.corporationId)[0].id,
+      corporationId: corporations.filter(corp => corp.id === singleBusiness.corporationId)[0].id,
       name: singleBusiness.name,
       description: singleBusiness.description,
       phone: singleBusiness.phone.replace(/[()\s+]/g, ''),
@@ -168,60 +157,69 @@ class BusinessMainInfoForm extends Component<Prop, State> {
         className={b()}
       >
         <div className={b('content')}>
-          <Row
-            gutter={40}
-            className={b('outerRow')}
-          >
-            <Col lg={12}>
-              <FormItem
-                label="Компания"
-              >
-                {form.getFieldDecorator('corporationId', {
-                  initialValue: formInitValues.corporationId,
-                  rules: [
-                    { required: true, message: 'Поле обязательное для заполнения' },
-                  ],
-                })(
-                  <Select placeholder="Выбрать компанию...">
-                    {corporations.length && corporations.map((corporation: {}): React.Node => (
-                      <Select.Option
-                        key={corporation.id}
-                        value={corporation.id}
-                      >
-                        {corporation.name}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
-            <Col lg={12}>
-              <FormItem
-                label="Адрес"
-              >
-                {form.getFieldDecorator('address', {
-                  initialValue: currentAddress || formInitValues.currentAddressValue,
-                  rules: [
-                    { required: true, message: 'Поле обязательное для заполнения' },
-                  ],
-                })(
-                  <AutoComplete
-                    placeholder="Адрес"
-                    onSearch={this.searchAddressHandler}
-                    dataSource={addressNodes}
-                    onSelect={this.selectAddressByInputHandler}
-                  />
-                )}
-              </FormItem>
-            </Col>
-          </Row>
-          <Row
-            gutter={40}
-            className={b('outerRow')}
-          >
-            <Col lg={12}>
-              <Row gutter={20}>
+          <Row gutter={31}>
+            <Col lg={16}>
+              <Row gutter={31}>
                 <Col lg={12}>
+                  <UploadDragger
+                    className={b('uploader')}
+                    name="file"
+                    listType="picture-card"
+                    showUploadList={false}
+                    customRequest={uploadBusinessImage}
+                  >
+                    <div className={b('uploader-container')}>
+                      {
+                        businessLogoUrl && (
+                          <img
+                            className={b('uploader-image')}
+                            src={businessLogoUrl}
+                            alt="uploaded_image"
+                          />
+                        )
+                      }
+                      <div className={b('uploader-inside')}>
+                        <AddIcon
+                          className={b('uploader-inside-icon', { errorView: isError })}
+                          size={{
+                            x: isError ? 32 : 48,
+                            y: isError ? 32 : 48,
+                          }}
+                        />
+                        <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                        {
+                          isError && (
+                            <p className={b('uploader-inside-error')}>
+                              Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                            </p>
+                          )
+                        }
+                      </div>
+                    </div>
+                  </UploadDragger>
+                </Col>
+                <Col lg={12}>
+                  <FormItem
+                    label="Компания"
+                  >
+                    {form.getFieldDecorator('corporationId', {
+                      initialValue: formInitValues.corporationId,
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                    })(
+                      <Select placeholder="Выбрать компанию...">
+                        {corporations.length && corporations.map(corporation => (
+                          <Select.Option
+                            key={corporation.id}
+                            value={corporation.id}
+                          >
+                            {corporation.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    )}
+                  </FormItem>
                   <FormItem
                     label="Название бизнеса"
                   >
@@ -232,6 +230,34 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                         { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
                     })(<Input placeholder="Название бизнесса" />)}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row gutter={31}>
+                <Col lg={12}>
+                  <FormItem
+                    label="Категория бизнесса"
+                  >
+                    {form.getFieldDecorator('businessCategoryId', {
+                      initialValue: formInitValues.businessCategory,
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                    })(
+                      <Select
+                        placeholder="Выбрать..."
+                        className={!isAddBusinessMode ? 'readOnly' : ''}
+                      >
+                        {businessCategories && businessCategories.map(corporation => (
+                          <Select.Option
+                            key={corporation.name}
+                            value={corporation.id}
+                          >
+                            {corporation.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    )}
                   </FormItem>
                 </Col>
                 <Col lg={12}>
@@ -250,31 +276,18 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                   </FormItem>
                 </Col>
               </Row>
-              <Row gutter={20}>
+              <Row gutter={31}>
                 <Col lg={12}>
                   <FormItem
-                    label="Категория бизнесса"
+                    label="Оприделение бизнеса (описание)"
                   >
-                    {form.getFieldDecorator('businessCategoryId', {
-                      initialValue: formInitValues.businessCategory,
+                    {form.getFieldDecorator('description', {
+                      initialValue: formInitValues.description,
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
-                    })(
-                      <Select
-                        placeholder="Выбрать..."
-                        className={!isAddBusinessMode ? 'readOnly' : ''}
-                      >
-                        {businessCategories && businessCategories.map((corporation: {}): React.Node => (
-                          <Select.Option
-                            key={corporation.name}
-                            value={corporation.id}
-                          >
-                            {corporation.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
+                    })(<Input placeholder="Описание бизнесса" />)}
                   </FormItem>
                 </Col>
                 <Col lg={12}>
@@ -291,7 +304,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                         placeholder="Выбрать..."
                         className={!isAddBusinessMode ? 'readOnly' : ''}
                       >
-                        {businessTypes && businessTypes.map((businessType: string): React.Node => (
+                        {businessTypes && businessTypes.map(businessType => (
                           <Select.Option
                             key={businessType}
                             value={businessType}
@@ -304,23 +317,25 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                   </FormItem>
                 </Col>
               </Row>
-              <Row gutter={40}>
-                <Col lg={24}>
-                  <FormItem
-                    label="Оприделение бизнеса (описание)"
-                  >
-                    {form.getFieldDecorator('description', {
-                      initialValue: formInitValues.description,
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                      ],
-                    })(<Input placeholder="Описание бизнесса" />)}
-                  </FormItem>
-                </Col>
-              </Row>
             </Col>
-            <Col lg={12}>
+            <Col lg={8}>
+              <FormItem
+                label="Адрес"
+              >
+                {form.getFieldDecorator('address', {
+                  initialValue: currentAddress || formInitValues.currentAddressValue,
+                  rules: [
+                    { required: true, message: 'Поле обязательное для заполнения' },
+                  ],
+                })(
+                  <AutoComplete
+                    placeholder="Адрес"
+                    onSearch={this.searchAddressHandler}
+                    dataSource={addressNodes}
+                    onSelect={this.selectAddressByInputHandler}
+                  />
+                )}
+              </FormItem>
               <Map
                 containerElement={<div style={{ height: '272px', marginTop: '24px' }} />}
                 mapElement={<div style={{ height: '100%' }} />}

@@ -50,9 +50,19 @@ const Exit = () => (
   </svg>
 );
 
-const LintTo = () => (
+const LinkTo = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M15 1H8M15 1V8M15 1L6.6 9.4M5.2 1H2C1.44772 1 1 1.44772 1 2V14C1 14.5523 1.44772 15 2 15H14C14.5523 15 15 14.5523 15 14V10.8" stroke="#1078E1" />
+  </svg>
+);
+
+const AddIcon = ({
+  className,
+  size = { x: 48, y: 48 },
+}) => (
+  <svg className={className} width={size.x} height={size.y} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="24" r="24" fill="#485465" fillOpacity="0.06" />
+    <path d="M24 16V32M16 24H32" stroke="#737C85" strokeWidth="2" />
   </svg>
 );
 
@@ -65,5 +75,6 @@ export {
   Settings,
   Help,
   Exit,
-  LintTo,
+  LinkTo,
+  AddIcon,
 };
