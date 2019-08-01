@@ -1,0 +1,219 @@
+@import '../../styles/theme.scss';
+
+.workersList {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    height: 72px;
+    background: radial-gradient(408.93px at 64.37% 115.28%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(17.62deg, #0E4BF1 -27.29%, #1CACFE 111.55%);
+
+    &-title {
+      color: $white;
+      font-family: $sans;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+    }
+
+    &-selectorBox {
+      display: flex;
+      align-items: center;
+
+      & .ant-select-selection {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: $white;
+
+        &__placeholder {
+          color: rgba(255, 255, 255, 0.32);
+        }
+
+        & .ant-select-arrow {
+          color: $white;
+        }
+      }
+
+      &-rightArrow {
+        color: rgba(255, 255, 255, 0.64);
+        font-size: 20px;
+        padding: 0 12px;
+      }
+    }
+  }
+
+  &__content {
+    padding: 46px 32px 0;
+
+    &--isWorkersExist {
+      padding: 0 32px;
+    }
+
+    &-searchBox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+
+      & > label {
+        cursor: pointer;
+        color: $font-title-black;
+        font-family: $sans;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+
+      & .ant-input-search {
+        width: 600px;
+      }
+    }
+
+    &-workersTable {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+
+      &-columnHeaderText {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      & .ant-table {
+        &-body {
+          min-height: 368px;
+
+          .edit-column {
+            text-align: center;
+            border-left: 1px solid #e8e8e8;
+            border-right: 1px solid #e8e8e8;
+            cursor: pointer;
+
+            & > div {
+              font-size: 10px;
+              line-height: 16px;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+              color: $coupler-blue;
+            }
+          }
+        }
+
+        &-thead {
+          & > tr {
+            height: 48px;
+            font-size: 12px;
+            line-height: 24px;
+
+            & > th .ant-table-header-column {
+              width: 100%;
+            }
+          }
+        }
+
+        &-tbody {
+          & > tr {
+            height: 48px;
+
+            &.ant-table-expanded-row > td {
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+
+    &-controlBtns {
+      margin-top: 24px;
+
+      &-infoBlock {
+        width: calc(100% - 25px);
+        border: 1px dashed #1078E1;
+        border-right: none;
+        height: 48px;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 12px 0 12px 14px;
+
+        & > .anticon {
+          font-size: 20px;
+          color: $coupler-blue;
+          padding-right: 14px;
+        }
+
+        & > div {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          font-size: 14px;
+          font-family: $sans;
+          color: $coupler-blue;
+        }
+
+        &-arrow {
+          width: 34px;
+          height: 34px;
+          border-top: 1px dashed #1078E1;
+          border-right: 1px dashed #1078E1;
+          position: absolute;
+          top: 6px;
+          right: -18px;
+          transform: rotate(45deg);
+          border-radius: 0 5px 0 0;
+          background: transparent;
+        }
+      }
+
+      &-btn {
+        width: 100%;
+      }
+    }
+  }
+
+  &__expandTable {
+    padding: 16px;
+
+    &-row {
+      &-header {
+        font-family: $sans;
+        font-size: 14px;
+        line-height: 24px;
+        color: $font-title-black;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+        padding-bottom: 18px;
+      }
+
+      &-userInfo {
+        &-box {
+          border-bottom: 1px solid #DEE9F4;
+          margin-bottom: 9px;
+          & .title {
+            font-family: $sans;
+            font-size: 10px;
+            line-height: 12px;
+            color: #7B858C;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-feature-settings: 'pnum' on, 'lnum' on;
+          }
+
+          & .data {
+            font-family: $sans;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 14px;
+            color: $font-title-black;
+            letter-spacing: 0.02em;
+            font-feature-settings: 'pnum' on, 'lnum' on;
+            padding: 6px 0 12px;
+          }
+        }
+      }
+    }
+  }
+}

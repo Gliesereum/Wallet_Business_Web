@@ -1,0 +1,61 @@
+@import '../../../styles/theme.scss';
+
+.workerForm {
+  height: 495px;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  &__col {
+    &-header {
+      font-family: $sans;
+      font-size: 14px;
+      line-height: 16px;
+      color: $font-title-black;
+      letter-spacing: 0.02em;
+      padding-bottom: 8px;
+    }
+
+    &-inputFormItem {
+      margin-bottom: 24px;
+    }
+
+    &-scheduleBlock {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 16px;
+      margin-bottom: 16px;
+      border-radius: 4px;
+      background-color: #FBFCFE;
+
+      &-formItem {
+        margin-bottom: 0;
+
+        &-checkbox {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          & > span:last-child {
+            width: 117px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+
+  &__formItem {
+    &-radioGroup {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      border: 1px dashed rgba(72, 84, 101, 0.32);
+      border-radius: 4px;
+      padding: 12px 16px;
+    }
+  }
+}

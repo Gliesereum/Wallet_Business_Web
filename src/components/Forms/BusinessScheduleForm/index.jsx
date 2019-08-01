@@ -10,8 +10,6 @@ import {
 
 import FromToInput from '../../FromToInput';
 
-import './index.scss';
-
 const b = bem('businessScheduleForm');
 
 class BusinessScheduleForm extends Component {

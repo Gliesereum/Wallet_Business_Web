@@ -1,4 +1,4 @@
-// @flow
+// @flow // TODO: DELETE flow from project and packages
 
 import React, { Component } from 'react';
 import bem from 'bem-join';
@@ -17,8 +17,6 @@ import ProneInput from '../../ProneInput';
 
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
-
-import './index.scss';
 
 const FormItem = Form.Item;
 const b = bem('businessMainForm');
@@ -143,7 +141,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
       businessTypes,
       businessCategories,
       form,
-      corporations,
+      corporations = [],
       isAddBusinessMode,
       chosenCorpId,
     } = this.props;
@@ -185,9 +183,9 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                   ],
                 })(
                   <Select placeholder="Выбрать компанию...">
-                    {corporations && corporations.map((corporation: {}): React.Node => (
+                    {corporations.length && corporations.map((corporation: {}): React.Node => (
                       <Select.Option
-                        key={corporation.name}
+                        key={corporation.id}
                         value={corporation.id}
                       >
                         {corporation.name}
@@ -264,8 +262,8 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                       ],
                     })(
                       <Select
-                        disabled={!isAddBusinessMode}
                         placeholder="Выбрать..."
+                        className={!isAddBusinessMode ? 'readOnly' : ''}
                       >
                         {businessCategories && businessCategories.map((corporation: {}): React.Node => (
                           <Select.Option
@@ -291,7 +289,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                     })(
                       <Select
                         placeholder="Выбрать..."
-                        disabled={!isAddBusinessMode}
+                        className={!isAddBusinessMode ? 'readOnly' : ''}
                       >
                         {businessTypes && businessTypes.map((businessType: string): React.Node => (
                           <Select.Option

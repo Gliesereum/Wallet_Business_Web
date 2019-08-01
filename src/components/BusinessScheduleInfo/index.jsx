@@ -16,8 +16,7 @@ import { asyncRequest, withToken } from '../../utils';
 
 import { actions } from '../../state';
 
-import { scheduleListDefault, dayTranslate } from './scheduleConfig';
-import './index.scss';
+import { scheduleListDefault, dayTranslate } from '../../mocks';
 
 const b = bem('businessScheduleInfo');
 
@@ -54,6 +53,7 @@ class BusinessScheduleInfo extends PureComponent {
               from: values[`${item.dayOfWeek}-workHours`].from,
               to: values[`${item.dayOfWeek}-workHours`].to,
               isWork: values[`${item.dayOfWeek}-isWork`],
+              type: 'BUSINESS',
             });
           });
         } else {
@@ -65,6 +65,7 @@ class BusinessScheduleInfo extends PureComponent {
               isWork: values[`${day}-isWork`],
               objectId: singleBusiness.id,
               businessCategoryId: singleBusiness.businessCategoryId,
+              type: 'BUSINESS',
             });
           }
         }

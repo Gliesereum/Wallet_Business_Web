@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 
-import './index.scss';
-
 class Timer extends Component {
   state = {
     time: 0,
@@ -12,18 +10,32 @@ class Timer extends Component {
 
   componentDidMount() {
     this.setState({ time: this.props.time });
-    this.timer = setInterval(this.tick, 1000);
+    this.startTimer();
   }
 
   componentWillUnmount() {
     this.removeTimer();
   }
 
+  startTimer = () => {
+    this.timer = setInterval(this.tick, 1000);
+  };
+
+  restartTimer = () => {
+    this.setState({ time: this.props.time });
+    this.props.timerFinishHandler(false);
+    this.startTimer();
+  };
+
   tick = () => {
+    const { timerFinishHandler } = this.props;
     const timeOver = this.state.time < 1000;
 
     if (timeOver) {
       this.removeTimer();
+      if (timerFinishHandler && typeof timerFinishHandler === 'function') {
+        timerFinishHandler(true);
+      }
       return;
     }
 

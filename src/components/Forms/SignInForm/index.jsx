@@ -2,29 +2,41 @@ import React, { Component } from 'react';
 import bem from 'bem-join';
 
 import {
-  Input, Form, Button,
-} from 'antd/lib/index';
+  Input,
+  Form,
+  Button,
+} from 'antd';
 
-import './index.scss';
+import Timer from '../../Timer';
 
 const b = bem('signInForm');
 
 class SignInForm extends Component {
-  onSubmit = (e) => {
-    e.preventDefault();
+  state = {
+    timerIsFinished: false,
+  };
 
-    const {
-      firstStep,
-      getCodeHandler,
-      sendCodeHandler,
-      form,
-    } = this.props;
+  sendFormCodeHandler = () => {
+    const { sendCodeHandler, form } = this.props;
 
     form.validateFields((error, values) => {
       if (!error) {
-        firstStep
-          ? getCodeHandler(values.phoneInput)
-          : sendCodeHandler(values.codeInput);
+        sendCodeHandler(values.codeInput);
+      }
+    });
+  };
+
+  getFormCodeHandler = phoneRepeat => async () => {
+    const { getCodeHandler, form } = this.props;
+
+    await form.validateFields(async (error, values) => {
+      if (!error) {
+        if (phoneRepeat) {
+          await getCodeHandler(phoneRepeat);
+          this.timerRef.restartTimer();
+        } else {
+          await getCodeHandler(values.phoneInput);
+        }
       }
     });
   };
@@ -40,25 +52,68 @@ class SignInForm extends Component {
     return value;
   };
 
+  timerFinishHandler = value => this.setState({ timerIsFinished: value });
+
   render() {
+    const { timerIsFinished } = this.state;
     const {
-      form, labelText, buttonText, placeholder, firstStep, validateStatus,
+      form,
+      gotCode,
+      phone,
+      validateStatus,
+      gotCodeHandler,
     } = this.props;
 
     return (
-      <Form
-        onSubmit={this.onSubmit}
-        className={b()}
-      >
+      <Form className={b()}>
+        <div className={b('title')}>
+          {
+            gotCode ? (
+              <Timer
+                ref={node => this.timerRef = node}
+                timerFinishHandler={this.timerFinishHandler}
+                time={180000}
+              />
+            ) : 'Hello'
+          }
+        </div>
+        <div className={b('infoBlock')}>
+          {
+            gotCode ? (
+              <>
+                <span>Код был отправлен на номер</span>
+                <span>{phone}</span>
+              </>
+            ) : (
+              <span>Введите номер телефона для получения кода подтверждения</span>
+            )
+          }
+        </div>
         <Form.Item
           colon={false}
-          label={labelText}
+          label={gotCode ? 'Одноразовый пароль из смс' : 'Номер телефона'}
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
           hasFeedback
         >
-          {firstStep
-            ? form.getFieldDecorator('phoneInput', {
+          {gotCode
+            ? form.getFieldDecorator('codeInput', {
+              validateTrigger: 'onBlur',
+              getValueFromEvent: this.checkPasswordHandler,
+              rules: [
+                { required: true, message: 'Please enter your code number!' },
+                { pattern: new RegExp(/^[\d ]{6}$/), message: 'Invalid code number!' },
+              ],
+            })(
+              <Input.Password
+                disabled={false}
+                autoFocus
+                size="large"
+                className={b('number', { codeInput: true })}
+                maxLength={6}
+              />
+            )
+            : form.getFieldDecorator('phoneInput', {
               initialValue: '+380',
               rules: [
                 { required: true, message: 'Please enter your phone number!' },
@@ -69,36 +124,41 @@ class SignInForm extends Component {
               <Input
                 autoFocus={false}
                 size="large"
-                placeholder={placeholder}
+                placeholder="+38093 000 00 03"
                 className={b('number', { phoneInput: true })}
                 onChange={this.checkPasswordHandler}
               />
             )
-            : form.getFieldDecorator('codeInput', {
-              validateTrigger: 'onBlur',
-              getValueFromEvent: this.checkPasswordHandler,
-            })(
-              <Input.Password
-                disabled={false}
-                autoFocus
-                size="large"
-                placeholder={placeholder}
-                className={b('number', { codeInput: true })}
-                maxLength={6}
-              />
-            )}
+          }
         </Form.Item>
-        <Form.Item
-          className={b('number', { buttonBox: true })}
-        >
-          <Button
-            onClick={this.onSubmit}
-            size="large"
-            className={b('number', { button: true })}
-          >
-            {buttonText.toUpperCase()}
-          </Button>
-        </Form.Item>
+        {
+          gotCode ? (
+            <>
+              <Button
+                className={b('button', { firstButton: true })}
+                onClick={timerIsFinished ? this.getFormCodeHandler(phone) : this.sendFormCodeHandler}
+              >
+                {
+                  timerIsFinished ? 'Отправить повторно' : 'Подтвердить пароль'
+                }
+              </Button>
+              <Button
+                type="primary"
+                className={b('button')}
+                onClick={gotCodeHandler}
+              >
+                Изменить номер
+              </Button>
+            </>
+          ) : (
+            <Button
+              className={b('button')}
+              onClick={this.getFormCodeHandler()}
+            >
+              Получить одноразовый пароль
+            </Button>
+          )
+        }
       </Form>
     );
   }

@@ -1,10 +1,10 @@
 @import './theme.scss';
 
-#root .ant {
+#contentBody .ant {
   //---- Buttons ----
   // default
   &-btn {
-    height: 56px;
+    height: 48px;
     background-color: $white;
     color: $coupler-blue;
     line-height: 16px;
@@ -17,7 +17,6 @@
     &[disabled] {
       color: rgba(164, 174, 184, 0.4);
       background: linear-gradient(0deg, #F6F6F6, #F6F6F6);
-      border: 2px solid rgba(164, 174, 184, 0.4) !important;
     }
 
     & > span {
@@ -35,6 +34,10 @@
     &.backBtn {
       border: 2px solid $coupler-blue;
 
+      &[disabled] {
+        border: 2px solid rgba(164, 174, 184, 0.4);
+      }
+
       & .anticon-left {
         float: left;
       }
@@ -42,14 +45,14 @@
 
     // primary
     &-primary {
-      background: linear-gradient(75.72deg, #0E84F1 0%, #1C9FFE 106.54%) !important;
+      background: linear-gradient(75.72deg, #0E84F1 0%, #1C9FFE 106.54%);
       color: $white;
     }
   }
 
   //---- Forms ----
   &-form-item {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 
     &-label {
       line-height: 16px;
@@ -104,7 +107,7 @@
     &:read-only {
       background: #F7F7F7;
       border: 1px solid #CCC;
-      color: rgba(72, 84, 101, 0.64);
+      color: $font-title-black;
     }
 
     &:focus,
@@ -115,6 +118,16 @@
   }
 
   &-select {
+    &.readOnly {
+      pointer-events: none;
+
+      & .ant-select-selection {
+        background: #F7F7F7;
+        border: 1px solid #CCC;
+        color: $font-title-black;
+      }
+    }
+
     &-selection {
       &--single {
         height: 48px;
@@ -154,16 +167,26 @@
 
   &-checkbox {
     &-wrapper {
+      &-disabled {
+        & > span {
+          color: $middle-gray;
+
+          & > .ant-checkbox-inner {
+            background-color: #F7F7F7;
+          }
+        }
+      }
+
       & + .ant-checkbox-wrapper {
         margin-right: 16px;
       }
     }
 
     & + span {
-      font-size: 12px;
+      font-size: 14px;
       font-family: $sans;
       line-height: 16px;
-      color: $gray;
+      color: $font-title-black;
       padding: 0 16px;
     }
 
@@ -172,9 +195,53 @@
     }
 
     &-checked {
-      .ant-checkbox-inner {
+      & .ant-checkbox-inner {
         border-color: $coupler-blue;
         background-color: $coupler-blue;
+      }
+    }
+  }
+
+  &-radio {
+    &-group {
+      &.readOnly {
+        .ant-radio {
+          &-wrapper {
+            color: $middle-gray;
+
+            &-checked {
+              & > span.ant-radio-checked {
+                & .ant-radio-inner {
+                  border-color: #CCCCCC;
+
+                  &::after {
+                    background-color: $font-title-black;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .ant-radio {
+        &-wrapper {
+          color: $font-title-black;
+
+          &-checked {
+            color: $coupler-blue;
+
+            & > span.ant-radio-checked {
+              & .ant-radio-inner {
+                border-color: $coupler-blue;
+
+                &::after {
+                  background-color: $coupler-blue;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -216,6 +283,14 @@
         background-color: $white;
         height: 63px;
         line-height: 31px;
+
+        & th {
+          font-family: $sans;
+          font-weight: bold;
+          color: $font-title-black;
+          letter-spacing: 0.02em;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+        }
       }
     }
 
@@ -229,15 +304,19 @@
 
         &:hover {
           &:not(.ant-table-expanded-row) > td {
-            background-color: rgba(72, 84, 101, 0.02);;
+            background-color: rgba(16, 120, 225, 0.08);
           }
         }
+      }
+
+      & tr.ant-table-expanded-row > td {
+        background-color: $dirty-white;
       }
     }
   }
 }
 
-#root .has-error {
+#contentBody .has-error {
   & .ant-select.ant-select-auto-complete .ant-input:focus,
   & .ant-input:not([disabled]):hover {
     border-color: red;
@@ -245,5 +324,57 @@
 
   & .ant-input:not([disabled]):hover {
 
+  }
+}
+
+.ant {
+  &-select {
+    &-dropdown {
+      &-menu {
+        li.ant-select-dropdown-menu-item {
+          font-family: $sans;
+          font-size: 14px;
+          letter-spacing: 0.02em;
+          color: $font-title-black;
+          line-height: 24px;
+          padding: 16px;
+
+          &:hover:not(&-disabled),
+          &:active:not(&-disabled),
+          &-active:not(&-disabled) {
+            background-color: #ECF5FD;
+          }
+
+          &-selected {
+            color: $coupler-blue;
+            background-color: #ECF5FD;
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+
+  &-dropdown {
+    &-menu {
+      li.ant-dropdown-menu-item {
+        &:hover {
+          background-color: #ECF5FD;
+        }
+      }
+    }
+  }
+}
+
+#contentBody {
+  & .phoneInput {
+    &__inputClass {
+      &--readOnly {
+        background: #F7F7F7;
+        border: 1px solid #CCC;
+        color: $font-title-black;
+        pointer-events: none;
+      }
+    }
   }
 }

@@ -13,37 +13,72 @@ import {
   Divider,
 } from 'antd';
 
-import './index.scss';
+import { LintTo } from '../../../assets/iconComponents';
 
 const b = bem('workingSpaceForm');
 const { Item: FormItem } = Form;
 
 class WorkingSpaceForm extends PureComponent {
   state = {
-    workers: this.props.chosenSpace ? this.props.chosenSpace.workers : [], // TODO: get workers by corp ID
+    workers: this.props.workers,
     selectedWorkers: this.props.chosenSpace ? this.props.chosenSpace.workers : [],
+    addedWorkers: [],
+    removedWorkers: [],
   };
 
   handleSelectCheckboxes = (records, selected) => {
+    const { workers } = this.props.chosenSpace || { workers: [] };
+    const { addedWorkers, removedWorkers } = this.state;
+    let added = addedWorkers;
+    let removed = removedWorkers;
+
     if (selected && records.length === 1) { // if checked single worker
+      if (workers.every(item => item.id !== records[0].id)) {
+        added.push(...records); // add to addedWorkers
+      } else if (workers.some(item => item.id === records[0].id)) {
+        removed = removedWorkers.filter(item => item.id !== records[0].id); // removed from removedWorkers
+      }
       this.setState(prevState => ({
         ...prevState,
         selectedWorkers: [
           ...records,
           ...prevState.selectedWorkers,
         ],
+        addedWorkers: added,
+        removedWorkers: removed,
       }));
     } else if (selected) { // if checked all workers
+      for (let i = 0; i < workers.length; i += 1) {
+        for (let j = 0; j < records.length; j += 1) {
+          if (records[j].id !== workers[i].id && !added.some(item => item.id === records[j].id)) {
+            added.push(records[j]);
+          }
+        }
+      }
       this.setState(prevState => ({
         ...prevState,
         selectedWorkers: records,
+        addedWorkers: added,
+        removedWorkers: [],
       }));
     } else if (records.length === 1) { // if unchecked single worker
+      if (workers.every(item => item.id !== records[0].id)) {
+        added = addedWorkers.filter(item => item.id !== records[0].id); // remove from addedWorkers
+      } else if (workers.some(item => item.id === records[0].id)) {
+        removed.push(...records); // add to removedWorkers
+      }
       this.setState(prevState => ({
         selectedWorkers: prevState.selectedWorkers.filter(worker => worker.id !== records[0].id),
+        addedWorkers: added,
+        removedWorkers: removed,
       }));
     } else { // if unchecked all workers
-      this.setState({ selectedWorkers: [] });
+      this.setState(prevState => ({
+        ...prevState,
+        selectedWorkers: [],
+        addedWorkers: [],
+        removedWorkers: workers,
+      }));
     }
   };
 
@@ -77,15 +112,23 @@ class WorkingSpaceForm extends PureComponent {
   };
 
   handleDeleteWorkerFromSelected = userId => () => {
+    const { removedWorkers: removed, selectedWorkers } = this.state;
+    const { chosenSpace } = this.props;
+    if (chosenSpace && chosenSpace.workers.length && chosenSpace.workers.some(item => item.id === userId)) {
+      const item = selectedWorkers.find(selectedWorker => selectedWorker.id === userId);
+      removed.push(item);
+    }
     this.setState(prevState => ({
       ...prevState,
       selectedWorkers: prevState.selectedWorkers.filter(user => user.id !== userId),
+      addedWorkers: prevState.addedWorkers.filter(user => user.id !== userId),
+      removedWorkers: removed,
     }));
   };
 
   render() {
     const { workers, selectedWorkers } = this.state;
-    const { form, chosenSpace } = this.props;
+    const { form, chosenSpace, toggleWorkerInfoDrawer } = this.props;
 
     const renderContent = (value, row, index) => {
       const obj = {
@@ -179,10 +222,7 @@ class WorkingSpaceForm extends PureComponent {
         colon={false}
         className={b()}
       >
-        <Row
-          gutter={24}
-          className={b('inputsBlock')}
-        >
+        <Row gutter={24}>
           <Col lg={12}>
             <FormItem label="Название рабочего места">
               {
@@ -245,9 +285,12 @@ class WorkingSpaceForm extends PureComponent {
                     <List
                       className={b('workersBox-table-chosenCard-item-body-workers-list')}
                       dataSource={selectedWorkers}
-                      renderItem={({ user, id }) => (
-                        <div className={b('workersBox-table-chosenCard-item-body-workers-list-item')}>
-                          <Icon className={b('workersBox-table-chosenCard-linkIcon')} type="export" />
+                      renderItem={({ user, id, ...rest }) => (
+                        <div
+                          className={b('workersBox-table-chosenCard-item-body-workers-list-item')}
+                          onClick={toggleWorkerInfoDrawer({ user, ...rest })}
+                        >
+                          <LintTo />
                           <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}>
                             {`${user.lastName} ${user.firstName} ${user.middleName}`}
                           </div>

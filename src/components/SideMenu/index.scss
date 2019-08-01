@@ -7,12 +7,12 @@
   z-index: 3;
 
   &__logo {
-    background: no-repeat 32px 16px url("../../assets/coupler_logo_beta.svg");
+    background: no-repeat 32px 16px $coupler_logo_beta; // imported from base.scss
     height: 56px;
     margin-bottom: 20px;
 
     @media screen and (max-width: $max-lg) {
-      background: no-repeat center url("../../assets/logo-single-white.svg");
+      background: no-repeat center $logo-single-white; // imported from base.scss
     }
   }
 

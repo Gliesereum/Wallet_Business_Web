@@ -8,11 +8,11 @@ import {
   Table,
 } from 'antd';
 
-import './index.scss';
+import { LintTo } from '../../assets/iconComponents';
 
 const b = bem('workingSpaceInfoReadOnly');
 
-const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
+const WorkingSpaceInfoReadOnly = ({ chosenSpace, toggleWorkerInfoDrawer }) => {
   const columns = [
     {
       title: 'ФИО работника',
@@ -20,8 +20,14 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
       width: '35%',
       sorter: (first, second) => first.user.lastName && first.user.lastName.localeCompare(second.user.lastName),
       sortDirections: ['ascend', 'descend'],
-      render: (text, { user }) => (
-        <span>{`${user.lastName} ${user.firstName} ${user.middleName}`}</span>
+      render: (text, { user, ...rest }) => (
+        <div
+          className={b('workersTable-list-item-name')}
+          onClick={toggleWorkerInfoDrawer({ user, ...rest })}
+        >
+          <div><LintTo /></div>
+          <span>{`${user.lastName} ${user.firstName} ${user.middleName}`}</span>
+        </div>
       ),
     },
     {
@@ -53,7 +59,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
           </div>
           <Input
             id="nameInput"
-            disabled
+            readOnly
             value={chosenSpace ? chosenSpace.name : ''}
           />
         </Col>
@@ -63,7 +69,7 @@ const WorkingSpaceInfoReadOnly = ({ chosenSpace }) => {
           </div>
           <Input
             id="descrInput"
-            disabled
+            readOnly
             value={chosenSpace ? chosenSpace.description : ''}
           />
         </Col>

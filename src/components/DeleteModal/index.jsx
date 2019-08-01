@@ -7,8 +7,6 @@ import {
   Modal,
 } from 'antd';
 
-import './index.scss';
-
 const b = bem('deleteModal');
 
 const DeleteModal = ({

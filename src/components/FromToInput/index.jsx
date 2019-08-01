@@ -3,9 +3,7 @@ import bem from 'bem-join';
 import moment from 'moment/moment';
 import InputMask from 'react-input-mask';
 
-import { Input } from 'antd';
-
-import './index.scss';
+import { Input, Divider } from 'antd';
 
 const b = bem('fromToInput');
 const mask = 'HH:mm';
@@ -52,38 +50,53 @@ class FromToInput extends Component {
   };
 
   render() {
+    const { readOnly, asText } = this.props;
     const { from, to } = this.state;
     const fromTime = moment.utc(from).format(mask);
     const toTime = moment.utc(to).format(mask);
 
     return (
-      <div className={b()}>
-        <div className={b('input-block')}>
-          <InputMask
-            className={b('fromTime')}
-            disabled={false}
-            value={fromTime}
-            mask="99\:99"
-            maskChar={null}
-            alwaysShowMask={false}
-            onChange={this.handleNumberChange('from')}
-          >
-            {inputProps => <Input {...inputProps} />}
-          </InputMask>
-        </div>
-        <div>
-          <InputMask
-            className={b('toTime')}
-            disabled={false}
-            value={toTime}
-            mask="99\:99"
-            maskChar={null}
-            alwaysShowMask={false}
-            onChange={this.handleNumberChange('to')}
-          >
-            {inputProps => <Input {...inputProps} />}
-          </InputMask>
-        </div>
+      <div className={b({ asText })}>
+        {
+          asText ? (
+            <div className={b('text-block')}>
+              <span className={b('text-block-fromTime')}>{fromTime}</span>
+              <Divider type="vertical" />
+              <span className={b('text-block-toTime')}>{toTime}</span>
+            </div>
+          ) : (
+            <>
+              <div className={b('input-block')}>
+                <InputMask
+                  className={b('fromTime')}
+                  disabled={false}
+                  readOnly={readOnly}
+                  value={fromTime}
+                  mask="99\:99"
+                  maskChar={null}
+                  alwaysShowMask={false}
+                  onChange={this.handleNumberChange('from')}
+                >
+                  {inputProps => <Input {...inputProps} readOnly={readOnly} />}
+                </InputMask>
+              </div>
+              <div>
+                <InputMask
+                  className={b('toTime')}
+                  disabled={false}
+                  readOnly={readOnly}
+                  value={toTime}
+                  mask="99\:99"
+                  maskChar={null}
+                  alwaysShowMask={false}
+                  onChange={this.handleNumberChange('to')}
+                >
+                  {inputProps => <Input {...inputProps} readOnly={readOnly} />}
+                </InputMask>
+              </div>
+            </>
+          )
+        }
       </div>
     );
   }

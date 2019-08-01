@@ -14,8 +14,6 @@ import EmptyState from '../EmptyState';
 
 import AddIcon from '../../assets/AddIcon.svg';
 
-import './index.scss';
-
 const b = bem('businessServicesList');
 const { Item } = List;
 

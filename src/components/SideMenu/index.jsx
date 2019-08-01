@@ -18,8 +18,6 @@ import {
   Exit,
 } from '../../assets/iconComponents';
 
-import './index.scss';
-
 const b = bem('sidebar');
 
 const mainMenuItems = [
@@ -44,7 +42,7 @@ const mainMenuItems = [
   {
     icon: Workers,
     text: 'Сотрудники',
-    linkTo: '/analytics',
+    linkTo: '/workers',
     // canDisabled: true,
   },
   {

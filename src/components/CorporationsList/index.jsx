@@ -1,67 +1,66 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
 import bem from 'bem-join';
 
 import { Collapse, Button, Avatar as CorpAvatar } from 'antd';
-
-import DefaultLightCorporationLogo from '../../assets/corporationWhiteLogo.svg';
-
-import './index.scss';
 
 const { Panel } = Collapse;
 const b = bem('corporationsList');
 
 class CorporationsList extends PureComponent {
   state = {
-    activeKey: this.props.corporations[0] ? this.props.corporations[0].id : undefined,
+    activeKey: this.props.viewCorp ? this.props.viewCorp.id : undefined,
   };
 
-  chooseCorporationHandle = (corpId) => {
-    const { chooseCorporation } = this.props;
+  chooseCorporationForView = (corpId) => {
+    const { chooseCorporationForView } = this.props;
 
     if (!corpId || this.state.activeKey === corpId) return;
 
     this.setState({ activeKey: corpId });
-    chooseCorporation(corpId);
+    chooseCorporationForView(corpId);
   };
 
   render() {
-    const { corporations } = this.props;
+    const { corporations, changeActiveCorporation } = this.props;
 
     return (
       <div className={b()}>
         <Collapse
           activeKey={this.state.activeKey}
           accordion
-          onChange={this.chooseCorporationHandle}
+          onChange={this.chooseCorporationForView}
         >
           {
-            corporations.map(({
-              name, description, id, logoUrl,
-            }) => (
+            corporations.map(corp => (
               <Panel
                 showArrow={false}
                 header={(
                   <div>
-                    <CorpAvatar className={b('panel-logo')} src={logoUrl || DefaultLightCorporationLogo} />
-                    <span>{name}</span>
+                    <CorpAvatar className={b('panel-logo')} src={corp.logoUrl} />
+                    <span>{corp.name}</span>
                   </div>
                 )}
-                key={id}
+                key={corp.id}
                 className={b('panel')}
               >
-                <p className={b('panel-name')}>{name}</p>
-                <p className={b('panel-descr')}>{description}</p>
-                <Button className={b('panel-editBtn')}>
-                  <Link to={`/corporations/${id}`}>Редактировать информацию</Link>
+                <p className={b('panel-name')}>{corp.name}</p>
+                <p className={b('panel-descr')}>{corp.description}</p>
+                <Button
+                  className={b('panel-editBtn')}
+                  onClick={changeActiveCorporation(corp, false)}
+                >
+                  Редактировать информацию
                 </Button>
               </Panel>
             ))
           }
         </Collapse>
         <div className={b('addBtn')}>
-          <Button type="primary">
-            <Link to="/corporations/add">Добавить новую компанию</Link>
+          <Button
+            type="primary"
+            onClick={changeActiveCorporation(null, true)}
+          >
+            Добавить новую компанию
           </Button>
         </div>
       </div>

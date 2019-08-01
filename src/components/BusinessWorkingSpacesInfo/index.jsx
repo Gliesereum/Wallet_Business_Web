@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import bem from 'bem-join';
 
 import {
@@ -11,18 +12,77 @@ import {
 } from 'antd';
 
 import { WorkingSpaceForm } from '../Forms';
+import DeleteModal from '../DeleteModal';
 import WorkingSpaceInfoReadOnly from '../WorkingSpaceInfoReadOnly';
 
-import { asyncRequest, withToken } from '../../utils';
+import { asyncRequest, withToken, fetchDecorator } from '../../utils';
+import { fetchWorkersByCorporationId } from '../../fetches';
 import { actions } from '../../state';
 
-import './index.scss';
-
 const b = bem('workingSpaceInfo');
+
+const addWorkersToWorkingSpace = (addedWorkers, newWorkingSpace) => {
+  if (!addedWorkers.length) return newWorkingSpace;
+
+  const newModifiedWorkingSpace = newWorkingSpace;
+  const workerUrl = 'working-space/worker';
+
+  for (let i = 0; i < addedWorkers.length; i += 1) {
+    const modifyWorker = {
+      ...addedWorkers[i],
+      workingSpaceId: newModifiedWorkingSpace.id,
+    };
+
+    try {
+      withToken(asyncRequest)({
+        url: workerUrl, body: modifyWorker, method: 'PUT', moduleUrl: 'karma',
+      });
+      newModifiedWorkingSpace.workers.unshift(modifyWorker);
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
+  }
+
+  return newModifiedWorkingSpace;
+};
+
+const removeWorkersFromWorkingSpace = (removedWorkers, newWorkingSpace) => {
+  if (!removedWorkers.length) return newWorkingSpace;
+
+  const newModifiedWorkingSpace = newWorkingSpace;
+  const workerUrl = 'working-space/worker';
+
+  for (let i = 0; i < removedWorkers.length; i += 1) {
+    const modifyWorker = {
+      ...removedWorkers[i],
+      workingSpaceId: null,
+    };
+
+    try {
+      withToken(asyncRequest)({
+        url: workerUrl, body: modifyWorker, method: 'PUT', moduleUrl: 'karma',
+      });
+      newModifiedWorkingSpace.workers = newWorkingSpace.workers.filter(person => person.id !== modifyWorker.id);
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Возникла ошибка',
+      });
+    }
+  }
+
+  return newModifiedWorkingSpace;
+};
 
 class BusinessWorkingSpacesInfo extends Component {
   state = {
     readOnlyMode: !this.props.isAddMode,
+    deleteModalVisible: false,
   };
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
@@ -31,6 +91,7 @@ class BusinessWorkingSpacesInfo extends Component {
     await this.workingSpaceForm.props.form.validateFieldsAndScroll(
       async (errors, values) => {
         if (!errors) {
+          const { addedWorkers, removedWorkers } = this.workingSpaceForm.state;
           const {
             chosenSpace,
             isAddMode,
@@ -50,9 +111,15 @@ class BusinessWorkingSpacesInfo extends Component {
           };
 
           try {
-            const newWorkingSpace = await withToken(asyncRequest)({
+            let newWorkingSpace = await withToken(asyncRequest)({
               url, body: data, method, moduleUrl: 'karma',
             });
+
+            // if some of workers were being added
+            newWorkingSpace = await addWorkersToWorkingSpace(addedWorkers, newWorkingSpace);
+            // if some of workers were being removed
+            newWorkingSpace = await removeWorkersFromWorkingSpace(removedWorkers, newWorkingSpace);
+
             isAddMode ? await addWorkingSpace(newWorkingSpace) : await updateWorkingSpace(newWorkingSpace);
             changeActiveWorkingSpace(null, false)();
           } catch (err) {
@@ -84,9 +151,20 @@ class BusinessWorkingSpacesInfo extends Component {
     }
   };
 
+  toggleDeleteModal = () => {
+    this.setState(prevState => ({
+      deleteModalVisible: !prevState.deleteModalVisible,
+    }));
+  };
+
   render() {
-    const { chosenSpace, changeActiveWorkingSpace } = this.props;
-    const { readOnlyMode } = this.state;
+    const {
+      chosenSpace,
+      workers,
+      changeActiveWorkingSpace,
+      toggleWorkerInfoDrawer,
+    } = this.props;
+    const { readOnlyMode, deleteModalVisible } = this.state;
 
     return (
       <div className={b()}>
@@ -94,11 +172,14 @@ class BusinessWorkingSpacesInfo extends Component {
           readOnlyMode ? (
             <WorkingSpaceInfoReadOnly
               chosenSpace={chosenSpace}
+              toggleWorkerInfoDrawer={toggleWorkerInfoDrawer}
             />
           ) : (
             <WorkingSpaceForm
+              workers={workers}
               chosenSpace={chosenSpace}
               wrappedComponentRef={form => this.workingSpaceForm = form}
+              toggleWorkerInfoDrawer={toggleWorkerInfoDrawer}
             />
           )
         }
@@ -134,7 +215,7 @@ class BusinessWorkingSpacesInfo extends Component {
               readOnlyMode ? (
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
-                  onClick={this.handleRemoveWorkingSpace}
+                  onClick={this.toggleDeleteModal}
                 >
                   Удалить рабочее место
                 </Button>
@@ -168,6 +249,19 @@ class BusinessWorkingSpacesInfo extends Component {
               )
             }
           </Col>
+          {
+            deleteModalVisible && (
+              <DeleteModal
+                visible={deleteModalVisible}
+                okText="Удалить"
+                cancelText="Отменить"
+                onOk={this.handleRemoveWorkingSpace}
+                onCancel={this.toggleDeleteModal}
+                deletedName={chosenSpace.name}
+                deletedItem="рабочее место"
+              />
+            )
+          }
         </Row>
       </div>
     );
@@ -180,4 +274,10 @@ const mapDispatchToProps = dispatch => ({
   deleteWorkingSpace: workingServiceId => dispatch(actions.business.$deleteWorkingSpace(workingServiceId)),
 });
 
-export default connect(null, mapDispatchToProps)(BusinessWorkingSpacesInfo);
+export default compose(
+  connect(null, mapDispatchToProps),
+  fetchDecorator({
+    actions: [fetchWorkersByCorporationId],
+    config: { loader: true },
+  })
+)(BusinessWorkingSpacesInfo);

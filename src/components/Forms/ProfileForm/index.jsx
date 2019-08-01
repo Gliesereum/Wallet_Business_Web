@@ -13,8 +13,6 @@ import {
 
 import ProfileEmail from '../ProfileEmail';
 
-import './index.scss';
-
 const b = bem('profileForm');
 
 class ProfileForm extends PureComponent {

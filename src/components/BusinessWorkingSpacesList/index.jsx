@@ -14,8 +14,6 @@ import BusinessWorkingSpacesListMode from '../BusinessWorkingSpacesListMode';
 import BusinessWorkingSpacesGridMode from '../BusinessWorkingSpacesGridMode';
 import EmptyState from '../EmptyState';
 
-import './index.scss';
-
 const b = bem('businessWorkingSpacesList');
 const viewMode = {
   LIST: 'LIST',
@@ -32,7 +30,7 @@ class BusinessWorkingSpacesList extends Component {
   handleToggleViewMode = toMode => () => this.setState({ mode: toMode });
 
   render() {
-    const { spaces, changeActiveWorkingSpace } = this.props;
+    const { spaces, changeActiveWorkingSpace, toggleWorkerInfoDrawer } = this.props;
     const { mode } = this.state;
     const spacesList = [
       {
@@ -60,7 +58,7 @@ class BusinessWorkingSpacesList extends Component {
           </div>
         </div>
         {
-          spaces.length > 1 ? (
+          spaces.length ? (
             <>
               <div className={b('spacesListContainer')}>
                 {
@@ -68,11 +66,13 @@ class BusinessWorkingSpacesList extends Component {
                     <BusinessWorkingSpacesGridMode
                       spacesList={spacesList}
                       changeActiveWorkingSpace={changeActiveWorkingSpace}
+                      toggleWorkerInfoDrawer={toggleWorkerInfoDrawer}
                     />
                   ) : (
                     <BusinessWorkingSpacesListMode
                       spacesList={spaces}
                       changeActiveWorkingSpace={changeActiveWorkingSpace}
+                      toggleWorkerInfoDrawer={toggleWorkerInfoDrawer}
                     />
                   )
                 }

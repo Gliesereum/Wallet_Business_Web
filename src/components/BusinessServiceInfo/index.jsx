@@ -25,8 +25,6 @@ import {
 } from '../../fetches';
 import { actions } from '../../state';
 
-import './index.scss';
-
 const b = bem('businessServiceInfo');
 
 class BusinessServiceInfo extends Component {
