@@ -332,6 +332,13 @@
       }
     }
   }
+
+  //---- Avatar ----
+  &-avatar {
+    & > img {
+      object-fit: cover;
+    }
+  }
 }
 
 #root .has-error {

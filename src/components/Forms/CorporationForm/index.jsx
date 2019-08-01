@@ -61,6 +61,7 @@ class CorporationForm extends PureComponent {
           </Col>
           <Col lg={12}>
             <UploadDragger
+              disabled={readOnlyMode}
               className={b('uploader')}
               name="file"
               listType="picture-card"
@@ -77,23 +78,27 @@ class CorporationForm extends PureComponent {
                     />
                   )
                 }
-                <div className={b('uploader-inside')}>
-                  <AddIcon
-                    className={b('uploader-inside-icon', { errorView: isError })}
-                    size={{
-                      x: isError ? 32 : 48,
-                      y: isError ? 32 : 48,
-                    }}
-                  />
-                  <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                  {
-                    isError && (
-                      <p className={b('uploader-inside-error')}>
-                        Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                      </p>
-                    )
-                  }
-                </div>
+                {
+                  !readOnlyMode && (
+                    <div className={b('uploader-inside')}>
+                      <AddIcon
+                        className={b('uploader-inside-icon', { errorView: isError })}
+                        size={{
+                          x: isError ? 32 : 48,
+                          y: isError ? 32 : 48,
+                        }}
+                      />
+                      <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                      {
+                        isError && (
+                          <p className={b('uploader-inside-error')}>
+                            Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                          </p>
+                        )
+                      }
+                    </div>
+                  )
+                }
               </div>
             </UploadDragger>
           </Col>

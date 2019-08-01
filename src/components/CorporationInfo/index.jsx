@@ -23,7 +23,7 @@ class CorporationInfo extends Component {
   state = {
     readOnlyMode: !this.props.isAddMode,
     deleteModalVisible: false,
-    corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.avatar : '',
+    corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : '',
     isError: false,
   };
 
@@ -65,6 +65,7 @@ class CorporationInfo extends Component {
         const body = {
           ...chosenCorporation,
           ...values,
+          logoUrl: this.state.corporationLogoUrl,
         };
         const method = isAddMode ? 'POST' : 'PUT';
         try {
