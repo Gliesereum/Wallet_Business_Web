@@ -22,7 +22,7 @@ class CorporationForm extends PureComponent {
       chosenCorporation,
       readOnlyMode,
       corporationLogoUrl,
-      isError = true,
+      isError,
       uploadCorporationImage,
     } = this.props;
 
