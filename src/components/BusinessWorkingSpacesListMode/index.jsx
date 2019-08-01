@@ -7,7 +7,7 @@ import AddIcon from '../../assets/AddIcon.svg';
 
 const b = bem('businessWorkingSpacesListMode');
 
-const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace }) => {
+const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace, toggleWorkerInfoDrawer }) => {
   const columns = [
     {
       title: 'Название рабочего места',
@@ -28,10 +28,11 @@ const BusinessWorkingSpacesListMode = ({ spacesList, changeActiveWorkingSpace })
       render: (text, record) => (
         <List className={b('table-row-userList')}>
           {
-            record.workers && record.workers.map(({ user }) => (
+            record.workers && record.workers.map(({ user, ...rest }) => (
               <div
                 key={user.id}
                 className={b('table-row-userList-item')}
+                onClick={toggleWorkerInfoDrawer({ user, ...rest })}
               >
                 {`${user.lastName} ${user.firstName} ${user.middleName}`}
               </div>

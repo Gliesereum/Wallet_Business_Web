@@ -3,7 +3,7 @@
   "../components/Header/index.scss",
   "../components/DeleteModal/index.scss";
 
-#root {
+#contentBody {
   @import "theme",
   "../components/ScreenLoading/index.scss",
   "../components/SideMenu/index.scss",
@@ -29,6 +29,7 @@
   "../components/FromToInput/index.scss",
   "../components/ProneInput/index.scss",
   "../components/Timer/index.scss",
+  "../components/WorkerInfoDrawer/index.scss",
   "../components/Forms/ProfileEmail/index.scss",
   "../components/Forms/ProfileForm/index.scss",
   "../components/Forms/BusinessMainInfoForm/index.scss",

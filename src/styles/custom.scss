@@ -1,6 +1,6 @@
 @import './theme.scss';
 
-#root .ant {
+#contentBody .ant {
   //---- Buttons ----
   // default
   &-btn {
@@ -341,7 +341,7 @@
   }
 }
 
-#root .has-error {
+#contentBody .has-error {
   & .ant-select.ant-select-auto-complete .ant-input:focus,
   & .ant-input:not([disabled]):hover {
     border-color: red;
@@ -391,7 +391,7 @@
   }
 }
 
-#root {
+#contentBody {
   & .phoneInput {
     &__inputClass {
       &--readOnly {

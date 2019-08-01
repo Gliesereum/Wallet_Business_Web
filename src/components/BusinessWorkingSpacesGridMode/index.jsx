@@ -13,7 +13,7 @@ import AddIcon from '../../assets/AddIcon.svg';
 const b = bem('businessWorkingSpacesGridMode');
 const { Item } = List;
 
-const BusinessWorkingSpacesGridMode = ({ spacesList, changeActiveWorkingSpace }) => (
+const BusinessWorkingSpacesGridMode = ({ spacesList, changeActiveWorkingSpace, toggleWorkerInfoDrawer }) => (
   <List
     className={b()}
     grid={{
@@ -54,8 +54,11 @@ const BusinessWorkingSpacesGridMode = ({ spacesList, changeActiveWorkingSpace })
                 <List
                   className={b('item-body-workers-list')}
                   dataSource={item.workers}
-                  renderItem={({ user }) => (
-                    <div className={b('item-body-workers-list-item')}>
+                  renderItem={({ user, ...rest }) => (
+                    <div
+                      onClick={toggleWorkerInfoDrawer({ user, ...rest })}
+                      className={b('item-body-workers-list-item')}
+                    >
                       {
                         user && (
                           <>
