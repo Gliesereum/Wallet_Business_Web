@@ -74,7 +74,7 @@ class SignInForm extends Component {
                 timerFinishHandler={this.timerFinishHandler}
                 time={180000}
               />
-            ) : 'Hello'
+            ) : ''
           }
         </div>
         <div className={b('infoBlock')}>
