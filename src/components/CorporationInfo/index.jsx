@@ -23,7 +23,7 @@ class CorporationInfo extends Component {
   state = {
     readOnlyMode: !this.props.isAddMode,
     deleteModalVisible: false,
-    corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : '',
+    corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
     isError: false,
   };
 

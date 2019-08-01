@@ -29,7 +29,7 @@ class BusinessMainInfo extends Component {
   state = {
     deleteModalVisible: false,
     currentLocation: defaultGeoPosition,
-    businessLogoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : '',
+    businessLogoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
     isError: false,
   };
 
