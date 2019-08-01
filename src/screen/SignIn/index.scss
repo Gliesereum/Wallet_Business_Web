@@ -3,12 +3,32 @@
 .signIn {
   height: 100%;
   display: flex;
+  justify-content: center;
+  background: #0e78e1;
+  flex: 1;
+  overflow-x: auto;
+
+  &__footerBlock {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #2883e3;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    color: white;
+
+    a {
+      color: #18487f;
+    }
+  }
 
   &__left {
-    background: linear-gradient(48.16deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
-    height: 100%;
-    width: 344px;
-    padding: 16px 32px;
+    overflow-x: auto;
+    padding: 4em;
+    margin: 2em auto;
 
     &-logo {
       background: no-repeat $coupler_logo_beta; // imported from base.scss

@@ -31,7 +31,7 @@ class SignIn extends Component {
             lng: position.coords.longitude,
           },
         }));
-      }
+      },
     );
   }
 
@@ -53,7 +53,11 @@ class SignIn extends Component {
         description: 'Возникла ошибка',
       });
     } finally {
-      this.setState({ gotCode: true, phone: value, validateStatus: '' });
+      this.setState({
+        gotCode: true,
+        phone: value,
+        validateStatus: '',
+      });
     }
   };
 
@@ -61,11 +65,19 @@ class SignIn extends Component {
     if (code.length === 6) {
       const { phone } = this.state;
       const { checkAuthenticate, startApp } = this.props;
-      const body = { value: phone.slice(1, 13), type: 'PHONE', code };
+      const body = {
+        value: phone.slice(1, 13),
+        type: 'PHONE',
+        code,
+      };
       const userDataUrl = 'auth/signin';
 
       try {
-        const { tokenInfo } = await asyncRequest({ url: userDataUrl, body, method: 'POST' });
+        const { tokenInfo } = await asyncRequest({
+          url: userDataUrl,
+          body,
+          method: 'POST',
+        });
         await checkAuthenticate(tokenInfo);
 
         await startApp();
@@ -108,8 +120,19 @@ class SignIn extends Component {
             gotCodeHandler={this.gotCodeHandler}
           />
         </div>
-        <div className={b('right')}>
-          {/* <div className={b('right-supportBlock')}>1</div> */}
+        <div className={b('footerBlock')}>
+          <span>
+            All rights reserved. Copyright &copy; 2019 &nbsp;
+            <a
+              href="https://www.gliesereum.com/"
+              target="_blank"
+            >
+              Gliesereum Ukraine
+            </a>
+          </span>
+        </div>
+        {/* <div className={b('right')}>
+           <div className={b('right-supportBlock')}>1</div>
           <div className={b('right-mapBlock')}>
             <div className={b('right-mapBlock_message')}>
               <span>Coupler Business</span>
@@ -126,7 +149,7 @@ class SignIn extends Component {
               </a>
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
