@@ -16,8 +16,11 @@ import { BusinessMainInfoForm } from '../Forms';
 import DeleteModal from '../DeleteModal';
 import { defaultGeoPosition } from '../Map/mapConfig';
 
-import { asyncRequest, withToken } from '../../utils';
-
+import {
+  asyncRequest,
+  asyncUploadFile,
+  withToken,
+} from '../../utils';
 import { actions } from '../../state';
 
 const b = bem('businessMainInfo');
@@ -26,6 +29,22 @@ class BusinessMainInfo extends Component {
   state = {
     deleteModalVisible: false,
     currentLocation: defaultGeoPosition,
+    businessLogoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
+    isError: false,
+  };
+
+  uploadBusinessImage = async (info) => {
+    if ((info.file.size / 1024 / 1024) > 2) {
+      this.setState({ isError: true });
+      return;
+    }
+    const url = 'upload';
+    const body = new FormData();
+    await body.append('file', info.file);
+    await body.append('open', true);
+    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
+
+    this.setState({ businessLogoUrl: imageUrl, isError: false });
   };
 
   handleSubmit = async () => {
@@ -37,7 +56,7 @@ class BusinessMainInfo extends Component {
       changeActiveTab,
       changeTabDisable,
     } = this.props;
-    const { currentLocation, timeZone } = this.state;
+    const { currentLocation, timeZone, businessLogoUrl } = this.state;
 
     this.mainInfoForm.props.form.validateFields(async (error, values) => {
       if (!error) {
@@ -48,6 +67,7 @@ class BusinessMainInfo extends Component {
         const body = {
           ...singleBusiness,
           ...values,
+          logoUrl: businessLogoUrl,
           latitude: currentLocation ? currentLocation.lat : singleBusiness.latitude,
           longitude: currentLocation ? currentLocation.lng : singleBusiness.longitude,
           timeZone: timeZone || ((singleBusiness && singleBusiness.timeZone) ? singleBusiness.timeZone : 0),
@@ -115,7 +135,11 @@ class BusinessMainInfo extends Component {
       chosenCorpId,
       singleBusiness,
     } = this.props;
-    const { deleteModalVisible } = this.state;
+    const {
+      deleteModalVisible,
+      businessLogoUrl,
+      isError,
+    } = this.state;
 
     return (
       <div className={b()}>
@@ -127,6 +151,9 @@ class BusinessMainInfo extends Component {
           businessTypes={businessTypes}
           chosenCorpId={chosenCorpId}
           singleBusiness={singleBusiness}
+          isError={isError}
+          uploadBusinessImage={this.uploadBusinessImage}
+          businessLogoUrl={businessLogoUrl}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}
         />

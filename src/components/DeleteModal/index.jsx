@@ -35,7 +35,7 @@ const DeleteModal = ({
         {cancelText}
       </Button>,
       <Button
-        className={b('controlBtns-btn deleteBtn')}
+        className={b('controlBtns-btn')}
         onClick={onOk}
         type="primary"
         key={okText}

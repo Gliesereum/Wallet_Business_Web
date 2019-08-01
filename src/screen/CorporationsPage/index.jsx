@@ -82,7 +82,7 @@ class CorporationsPage extends Component {
                     </Col>
                   </>
                 ) : (
-                  <>
+                  <Col lg={24}>
                     <div className={b('header')}>
                       <h1 className={b('header-title')}>
                         Информация о компании
@@ -93,10 +93,10 @@ class CorporationsPage extends Component {
                         title="У вас нету компаний"
                         descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
                         addItemText="Создать компанию"
-                        linkToData={{ pathname: '/corporations/add' }}
+                        addItemHandler={this.changeActiveCorporation}
                       />
                     </div>
-                  </>
+                  </Col>
                 )
               }
             </>
