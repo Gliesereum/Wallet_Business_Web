@@ -13,7 +13,7 @@ import {
   Divider,
 } from 'antd';
 
-import { LintTo } from '../../../assets/iconComponents';
+import { LinkTo } from '../../../assets/iconComponents';
 
 const b = bem('workingSpaceForm');
 const { Item: FormItem } = Form;
@@ -290,7 +290,7 @@ class WorkingSpaceForm extends PureComponent {
                           className={b('workersBox-table-chosenCard-item-body-workers-list-item')}
                           onClick={toggleWorkerInfoDrawer({ user, ...rest })}
                         >
-                          <LintTo />
+                          <LinkTo />
                           <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}>
                             {`${user.lastName} ${user.firstName} ${user.middleName}`}
                           </div>
