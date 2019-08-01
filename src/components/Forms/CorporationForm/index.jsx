@@ -69,7 +69,7 @@ class CorporationForm extends PureComponent {
                 rules: [
                   { required: true, message: 'Поле обязательное для заполнения' },
                   { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                  { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
+                  { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Не верный номер телефона' },
                 ],
               })(<Input placeholder="+380 99 888 88 88" readOnly={readOnlyMode} />)}
             </Form.Item>

@@ -242,7 +242,7 @@ class BusinessMainInfoForm extends Component<Prop, State> {
                       initialValue: formInitValues.phone,
                       rules: [
                         { required: true, message: 'Please enter your phone number!' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Не верный номер телефона' },
                       ],
                     })(
                       <ProneInput />

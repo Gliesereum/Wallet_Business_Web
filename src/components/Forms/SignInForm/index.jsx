@@ -117,7 +117,7 @@ class SignInForm extends Component {
               initialValue: '+380',
               rules: [
                 { required: true, message: 'Please enter your phone number!' },
-                { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
+                { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Не верный номер телефона' },
               ],
               validateTrigger: 'onBlur',
             })(

@@ -66,6 +66,17 @@
     &-mapBlock {
       flex: 1 1 auto;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    &-mapBlock_message {
+      display: block;
+      font-size: 48px;
+      color: #ececec;
+      text-shadow: 2px 2px 1px #00000078;
     }
 
     &-footerBlock {

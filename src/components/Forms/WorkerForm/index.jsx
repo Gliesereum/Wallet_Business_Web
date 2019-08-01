@@ -164,7 +164,7 @@ class WorkerForm extends PureComponent {
                         : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Не верный номер телефона' },
                       ],
                     })(
                       <ProneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
