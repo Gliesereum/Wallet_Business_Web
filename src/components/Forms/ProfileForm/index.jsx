@@ -13,6 +13,7 @@ import {
 
 import ProfileEmail from '../ProfileEmail';
 
+const { Dragger: UploadDragger } = Upload;
 const b = bem('profileForm');
 
 class ProfileForm extends PureComponent {
@@ -34,7 +35,7 @@ class ProfileForm extends PureComponent {
       >
         <Row gutter={32}>
           <Col lg={8}>
-            <Upload.Dragger
+            <UploadDragger
               className={b('uploader')}
               name="file"
               listType="picture-card"
@@ -55,11 +56,11 @@ class ProfileForm extends PureComponent {
                   <Icon className={b('uploader-inside-icon')} type="plus-circle" />
                   <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
                   <p className={b('uploader-inside-text', { isError })}>
-                    Аватар не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                    Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
                   </p>
                 </div>
               </div>
-            </Upload.Dragger>
+            </UploadDragger>
           </Col>
           <Col lg={16}>
             <Row gutter={32}>

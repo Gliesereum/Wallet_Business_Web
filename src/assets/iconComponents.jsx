@@ -55,6 +55,16 @@ const Exit = () => (
 
 );
 
+const AddIcon = ({
+  className,
+  size = { x: 48, y: 48 },
+}) => (
+  <svg className={className} width={size.x} height={size.y} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="24" r="24" fill="#485465" fillOpacity="0.06" />
+    <path d="M24 16V32M16 24H32" stroke="#737C85" strokeWidth="2" />
+  </svg>
+);
+
 export {
   MyCorporations,
   Orders,
@@ -64,4 +74,5 @@ export {
   Settings,
   Help,
   Exit,
+  AddIcon,
 };

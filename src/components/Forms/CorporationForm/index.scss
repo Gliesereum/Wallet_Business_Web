@@ -1,5 +1,54 @@
 @import "../../../styles/theme.scss";
 
 .corporationForm {
+  &__uploader {
+    display: flex;
+    height: 152px;
+    margin-top: 24px;
 
+    &-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-image {
+      border-radius: 4px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &-inside {
+      position: absolute;
+      &-icon {
+        margin-top: 16px;
+
+        &--errorView {
+          margin-top: 8px;
+        }
+      }
+
+      &-header {
+        font-family: $sans;
+        font-size: 12px;
+        line-height: 16px;
+        color: #737C85;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 24px 0 8px;
+      }
+
+      &-error {
+        font-family: $sans;
+        font-size: 12px;
+        line-height: 16px;
+        text-align: center;
+        letter-spacing: 0.01em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+        color: rgba(72, 84, 101, 0.64);
+      }
+    }
+  }
 }

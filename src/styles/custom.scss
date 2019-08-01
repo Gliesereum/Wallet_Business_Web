@@ -246,6 +246,24 @@
     }
   }
 
+  &-upload {
+    &-drag {
+      background: $white;
+
+      &-container {
+        vertical-align: unset;
+        display: flex;
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    &-btn {
+      padding: 0;
+      display: flex;
+    }
+  }
+
   //---- Tabs ----
   &-tabs {
     &-bar {
