@@ -5,8 +5,7 @@
     },
     "extends": [
         "react-app",
-        "airbnb",
-        "plugin:flowtype/recommended"
+        "airbnb"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -20,8 +19,7 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "flowtype"
+        "react"
     ],
     "rules": {
         "quotes": ["warn", "single"],
@@ -48,17 +46,6 @@
         "jsx-a11y/label-has-associated-control": 0,
         "jsx-a11y/label-has-for": 0,
 
-        "import/prefer-default-export": 0,
-
-        "flowtype/require-return-type": [
-            2,
-            "always"
-        ],
-        "flowtype/require-parameter-type": 2
-    },
-    "settings": {
-        "flowtype": {
-            "onlyFilesWithFlowAnnotation": true
-        }
+        "import/prefer-default-export": 0
     }
 }
