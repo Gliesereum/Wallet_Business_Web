@@ -76,7 +76,7 @@ export const asyncUploadFile = ({
 }) => new Promise(async (resolve, reject) => {
   try {
     const fullURL = `${config.urlPrefix}${moduleUrl}/v1/${url}`;
-    const _requestConfig = { method, headers: { Authorization: `Bearer ${token}` }, body };
+    const _requestConfig = { method, headers: { Authorization: `Bearer ${token}`, 'Application-Id': config.AplicationId }, body };
     const request = await fetch(fullURL, _requestConfig);
     if (request.status === 204) {
       resolve();
