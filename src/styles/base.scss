@@ -5,7 +5,8 @@
 
 #contentBody {
   @import "theme",
-  "../components/ScreenLoading/index.scss",
+  "../screen/Container/index.scss",
+"../components/ScreenLoading/index.scss",
   "../components/SideMenu/index.scss",
   "../components/CorporationsList/index.scss",
   "../components/EmptyState/index.scss",
@@ -47,8 +48,7 @@
   "../screen/CorporationsPage/index.scss",
   "../screen/ProfileInfo/index.scss",
   "../screen/SignIn/index.scss",
-  "../screen/WorkersPage/index.scss",
-  "../screen/Container/index.scss";
+  "../screen/WorkersPage/index.scss";
 }
 
 body {
