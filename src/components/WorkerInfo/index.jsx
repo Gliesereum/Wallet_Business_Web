@@ -114,7 +114,7 @@ class WorkerInfo extends Component {
           }
 
           const method = isAddMode ? 'POST' : 'PUT';
-          let url = 'working-space/worker';
+          let url = 'worker';
           const body = {
             ...chosenWorker,
             corporationId,
@@ -138,7 +138,7 @@ class WorkerInfo extends Component {
             try {
               const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${phone}` });
               isUserExist = !!(user && user.id);
-              url = isUserExist ? 'working-space/worker' : 'working-space/worker-with-user';
+              url = isUserExist ? 'worker' : 'worker-with-user';
               if (isUserExist) body.userId = user.id;
             } catch (err) {
               notification.error({
@@ -168,7 +168,7 @@ class WorkerInfo extends Component {
 
   handleRemoveWorker = async () => {
     const { chosenWorker, changeActiveWorker } = this.props;
-    const url = `working-space/worker/${chosenWorker.id}`;
+    const url = `worker/${chosenWorker.id}`;
 
     try {
       await withToken(asyncRequest)({ url, method: 'DELETE', moduleUrl: 'karma' });
