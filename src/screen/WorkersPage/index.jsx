@@ -8,7 +8,7 @@ import { WorkerInfo, WorkersList } from '../../components';
 
 import { fetchWorkersByCorporationId, fetchBusinessesByCorp } from '../../fetches';
 
-const b = bem('workers');
+const b = bem('workersPage');
 
 class WorkingPage extends Component {
   state = {

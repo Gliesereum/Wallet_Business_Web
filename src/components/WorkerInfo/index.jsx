@@ -138,7 +138,7 @@ class WorkerInfo extends Component {
             try {
               const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${phone}` });
               isUserExist = !!(user && user.id);
-              url = isUserExist ? 'worker' : 'worker-with-user';
+              url = isUserExist ? 'worker' : 'worker/create-with-user';
               if (isUserExist) body.userId = user.id;
             } catch (err) {
               notification.error({

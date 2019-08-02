@@ -275,7 +275,7 @@ export const fetchWorkersByCorporationId = async (props) => {
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `workers?corporationId=${corporationId}`,
+      urlPath: `worker/by-corporation?corporationId=${corporationId}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
       if (response.status === 204) return [];
