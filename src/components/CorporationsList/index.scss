@@ -5,7 +5,7 @@
   border: none;
   border-radius: 0;
   box-shadow: $shadow-right;
-  background: linear-gradient(23.35deg, #0E69F1 0%, #1C91FE 116.58%);
+  background: #2866ff;
 
   & .ant-collapse {
     border: none;
@@ -13,7 +13,6 @@
     background-color: transparent;
     padding: 8px 0;
     overflow-y: scroll;
-    height: 500px;
   }
 
   &__panel {

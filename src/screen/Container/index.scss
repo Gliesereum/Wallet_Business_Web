@@ -1,9 +1,18 @@
 .container {
-  display: flex;
-  flex-direction: row;
+  background: white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   height: 100%;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
 
   &__sidebar {
-    display: flex;
+    overflow-y: scroll;
+    background: #4e69ff;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
   }
 }

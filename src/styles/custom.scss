@@ -1,5 +1,26 @@
 @import './theme.scss';
 
+#contentBody {
+  display: flex;
+}
+
+#root {
+  display: flex;
+  flex: 1;
+}
+
+.ant-form-explain {
+  color: #e11010;
+  font-size: 12px;
+  padding: 4px;
+}
+
+.__testContainerFlex {
+  display: flex !important;
+  flex: 1;
+}
+
+
 #contentBody .ant {
   //---- Buttons ----
   // default
@@ -7,16 +28,20 @@
     height: 48px;
     background-color: $white;
     color: $coupler-blue;
-    line-height: 16px;
     font-size: 12px;
     font-family: $sans;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: unset;
+    margin: auto;
 
     &[disabled] {
       color: rgba(164, 174, 184, 0.4);
-      background: linear-gradient(0deg, #F6F6F6, #F6F6F6);
+      background: #F6F6F6;
     }
 
     & > span {
@@ -39,13 +64,13 @@
       }
 
       & .anticon-left {
-        float: left;
+
       }
     }
 
     // primary
     &-primary {
-      background: linear-gradient(75.72deg, #0E84F1 0%, #1C9FFE 106.54%);
+      background: #0E84F1;
       color: $white;
     }
   }

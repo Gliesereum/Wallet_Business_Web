@@ -40,69 +40,71 @@ class CorporationsPage extends Component {
     const { chosenCorporation, isAddCorporationMode, viewCorp } = this.state;
 
     return (
-      <Row className={b()}>
-        {
-          isAddCorporationMode || (chosenCorporation && chosenCorporation.id) ? (
-            <Col lg={24}>
-              <CorporationInfo
-                isAddMode={isAddCorporationMode}
-                corporations={corporations}
-                chosenCorporation={chosenCorporation}
-                changeActiveCorporation={this.changeActiveCorporation}
-              />
-            </Col>
-          ) : (
-            <>
-              {
-                corporations && corporations.length ? (
-                  <>
-                    <Col lg={8} className={b('col')}>
-                      <CorporationsList
-                        viewCorp={viewCorp}
-                        corporations={corporations}
-                        changeActiveCorporation={this.changeActiveCorporation}
-                        chooseCorporationForView={this.chooseCorporationForView}
-                      />
+      <div className={b()}>
+        <Row className="__testContainerFlex">
+          {
+            isAddCorporationMode || (chosenCorporation && chosenCorporation.id) ? (
+              <Col lg={24}>
+                <CorporationInfo
+                  isAddMode={isAddCorporationMode}
+                  corporations={corporations}
+                  chosenCorporation={chosenCorporation}
+                  changeActiveCorporation={this.changeActiveCorporation}
+                />
+              </Col>
+            ) : (
+              <>
+                {
+                  corporations && corporations.length ? (
+                    <>
+                      <Col lg={8} className={b('col')}>
+                        <CorporationsList
+                          viewCorp={viewCorp}
+                          corporations={corporations}
+                          changeActiveCorporation={this.changeActiveCorporation}
+                          chooseCorporationForView={this.chooseCorporationForView}
+                        />
+                      </Col>
+                      <Col lg={16} className={b('col')}>
+                        {
+                          viewCorp ? (
+                            <BusinessesList
+                              viewCorp={viewCorp}
+                              business={allBusiness.filter(item => item.corporationId === viewCorp.id)}
+                            />
+                          ) : (
+                            <EmptyState
+                              title="Компания не выбрана"
+                              descrText="Выберите компанию, чтобы увидеть список бизнесов"
+                              withoutBtn
+                            />
+                          )
+                        }
+                      </Col>
+                    </>
+                  ) : (
+                    <Col lg={24}>
+                      <div className={b('header')}>
+                        <h1 className={b('header-title')}>
+                          Информация о компании
+                        </h1>
+                      </div>
+                      <div className={b('emptyState-wrapper')}>
+                        <EmptyState
+                          title="У вас нету компаний"
+                          descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
+                          addItemText="Создать компанию"
+                          addItemHandler={this.changeActiveCorporation}
+                        />
+                      </div>
                     </Col>
-                    <Col lg={16} className={b('col')}>
-                      {
-                        viewCorp ? (
-                          <BusinessesList
-                            viewCorp={viewCorp}
-                            business={allBusiness.filter(item => item.corporationId === viewCorp.id)}
-                          />
-                        ) : (
-                          <EmptyState
-                            title="Компания не выбрана"
-                            descrText="Выберите компанию, чтобы увидеть список бизнесов"
-                            withoutBtn
-                          />
-                        )
-                      }
-                    </Col>
-                  </>
-                ) : (
-                  <Col lg={24}>
-                    <div className={b('header')}>
-                      <h1 className={b('header-title')}>
-                        Информация о компании
-                      </h1>
-                    </div>
-                    <div className={b('emptyState-wrapper')}>
-                      <EmptyState
-                        title="У вас нету компаний"
-                        descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
-                        addItemText="Создать компанию"
-                        addItemHandler={this.changeActiveCorporation}
-                      />
-                    </div>
-                  </Col>
-                )
-              }
-            </>
-          )
-        }
-      </Row>
+                  )
+                }
+              </>
+            )
+          }
+        </Row>
+      </div>
     );
   }
 }
