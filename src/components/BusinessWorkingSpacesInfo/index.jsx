@@ -25,7 +25,7 @@ const addWorkersToWorkingSpace = (addedWorkers, newWorkingSpace) => {
   if (!addedWorkers.length) return newWorkingSpace;
 
   const newModifiedWorkingSpace = newWorkingSpace;
-  const workerUrl = 'working-space/worker';
+  const workerUrl = 'worker';
 
   for (let i = 0; i < addedWorkers.length; i += 1) {
     const modifyWorker = {
@@ -54,7 +54,7 @@ const removeWorkersFromWorkingSpace = (removedWorkers, newWorkingSpace) => {
   if (!removedWorkers.length) return newWorkingSpace;
 
   const newModifiedWorkingSpace = newWorkingSpace;
-  const workerUrl = 'working-space/worker';
+  const workerUrl = 'worker';
 
   for (let i = 0; i < removedWorkers.length; i += 1) {
     const modifyWorker = {
