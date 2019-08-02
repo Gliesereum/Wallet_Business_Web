@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import bem from 'bem-join';
 
+import { ClientInfo, ClientsList } from '../../components';
+
 const b = bem('clientsPage');
 
 class ClientsPage extends Component {
@@ -9,18 +11,25 @@ class ClientsPage extends Component {
     chosenClient: null,
   };
 
-  changeActiveClient = worker => () => this.setState({ chosenClient: worker });
+  changeActiveClient = client => () => this.setState({ chosenClient: client });
 
   render() {
     const { chosenClient } = this.state;
+    const { corporations } = this.props;
 
     return (
       <div className={b()}>
         {
           (chosenClient && chosenClient.id) ? (
-            <div>ClientInfo</div>
+            <ClientInfo
+              changeActiveClient={this.changeActiveClient}
+            />
           ) : (
-            <div>ClientsList</div>
+            <ClientsList
+              corporations={corporations}
+              getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
+              changeActiveClient={this.changeActiveClient}
+            />
           )
         }
       </div>
@@ -28,4 +37,8 @@ class ClientsPage extends Component {
   }
 }
 
-export default connect(null)(ClientsPage);
+const mapStateToProps = state => ({
+  corporations: state.corporations.corporations,
+});
+
+export default connect(mapStateToProps)(ClientsPage);

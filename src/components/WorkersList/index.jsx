@@ -47,6 +47,7 @@ class WorkersList extends Component {
     chosenCorporation: '',
     chosenBusiness: undefined,
     workersByBusiness: [],
+    searchedWorkers: [],
     searchProcess: false,
     expandedRowKeys: [], // for Icon type regulation
     columnSortOrder: {
@@ -59,7 +60,7 @@ class WorkersList extends Component {
   componentDidMount() {
     const { corporations, workers } = this.props;
 
-    corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id); // TODO: change to [0]
+    corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id);
     this.setState({ workersByBusiness: workers, searchedWorkers: workers });
   }
 

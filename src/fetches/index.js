@@ -293,6 +293,31 @@ export const fetchWorkersByCorporationId = async (props) => {
   };
 };
 
+export const fetchClientsByIds = async ({ corporationId = null, businessId = null }) => {
+  let result = {};
+  const urlPath = corporationId
+    ? `business/customers/by-corporation-id?id=${corporationId}`
+    : `business/customers?ids=${[businessId]}`;
+  try {
+    await withToken(fetchHelper)({
+      urlPath,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result = data.content || []);
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'clients',
+  };
+};
+
 export const fetchImageByUpload = async (body) => {
   let imageUrl = null;
   try {
