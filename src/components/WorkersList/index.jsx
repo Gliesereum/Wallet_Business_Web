@@ -129,14 +129,14 @@ class WorkersList extends Component {
     this.setState({ searchProcess: true, searchedWorkers });
   };
 
-  handleExpandRow = record => ({
+  handleExpandRow = worker => ({
     onClick: () => this.setState((prevState) => {
       let newExpandedRowKeys = prevState.expandedRowKeys;
 
-      if (prevState.expandedRowKeys.includes(record.id)) {
-        newExpandedRowKeys = newExpandedRowKeys.filter(key => key !== record.id);
+      if (prevState.expandedRowKeys.includes(worker.id)) {
+        newExpandedRowKeys = newExpandedRowKeys.filter(key => key !== worker.id);
       } else {
-        newExpandedRowKeys.push(record.id);
+        newExpandedRowKeys.push(worker.id);
       }
 
       return {
@@ -305,8 +305,8 @@ class WorkersList extends Component {
       },
       {
         className: 'edit-column',
-        onCell: record => ({
-          onClick: () => changeActiveWorker(record, false)(),
+        onCell: worker => ({
+          onClick: () => changeActiveWorker(worker, false)(),
         }),
         width: 125,
         render: () => <div>Редактировать</div>,
@@ -315,13 +315,13 @@ class WorkersList extends Component {
         title: '',
         align: 'right',
         width: 45,
-        render: record => <Icon type={expandedRowKeys.includes(record.id) ? 'up' : 'down'} />,
+        render: worker => <Icon type={expandedRowKeys.includes(worker.id) ? 'up' : 'down'} />,
       },
     ];
     return (
       <div className={b()}>
         <div className={b('header')}>
-          <h1 className={b('header-title')}>Просмотр сотрудников</h1>
+          <p className={b('header-title')}>Просмотр сотрудников</p>
           <div className={b('header-selectorBox')}>
             <Select
               onChange={this.handleCorpChange}
@@ -375,16 +375,16 @@ class WorkersList extends Component {
                   />
                 </div>
                 <Table
-                  rowKey={record => record.id}
+                  rowKey={worker => worker.id}
                   className={b('content-workersTable')}
                   columns={columns}
                   dataSource={searchedWorkers}
                   pagination={false}
-                  expandedRowRender={record => this.renderExpandedRow(record)}
+                  expandedRowRender={worker => this.renderExpandedRow(worker)}
                   expandIconAsCell={false} // need for hidden default expand icon
                   expandRowByClick
                   onRow={this.handleExpandRow}
-                  scroll={{ y: 368 }}
+                  scroll={{ y: 408 }}
                 />
 
                 <Row

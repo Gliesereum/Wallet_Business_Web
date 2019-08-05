@@ -251,7 +251,7 @@ export const fetchBusinessesByCorp = async ({ corporationId }) => {
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `business/by-corporation-id?corporationId=${corporationId}`,
+      urlPath: `business/by-corporation-id?id=${corporationId}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
       if (response.status === 204) return [];
@@ -293,11 +293,15 @@ export const fetchWorkersByCorporationId = async (props) => {
   };
 };
 
-export const fetchClientsByIds = async ({ corporationId = null, businessId = null }) => {
+export const fetchClientsByIds = async ({
+  corporationId = null,
+  businessId = null,
+  query = '',
+}) => {
   let result = {};
   const urlPath = corporationId
-    ? `business/customers/by-corporation-id?id=${corporationId}`
-    : `business/customers?ids=${[businessId]}`;
+    ? `business/customers?corporationId=${corporationId}${query ? `&query=${query}` : ''}`
+    : `business/customers?businessIds=${[businessId]}${query ? `&query=${query}` : ''}`;
   try {
     await withToken(fetchHelper)({
       urlPath,

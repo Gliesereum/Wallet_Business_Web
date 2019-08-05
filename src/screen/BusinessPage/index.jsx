@@ -140,9 +140,9 @@ class BusinessPage extends Component {
     return (
       <div className={b()}>
         <div className={b('header')}>
-          <h1 className={b('header-title')}>
+          <p className={b('header-title')}>
             {isAddBusinessMode ? 'Добавить бизнес' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
-          </h1>
+          </p>
         </div>
         <Tabs
           className={b('tabsContainer')}
