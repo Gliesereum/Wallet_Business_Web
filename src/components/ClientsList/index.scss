@@ -1,6 +1,8 @@
 @import '../../styles/theme.scss';
 
-.workersList {
+.clientsList {
+  flex: 1;
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -45,7 +47,7 @@
   &__content {
     padding: 46px 32px 0;
 
-    &--isWorkersExist {
+    &--isClientsExist {
       padding: 0 32px;
     }
 
@@ -69,7 +71,7 @@
       }
     }
 
-    &-workersTable {
+    &-clientsTable {
       border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 4px;
       box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
@@ -84,7 +86,7 @@
         &-body {
           min-height: 408px;
 
-          .edit-column {
+          .action-column {
             text-align: center;
             border-left: 1px solid #e8e8e8;
             border-right: 1px solid #e8e8e8;
@@ -170,50 +172,6 @@
 
       &-btn {
         width: 100%;
-      }
-    }
-  }
-
-  &__expandTable {
-    padding: 16px;
-
-    &-row {
-      &-header {
-        font-family: $sans;
-        font-size: 14px;
-        line-height: 24px;
-        color: $font-title-black;
-        letter-spacing: 0.02em;
-        font-feature-settings: 'pnum' on, 'lnum' on;
-        padding-bottom: 18px;
-      }
-
-      &-userInfo {
-        &-box {
-          border-bottom: 1px solid #DEE9F4;
-          margin-bottom: 9px;
-
-          & .title {
-            font-family: $sans;
-            font-size: 10px;
-            line-height: 12px;
-            color: #7B858C;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            font-feature-settings: 'pnum' on, 'lnum' on;
-          }
-
-          & .data {
-            font-family: $sans;
-            font-weight: normal;
-            font-size: 12px;
-            line-height: 14px;
-            color: $font-title-black;
-            letter-spacing: 0.02em;
-            font-feature-settings: 'pnum' on, 'lnum' on;
-            padding: 6px 0 12px;
-          }
-        }
       }
     }
   }

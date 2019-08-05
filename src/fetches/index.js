@@ -251,7 +251,7 @@ export const fetchBusinessesByCorp = async ({ corporationId }) => {
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `business/by-corporation-id?corporationId=${corporationId}`,
+      urlPath: `business/by-corporation-id?id=${corporationId}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
       if (response.status === 204) return [];
@@ -270,19 +270,19 @@ export const fetchBusinessesByCorp = async ({ corporationId }) => {
 };
 
 export const fetchWorkersByCorporationId = async (props) => {
-  const result = [];
+  let result = [];
   const corporationId = props.corporationId || props.singleBusiness.corporationId;
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `workers?corporationId=${corporationId}`,
+      urlPath: `worker/by-corporation?corporationId=${corporationId}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
       if (response.status === 204) return [];
       if (response.status === 200) return await response.json();
       if (response.status >= 400) throw Error('error');
       return [];
-    }).then(data => result.push(...data));
+    }).then(data => result = data.content || []);
   } catch (e) {
     throw Error(e);
   }
@@ -290,6 +290,35 @@ export const fetchWorkersByCorporationId = async (props) => {
   return {
     data: result,
     fieldName: 'workers',
+  };
+};
+
+export const fetchClientsByIds = async ({
+  corporationId = null,
+  businessId = null,
+  query = '',
+}) => {
+  let result = [];
+  const urlPath = corporationId
+    ? `business/customers?corporationId=${corporationId}${query ? `&query=${query}` : ''}`
+    : `business/customers?businessIds=${[businessId]}${query ? `&query=${query}` : ''}`;
+  try {
+    await withToken(fetchHelper)({
+      urlPath,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result = data.content || []);
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'clients',
   };
 };
 

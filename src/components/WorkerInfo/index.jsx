@@ -138,7 +138,7 @@ class WorkerInfo extends Component {
             try {
               const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${phone}` });
               isUserExist = !!(user && user.id);
-              url = isUserExist ? 'worker' : 'worker-with-user';
+              url = isUserExist ? 'worker' : 'worker/create-with-user';
               if (isUserExist) body.userId = user.id;
             } catch (err) {
               notification.error({
@@ -201,13 +201,13 @@ class WorkerInfo extends Component {
     if (readOnlyMode) {
       return (
         <div className={b('header')}>
-          <h1 className={b('header-title')}>Просмотр профайла сотрудника</h1>
+          <p className={b('header-title')}>Просмотр профайла сотрудника</p>
         </div>
       );
     } if (isAddMode) {
       return (
         <div className={b('header', { isAddMode })}>
-          <h1 className={b('header-title')}>Создание профайла сотрудника</h1>
+          <p className={b('header-title')}>Создание профайла сотрудника</p>
           <Search
             className={b('header-searchInput')}
             placeholder="Поиск по номеру..."
@@ -234,7 +234,7 @@ class WorkerInfo extends Component {
     }
     return (
       <div className={b('header')}>
-        <h1 className={b('header-title')}>Редактирование профайла сотрудника</h1>
+        <p className={b('header-title')}>Редактирование профайла сотрудника</p>
       </div>
     );
   };

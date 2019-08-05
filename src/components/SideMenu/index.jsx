@@ -48,7 +48,7 @@ const mainMenuItems = [
   {
     icon: Clients,
     text: 'Клиенты',
-    linkTo: '/analytics',
+    linkTo: '/clients',
     // canDisabled: true,
   },
 ];
