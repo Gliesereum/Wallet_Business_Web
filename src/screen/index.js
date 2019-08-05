@@ -4,6 +4,7 @@ import ProfileInfo from './ProfileInfo';
 import SignIn from './SignIn';
 import CorporationsPage from './CorporationsPage';
 import WorkersPage from './WorkersPage';
+import ClientsPage from './ClientsPage';
 import FAQ from './FAQ';
 
 export {
@@ -13,5 +14,6 @@ export {
   SignIn,
   CorporationsPage,
   WorkersPage,
+  ClientsPage,
   FAQ,
 };
