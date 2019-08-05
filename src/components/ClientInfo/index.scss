@@ -1,5 +1,33 @@
 @import '../../styles/theme.scss';
 
 .clientInfo {
+  &__header {
+    padding: 0 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+    background: indianred; // TODO: change to coupler colors
 
+    &-title {
+      color: $white;
+      font-family: $sans;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+    }
+  }
+
+  &__content {
+    padding: 0 32px 0;
+
+    &-controlBtns {
+      margin-top: 16px;
+
+      &-btn {
+        width: 100%;
+      }
+    }
+  }
 }

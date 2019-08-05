@@ -22,12 +22,12 @@ class ClientsPage extends Component {
         {
           (chosenClient && chosenClient.id) ? (
             <ClientInfo
+              chosenClient={chosenClient}
               changeActiveClient={this.changeActiveClient}
             />
           ) : (
             <ClientsList
               corporations={corporations}
-              getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               changeActiveClient={this.changeActiveClient}
             />
           )
