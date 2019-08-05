@@ -37,7 +37,7 @@ class ClientsList extends Component {
   componentDidMount() {
     const { corporations } = this.props;
 
-    corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id);
+    corporations.length && corporations[2] && this.handleCorpChange(corporations[2].id); // dfdfdf
   }
 
   handleCorpChange = async (corporationId) => {

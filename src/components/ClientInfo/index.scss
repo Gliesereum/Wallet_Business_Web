@@ -1,6 +1,8 @@
 @import '../../styles/theme.scss';
 
 .clientInfo {
+  flex: 1;
+
   &__header {
     padding: 0 32px;
     display: flex;
@@ -19,8 +21,15 @@
     }
   }
 
-  &__content {
+  &__infoWrapper {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+
+  &__ordersInfo {
     padding: 0 32px 0;
+    flex: 1;
 
     &-controlBtns {
       margin-top: 16px;
@@ -28,6 +37,55 @@
       &-btn {
         width: 100%;
       }
+    }
+  }
+
+  &__clientInfo {
+    width: 312px;
+    border-left: 1px solid #DEE9F4;
+    padding: 16px 0;
+    margin-bottom: 32px;
+
+    &-avatar {
+      display: block;
+      margin: 0 auto 32px;
+    }
+
+    &-publicInfo {
+      padding: 0 32px;
+
+      &-block {
+        border-bottom: 1px solid #DEE9F4;
+        margin-bottom: 8px;
+
+        & .title {
+          font-family: $sans;
+          font-size: 10px;
+          line-height: 16px;
+          color: $coupler-blue;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        & .data {
+          font-family: $sans;
+          font-size: 14px;
+          line-height: 16px;
+          color: $font-title-black;
+          letter-spacing: 0.02em;
+          padding: 4px 0 11px;
+        }
+
+        &:last-child {
+          border-bottom: unset;
+          margin-bottom: 44px;
+        }
+      }
+    }
+
+    &-privateInfo {
+      padding: 0 32px;
+      border-top: 1px solid #DEE9F4;
     }
   }
 }
