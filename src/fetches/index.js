@@ -270,7 +270,7 @@ export const fetchBusinessesByCorp = async ({ corporationId }) => {
 };
 
 export const fetchWorkersByCorporationId = async (props) => {
-  const result = [];
+  let result = [];
   const corporationId = props.corporationId || props.singleBusiness.corporationId;
 
   try {
@@ -282,7 +282,7 @@ export const fetchWorkersByCorporationId = async (props) => {
       if (response.status === 200) return await response.json();
       if (response.status >= 400) throw Error('error');
       return [];
-    }).then(data => result.push(...data));
+    }).then(data => result = data.content || []);
   } catch (e) {
     throw Error(e);
   }
@@ -298,7 +298,7 @@ export const fetchClientsByIds = async ({
   businessId = null,
   query = '',
 }) => {
-  let result = {};
+  let result = [];
   const urlPath = corporationId
     ? `business/customers?corporationId=${corporationId}${query ? `&query=${query}` : ''}`
     : `business/customers?businessIds=${[businessId]}${query ? `&query=${query}` : ''}`;
