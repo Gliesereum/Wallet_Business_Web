@@ -1,0 +1,46 @@
+@import '../../styles/theme.scss';
+
+.periodSelector {
+  display: flex;
+  padding: 16px 0;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+
+  }
+
+  &__selector {
+    width: 136px;
+  }
+
+  &__customPeriodInput {
+    width: 210px;
+
+    &-from {
+      border-right: 0;
+      width: 100px;
+      text-align: center;
+    }
+
+    &-divider {
+      border-left: 0;
+      width: 10px;
+      background-color: $white;
+      pointer-events: none;
+      padding: 0;
+    }
+
+    &-to {
+      border-left: 0;
+      width: 100px;
+      text-align: center;
+    }
+  }
+
+  &__confirmBtn {
+    width: 56px;
+    background-color: #F6FAFE;
+    margin: 0;
+  }
+}
