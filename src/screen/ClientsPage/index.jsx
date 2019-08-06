@@ -9,12 +9,15 @@ const b = bem('clientsPage');
 class ClientsPage extends Component {
   state = {
     chosenClient: null,
+    chosenCorporationId: null,
   };
 
   changeActiveClient = client => () => this.setState({ chosenClient: client });
 
+  changeChoseCorporationId = corporationId => this.setState({ chosenCorporationId: corporationId });
+
   render() {
-    const { chosenClient } = this.state;
+    const { chosenClient, chosenCorporationId } = this.state;
     const { corporations } = this.props;
 
     return (
@@ -23,12 +26,14 @@ class ClientsPage extends Component {
           (chosenClient && chosenClient.id) ? (
             <ClientInfo
               chosenClient={chosenClient}
+              chosenCorporationId={chosenCorporationId}
               changeActiveClient={this.changeActiveClient}
             />
           ) : (
             <ClientsList
               corporations={corporations}
               changeActiveClient={this.changeActiveClient}
+              changeChoseCorporationId={this.changeChoseCorporationId}
             />
           )
         }

@@ -21,6 +21,7 @@ import EmptyState from './EmptyState';
 import FromToInput from './FromToInput';
 import ProneInput from './ProneInput';
 import DeleteModal from './DeleteModal';
+import PeriodSelector from './PeriodSelector';
 
 export {
   Header,
@@ -46,4 +47,5 @@ export {
   FromToInput,
   ProneInput,
   DeleteModal,
+  PeriodSelector,
 };

@@ -322,6 +322,65 @@ export const fetchClientsByIds = async ({
   };
 };
 
+export const fetchCarByClientId = async ({
+  chosenClient,
+  chosenCorporationId,
+}) => {
+  const result = [];
+  const urlPath = `car/user/as-worker?clientId=${chosenClient.id}&corporationId=${chosenCorporationId}`;
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'carInfo',
+  };
+};
+
+export const fetchRecordsByClient = async ({
+  chosenClient,
+  chosenCorporationId,
+}) => {
+  let result = [];
+  const urlPath = 'record/by-params-for-business';
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath,
+      moduleUrl: 'karma',
+      method: 'POST',
+      body: {
+        clientIds: [chosenClient.id],
+        corporationId: chosenCorporationId,
+      },
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result = data.content || []);
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'recordsByUser',
+  };
+};
+
 export const fetchImageByUpload = async (body) => {
   let imageUrl = null;
   try {
