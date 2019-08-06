@@ -15,12 +15,6 @@
   padding: 4px;
 }
 
-.__testContainerFlex {
-  display: flex !important;
-  flex: 1;
-}
-
-
 #contentBody .ant {
   //---- Buttons ----
   // default
@@ -61,10 +55,6 @@
 
       &[disabled] {
         border: 2px solid rgba(164, 174, 184, 0.4);
-      }
-
-      & .anticon-left {
-
       }
     }
 

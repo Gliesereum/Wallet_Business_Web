@@ -5,14 +5,13 @@
   border: none;
   border-radius: 0;
   box-shadow: $shadow-right;
-  background: #2866ff;
+  background: #2866ff; // TODO: change to coupler colors
 
   & .ant-collapse {
     border: none;
     border-radius: 0;
     background-color: transparent;
     padding: 8px 0;
-    overflow-y: scroll;
   }
 
   &__panel {

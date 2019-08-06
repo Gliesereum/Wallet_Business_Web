@@ -1,7 +1,7 @@
 @import '../../styles/theme.scss';
 
 .corporationsContainer {
-  background: white;
+  background: $white;
   position: absolute;
   left: 0;
   right: 0;
@@ -17,7 +17,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: indianred;
+    background: indianred; // TODO: change to coupler colors
     height: 72px;
 
     &-title {
@@ -33,5 +33,6 @@
   &__col {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
   }
 }

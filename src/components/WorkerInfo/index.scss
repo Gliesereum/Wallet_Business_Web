@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     height: 72px;
-    background: indianred;
+    background: indianred; // TODO: change to coupler colors
 
     &--isAddMode {
       justify-content: space-between;
@@ -68,6 +68,7 @@
 
     &-searchResultButton {
       width: 88px;
+      margin: unset;
     }
   }
 

@@ -12,6 +12,7 @@ import {
   ProfileInfo,
   CorporationsPage,
   WorkersPage,
+  ClientsPage,
   FAQ,
 } from '../screen';
 
@@ -24,8 +25,8 @@ const privateRouter = ({ user }) => (
         {/* </Route> */}
 
         <Route path="/corporations" exact component={CorporationsPage} />
-
         <Route path="/workers" exact component={WorkersPage} />
+        <Route path="/clients" exact component={ClientsPage} />
 
         <Route path="/settings" exact>
           <Redirect to="/corporations" />
