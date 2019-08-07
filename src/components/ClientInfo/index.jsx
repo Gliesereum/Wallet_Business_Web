@@ -90,6 +90,12 @@ class ClientInfo extends Component {
     }),
   });
 
+  handleRefreshRecordsByFromTo = async ({ from, to }) => {
+    const { chosenClient, chosenCorporationId } = this.props;
+    const { fieldName, data } = await fetchRecordsByClient({ chosenClient, chosenCorporationId, dateParams: { from, to } });
+    this.setState({ [fieldName]: data });
+  };
+
   connectWithClient = () => {
     console.log('connectWithClient');
   };
@@ -156,7 +162,9 @@ class ClientInfo extends Component {
         </div>
         <div className={b('infoWrapper')}>
           <div className={b('ordersInfo')}>
-            <PeriodSelector />
+            <PeriodSelector
+              getFromToData={this.handleRefreshRecordsByFromTo}
+            />
             <Table
               rowKey={record => record.id}
               className={b('ordersInfo-recordsTable')}
