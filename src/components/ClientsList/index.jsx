@@ -37,8 +37,8 @@ class ClientsList extends Component {
   componentDidMount() {
     const { corporations, changeChoseCorporationId } = this.props;
 
-    corporations.length && corporations[2] && this.handleCorpChange(corporations[2].id);
-    changeChoseCorporationId(corporations[2].id);
+    corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id);
+    changeChoseCorporationId(corporations[0].id);
   }
 
   handleCorpChange = async (corporationId) => {

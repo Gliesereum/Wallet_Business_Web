@@ -100,6 +100,67 @@ class ClientInfo extends Component {
     console.log('connectWithClient');
   };
 
+  renderExpandedRow = ({
+    packageDto,
+    services,
+    business,
+    statusPay,
+    price,
+  }) => {
+    const isPackageExist = !!packageDto;
+    const { statusPay: statusPayLocalize } = recordTranslate;
+
+    return (
+      <Row
+        className={b('expandTable')}
+        gutter={56}
+      >
+        <Col lg={12}>
+          {
+            isPackageExist && (
+              <>
+                <div className={b('expandTable-infoBox')}>
+                  <div className="title">Пакет услуг:</div>
+                  <div className="data">{packageDto.name}</div>
+                </div>
+                <div className={b('expandTable-infoBox')}>
+                  <div className="title">Список услуг, которые входят в пакет:</div>
+                  <ul className="data listMode">
+                    {
+                      packageDto.services.map(packageService => <li key={packageService.id}>{packageService.name}</li>)
+                    }
+                  </ul>
+                </div>
+              </>
+            )
+          }
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">{isPackageExist ? 'Дополнительные услуги' : 'Список услуг:'}</div>
+            <ul className="data listMode">
+              {
+                services.map(service => <li key={service.id}>{service.name}</li>)
+              }
+            </ul>
+          </div>
+        </Col>
+        <Col lg={12}>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Филия:</div>
+            <div className="data">{business.name}</div>
+          </div>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Статус платежа:</div>
+            <div className="data">{statusPayLocalize[statusPay]}</div>
+          </div>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Сумма платежа:</div>
+            <div className="data">{price}</div>
+          </div>
+        </Col>
+      </Row>
+    );
+  };
+
   render() {
     const {
       recordsByUser,
@@ -171,6 +232,7 @@ class ClientInfo extends Component {
               columns={columns}
               dataSource={recordsByUser}
               pagination={false}
+              expandedRowRender={record => this.renderExpandedRow(record)}
               expandIconAsCell={false} // need for hidden default expand icon
               expandRowByClick
               onRow={this.handleExpandRow}
