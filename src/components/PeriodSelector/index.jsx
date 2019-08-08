@@ -14,14 +14,21 @@ const b = bem('periodSelector');
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
+const getTimePeriod = days => Date.now() - (1000 * 3600 * 24 * days);
+
 class PeriodSelector extends Component {
   state = {
     periodSelect: 'custom',
   };
 
-  handlePeriodChange = (value) => {
-    if (value !== 'custom') {
-      // send request for new request;
+  handlePeriodChange = async (value) => {
+    const { getFromToData } = this.props;
+
+    if (value === 'week') { // get records of client by 7 days
+      await getFromToData({ from: getTimePeriod(7), to: Date.now() });
+    }
+    if (value === 'month') { // get records of client by 30 days
+      await getFromToData({ from: getTimePeriod(30), to: Date.now() });
     }
     this.setState({ periodSelect: value });
   };
@@ -49,8 +56,8 @@ class PeriodSelector extends Component {
               onChange={this.handlePeriodChange}
               className={b('selector')}
             >
-              <Option value="month">За месяц</Option>
-              <Option value="week">За неделю</Option>
+              <Option value="month">За последние 30 дней</Option>
+              <Option value="week">За последние 7 дней</Option>
               <Option value="custom">За период</Option>
             </Select>
           </Col>
@@ -66,7 +73,7 @@ class PeriodSelector extends Component {
                   }}
                   separator="|"
                   format="DD.MM.YYYY"
-                  placeholder={['00.00.0000', '00.00.0000']}
+                  placeholder={['dd.mm.yyyy', 'dd.mm.yyyy']}
                   onChange={this.onCalendarChange}
                 />
               </Col>

@@ -112,7 +112,6 @@ export const recordTranslate = {
   statusIcon: {
     CANCELED: Canceled,
     WAITING: Waiting,
-    STARTED: Timer,
     IN_PROCESS: Timer,
     COMPLETED: Completed,
   },
