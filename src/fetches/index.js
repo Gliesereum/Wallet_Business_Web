@@ -352,6 +352,7 @@ export const fetchCarByClientId = async ({
 export const fetchRecordsByClient = async ({
   chosenClient,
   chosenCorporationId,
+  dateParams = { from: null, to: null },
 }) => {
   let result = [];
   const urlPath = 'record/by-params-for-business';
@@ -364,6 +365,8 @@ export const fetchRecordsByClient = async ({
       body: {
         clientIds: [chosenClient.id],
         corporationId: chosenCorporationId,
+        from: dateParams.from,
+        to: dateParams.to,
       },
     }).then(async (response) => {
       if (response.status === 204) return [];

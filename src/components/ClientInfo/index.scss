@@ -135,4 +135,43 @@
       border-top: 1px solid #DEE9F4;
     }
   }
+
+  &__expandTable {
+    padding: 24px 18px;
+
+    &-infoBox {
+      border-bottom: 1px solid #DEE9F4;
+      margin-bottom: 9px;
+
+      & .title {
+        font-family: $sans;
+        font-size: 10px;
+        line-height: 12px;
+        color: #1078E1;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+
+      & .data {
+        font-family: $sans;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        color: $font-title-black;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+        padding: 6px 0 12px;
+      }
+
+      & .listMode {
+        padding: 6px 16px 12px;
+        margin: 0;
+
+        & > li {
+          padding-bottom: 6px;
+        }
+      }
+    }
+  }
 }
