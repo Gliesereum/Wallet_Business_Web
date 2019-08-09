@@ -21,7 +21,7 @@ import { actions } from '../../state';
 
 const b = bem('workingSpaceInfo');
 
-const addWorkersToWorkingSpace = (addedWorkers, newWorkingSpace) => {
+const addWorkersToWorkingSpace = (addedWorkers, newWorkingSpace, removeFromOldWS) => {
   if (!addedWorkers.length) return newWorkingSpace;
 
   const newModifiedWorkingSpace = newWorkingSpace;
@@ -38,6 +38,7 @@ const addWorkersToWorkingSpace = (addedWorkers, newWorkingSpace) => {
         url: workerUrl, body: modifyWorker, method: 'PUT', moduleUrl: 'karma',
       });
       newModifiedWorkingSpace.workers.unshift(modifyWorker);
+      removeFromOldWS({ movedWorker: addedWorkers[i] });
     } catch (err) {
       notification.error({
         duration: 5,
@@ -99,6 +100,7 @@ class BusinessWorkingSpacesInfo extends Component {
             singleBusiness,
             addWorkingSpace,
             updateWorkingSpace,
+            removeFromOldWS,
           } = this.props;
           const url = 'working-space';
           const method = isAddMode ? 'POST' : 'PUT';
@@ -116,7 +118,7 @@ class BusinessWorkingSpacesInfo extends Component {
             });
 
             // if some of workers were being added
-            newWorkingSpace = await addWorkersToWorkingSpace(addedWorkers, newWorkingSpace);
+            newWorkingSpace = await addWorkersToWorkingSpace(addedWorkers, newWorkingSpace, removeFromOldWS);
             // if some of workers were being removed
             newWorkingSpace = await removeWorkersFromWorkingSpace(removedWorkers, newWorkingSpace);
 
@@ -271,6 +273,7 @@ class BusinessWorkingSpacesInfo extends Component {
 const mapDispatchToProps = dispatch => ({
   addWorkingSpace: newWorkingSpace => dispatch(actions.business.$addWorkingSpace(newWorkingSpace)),
   updateWorkingSpace: updatedWorkingSpace => dispatch(actions.business.$updateWorkingSpace(updatedWorkingSpace)),
+  removeFromOldWS: worker => dispatch(actions.business.$removeWorkerFromOldWS(worker)),
   deleteWorkingSpace: workingServiceId => dispatch(actions.business.$deleteWorkingSpace(workingServiceId)),
 });
 

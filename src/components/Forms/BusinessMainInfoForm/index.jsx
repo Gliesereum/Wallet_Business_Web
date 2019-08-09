@@ -24,6 +24,7 @@ const b = bem('businessMainForm');
 
 const translateBusinessType = {
   CAR: 'Машины',
+  HUMAN: 'Человек',
 };
 
 const initialFieldValues = chosenCorpId => ({
@@ -42,7 +43,7 @@ class BusinessMainInfoForm extends Component {
     disabled: false,
     addressNodes: [],
     currentAddress: null,
-    currentLocation: defaultGeoPosition,
+    currentLocation: null,
   };
 
   searchAddressHandler = (value) => {
@@ -344,6 +345,7 @@ class BusinessMainInfoForm extends Component {
                 currentLocation={currentLocation || formInitValues.currentLocationValue}
                 onSelect={this.selectAddressByMarkerHandler}
                 singlePin
+                draggable
               />
             </Col>
           </Row>
