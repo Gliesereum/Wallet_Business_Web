@@ -1,3 +1,10 @@
+import {
+  Canceled,
+  Completed,
+  Timer,
+  Waiting,
+} from '../assets/iconComponents';
+
 export const genders = {
   FEMALE: 'Женский',
   MALE: 'Мужской',
@@ -88,4 +95,24 @@ export const dayTranslate = {
   FRIDAY: 'Пятница',
   SATURDAY: 'Суббота',
   SUNDAY: 'Воскресенье',
+};
+
+export const recordTranslate = {
+  statusPay: {
+    PAID: 'Оплачено',
+    NOT_PAID: 'Не оплачено',
+  },
+  statusProcess: {
+    CANCELED: 'Отменен',
+    WAITING: 'Ожидается',
+    STARTED: 'Начато',
+    IN_PROCESS: 'В процессе',
+    COMPLETED: 'Завершен',
+  },
+  statusIcon: {
+    CANCELED: Canceled,
+    WAITING: Waiting,
+    IN_PROCESS: Timer,
+    COMPLETED: Completed,
+  },
 };

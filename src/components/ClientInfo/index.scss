@@ -31,8 +31,55 @@
     padding: 0 32px 0;
     flex: 1;
 
+    &-recordsTable {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+
+      &-columnHeaderText {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      & .ant-table {
+        &-body {
+          min-height: 384px;
+
+          & .status-column > div {
+            display: flex;
+            flex-direction: unset;
+            justify-content: space-between;
+            line-height: 16px;
+          }
+        }
+
+        &-thead {
+          & > tr {
+            height: 48px;
+            font-size: 12px;
+            line-height: 24px;
+
+            & > th .ant-table-header-column {
+              width: 100%;
+            }
+          }
+        }
+
+        &-tbody {
+          & > tr {
+            height: 48px;
+
+            &.ant-table-expanded-row > td {
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+
     &-controlBtns {
-      margin-top: 16px;
+      margin-top: 40px;
 
       &-btn {
         width: 100%;
@@ -86,6 +133,45 @@
     &-privateInfo {
       padding: 0 32px;
       border-top: 1px solid #DEE9F4;
+    }
+  }
+
+  &__expandTable {
+    padding: 24px 18px;
+
+    &-infoBox {
+      border-bottom: 1px solid #DEE9F4;
+      margin-bottom: 9px;
+
+      & .title {
+        font-family: $sans;
+        font-size: 10px;
+        line-height: 12px;
+        color: #1078E1;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+
+      & .data {
+        font-family: $sans;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        color: $font-title-black;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+        padding: 6px 0 12px;
+      }
+
+      & .listMode {
+        padding: 6px 16px 12px;
+        margin: 0;
+
+        & > li {
+          padding-bottom: 6px;
+        }
+      }
     }
   }
 }

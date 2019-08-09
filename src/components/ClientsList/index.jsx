@@ -35,14 +35,16 @@ class ClientsList extends Component {
   };
 
   componentDidMount() {
-    const { corporations } = this.props;
+    const { corporations, changeChoseCorporationId } = this.props;
 
-    corporations.length && corporations[2] && this.handleCorpChange(corporations[2].id); // dfdfdf
+    corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id);
+    changeChoseCorporationId(corporations[0].id);
   }
 
   handleCorpChange = async (corporationId) => {
     const businesses = await this.handleGetBusinessByCorporationId(corporationId, true);
 
+    this.props.changeChoseCorporationId(corporationId);
     this.setState({
       chosenCorporation: corporationId,
       chosenBusiness: undefined,
@@ -101,7 +103,7 @@ class ClientsList extends Component {
       newSearchedClients = prevOrder === 'ascend'
         ? searchedClients.sort((a, c) => a.phone - c.phone)
         : searchedClients.sort((a, c) => c.phone - a.phone);
-    } else if (columnName === 'name' || columnName === 'position') {
+    } else if (columnName === 'name') {
       newSearchedClients = prevOrder === 'ascend'
         ? searchedClients.sort((a, c) => a.lastName.localeCompare(c.lastName))
         : searchedClients.sort((a, c) => c.lastName.localeCompare(a.lastName));
