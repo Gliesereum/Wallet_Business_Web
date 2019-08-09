@@ -19,6 +19,7 @@ const actions = {
 
     return ({
       type: actions.CHECK_AUTHENTICATE,
+      payload: !!tokenInfo,
     });
   },
 

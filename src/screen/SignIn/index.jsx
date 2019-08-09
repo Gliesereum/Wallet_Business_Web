@@ -9,7 +9,6 @@ import { notification } from 'antd';
 import { SignInForm } from '../../components/Forms';
 import { Map } from '../../components';
 
-import meIcon from '../../assets/marker.svg';
 import { asyncRequest } from '../../utils';
 import { actions } from '../../state';
 import config from '../../config';
@@ -117,13 +116,11 @@ class SignIn extends Component {
           {/* <div className={b('right-supportBlock')}>1</div> */}
           <div className={b('right-mapBlock')}>
             <Map
-              singlePin={false}
               draggable={false}
               containerElement={<div style={{ height: '100%' }} />}
               mapElement={<div style={{ height: '100%' }} />}
               loadingElement={<div style={{ height: '100%' }} />}
               googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleAPIKey}&libraries=geometry,drawing,places`}
-              icon={meIcon}
               currentLocation={currentLocation}
             />
           </div>

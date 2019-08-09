@@ -8,9 +8,9 @@ const initState = {
 };
 
 const initReducers = {
-  [actions.CHECK_AUTHENTICATE]: state => ({
+  [actions.CHECK_AUTHENTICATE]: (state, isAuthenticated) => ({
     ...state,
-    authenticated: true,
+    authenticated: isAuthenticated,
   }),
 
   [actions.UPDATE_USER_DATA]: (state, payload) => ({
