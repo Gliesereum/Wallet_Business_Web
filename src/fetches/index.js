@@ -266,11 +266,10 @@ export const fetchClientsByIds = async ({
   corporationId = null,
   businessId = null,
   query = '',
+  page = 0,
 }) => {
   let result = [];
-  const urlPath = corporationId
-    ? `business/customers?corporationId=${corporationId}${query ? `&query=${query}` : ''}`
-    : `business/customers?businessIds=${[businessId]}${query ? `&query=${query}` : ''}`;
+  const urlPath = `business/customers?corporationId=${corporationId || [businessId]}&page=${page}&size=7${query ? `&query=${query}` : ''}`;
   try {
     await withToken(fetchHelper)({
       urlPath,
@@ -280,14 +279,14 @@ export const fetchClientsByIds = async ({
       if (response.status === 200) return await response.json();
       if (response.status >= 400) throw Error('error');
       return [];
-    }).then(data => result = data.content || []);
+    }).then(data => result = data);
   } catch (e) {
     throw Error(e);
   }
 
   return {
     data: result,
-    fieldName: 'clients',
+    fieldName: 'clientsPage',
   };
 };
 
