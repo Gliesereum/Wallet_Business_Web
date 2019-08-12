@@ -213,6 +213,27 @@ const initReducers = {
     };
   },
 
+  [actions.REMOVE_WORKER_FROM_OLD_WORKING_SPACE]: (state, { movedWorker }) => {
+    const workingSpaceIndex = state.workingSpaces.findIndex(ws => ws.id === movedWorker.workingSpaceId);
+
+    const modifiedWorkingSpaceWorkers = state.workingSpaces[workingSpaceIndex].workers
+      .filter(worker => worker.id !== movedWorker.id);
+
+    const modifiedWorkingSpace = {
+      ...state.workingSpaces[workingSpaceIndex],
+      workers: modifiedWorkingSpaceWorkers,
+    };
+
+    return {
+      ...state,
+      workingSpaces: [
+        ...state.workingSpaces.slice(0, workingSpaceIndex),
+        modifiedWorkingSpace,
+        ...state.workingSpaces.slice(workingSpaceIndex + 1),
+      ],
+    };
+  },
+
   [actions.DELETE_WORKING_SPACE]: (state, payload) => ({
     ...state,
     workingSpaces: [

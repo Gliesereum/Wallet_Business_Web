@@ -41,17 +41,20 @@ const actions = {
         await dispatch(businessActions.$getBusinessTypes(businessTypes));
         await dispatch(businessActions.$getBusinessCategories(businessCategories));
         await dispatch(authActions.$checkAuthenticate(tokenInfo));
-      } else if (refresh_token) {
+      } else if (refresh_token && refresh_token !== 'undefined') {
         const tokenInfo = await asyncRequest({
           url: `${refreshUrl}?refreshToken=${refresh_token}`,
           method: 'POST',
         });
-        const user = await withToken(asyncRequest)({ url: userUrl });
-        const email = await withToken(asyncRequest)({ url: emailUrl });
-
-        await dispatch(authActions.$updateUserData(user));
-        await dispatch(authActions.$addUserEmail(email));
         await dispatch(authActions.$checkAuthenticate(tokenInfo));
+
+        if (tokenInfo) {
+          const user = await withToken(asyncRequest)({ url: userUrl });
+          const email = await withToken(asyncRequest)({ url: emailUrl });
+
+          await dispatch(authActions.$updateUserData(user));
+          await dispatch(authActions.$addUserEmail(email));
+        }
       }
       await dispatch(actions.$appStatus('ready'));
     } catch (error) {
