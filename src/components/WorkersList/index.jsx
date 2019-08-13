@@ -46,7 +46,6 @@ class WorkersList extends Component {
     businesses: [],
     chosenCorporation: '',
     chosenBusiness: undefined,
-    workersByBusiness: [],
     searchedWorkers: [],
     searchProcess: false,
     expandedRowKeys: [], // for Icon type regulation
@@ -61,11 +60,11 @@ class WorkersList extends Component {
     const { corporations, workers } = this.props;
 
     corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id);
-    this.setState({ workersByBusiness: workers, searchedWorkers: workers });
+    this.setState({ searchedWorkers: workers });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ workersByBusiness: nextProps.workers, searchedWorkers: nextProps.workers });
+    this.setState({ searchedWorkers: nextProps.workers });
   }
 
   handleCorpChange = async (corporationId) => {
@@ -78,10 +77,12 @@ class WorkersList extends Component {
     });
   };
 
-  handleBusinessChange = businessId => this.setState({
-    chosenBusiness: businessId,
-    workersByBusiness: this.props.workers.filter(worker => businessId === worker.businessId),
-  });
+  handleBusinessChange = async (businessId) => {
+    const { getWorkers } = this.props;
+
+    await getWorkers({ businessId });
+    this.setState({ chosenBusiness: businessId });
+  };
 
   handleSortColumn = (columnName, prevOrder) => {
     const { searchedWorkers } = this.state;
@@ -109,9 +110,9 @@ class WorkersList extends Component {
 
   handleSearchWorkers = (e) => {
     const { value } = e.target;
-    const { workersByBusiness } = this.state;
+    const { workers } = this.props;
     if (!value || value === '') {
-      this.setState({ searchProcess: false, searchedWorkers: workersByBusiness });
+      this.setState({ searchProcess: false, searchedWorkers: workers });
       return;
     }
 
@@ -119,14 +120,25 @@ class WorkersList extends Component {
     let searchedWorkers = [];
 
     if (type === 'number') {
-      searchedWorkers = workersByBusiness.filter(({ user }) => (user.phone ? user.phone.includes(value) : false));
+      searchedWorkers = workers.filter(({ user }) => (user.phone ? user.phone.includes(value) : false));
     } else if (type === 'string') {
-      searchedWorkers = workersByBusiness.filter(({ user }) => (
+      searchedWorkers = workers.filter(({ user }) => (
         `${user.lastName} ${user.firstName} ${user.middleName}`.toUpperCase().includes(value.toUpperCase())
       ));
     }
 
     this.setState({ searchProcess: true, searchedWorkers });
+  };
+
+  handleTableChange = (pagination) => {
+    const { chosenBusiness, chosenCorporation } = this.state;
+    const { getWorkers } = this.props;
+
+    getWorkers({
+      corporationId: chosenCorporation,
+      businessId: chosenBusiness,
+      page: pagination.current - 1,
+    });
   };
 
   handleExpandRow = worker => ({
@@ -240,18 +252,19 @@ class WorkersList extends Component {
     const {
       changeActiveWorker,
       corporations,
+      workers,
+      pagination,
     } = this.props;
     const {
       chosenCorporation,
       chosenBusiness,
       businesses,
-      workersByBusiness,
       searchedWorkers,
       searchProcess,
       expandedRowKeys,
       columnSortOrder: { name, phone, position },
     } = this.state;
-    const isWorkersExist = (workersByBusiness && workersByBusiness.length) || searchProcess;
+    const isWorkersExist = (workers && workers.length) || searchProcess;
 
     const columns = [
       {
@@ -379,12 +392,20 @@ class WorkersList extends Component {
                   className={b('content-workersTable')}
                   columns={columns}
                   dataSource={searchedWorkers}
-                  pagination={false}
                   expandedRowRender={worker => this.renderExpandedRow(worker)}
                   expandIconAsCell={false} // need for hidden default expand icon
                   expandRowByClick
                   onRow={this.handleExpandRow}
-                  scroll={{ y: 408 }}
+                  pagination={pagination.totalPages > 1
+                    ? {
+                      ...pagination,
+                      pageSize: 7,
+                      className: b('content-pagination'),
+                    }
+                    : false
+                  }
+                  onChange={this.handleTableChange}
+                  scroll={{ y: 337 }}
                 />
 
                 <Row

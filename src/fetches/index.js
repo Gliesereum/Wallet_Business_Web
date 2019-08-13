@@ -238,27 +238,33 @@ export const fetchBusinessesByCorp = async ({ corporationId }) => {
   };
 };
 
-export const fetchWorkersByCorporationId = async (props) => {
-  let result = [];
-  const corporationId = props.corporationId || props.singleBusiness.corporationId;
+export const fetchWorkersById = async ({
+  corporationId = null,
+  businessId = null,
+  singleBusiness = null,
+  page = 0,
+  size = 7,
+}) => {
+  let result = {};
+  const getById = (singleBusiness ? singleBusiness.id : businessId) || corporationId;
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `worker/by-corporation?corporationId=${corporationId}`,
+      urlPath: `worker/${corporationId ? 'by-corporation?corporationId' : 'by-business?businessId'}=${getById}&page=${page}&size=${size}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
-      if (response.status === 204) return [];
+      if (response.status === 204) return {};
       if (response.status === 200) return await response.json();
       if (response.status >= 400) throw Error('error');
-      return [];
-    }).then(data => result = data.content || []);
+      return {};
+    }).then(data => result = data);
   } catch (e) {
     throw Error(e);
   }
 
   return {
     data: result,
-    fieldName: 'workers',
+    fieldName: 'workersPage',
   };
 };
 
@@ -267,18 +273,19 @@ export const fetchClientsByIds = async ({
   businessId = null,
   query = '',
   page = 0,
+  size = 7,
 }) => {
-  let result = [];
-  const urlPath = `business/customers?corporationId=${corporationId || [businessId]}&page=${page}&size=7${query ? `&query=${query}` : ''}`;
+  let result = {};
+  const urlPath = `business/customers?${corporationId ? 'corporationId' : 'businessIds'}=${corporationId || [businessId]}&page=${page}&size=${size}${query ? `&query=${query}` : ''}`;
   try {
     await withToken(fetchHelper)({
       urlPath,
       moduleUrl: 'karma',
     }).then(async (response) => {
-      if (response.status === 204) return [];
+      if (response.status === 204) return {};
       if (response.status === 200) return await response.json();
       if (response.status >= 400) throw Error('error');
-      return [];
+      return {};
     }).then(data => result = data);
   } catch (e) {
     throw Error(e);

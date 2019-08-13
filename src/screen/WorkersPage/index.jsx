@@ -6,7 +6,7 @@ import { notification } from 'antd';
 
 import { WorkerInfo, WorkersList } from '../../components';
 
-import { fetchWorkersByCorporationId, fetchBusinessesByCorp } from '../../fetches';
+import { fetchWorkersById, fetchBusinessesByCorp } from '../../fetches';
 
 const b = bem('workersPage');
 
@@ -15,6 +15,11 @@ class WorkingPage extends Component {
     chosenWorker: null,
     isAddWorkerMode: false,
     workers: [],
+    pagination: {
+      current: 0,
+      totalPages: 0,
+      total: 0,
+    },
   };
 
   changeActiveWorker = (worker, isAddWorkerMode) => () => this.setState({
@@ -26,7 +31,7 @@ class WorkingPage extends Component {
     let businesses = [];
     try {
       const { data = [] } = await fetchBusinessesByCorp({ corporationId });
-      getWorkers && await this.handleGetWorkers(corporationId);
+      getWorkers && await this.handleGetWorkers({ corporationId });
 
       businesses = data;
     } catch (err) {
@@ -40,10 +45,29 @@ class WorkingPage extends Component {
     return businesses;
   };
 
-  handleGetWorkers = async (corporationId) => {
+  handleGetWorkers = async ({
+    corporationId,
+    businessId,
+    queryValue,
+    page,
+  }) => {
     try {
-      const { data: workers = [] } = await fetchWorkersByCorporationId({ corporationId });
-      this.setState({ workers });
+      const { data: workersPage = {} } = await fetchWorkersById({
+        corporationId,
+        businessId,
+        queryValue,
+        page,
+      });
+      this.setState(prevState => ({
+        ...prevState,
+        workers: queryValue ? prevState.clients : workersPage.content,
+        pagination: {
+          ...prevState.pagination,
+          current: workersPage.number + 1,
+          totalPages: workersPage.totalPages,
+          total: workersPage.totalElements,
+        },
+      }));
     } catch (err) {
       notification.error({
         duration: 5,
@@ -59,6 +83,7 @@ class WorkingPage extends Component {
       chosenWorker,
       isAddWorkerMode,
       workers,
+      pagination,
     } = this.state;
 
     return (
@@ -75,6 +100,7 @@ class WorkingPage extends Component {
           ) : (
             <WorkersList
               workers={workers}
+              pagination={pagination}
               corporations={corporations}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               getWorkers={this.handleGetWorkers}

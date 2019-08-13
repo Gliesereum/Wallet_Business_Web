@@ -92,7 +92,7 @@ class ClientsList extends Component {
     page,
   }) => {
     try {
-      const { data: clientsPage = {} } = await fetchClientsByIds({
+      const { data: clientsPage = { content: [] } } = await fetchClientsByIds({
         corporationId,
         businessId,
         query: queryValue,
@@ -164,7 +164,11 @@ class ClientsList extends Component {
   handleTableChange = (pagination) => {
     const { chosenBusiness, chosenCorporation } = this.state;
 
-    this.handleGetClientsById({ corporationId: chosenCorporation, businessId: chosenBusiness, page: pagination.current - 1 });
+    this.handleGetClientsById({
+      corporationId: chosenCorporation,
+      businessId: chosenBusiness,
+      page: pagination.current - 1,
+    });
   };
 
   createMailing = () => {
