@@ -126,7 +126,6 @@ export const fetchGetBusinessOrders = async (props) => {
         if (item.status >= 400) throw Error('error');
         return [];
       }).then((data) => {
-        props.getBusinessOrders(id, data);
         result.push(data);
       });
     } catch (e) {
