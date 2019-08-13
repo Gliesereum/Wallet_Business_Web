@@ -82,7 +82,7 @@
 
       & .ant-table {
         &-body {
-          min-height: 408px;
+          min-height: 336px;
 
           .edit-column {
             text-align: center;
@@ -106,6 +106,10 @@
             font-size: 12px;
             line-height: 24px;
 
+            & > th {
+              padding: 0 16px;
+            }
+
             & > th .ant-table-header-column {
               width: 100%;
             }
@@ -115,6 +119,10 @@
         &-tbody {
           & > tr {
             height: 48px;
+
+            & > td {
+              padding: 0 16px;
+            }
 
             &.ant-table-expanded-row > td {
               padding: 0;

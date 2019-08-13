@@ -346,6 +346,24 @@
         background-color: $dirty-white;
       }
     }
+
+    &-pagination {
+      float: unset;
+      text-align: center;
+
+      & .ant-pagination {
+        &-prev,
+        &-next,
+        &-item {
+          width: 48px;
+          height: 48px;
+          line-height: 48px;
+          font-family: $sans;
+          font-size: 14px;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+        }
+      }
+    }
   }
 
   //---- Avatar ----

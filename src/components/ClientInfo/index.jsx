@@ -236,7 +236,7 @@ class ClientInfo extends Component {
               expandIconAsCell={false} // need for hidden default expand icon
               expandRowByClick
               onRow={this.handleExpandRow}
-              scroll={{ y: 384 }}
+              scroll={{ y: 336 }}
             />
             <Row
               gutter={31}
