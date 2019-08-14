@@ -60,6 +60,10 @@
             font-size: 12px;
             line-height: 24px;
 
+            & > th {
+              padding: 0 16px;
+            }
+
             & > th .ant-table-header-column {
               width: 100%;
             }
@@ -70,10 +74,20 @@
           & > tr {
             height: 48px;
 
+            & > td {
+              padding: 0 16px;
+            }
+
             &.ant-table-expanded-row > td {
               padding: 0;
             }
           }
+        }
+      }
+
+      &--isEmpty {
+        & .ant-table-body {
+          min-height: unset;
         }
       }
     }
