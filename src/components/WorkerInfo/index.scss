@@ -1,6 +1,8 @@
 @import '../../styles/theme.scss';
 
 .workerInfo {
+  flex: 1;
+
   &__header {
     padding: 0 32px;
     display: flex;

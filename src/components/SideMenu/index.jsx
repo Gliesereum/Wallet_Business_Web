@@ -30,7 +30,7 @@ const mainMenuItems = [
   {
     icon: Orders,
     text: 'Заказы',
-    linkTo: '/analytics',
+    linkTo: '/orders',
     // canDisabled: true,
   },
   {

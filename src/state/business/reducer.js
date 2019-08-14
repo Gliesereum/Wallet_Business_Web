@@ -240,19 +240,6 @@ const initReducers = {
       ...state.workingSpaces.filter(item => item.id !== payload),
     ],
   }),
-
-  [actions.GET_BUSINESS_ORDERS]: (state, payload) => {
-    const { data, businessId } = payload;
-    if (!data.length) return state;
-
-    return {
-      ...state,
-      businessOrders: {
-        ...state.businessOrders,
-        [businessId]: data,
-      },
-    };
-  },
 };
 
 export default createReducer(initState, initReducers);

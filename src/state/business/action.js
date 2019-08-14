@@ -25,8 +25,6 @@ const actions = {
   REMOVE_WORKER_FROM_OLD_WORKING_SPACE: 'REMOVE_WORKER_FROM_OLD_WORKING_SPACE',
   DELETE_WORKING_SPACE: 'DELETE_WORKING_SPACE',
 
-  GET_BUSINESS_ORDERS: 'GET_BUSINESS_ORDERS',
-
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
     payload: business,
@@ -126,12 +124,6 @@ const actions = {
     type: actions.DELETE_WORKING_SPACE,
     payload: workingSpaceId,
   }),
-
-  $getBusinessOrders: (businessId, data) => ({
-    type: actions.GET_BUSINESS_ORDERS,
-    payload: { businessId, data },
-  }),
-
 };
 
 export default actions;
