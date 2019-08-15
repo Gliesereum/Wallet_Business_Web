@@ -5,7 +5,7 @@
   border: none;
   border-radius: 0;
   box-shadow: $shadow-right;
-  background: #2866ff; // TODO: change to coupler colors
+  background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
 
   & .ant-collapse {
     border: none;

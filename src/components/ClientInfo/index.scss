@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: center;
     height: 72px;
-    background: indianred; // TODO: change to coupler colors
+    background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
 
     &-title {
       color: $white;
