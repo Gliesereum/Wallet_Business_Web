@@ -3,28 +3,33 @@ import bem from 'bem-join';
 
 import { Collapse, Icon, Anchor } from 'antd';
 
+import { fetchDecorator } from '../../utils';
+import { fetchFAQuestions } from '../../fetches';
+
 import './index.scss';
 
 const b = bem('help');
 const { Panel } = Collapse;
 const { Link } = Anchor;
-const links = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a20', 'a30', 'a40', 'a50', 'a60', 'a70', 'a80', 'a90', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 class FAQ extends PureComponent {
   state = {
-    activeKey: links[0],
+    activeKey: undefined,
   };
 
-  changeActivePanel = (e, { title: activeKey }) => {
+  changeActivePanel = (e, { href: activeKey }) => {
     e.preventDefault();
 
-    this.setState({ activeKey });
+    this.setState(prevState => ({
+      activeKey: prevState.activeKey !== activeKey.slice(1) ? activeKey.slice(1) : undefined,
+    }));
   };
 
   triggerPanel = activeKey => this.setState({ activeKey });
 
   render() {
     const { activeKey } = this.state;
+    const { faQuestions } = this.props;
 
     return (
       <div className={b()}>
@@ -39,13 +44,13 @@ class FAQ extends PureComponent {
             onChange={this.triggerPanel}
           >
             {
-              links.map(item => (
+              faQuestions.map(item => (
                 <Panel
-                  id={item}
-                  header={item}
-                  key={item}
+                  id={item.id}
+                  header={item.title}
+                  key={item.id}
                 >
-                  {item}
+                  {item.description}
                 </Panel>
               ))
             }
@@ -60,11 +65,11 @@ class FAQ extends PureComponent {
             getContainer={() => document.getElementById('scrollContainer')}
           >
             {
-              links.map(item => (
+              faQuestions.map(item => (
                 <Link
-                  title={item}
-                  href={`#${item}`}
-                  key={item}
+                  title={item.title}
+                  href={`#${item.id}`}
+                  key={item.id}
                   className={b('summary-list-item')}
                 />
               ))
@@ -76,4 +81,7 @@ class FAQ extends PureComponent {
   }
 }
 
-export default FAQ;
+export default fetchDecorator({
+  actions: [fetchFAQuestions],
+  config: { loader: true },
+})(FAQ);

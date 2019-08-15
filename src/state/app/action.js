@@ -9,7 +9,10 @@ const getTokenAndUser = async (dispatch, access_token, refresh_token) => {
     try {
       const { tokenInfo, user } = await asyncRequest({ url: `auth/check?accessToken=${access_token}` });
 
-      await dispatch(authActions.$checkAuthenticate(tokenInfo));
+      if (tokenInfo && user) {
+        await dispatch(authActions.$checkAuthenticate(true));
+      }
+
       return user;
     } catch (e) {
       if (refresh_token && refresh_token !== 'undefined') {

@@ -9,7 +9,7 @@ import { notification } from 'antd';
 import { SignInForm } from '../../components/Forms';
 import { Map } from '../../components';
 
-import { asyncRequest } from '../../utils';
+import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
 import config from '../../config';
 import { defaultGeoPosition } from '../../components/Map/mapConfig';
@@ -63,13 +63,19 @@ class SignIn extends Component {
   sendCodeHandler = async (code) => {
     if (code.length === 6) {
       const { phone } = this.state;
-      const { checkAuthenticate, startApp } = this.props;
+      const { startApp } = this.props;
       const body = { value: phone.slice(1, 13), type: 'PHONE', code };
       const userDataUrl = 'auth/signin';
 
       try {
         const { tokenInfo } = await asyncRequest({ url: userDataUrl, body, method: 'POST' });
-        await checkAuthenticate(tokenInfo);
+        if (tokenInfo) {
+          const {
+            accessExpirationDate, accessToken, refreshToken, refreshExpirationDate,
+          } = tokenInfo;
+          cookieStorage.set('access_token', accessToken, { expires: new Date(accessExpirationDate), path: '/' });
+          cookieStorage.set('refresh_token', refreshToken, { expires: new Date(refreshExpirationDate), path: '/' });
+        }
 
         await startApp();
       } catch (err) {
