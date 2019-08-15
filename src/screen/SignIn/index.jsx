@@ -7,11 +7,9 @@ import bem from 'bem-join';
 import { notification } from 'antd';
 
 import { SignInForm } from '../../components/Forms';
-import { Map } from '../../components';
 
-import { asyncRequest } from '../../utils';
+import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
-import config from '../../config';
 import { defaultGeoPosition } from '../../components/Map/mapConfig';
 
 const b = bem('signIn');
@@ -63,13 +61,19 @@ class SignIn extends Component {
   sendCodeHandler = async (code) => {
     if (code.length === 6) {
       const { phone } = this.state;
-      const { checkAuthenticate, startApp } = this.props;
+      const { startApp } = this.props;
       const body = { value: phone.slice(1, 13), type: 'PHONE', code };
       const userDataUrl = 'auth/signin';
 
       try {
         const { tokenInfo } = await asyncRequest({ url: userDataUrl, body, method: 'POST' });
-        await checkAuthenticate(tokenInfo);
+        if (tokenInfo) {
+          const {
+            accessExpirationDate, accessToken, refreshToken, refreshExpirationDate,
+          } = tokenInfo;
+          cookieStorage.set('access_token', accessToken, { expires: new Date(accessExpirationDate), path: '/' });
+          cookieStorage.set('refresh_token', refreshToken, { expires: new Date(refreshExpirationDate), path: '/' });
+        }
 
         await startApp();
       } catch (err) {
@@ -86,21 +90,19 @@ class SignIn extends Component {
     const {
       gotCode,
       phone,
-      currentLocation,
       validateStatus,
     } = this.state;
 
     return (
       <div className={b()}>
-        <div className={b('left')}>
-          <div className={b('left-logo')} />
-          <div className={b('left-titleBlock')}>
-            <h1 className={b('left-titleBlock-title')}>
-              Панель управления вашим бизнесом
+        <div className={b('main')}>
+          <div className={b('logo')} />
+          <div className={b('titleBlock')}>
+            <h1 className={b('titleBlock-title')}>
+              Панель управления бизнесом
             </h1>
-            <div className={b('left-titleBlock-divider')} />
-            <p className={b('left-titleBlock-subtitle')}>
-              Маркетинг и контроль в один клик
+            <p className={b('titleBlock-subtitle')}>
+              удаленный контроль 24/7
             </p>
           </div>
           <SignInForm
@@ -112,29 +114,15 @@ class SignIn extends Component {
             gotCodeHandler={this.gotCodeHandler}
           />
         </div>
-        <div className={b('right')}>
-          {/* <div className={b('right-supportBlock')}>1</div> */}
-          <div className={b('right-mapBlock')}>
-            <Map
-              draggable={false}
-              containerElement={<div style={{ height: '100%' }} />}
-              mapElement={<div style={{ height: '100%' }} />}
-              loadingElement={<div style={{ height: '100%' }} />}
-              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleAPIKey}&libraries=geometry,drawing,places`}
-              currentLocation={currentLocation}
-            />
-          </div>
-          <div className={b('right-footerBlock')}>
-            <span>
-              All rights reserved. Copyright &copy; 2019
-              <a
-                href="https://www.gliesereum.com/"
-                target="_blank"
-              >
-                Gliesereum Ukraine
-              </a>
-            </span>
-          </div>
+        <div className={b('footer')}>
+          <span className={b('footer-text')}>All rights reserved. Copyright &copy; 2019 &nbsp;</span>
+          <a
+            className={b('footer-text')}
+            href="https://www.gliesereum.com/"
+            target="_blank"
+          >
+            Gliesereum Ukraine
+          </a>
         </div>
       </div>
     );
@@ -142,7 +130,6 @@ class SignIn extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  checkAuthenticate: tokenInfo => dispatch(actions.auth.$checkAuthenticate(tokenInfo)),
   startApp: () => dispatch(actions.app.$startApp()),
 });
 

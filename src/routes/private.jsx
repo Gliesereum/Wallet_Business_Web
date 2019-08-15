@@ -26,7 +26,7 @@ class PrivateRouter extends PureComponent {
         <Container user={user}>
           {
             (
-              user.firstName
+              user
               && user.firstName
               && user.lastName
               && user.middleName

@@ -66,26 +66,29 @@ class SignInForm extends Component {
 
     return (
       <Form className={b()}>
-        <div className={b('title')}>
+        <div className={b('title', { gotCode })}>
           {
-            gotCode ? (
+            gotCode && (
               <Timer
                 ref={node => this.timerRef = node}
                 timerFinishHandler={this.timerFinishHandler}
                 time={180000}
               />
-            ) : 'Hello'
+            )
           }
         </div>
         <div className={b('infoBlock')}>
           {
             gotCode ? (
-              <>
-                <span>Код был отправлен на номер</span>
-                <span>{phone}</span>
-              </>
+              <div>
+                <p>Код был отправлен на номер</p>
+                <p>{phone}</p>
+              </div>
             ) : (
-              <span>Введите номер телефона для получения кода подтверждения</span>
+              <div>
+                <p>Попробуйте</p>
+                <p>простую и удобную CRM</p>
+              </div>
             )
           }
         </div>
@@ -98,7 +101,6 @@ class SignInForm extends Component {
         >
           {gotCode
             ? form.getFieldDecorator('codeInput', {
-              validateTrigger: 'onBlur',
               getValueFromEvent: this.checkPasswordHandler,
               rules: [
                 { required: true, message: 'Please enter your code number!' },
@@ -147,7 +149,7 @@ class SignInForm extends Component {
                 className={b('button')}
                 onClick={gotCodeHandler}
               >
-                Изменить номер
+                Отмена
               </Button>
             </>
           ) : (
