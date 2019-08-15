@@ -166,23 +166,28 @@ class OrdersPage extends Component {
 
     const columns = [
       {
+        key: 'orderNumber',
         title: 'Заказ',
         render: (text, { recordNumber }) => <span>{recordNumber}</span>,
         width: 70,
       },
       {
+        key: 'businessName',
         title: 'Бизнес',
         render: (text, { business }) => <span>{business.name}</span>,
       },
       {
+        key: 'date',
         title: 'Дата',
         render: (text, { begin }) => <span>{getDate(begin)}</span>,
       },
       {
+        key: 'time',
         title: 'Время',
         render: (text, { begin }) => <span>{getDate(begin, true)}</span>,
       },
       {
+        key: 'status',
         className: 'status-column',
         title: 'Статус',
         render: (text, { statusProcess }) => (
@@ -193,10 +198,12 @@ class OrdersPage extends Component {
         ),
       },
       {
+        key: 'client',
         title: 'Клиент',
         render: (text, { client }) => <span>{client ? `${client.firstName} ${client.middleName}` : ''}</span>,
       },
       {
+        key: 'price',
         title: 'Сумма',
         render: (text, { price }) => <span>{price}</span>,
       },

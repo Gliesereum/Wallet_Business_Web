@@ -1,3 +1,5 @@
+@import '../../styles/theme.scss';
+
 .container {
   background: white;
   position: absolute;
@@ -12,7 +14,7 @@
 
   &__sidebar {
     overflow-y: scroll;
-    background: #4e69ff; // TODO: change to coupler colors
+    background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
   }
 }

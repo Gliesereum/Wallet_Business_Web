@@ -18,6 +18,7 @@ import {
 import { actions } from '../../state';
 import { fetchDecorator } from '../../utils';
 import {
+  fetchGetBusinessTypes,
   fetchGetPriceServices,
   fetchGetBusinessPackages,
   fetchGetWorkingSpaces,
@@ -189,8 +190,6 @@ const mapStateToProps = (state, { match, location }) => {
   return {
     businessPackages: state.business.businessPackages,
     corporations: state.corporations.corporations,
-    businessCategories: state.business.businessCategories,
-    businessTypes: state.business.businessTypes,
     servicePrices: state.business.servicePrices,
     workingSpaces: state.business.workingSpaces,
     singleBusiness,
@@ -206,7 +205,12 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   fetchDecorator({
-    actions: [fetchGetPriceServices, fetchGetBusinessPackages, fetchGetWorkingSpaces],
+    actions: [
+      fetchGetPriceServices,
+      fetchGetBusinessTypes,
+      fetchGetBusinessPackages,
+      fetchGetWorkingSpaces,
+    ],
     config: { loader: true },
   }),
   withRouter

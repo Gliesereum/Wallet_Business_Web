@@ -27,6 +27,52 @@ const fetchHelper = async ({
   return await fetch(fullUrl, _requestConfig);
 };
 
+export const fetchGetBusinessTypes = async () => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: 'business-category/business-type',
+      moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'businessTypes',
+  };
+};
+
+export const fetchGetBusinessCategoriesAccordingToBusinessTypeId = async ({ businessType }) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `business-category/by-business-type?businessType=${businessType}`,
+      moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'businessCategories',
+  };
+};
+
 export const fetchGetPriceServices = async ({ singleBusiness, getPriceService }) => {
   if (!singleBusiness) return;
   const result = [];
@@ -236,6 +282,31 @@ export const fetchWorkersById = async ({
   };
 };
 
+export const fetchAdminsByCorporation = async ({
+  corporationId,
+}) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `business-administrator/by-corporation?id=${corporationId}`,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'admins',
+  };
+};
+
 export const fetchClientsByIds = async ({
   corporationId = null,
   businessId = null,
@@ -267,13 +338,15 @@ export const fetchClientsByIds = async ({
 
 export const fetchOrdersByIds = async ({
   corporationId = null,
-  corporations,
+  corporations = [],
   businessId = null,
   page = 0,
   size = 5,
   from = null,
   to = null,
 }) => {
+  if (!businessId && !corporations.length && !corporationId) return;
+
   let result = {};
   const urlPath = 'record/by-params-for-business';
   try {
@@ -284,7 +357,7 @@ export const fetchOrdersByIds = async ({
       body: {
         page,
         size,
-        corporationId: corporationId || (!businessId ? corporations[0].id : null),
+        corporationId: corporationId || (corporations.length ? corporations[0].id : null),
         businessIds: businessId ? [businessId] : [],
         from,
         to,

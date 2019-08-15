@@ -3,8 +3,6 @@ import { createReducer } from '../../utils';
 
 const initState = {
   business: [],
-  businessTypes: [],
-  businessCategories: [],
   servicePrices: {},
   businessPackages: {},
   workingSpaces: [],
@@ -15,16 +13,6 @@ const initReducers = {
   [actions.GET_BUSINESS]: (state, payload) => ({
     ...state,
     business: payload,
-  }),
-
-  [actions.GET_BUSINESS_TYPES]: (state, payload) => ({
-    ...state,
-    businessTypes: payload || [],
-  }),
-
-  [actions.GET_BUSINESS_CATEGORIES]: (state, payload) => ({
-    ...state,
-    businessCategories: payload || [],
   }),
 
   [actions.UPDATE_BUSINESS]: (state, payload) => {

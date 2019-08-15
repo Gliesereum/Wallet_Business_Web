@@ -3,10 +3,14 @@ import bem from 'bem-join';
 import { Link } from 'react-router-dom';
 
 import {
-  Badge, Avatar, Dropdown, Menu, Icon,
+  // Badge,
+  Avatar,
+  Dropdown,
+  Menu,
+  Icon,
 } from 'antd';
 
-import Notification from '../../assets/Notification.svg';
+// import Notification from '../../assets/Notification.svg';
 import { getFirstLetterName } from '../../utils';
 
 const b = bem('header');
@@ -36,14 +40,14 @@ const ProfileMenu = () => (
 
 const Header = ({ user }) => (
   <div className={b()}>
-    <div className={b('content-box')}>
-      <Badge
-        count={3}
-        className={b('notification-box')}
-      >
-        <img src={Notification} alt="notification" />
-      </Badge>
-    </div>
+    {/* <div className={b('content-box')}> */}
+    {/*  <Badge */}
+    {/*    count={3} */}
+    {/*    className={b('notification-box')} */}
+    {/*  > */}
+    {/*    <img src={Notification} alt="notification" /> */}
+    {/*  </Badge> */}
+    {/* </div> */}
     <Dropdown trigger={['click']} overlay={ProfileMenu} className={b('content-box')}>
       <div>
         <Avatar src={user.avatarUrl || undefined} className={b('content-box-avatar')}>
