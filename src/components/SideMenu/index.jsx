@@ -10,10 +10,10 @@ import { actions } from '../../state';
 import {
   MyCorporations,
   Orders,
-  Analytics,
+  // Analytics,
   Workers,
   Clients,
-  Settings,
+  // Settings,
   Help,
   Exit,
 } from '../../assets/iconComponents';
@@ -33,12 +33,12 @@ const mainMenuItems = [
     linkTo: '/orders',
     // canDisabled: true,
   },
-  {
-    icon: Analytics,
-    text: 'Аналитика',
-    linkTo: '/analytics',
-    canDisabled: true,
-  },
+  // { // TODO: add in the next release
+  //   icon: Analytics,
+  //   text: 'Аналитика',
+  //   linkTo: '/analytics',
+  //   canDisabled: true,
+  // },
   {
     icon: Workers,
     text: 'Сотрудники',
@@ -54,12 +54,12 @@ const mainMenuItems = [
 ];
 
 const supportMenuItems = [
-  {
-    icon: Settings,
-    text: 'Настройки',
-    linkTo: '/settings',
-    canDisabled: true,
-  },
+  // { // TODO: add in the next release
+  // icon: Settings,
+  // text: 'Настройки',
+  // linkTo: '/settings',
+  // canDisabled: true,
+  // },
   {
     icon: Help,
     text: 'Помощь',
