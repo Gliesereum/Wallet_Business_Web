@@ -6,11 +6,11 @@ import { notification } from 'antd';
 
 import { WorkerInfo, WorkersList } from '../../components';
 
-import { fetchWorkersById, fetchBusinessesByCorp } from '../../fetches';
+import { fetchWorkersById, fetchBusinessesByCorp, fetchAdminsByCorporation } from '../../fetches';
 
 const b = bem('workersPage');
 
-class WorkingPage extends Component {
+class WorkersPage extends Component {
   state = {
     chosenWorker: null,
     isAddWorkerMode: false,
@@ -20,6 +20,7 @@ class WorkingPage extends Component {
       totalPages: 0,
       total: 0,
     },
+    admins: [],
   };
 
   changeActiveWorker = (worker, isAddWorkerMode) => () => this.setState({
@@ -52,6 +53,7 @@ class WorkingPage extends Component {
     page,
   }) => {
     try {
+      const { data: admins = [] } = await fetchAdminsByCorporation({ corporationId });
       const { data: workersPage = {} } = await fetchWorkersById({
         corporationId,
         businessId,
@@ -67,6 +69,7 @@ class WorkingPage extends Component {
           totalPages: workersPage.totalPages,
           total: workersPage.totalElements,
         },
+        admins,
       }));
     } catch (err) {
       notification.error({
@@ -84,6 +87,7 @@ class WorkingPage extends Component {
       isAddWorkerMode,
       workers,
       pagination,
+      admins,
     } = this.state;
 
     return (
@@ -96,6 +100,7 @@ class WorkingPage extends Component {
               corporations={corporations}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               changeActiveWorker={this.changeActiveWorker}
+              admins={admins}
             />
           ) : (
             <WorkersList
@@ -117,4 +122,4 @@ const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
 });
 
-export default connect(mapStateToProps)(WorkingPage);
+export default connect(mapStateToProps)(WorkersPage);

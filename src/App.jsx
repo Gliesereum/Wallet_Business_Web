@@ -25,10 +25,8 @@ class App extends Component {
         );
       case 'error':
         return <div>Error</div>;
-      // return <ScreenError onReload={this.props.initApp}/>;
       default:
         return <div>Default</div>;
-      // return <ScreenError onReload={this.props.initApp}/>;
     }
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import {
   Route,
   BrowserRouter as Router,
@@ -17,30 +17,46 @@ import {
   FAQ,
 } from '../screen';
 
-const privateRouter = ({ user }) => (
-  <Router>
-    <Container user={user}>
-      <Switch>
-        <Route path="/corporations" exact component={CorporationsPage} />
-        <Route path="/orders" exact component={OrdersPage} />
-        <Route path="/workers" exact component={WorkersPage} />
-        <Route path="/clients" exact component={ClientsPage} />
+class PrivateRouter extends PureComponent {
+  render() {
+    const { user } = this.props;
 
-        <Route path="/settings" exact>
-          <Redirect to="/corporations" />
-        </Route>
-        <Route path="/analytics" exact>
-          <Redirect to="/corporations" />
-        </Route>
+    return (
+      <Router>
+        <Container user={user}>
+          {
+            (
+              user.firstName
+              && user.firstName
+              && user.lastName
+              && user.middleName
+              && user.country
+              && user.city
+            ) ? (
+              <Switch>
+                <Route path="/corporations" exact component={CorporationsPage} />
+                <Route path="/orders" exact component={OrdersPage} />
+                <Route path="/workers" exact component={WorkersPage} />
+                <Route path="/clients" exact component={ClientsPage} />
 
-        <Route path="/profile" exact component={ProfileInfo} />
+                <Route path="/profile" exact component={ProfileInfo} />
 
-        <Route path="/help" exact component={FAQ} />
+                <Route path="/help" exact component={FAQ} />
 
-        <Route path={['/business/add', '/business/:id']} exact component={BusinessPage} />
-      </Switch>
-    </Container>
-  </Router>
-);
+                <Route path={['/business/add', '/business/:id']} exact component={BusinessPage} />
 
-export default privateRouter;
+                <Redirect from="*" to="/corporations" />
+              </Switch>
+              ) : (
+                <Switch>
+                  <Route component={ProfileInfo} />
+                </Switch>
+              )
+          }
+        </Container>
+      </Router>
+    );
+  }
+}
+
+export default PrivateRouter;

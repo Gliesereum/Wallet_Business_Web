@@ -59,24 +59,29 @@ const actions = {
     const refresh_token = cookieStorage.get('refresh_token');
 
     const user = await getTokenAndUser(dispatch, access_token, refresh_token);
+    const email = await withToken(asyncRequest)({ url: 'email/by-user' }) || {};
 
-    if (user && user.firstName) {
-      await dispatch(authActions.$updateUserData(user));
+    await dispatch(authActions.$updateUserData(user));
+    await dispatch(authActions.$addUserEmail(email));
 
-      const emailUrl = 'email/by-user';
+    if (
+      user
+      && user.firstName
+      && user.lastName
+      && user.middleName
+      && user.country
+      && user.city
+    ) {
       const businessesUrl = 'business/by-current-user/like-owner';
       const corporationsUrl = 'corporation/by-user';
 
-      const email = await withToken(asyncRequest)({ url: emailUrl }) || {};
       const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
       const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
 
-      await dispatch(authActions.$addUserEmail(email));
       await dispatch(businessActions.$getBusiness(business));
       await dispatch(corporationsActions.$getCorporations(corporations));
-    } else {
-      // TODO: перекинуть на профиль
     }
+
     await dispatch(actions.$appStatus('ready'));
   },
 

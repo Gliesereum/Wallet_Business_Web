@@ -282,6 +282,31 @@ export const fetchWorkersById = async ({
   };
 };
 
+export const fetchAdminsByCorporation = async ({
+  corporationId,
+}) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `business-administrator/by-corporation?id=${corporationId}`,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'admins',
+  };
+};
+
 export const fetchClientsByIds = async ({
   corporationId = null,
   businessId = null,
