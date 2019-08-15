@@ -10,13 +10,29 @@ import {
 
 const b = bem('container');
 
-const Container = ({ user, children }) => (
+const Container = ({ user = {}, children }) => (
   <Row className={b()}>
-    <Col md={2} lg={2} xl={6} className={b('sidebar')}>
-      <SideMenu />
-    </Col>
-    <Col md={22} lg={22} xl={18}>
-      {user && user.firstName && <Header user={user} />}
+    {
+      user.firstName && (
+        <Col
+          md={2}
+          lg={2}
+          xl={6}
+          className={b('sidebar')}
+        >
+          <SideMenu />
+        </Col>
+      )
+    }
+
+    <Col
+      md={user.firstName ? 22 : 24}
+      lg={user.firstName ? 22 : 24}
+      xl={user.firstName ? 18 : 24}
+    >
+      {
+        user.firstName && <Header user={user} />
+      }
       {children}
     </Col>
   </Row>

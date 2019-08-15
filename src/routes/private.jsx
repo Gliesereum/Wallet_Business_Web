@@ -21,10 +21,6 @@ const privateRouter = ({ user }) => (
   <Router>
     <Container user={user}>
       <Switch>
-        {/* <Route path={['/', '/login', '/analytics', '/profile']} exact> */}
-        {/*  <Redirect to={(user && user.firstName) ? '/corporations' : '/profile'} /> */}
-        {/* </Route> */}
-
         <Route path="/corporations" exact component={CorporationsPage} />
         <Route path="/orders" exact component={OrdersPage} />
         <Route path="/workers" exact component={WorkersPage} />

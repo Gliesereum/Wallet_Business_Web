@@ -313,13 +313,15 @@ export const fetchClientsByIds = async ({
 
 export const fetchOrdersByIds = async ({
   corporationId = null,
-  corporations,
+  corporations = [],
   businessId = null,
   page = 0,
   size = 5,
   from = null,
   to = null,
 }) => {
+  if (!businessId && !corporations.length && !corporationId) return;
+
   let result = {};
   const urlPath = 'record/by-params-for-business';
   try {
@@ -330,7 +332,7 @@ export const fetchOrdersByIds = async ({
       body: {
         page,
         size,
-        corporationId: corporationId || (!businessId ? corporations[0].id : null),
+        corporationId: corporationId || (corporations.length ? corporations[0].id : null),
         businessIds: businessId ? [businessId] : [],
         from,
         to,
