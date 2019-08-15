@@ -11,6 +11,7 @@ const actions = {
   $startApp: () => async (dispatch) => {
     const access_token = cookieStorage.get('access_token');
     const refresh_token = cookieStorage.get('refresh_token');
+
     const statusUrl = 'status';
     const authCheckUrl = 'auth/check';
     const userUrl = 'user/me';
@@ -18,8 +19,6 @@ const actions = {
     const refreshUrl = 'auth/refresh';
     const businessesUrl = 'business/by-current-user/like-owner';
     const corporationsUrl = 'corporation/by-user';
-    const businessTypeUrl = 'business-category/business-type';
-    const businessCategoryUrl = 'business-category';
 
     try {
       await dispatch(actions.$appStatus('loading'));
@@ -31,15 +30,11 @@ const actions = {
         const email = await withToken(asyncRequest)({ url: emailUrl }) || {};
         const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
         const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
-        const businessTypes = await withToken(asyncRequest)({ url: businessTypeUrl, moduleUrl: 'karma' });
-        const businessCategories = await withToken(asyncRequest)({ url: businessCategoryUrl, moduleUrl: 'karma' });
 
         await dispatch(authActions.$updateUserData(user));
         await dispatch(authActions.$addUserEmail(email));
         await dispatch(businessActions.$getBusiness(business));
         await dispatch(corporationsActions.$getCorporations(corporations));
-        await dispatch(businessActions.$getBusinessTypes(businessTypes));
-        await dispatch(businessActions.$getBusinessCategories(businessCategories));
         await dispatch(authActions.$checkAuthenticate(tokenInfo));
       } else if (refresh_token && refresh_token !== 'undefined') {
         const tokenInfo = await asyncRequest({

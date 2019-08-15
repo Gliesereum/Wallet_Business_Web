@@ -1,7 +1,4 @@
 const actions = {
-  GET_BUSINESS_TYPES: 'GET_BUSINESS_TYPES',
-  GET_BUSINESS_CATEGORIES: 'GET_BUSINESS_CATEGORIES',
-
   GET_BUSINESS: 'GET_BUSINESS',
   UPDATE_BUSINESS: 'UPDATE_BUSINESS',
   ADD_BUSINESS: 'ADD_BUSINESS',
@@ -28,16 +25,6 @@ const actions = {
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
     payload: business,
-  }),
-
-  $getBusinessTypes: types => ({
-    type: actions.GET_BUSINESS_TYPES,
-    payload: types,
-  }),
-
-  $getBusinessCategories: categories => ({
-    type: actions.GET_BUSINESS_CATEGORIES,
-    payload: categories,
   }),
 
   $updateBusiness: updatedBusiness => ({

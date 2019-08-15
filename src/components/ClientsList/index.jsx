@@ -237,7 +237,7 @@ class ClientsList extends Component {
       {
         className: 'action-column',
         onCell: client => ({
-          onClick: () => console.log(client),
+          onClick: () => console.log(client), // TODO: add action handler
         }),
         width: 105,
         render: () => <div>Связь</div>,
