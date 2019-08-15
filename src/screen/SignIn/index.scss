@@ -1,91 +1,68 @@
 @import '../../styles/theme';
 
 .signIn {
-  height: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 
-  &__left {
+  &__main {
     background: linear-gradient(48.16deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
-    height: 100%;
-    width: 344px;
-    padding: 16px 32px;
+    box-shadow: 24px 24px 48px rgba(0, 0, 0, 0.24);
+    border-radius: 4px;
+    width: 592px;
+    height: 592px;
+    padding: 32px 104px;
+    margin: auto;
+  }
 
-    &-logo {
-      background: no-repeat $coupler_logo_beta; // imported from base.scss
-      height: 35px;
-    }
+  &__footer {
+    padding: 16px 0 24px;
 
-    &-titleBlock {
-      width: 100%;
-      padding: 58px 0 59px;
-
-      &-title {
-        font-family: $sans;
-        font-size: 18px;
-        font-weight: 500;
-        line-height: 32px;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        font-feature-settings: 'pnum' on, 'lnum' on;
-        color: $white;
-      }
-
-      &-divider {
-        height: 1px;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.24);
-        margin: 18px 0 26px;
-      }
-
-      &-subtitle {
-        font-family: $sans;
-        font-size: 13px;
-        line-height: 16px;
-        font-weight: 500;
-        color: $white;
-        text-transform: uppercase;
-      }
+    &-text {
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #B3B3B3;
     }
   }
 
-  &__right {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    flex: 1;
-    @media screen and (max-width: $max-phone) {
-      display: none;
+  &__logo {
+    background: no-repeat $logo-single-white-signIn; // imported from base.scss
+    background-size: 64px 64px;
+    height: 64px;
+    width: 64px;
+    margin: 0 auto;
+  }
+
+  &__titleBlock {
+    width: 100%;
+    padding: 24px 0 0;
+    text-align: center;
+
+    &-title {
+      font-family: $sans;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: $white;
     }
 
-    &-supportBlock {
-      width: 100%;
-      height: 72px;
-      box-shadow: $shadow-bottom;
-    }
-
-    &-mapBlock {
-      flex: 1 1 auto;
-      position: relative;
-    }
-
-    &-footerBlock {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      width: 100%;
-      padding: 0 72px;
-      height: 56px;
-      box-shadow: $shadow-top;
-      @media screen and (max-width: $max-tablet) {
-        padding: 0 16px;
-      }
-
-      & span {
-        font-family: $sans;
-        font-size: 12px;
-        line-height: 24px;
-        color: $middle-gray;
-      }
+    &-subtitle {
+      font-family: $sans;
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: 500;
+      color: $white;
+      text-transform: lowercase;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
     }
   }
 }
