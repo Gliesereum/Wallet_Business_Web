@@ -9,7 +9,9 @@
   box-shadow: $shadow-bottom;
   padding: 0 48px;
   z-index: 2;
-  position: relative;
+  position: sticky;
+  top: 0;
+  background-color: $white;
 
   &__content-box {
     height: 100%;

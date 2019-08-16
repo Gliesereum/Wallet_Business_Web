@@ -4,8 +4,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100% - 56px);
-  overflow-y: scroll;
   padding-bottom: 40px;
 
   &__header {

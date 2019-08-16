@@ -1,13 +1,8 @@
 @import '../../styles/theme.scss';
 
-.corporationsContainer {
-  background: $white;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 56px;
+.corporationsPage {
   display: flex;
+  height: calc(100% + 40px);
 
   &__emptyState-wrapper {
     padding: 0 24px 0 16px;
@@ -28,11 +23,5 @@
       letter-spacing: 0.02em;
       font-feature-settings: 'pnum' on, 'lnum' on;
     }
-  }
-
-  &__col {
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
   }
 }
