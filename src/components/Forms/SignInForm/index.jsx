@@ -41,12 +41,16 @@ class SignInForm extends Component {
     });
   };
 
-  checkPasswordHandler = (e) => {
+  checkInputHandler = inputField => (e) => {
     const { value } = e.target;
-    const regExp = /^[\d]{0,6}$/;
 
-    if (Number.isNaN(value) || !regExp.test(value)) {
-      return this.props.form.getFieldValue('codeInput');
+    const regExp = {
+      phoneInput: /^\+[\d]{0,12}$/,
+      codeInput: /^[\d]{0,6}$/,
+    };
+
+    if (Number.isNaN(value) || !regExp[inputField].test(value)) {
+      return this.props.form.getFieldValue(inputField);
     }
 
     return value;
@@ -101,7 +105,7 @@ class SignInForm extends Component {
         >
           {gotCode
             ? form.getFieldDecorator('codeInput', {
-              getValueFromEvent: this.checkPasswordHandler,
+              getValueFromEvent: this.checkInputHandler('codeInput'),
               rules: [
                 { required: true, message: 'Please enter your code number!' },
                 { pattern: new RegExp(/^[\d ]{6}$/), message: 'Invalid code number!' },
@@ -117,6 +121,7 @@ class SignInForm extends Component {
             )
             : form.getFieldDecorator('phoneInput', {
               initialValue: '+380',
+              getValueFromEvent: this.checkInputHandler('phoneInput'),
               rules: [
                 { required: true, message: 'Please enter your phone number!' },
                 { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
