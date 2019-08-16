@@ -10,6 +10,7 @@ import {
   Upload,
 } from 'antd';
 
+import { checkInputHandler } from '../../../utils';
 import { AddIcon } from '../../../assets/iconComponents';
 
 const { Dragger: UploadDragger } = Upload;
@@ -107,6 +108,7 @@ const CorporationForm = (props) => {
           <Form.Item label="Телефонный номер">
             {form.getFieldDecorator('phone', {
               initialValue: chosenCorporation ? chosenCorporation.phone : '',
+              getValueFromEvent: checkInputHandler('phone', form),
               rules: [
                 { required: true, message: 'Поле обязательное для заполнения' },
                 { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },

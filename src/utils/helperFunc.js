@@ -23,3 +23,18 @@ export const getDate = (date, inHours = false) => {
 
   return `${DD}.${MM}.${YYYY}`;
 };
+
+export const checkInputHandler = (inputField, form) => (e) => {
+  const { value } = e.target;
+
+  const regExp = {
+    phone: /^\+[\d]{0,12}$/,
+    code: /^[\d]{0,6}$/,
+  };
+
+  if (Number.isNaN(value) || !regExp[inputField].test(value)) {
+    return form.getFieldValue(inputField);
+  }
+
+  return value;
+};
