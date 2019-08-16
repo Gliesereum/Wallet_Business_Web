@@ -1,7 +1,9 @@
 @import '../../styles/theme.scss';
 
 .clientInfo {
+  display: flex;
   flex: 1;
+  flex-direction: column;
 
   &__header {
     padding: 0 32px;
@@ -104,8 +106,7 @@
   &__clientInfo {
     width: 312px;
     border-left: 1px solid #DEE9F4;
-    padding: 16px 0;
-    margin-bottom: 32px;
+    padding-top: 16px;
 
     &-avatar {
       display: block;

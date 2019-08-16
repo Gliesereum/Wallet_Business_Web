@@ -24,7 +24,7 @@ import {
   fetchGetWorkingSpaces,
 } from '../../fetches';
 
-const b = bem('business');
+const b = bem('businessPage');
 
 class BusinessPage extends Component {
   state = {

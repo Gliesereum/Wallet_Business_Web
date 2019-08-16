@@ -1,6 +1,8 @@
 @import '../../styles/theme.scss';
 
 .ordersPage {
+  display: flex;
+  flex: 1;
   &__wrapper {
     flex: 1;
   }

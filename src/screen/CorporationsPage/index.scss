@@ -2,10 +2,10 @@
 
 .corporationsPage {
   display: flex;
-  height: calc(100% + 40px);
+  flex: 1;
 
-  &__emptyState-wrapper {
-    padding: 0 24px 0 16px;
+  &__empty {
+    flex: 1;
   }
 
   &__header {

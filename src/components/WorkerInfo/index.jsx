@@ -325,11 +325,7 @@ class WorkerInfo extends Component {
                     Удалить сотрудника
                   </Button>
                 ) : (
-                  <Button
-                    className={b('content-controlBtns-btn deleteBtn')}
-                  >
-                    Інфо блок
-                  </Button>
+                  <div />
                 )
               }
             </Col>

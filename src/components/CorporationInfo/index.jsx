@@ -17,7 +17,7 @@ import { CorporationForm } from '../Forms';
 import { asyncRequest, asyncUploadFile, withToken } from '../../utils';
 import { actions } from '../../state';
 
-const b = bem('corporation');
+const b = bem('corporationInfo');
 
 class CorporationInfo extends Component {
   state = {
@@ -171,11 +171,7 @@ class CorporationInfo extends Component {
                     Удалить
                   </Button>
                 ) : (
-                  <Button
-                    className={b('formBox-controlBtns-btn deleteBtn')}
-                  >
-                    Інфо блок
-                  </Button>
+                  <div />
                 )
               }
             </Col>
