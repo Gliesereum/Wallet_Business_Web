@@ -171,11 +171,7 @@ class CorporationInfo extends Component {
                     Удалить
                   </Button>
                 ) : (
-                  <Button
-                    className={b('formBox-controlBtns-btn deleteBtn')}
-                  >
-                    Інфо блок
-                  </Button>
+                  <div />
                 )
               }
             </Col>
