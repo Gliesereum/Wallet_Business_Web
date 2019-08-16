@@ -55,7 +55,6 @@ const Header = ({ user }) => (
         </Avatar>
         <div className={b('content-box-naming')}>
           <h1>{`${user.firstName} ${user.lastName}`}</h1>
-          <p>trial</p>
         </div>
         <Icon type="down" />
       </div>

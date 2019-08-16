@@ -255,30 +255,32 @@ class OrdersPage extends Component {
             </div>
           </div>
           <div className={b('content')}>
-            <div className={b('content-options')}>
-              <PeriodSelector
-                getFromToData={this.handleRefreshOrdersByFromTo}
-              />
-            </div>
             {
               isOrdersExist ? (
-                <div className={b('content-orders')}>
-                  <Table
-                    rowKey={record => record.id}
-                    className={b('content-orders-ordersTable', { isEmpty: !isOrdersExist })}
-                    columns={columns}
-                    dataSource={orders}
-                    pagination={pagination.totalPages > 1
-                      ? {
-                        ...pagination,
-                        pageSize: 5,
-                        className: b('content-orders-pagination'),
+                <>
+                  <div className={b('content-options')}>
+                    <PeriodSelector
+                      getFromToData={this.handleRefreshOrdersByFromTo}
+                    />
+                  </div>
+                  <div className={b('content-orders')}>
+                    <Table
+                      rowKey={record => record.id}
+                      className={b('content-orders-ordersTable', { isEmpty: !isOrdersExist })}
+                      columns={columns}
+                      dataSource={orders}
+                      pagination={pagination.totalPages > 1
+                        ? {
+                          ...pagination,
+                          pageSize: 5,
+                          className: b('content-orders-pagination'),
+                        }
+                        : false
                       }
-                      : false
-                    }
-                    onChange={this.handleTableChange}
-                  />
-                </div>
+                      onChange={this.handleTableChange}
+                    />
+                  </div>
+                </>
               ) : (
                 <EmptyState
                   title="У вас нету заказов"

@@ -12,9 +12,17 @@
   display: flex;
   overflow: hidden;
 
-  &__sidebar {
-    overflow-y: scroll;
-    background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
+  &__wrapper {
+    flex: 1;
+    position: relative;
+    overflow-y: auto;
+  }
+
+  &__layout {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }

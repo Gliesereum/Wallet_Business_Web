@@ -7,9 +7,10 @@
   width: 100%;
   height: 56px;
   box-shadow: $shadow-bottom;
-  padding: 0 48px;
   z-index: 2;
-  position: relative;
+  position: sticky;
+  top: 0;
+  background-color: $white;
 
   &__content-box {
     height: 100%;
@@ -32,7 +33,7 @@
         font-size: 14px;
         color: $gray;
         letter-spacing: 0.01em;
-        line-height: 16px;
+        line-height: 30px;
       }
 
       & p {
