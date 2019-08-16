@@ -38,14 +38,12 @@ class CorporationsPage extends Component {
       <div className={b()}>
         {
           isAddCorporationMode || (chosenCorporation && chosenCorporation.id) ? (
-            <div>
-              <CorporationInfo
-                isAddMode={isAddCorporationMode}
-                corporations={corporations}
-                chosenCorporation={chosenCorporation}
-                changeActiveCorporation={this.changeActiveCorporation}
-              />
-            </div>
+            <CorporationInfo
+              isAddMode={isAddCorporationMode}
+              corporations={corporations}
+              chosenCorporation={chosenCorporation}
+              changeActiveCorporation={this.changeActiveCorporation}
+            />
           ) : (
             <>
               {
@@ -73,20 +71,18 @@ class CorporationsPage extends Component {
                     }
                   </>
                 ) : (
-                  <div>
+                  <div className={b('empty')}>
                     <div className={b('header')}>
                       <h1 className={b('header-title')}>
                         Информация о компании
                       </h1>
                     </div>
-                    <div className={b('emptyState-wrapper')}>
-                      <EmptyState
-                        title="У вас нету компаний"
-                        descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
-                        addItemText="Создать компанию"
-                        addItemHandler={this.changeActiveCorporation}
-                      />
-                    </div>
+                    <EmptyState
+                      title="У вас нету компаний"
+                      descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
+                      addItemText="Создать компанию"
+                      addItemHandler={this.changeActiveCorporation}
+                    />
                   </div>
                 )
               }
