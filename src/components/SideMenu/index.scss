@@ -5,6 +5,7 @@
   width: 256px;
   background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
+  z-index: 3;
 
   &__logo {
     background: no-repeat 32px 16px $coupler_logo_beta; // imported from base.scss

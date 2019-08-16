@@ -53,7 +53,7 @@ class WorkersPage extends Component {
     page,
   }) => {
     try {
-      const { data: admins = [] } = await fetchAdminsByCorporation({ corporationId });
+      const { data: admins = [] } = await fetchAdminsByCorporation({ corporationId, businessId });
       const { data: workersPage = {} } = await fetchWorkersById({
         corporationId,
         businessId,

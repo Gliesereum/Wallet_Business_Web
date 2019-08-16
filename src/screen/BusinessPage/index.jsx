@@ -31,6 +31,7 @@ class BusinessPage extends Component {
     disabledTab: {
       servicesDisable: null,
       packagesDisable: null,
+      workingSpaceDisable: null,
     },
   };
 
@@ -48,6 +49,7 @@ class BusinessPage extends Component {
       disabledTab: {
         servicesDisable: initialTabDisabled,
         packagesDisable: !singleBusiness || (singleBusiness && servicePrices && !servicePrices[singleBusiness.id]),
+        workingSpaceDisable: !singleBusiness,
       },
     });
   }
@@ -131,6 +133,7 @@ class BusinessPage extends Component {
       {
         tabName: 'Рабочие места',
         keyName: 'workingSpace',
+        disabled: disabledTab.workingSpaceDisable,
         ContentComponent: BusinessWorkingSpaces,
         props: {
           workingSpaces,
