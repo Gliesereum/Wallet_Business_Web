@@ -6,15 +6,21 @@ import { notification } from 'antd';
 
 import { WorkerInfo, WorkersList } from '../../components';
 
-import { fetchWorkersByCorporationId, fetchBusinessesByCorp } from '../../fetches';
+import { fetchWorkersById, fetchBusinessesByCorp, fetchAdminsByCorporation } from '../../fetches';
 
 const b = bem('workersPage');
 
-class WorkingPage extends Component {
+class WorkersPage extends Component {
   state = {
     chosenWorker: null,
     isAddWorkerMode: false,
     workers: [],
+    pagination: {
+      current: 0,
+      totalPages: 0,
+      total: 0,
+    },
+    admins: [],
   };
 
   changeActiveWorker = (worker, isAddWorkerMode) => () => this.setState({
@@ -26,7 +32,7 @@ class WorkingPage extends Component {
     let businesses = [];
     try {
       const { data = [] } = await fetchBusinessesByCorp({ corporationId });
-      getWorkers && await this.handleGetWorkers(corporationId);
+      getWorkers && await this.handleGetWorkers({ corporationId });
 
       businesses = data;
     } catch (err) {
@@ -40,10 +46,31 @@ class WorkingPage extends Component {
     return businesses;
   };
 
-  handleGetWorkers = async (corporationId) => {
+  handleGetWorkers = async ({
+    corporationId,
+    businessId,
+    queryValue,
+    page,
+  }) => {
     try {
-      const { data: workers = [] } = await fetchWorkersByCorporationId({ corporationId });
-      this.setState({ workers });
+      const { data: admins = [] } = await fetchAdminsByCorporation({ corporationId });
+      const { data: workersPage = {} } = await fetchWorkersById({
+        corporationId,
+        businessId,
+        queryValue,
+        page,
+      });
+      this.setState(prevState => ({
+        ...prevState,
+        workers: queryValue ? prevState.clients : workersPage.content,
+        pagination: {
+          ...prevState.pagination,
+          current: workersPage.number + 1,
+          totalPages: workersPage.totalPages,
+          total: workersPage.totalElements,
+        },
+        admins,
+      }));
     } catch (err) {
       notification.error({
         duration: 5,
@@ -59,6 +86,8 @@ class WorkingPage extends Component {
       chosenWorker,
       isAddWorkerMode,
       workers,
+      pagination,
+      admins,
     } = this.state;
 
     return (
@@ -71,10 +100,12 @@ class WorkingPage extends Component {
               corporations={corporations}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               changeActiveWorker={this.changeActiveWorker}
+              admins={admins}
             />
           ) : (
             <WorkersList
               workers={workers}
+              pagination={pagination}
               corporations={corporations}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               getWorkers={this.handleGetWorkers}
@@ -91,4 +122,4 @@ const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
 });
 
-export default connect(mapStateToProps)(WorkingPage);
+export default connect(mapStateToProps)(WorkersPage);

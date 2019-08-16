@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: center;
     height: 72px;
-    background: indianred; // TODO: change to coupler colors
+    background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
 
     &-title {
       color: $white;
@@ -44,7 +44,7 @@
 
       & .ant-table {
         &-body {
-          min-height: 384px;
+          min-height: 336px;
 
           & .status-column > div {
             display: flex;
@@ -60,6 +60,10 @@
             font-size: 12px;
             line-height: 24px;
 
+            & > th {
+              padding: 0 16px;
+            }
+
             & > th .ant-table-header-column {
               width: 100%;
             }
@@ -70,10 +74,20 @@
           & > tr {
             height: 48px;
 
+            & > td {
+              padding: 0 16px;
+            }
+
             &.ant-table-expanded-row > td {
               padding: 0;
             }
           }
+        }
+      }
+
+      &--isEmpty {
+        & .ant-table-body {
+          min-height: unset;
         }
       }
     }

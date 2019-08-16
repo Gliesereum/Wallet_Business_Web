@@ -27,6 +27,9 @@ class WorkerInfo extends Component {
     scheduleList: [],
     foundUser: null,
     deleteModalVisible: false,
+    isAdmin: (this.props.chosenWorker && this.props.admins.length)
+      ? this.props.admins.some(admin => admin.userId === this.props.chosenWorker.userId)
+      : false,
   };
 
   async componentDidMount() {
@@ -77,7 +80,7 @@ class WorkerInfo extends Component {
         lastName,
         middleName,
         phone,
-        gender,
+        isAdmin,
         ...workTimesData
       }) => {
         if (!error) {
@@ -127,7 +130,6 @@ class WorkerInfo extends Component {
               lastName,
               middleName,
               phone,
-              gender,
             },
             workTimes,
           };
@@ -153,6 +155,17 @@ class WorkerInfo extends Component {
             await withToken(asyncRequest)({
               url, body, method, moduleUrl: 'karma',
             });
+
+            if (this.state.isAdmin !== isAdmin) {
+              await withToken(asyncRequest)({
+                url: `business-administrator?businessId=${businessId}&userId=${body.userId}`,
+                method: isAdmin ? 'POST' : 'DELETE',
+                moduleUrl: 'karma',
+              });
+
+              this.setState({ isAdmin });
+            }
+
             changeActiveWorker(null, false)();
           } catch (err) {
             notification.error({
@@ -252,6 +265,7 @@ class WorkerInfo extends Component {
       workingSpaces,
       scheduleList,
       deleteModalVisible,
+      isAdmin,
     } = this.state;
 
     return (
@@ -268,6 +282,7 @@ class WorkerInfo extends Component {
             chosenWorker={chosenWorker}
             readOnlyMode={readOnlyMode}
             isAddMode={isAddMode}
+            isAdmin={isAdmin}
             getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
             getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
             onCorpChange={this.handleCorpChange}

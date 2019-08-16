@@ -21,12 +21,14 @@ import {
   asyncUploadFile,
   withToken,
 } from '../../utils';
+import { fetchGetBusinessCategoriesAccordingToBusinessTypeId } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('businessMainInfo');
 
 class BusinessMainInfo extends Component {
   state = {
+    businessCategories: [],
     deleteModalVisible: false,
     currentLocation: defaultGeoPosition,
     businessLogoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
@@ -120,6 +122,11 @@ class BusinessMainInfo extends Component {
 
   changeCurrentTimeZone = timeZone => this.setState({ timeZone });
 
+  handleChangeBusinessType = async (businessType) => {
+    const { data: businessCategories } = await fetchGetBusinessCategoriesAccordingToBusinessTypeId({ businessType });
+    this.setState({ businessCategories });
+  };
+
   toggleDeleteModal = () => {
     this.setState(prevState => ({
       deleteModalVisible: !prevState.deleteModalVisible,
@@ -130,12 +137,12 @@ class BusinessMainInfo extends Component {
     const {
       isAddBusinessMode,
       corporations,
-      businessCategories,
       businessTypes,
       chosenCorpId,
       singleBusiness,
     } = this.props;
     const {
+      businessCategories,
       deleteModalVisible,
       businessLogoUrl,
       isError,
@@ -153,6 +160,7 @@ class BusinessMainInfo extends Component {
           singleBusiness={singleBusiness}
           isError={isError}
           uploadBusinessImage={this.uploadBusinessImage}
+          changeBusinessType={this.handleChangeBusinessType}
           businessLogoUrl={businessLogoUrl}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}

@@ -8,10 +8,11 @@ import {
   Input,
   Select,
   Upload,
-  Icon,
 } from 'antd';
 
 import ProfileEmail from '../ProfileEmail';
+import { AddIcon } from '../../../assets/iconComponents';
+
 
 const { Dragger: UploadDragger } = Upload;
 const b = bem('profileForm');
@@ -53,11 +54,21 @@ class ProfileForm extends PureComponent {
                   )
                 }
                 <div className={b('uploader-inside')}>
-                  <Icon className={b('uploader-inside-icon')} type="plus-circle" />
+                  <AddIcon
+                    className={b('uploader-inside-icon', { errorView: isError })}
+                    size={{
+                      x: isError ? 32 : 48,
+                      y: isError ? 32 : 48,
+                    }}
+                  />
                   <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                  <p className={b('uploader-inside-text', { isError })}>
-                    Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                  </p>
+                  {
+                    isError && (
+                      <p className={b('uploader-inside-error')}>
+                        Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                      </p>
+                    )
+                  }
                 </div>
               </div>
             </UploadDragger>

@@ -187,7 +187,7 @@ class CorporationInfo extends Component {
                     type="primary"
                     onClick={this.handleToggleReadOnlyMode(false)}
                   >
-                    Редактировать сотрудника
+                    Редактировать компанию
                   </Button>
                 ) : (
                   <Button

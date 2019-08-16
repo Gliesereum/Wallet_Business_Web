@@ -125,8 +125,8 @@ class BusinessMainInfoForm extends Component {
   render() {
     const {
       singleBusiness,
-      businessTypes,
-      businessCategories,
+      businessTypes = [],
+      businessCategories = [],
       form,
       corporations = [],
       isAddBusinessMode,
@@ -134,6 +134,7 @@ class BusinessMainInfoForm extends Component {
       businessLogoUrl,
       isError,
       uploadBusinessImage,
+      changeBusinessType,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
@@ -152,6 +153,13 @@ class BusinessMainInfoForm extends Component {
         lng: singleBusiness.longitude,
       },
     } : initialFieldValues(chosenCorpId);
+
+    let businessCategoriesList = [];
+    if (singleBusiness && singleBusiness.id) {
+      businessCategoriesList = [singleBusiness.businessCategory];
+    } else if (businessCategories && businessCategories.length) {
+      businessCategoriesList = businessCategories;
+    }
 
     return (
       <Form
@@ -237,6 +245,33 @@ class BusinessMainInfoForm extends Component {
               <Row gutter={31}>
                 <Col lg={12}>
                   <FormItem
+                    label="Деловая активность"
+                  >
+                    {form.getFieldDecorator('serviceType', {
+                      initialValue: formInitValues.businessType,
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                      ],
+                      onChange: changeBusinessType,
+                    })(
+                      <Select
+                        placeholder="Выбрать..."
+                        className={!isAddBusinessMode ? 'readOnly' : ''}
+                      >
+                        {businessTypes.length && businessTypes.map(businessType => (
+                          <Select.Option
+                            key={businessType}
+                            value={businessType}
+                          >
+                            {translateBusinessType[businessType]}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col lg={12}>
+                  <FormItem
                     label="Категория бизнесса"
                   >
                     {form.getFieldDecorator('businessCategoryId', {
@@ -249,7 +284,7 @@ class BusinessMainInfoForm extends Component {
                         placeholder="Выбрать..."
                         className={!isAddBusinessMode ? 'readOnly' : ''}
                       >
-                        {businessCategories && businessCategories.map(corporation => (
+                        {businessCategoriesList.map(corporation => (
                           <Select.Option
                             key={corporation.name}
                             value={corporation.id}
@@ -258,21 +293,6 @@ class BusinessMainInfoForm extends Component {
                           </Select.Option>
                         ))}
                       </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col lg={12}>
-                  <FormItem
-                    label="Номер телефона"
-                  >
-                    {form.getFieldDecorator('phone', {
-                      initialValue: formInitValues.phone,
-                      rules: [
-                        { required: true, message: 'Please enter your phone number!' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
-                      ],
-                    })(
-                      <ProneInput />
                     )}
                   </FormItem>
                 </Col>
@@ -293,27 +313,16 @@ class BusinessMainInfoForm extends Component {
                 </Col>
                 <Col lg={12}>
                   <FormItem
-                    label="Деловая активность"
+                    label="Номер телефона"
                   >
-                    {form.getFieldDecorator('serviceType', {
-                      initialValue: formInitValues.businessType,
+                    {form.getFieldDecorator('phone', {
+                      initialValue: formInitValues.phone,
                       rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
+                        { required: true, message: 'Please enter your phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
                       ],
                     })(
-                      <Select
-                        placeholder="Выбрать..."
-                        className={!isAddBusinessMode ? 'readOnly' : ''}
-                      >
-                        {businessTypes && businessTypes.map(businessType => (
-                          <Select.Option
-                            key={businessType}
-                            value={businessType}
-                          >
-                            {translateBusinessType[businessType]}
-                          </Select.Option>
-                        ))}
-                      </Select>
+                      <ProneInput />
                     )}
                   </FormItem>
                 </Col>

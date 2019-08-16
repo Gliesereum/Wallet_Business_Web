@@ -32,13 +32,20 @@ class ClientsList extends Component {
       name: 'ascend',
       phone: 'ascend',
     },
+    pagination: {
+      current: 0,
+      totalPages: 0,
+      total: 0,
+    },
   };
 
   componentDidMount() {
     const { corporations, changeChoseCorporationId } = this.props;
 
-    corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id);
-    changeChoseCorporationId(corporations[0].id);
+    if (corporations.length && corporations[0]) {
+      this.handleCorpChange(corporations[0].id);
+      changeChoseCorporationId(corporations[0].id);
+    }
   }
 
   handleCorpChange = async (corporationId) => {
@@ -78,13 +85,30 @@ class ClientsList extends Component {
     return businesses;
   };
 
-  handleGetClientsById = async ({ corporationId, businessId, queryValue }) => {
+  handleGetClientsById = async ({
+    corporationId,
+    businessId,
+    queryValue,
+    page,
+  }) => {
     try {
-      const { data: clients = [] } = await fetchClientsByIds({ corporationId, businessId, query: queryValue });
+      const { data: clientsPage = { content: [] } } = await fetchClientsByIds({
+        corporationId,
+        businessId,
+        query: queryValue,
+        page,
+      });
+
       this.setState(prevState => ({
         ...prevState,
-        clients: queryValue ? prevState.clients : clients,
-        searchedClients: clients,
+        clients: queryValue ? prevState.clients : clientsPage.content,
+        searchedClients: clientsPage.content,
+        pagination: {
+          ...prevState.pagination,
+          current: clientsPage.number + 1,
+          totalPages: clientsPage.totalPages,
+          total: clientsPage.totalElements,
+        },
       }));
     } catch (err) {
       notification.error({
@@ -137,6 +161,16 @@ class ClientsList extends Component {
     this.setState({ searchProcess: true });
   };
 
+  handleTableChange = (pagination) => {
+    const { chosenBusiness, chosenCorporation } = this.state;
+
+    this.handleGetClientsById({
+      corporationId: chosenCorporation,
+      businessId: chosenBusiness,
+      page: pagination.current - 1,
+    });
+  };
+
   createMailing = () => {
     console.log('createMailing');
   };
@@ -150,6 +184,7 @@ class ClientsList extends Component {
       searchedClients,
       searchProcess,
       columnSortOrder: { name, phone },
+      pagination,
     } = this.state;
     const { corporations, changeActiveClient } = this.props;
     const isClientsExist = (clients && clients.length) || searchProcess;
@@ -202,7 +237,7 @@ class ClientsList extends Component {
       {
         className: 'action-column',
         onCell: client => ({
-          onClick: () => console.log(client),
+          onClick: () => console.log(client), // TODO: add action handler
         }),
         width: 105,
         render: () => <div>Связь</div>,
@@ -270,8 +305,16 @@ class ClientsList extends Component {
                   className={b('content-clientsTable')}
                   columns={columns}
                   dataSource={searchedClients}
-                  pagination={false}
-                  scroll={{ y: 408 }}
+                  pagination={pagination.totalPages > 1
+                    ? {
+                      ...pagination,
+                      pageSize: 7,
+                      className: b('content-pagination'),
+                    }
+                    : false
+                    }
+                  onChange={this.handleTableChange}
+                  scroll={{ y: 336 }}
                 />
 
                 <Row

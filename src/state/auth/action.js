@@ -8,20 +8,10 @@ const actions = {
   ADD_EMAIL: 'ADD_EMAIL',
   VERIFY_EMAIL: 'VERIFY_EMAIL',
 
-  $checkAuthenticate: (tokenInfo) => {
-    if (tokenInfo) {
-      const {
-        accessExpirationDate, accessToken, refreshToken, refreshExpirationDate,
-      } = tokenInfo;
-      cookieStorage.set('access_token', accessToken, { expires: new Date(accessExpirationDate), path: '/' });
-      cookieStorage.set('refresh_token', refreshToken, { expires: new Date(refreshExpirationDate), path: '/' });
-    }
-
-    return ({
-      type: actions.CHECK_AUTHENTICATE,
-      payload: !!tokenInfo,
-    });
-  },
+  $checkAuthenticate: isAuth => ({
+    type: actions.CHECK_AUTHENTICATE,
+    payload: isAuth,
+  }),
 
   $updateUserData: user => ({
     type: actions.UPDATE_USER_DATA,

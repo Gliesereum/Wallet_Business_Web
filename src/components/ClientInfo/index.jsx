@@ -12,7 +12,7 @@ import {
 
 import PeriodSelector from '../PeriodSelector';
 
-import { fetchDecorator } from '../../utils';
+import { fetchDecorator, getDate } from '../../utils';
 import {
   // fetchCarByClientId, TODO: need to discuss
   fetchRecordsByClient,
@@ -20,25 +20,6 @@ import {
 import { recordTranslate } from '../../mocks';
 
 const b = bem('clientInfo');
-
-const getDate = (date, inHours = false) => {
-  if (!date) return 'Нету данных';
-
-  const dateInMS = new Date(date);
-
-  if (inHours) {
-    const hh = String(dateInMS.getHours()).padStart(2, '0');
-    const mm = String(dateInMS.getMinutes()).padStart(2, '0');
-
-    return `${hh}:${mm}`;
-  }
-
-  const YYYY = dateInMS.getFullYear();
-  const MM = String(dateInMS.getMonth() + 1).padStart(2, '0'); // month of the year
-  const DD = String(dateInMS.getDate()).padStart(2, '0'); // day of the month
-
-  return `${DD}.${MM}.${YYYY}`;
-};
 
 class ClientInfo extends Component {
   state = {
@@ -219,7 +200,7 @@ class ClientInfo extends Component {
     return (
       <div className={b()}>
         <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр профайла сотрудника</p>
+          <p className={b('header-title')}>Просмотр информации о клиенте</p>
         </div>
         <div className={b('infoWrapper')}>
           <div className={b('ordersInfo')}>
@@ -228,7 +209,7 @@ class ClientInfo extends Component {
             />
             <Table
               rowKey={record => record.id}
-              className={b('ordersInfo-recordsTable')}
+              className={b('ordersInfo-recordsTable', { isEmpty: !recordsByUser.length })}
               columns={columns}
               dataSource={recordsByUser}
               pagination={false}
@@ -236,7 +217,7 @@ class ClientInfo extends Component {
               expandIconAsCell={false} // need for hidden default expand icon
               expandRowByClick
               onRow={this.handleExpandRow}
-              scroll={{ y: 384 }}
+              scroll={{ y: 336 }}
             />
             <Row
               gutter={31}

@@ -1,7 +1,4 @@
 const actions = {
-  GET_BUSINESS_TYPES: 'GET_BUSINESS_TYPES',
-  GET_BUSINESS_CATEGORIES: 'GET_BUSINESS_CATEGORIES',
-
   GET_BUSINESS: 'GET_BUSINESS',
   UPDATE_BUSINESS: 'UPDATE_BUSINESS',
   ADD_BUSINESS: 'ADD_BUSINESS',
@@ -25,21 +22,9 @@ const actions = {
   REMOVE_WORKER_FROM_OLD_WORKING_SPACE: 'REMOVE_WORKER_FROM_OLD_WORKING_SPACE',
   DELETE_WORKING_SPACE: 'DELETE_WORKING_SPACE',
 
-  GET_BUSINESS_ORDERS: 'GET_BUSINESS_ORDERS',
-
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
     payload: business,
-  }),
-
-  $getBusinessTypes: types => ({
-    type: actions.GET_BUSINESS_TYPES,
-    payload: types,
-  }),
-
-  $getBusinessCategories: categories => ({
-    type: actions.GET_BUSINESS_CATEGORIES,
-    payload: categories,
   }),
 
   $updateBusiness: updatedBusiness => ({
@@ -126,12 +111,6 @@ const actions = {
     type: actions.DELETE_WORKING_SPACE,
     payload: workingSpaceId,
   }),
-
-  $getBusinessOrders: (businessId, data) => ({
-    type: actions.GET_BUSINESS_ORDERS,
-    payload: { businessId, data },
-  }),
-
 };
 
 export default actions;

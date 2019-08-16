@@ -7,18 +7,15 @@ import {
   Form,
   Input,
   Select,
-  Radio,
   Checkbox,
 } from 'antd';
 
 import ProneInput from '../../ProneInput';
 import FromToInput from '../../FromToInput';
-import { genders } from '../../../mocks';
 
 const b = bem('workerForm');
 const { Item: FormItem } = Form;
 const { Option } = Select;
-const { Group: RadioGroup } = Radio;
 
 class WorkerForm extends PureComponent {
   getInitialBusinessValue = () => {
@@ -55,15 +52,6 @@ class WorkerForm extends PureComponent {
     form.resetFields('workingSpaceId');
   };
 
-  renderRadios = () => {
-    const radios = [];
-    for (const key in genders) {
-      const radio = <Radio key={key} value={key}>{genders[key]}</Radio>;
-      radios.push(radio);
-    }
-    return radios;
-  };
-
   checkHours = (rule, value, callback) => {
     if (value.from <= 0) callback('Время начала работы должно быть больше 0');
     if (value.to <= 0) callback('Время конца работы должно быть больше 0');
@@ -82,6 +70,7 @@ class WorkerForm extends PureComponent {
       dayTranslate,
       readOnlyMode,
       isAddMode,
+      isAdmin,
     } = this.props;
 
     return (
@@ -282,20 +271,25 @@ class WorkerForm extends PureComponent {
             </Row>
             <Row>
               <Col lg={24}>
-                <FormItem
-                  className={b('formItem')}
-                  label="Пол"
-                >
-                  {
-                    form.getFieldDecorator('gender', {
-                      initialValue: (chosenWorker && chosenWorker.user && chosenWorker.user.gender)
-                        ? chosenWorker.user.gender
-                        : 'UNKNOWN',
-                    })(
-                      <RadioGroup className={`${b('formItem-radioGroup')} readOnly`}>{this.renderRadios()}</RadioGroup>
-                    )
-                  }
-                </FormItem>
+                <div className={b('col-isAdminBlock')}>
+                  <FormItem
+                    className={b('col-isAdminBlock-formItem')}
+                    label="Права администратора"
+                  >
+                    {
+                      form.getFieldDecorator('isAdmin', {
+                        initialValue: isAdmin,
+                        valuePropName: 'checked',
+                      })(
+                        <Checkbox
+                          disabled={readOnlyMode}
+                        >
+                          Предоставить этому сотруднику права администратора
+                        </Checkbox>
+                      )
+                    }
+                  </FormItem>
+                </div>
               </Col>
             </Row>
           </Col>

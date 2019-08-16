@@ -27,6 +27,52 @@ const fetchHelper = async ({
   return await fetch(fullUrl, _requestConfig);
 };
 
+export const fetchGetBusinessTypes = async () => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: 'business-category/business-type',
+      moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'businessTypes',
+  };
+};
+
+export const fetchGetBusinessCategoriesAccordingToBusinessTypeId = async ({ businessType }) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `business-category/by-business-type?businessType=${businessType}`,
+      moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'businessCategories',
+  };
+};
+
 export const fetchGetPriceServices = async ({ singleBusiness, getPriceService }) => {
   if (!singleBusiness) return;
   const result = [];
@@ -105,38 +151,6 @@ export const fetchGetWorkingSpaces = async ({ singleBusiness, getWorkingSpaces }
   return {
     data: result,
     fieldName: 'workingSpaces',
-  };
-};
-
-export const fetchGetBusinessOrders = async (props) => {
-  const result = [];
-
-  await Promise.all(props.business.map(async ({ id }) => {
-    const request = await withToken(fetchHelper)({
-      urlPath: 'record/business/params',
-      moduleUrl: 'karma',
-      method: 'POST',
-      body: { businessIds: [id], from: 0, to: Date.now() },
-    });
-
-    try {
-      await Promise.resolve(request).then(async (item) => {
-        if (item.status === 204) return [];
-        if (item.status === 200) return await item.json();
-        if (item.status >= 400) throw Error('error');
-        return [];
-      }).then((data) => {
-        props.getBusinessOrders(id, data);
-        result.push(data);
-      });
-    } catch (e) {
-      throw Error(e);
-    }
-  }));
-
-  return {
-    data: result,
-    fieldName: 'businessOrders',
   };
 };
 
@@ -238,27 +252,58 @@ export const fetchBusinessesByCorp = async ({ corporationId }) => {
   };
 };
 
-export const fetchWorkersByCorporationId = async (props) => {
-  let result = [];
-  const corporationId = props.corporationId || props.singleBusiness.corporationId;
+export const fetchWorkersById = async ({
+  corporationId = null,
+  businessId = null,
+  singleBusiness = null,
+  page = 0,
+  size = 7,
+}) => {
+  let result = {};
+  const getById = (singleBusiness ? singleBusiness.id : businessId) || corporationId;
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `worker/by-corporation?corporationId=${corporationId}`,
+      urlPath: `worker/${corporationId ? 'by-corporation?corporationId' : 'by-business?businessId'}=${getById}&page=${page}&size=${size}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
-      if (response.status === 204) return [];
+      if (response.status === 204) return {};
       if (response.status === 200) return await response.json();
       if (response.status >= 400) throw Error('error');
-      return [];
-    }).then(data => result = data.content || []);
+      return {};
+    }).then(data => result = data);
   } catch (e) {
     throw Error(e);
   }
 
   return {
     data: result,
-    fieldName: 'workers',
+    fieldName: 'workersPage',
+  };
+};
+
+export const fetchAdminsByCorporation = async ({
+  corporationId,
+}) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: `business-administrator/by-corporation?id=${corporationId}`,
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'admins',
   };
 };
 
@@ -266,28 +311,70 @@ export const fetchClientsByIds = async ({
   corporationId = null,
   businessId = null,
   query = '',
+  page = 0,
+  size = 7,
 }) => {
-  let result = [];
-  const urlPath = corporationId
-    ? `business/customers?corporationId=${corporationId}${query ? `&query=${query}` : ''}`
-    : `business/customers?businessIds=${[businessId]}${query ? `&query=${query}` : ''}`;
+  let result = {};
+  const urlPath = `business/customers?${corporationId ? 'corporationId' : 'businessIds'}=${corporationId || [businessId]}&page=${page}&size=${size}${query ? `&query=${query}` : ''}`;
   try {
     await withToken(fetchHelper)({
       urlPath,
       moduleUrl: 'karma',
     }).then(async (response) => {
-      if (response.status === 204) return [];
+      if (response.status === 204) return {};
       if (response.status === 200) return await response.json();
       if (response.status >= 400) throw Error('error');
-      return [];
-    }).then(data => result = data.content || []);
+      return {};
+    }).then(data => result = data);
   } catch (e) {
     throw Error(e);
   }
 
   return {
     data: result,
-    fieldName: 'clients',
+    fieldName: 'clientsPage',
+  };
+};
+
+export const fetchOrdersByIds = async ({
+  corporationId = null,
+  corporations = [],
+  businessId = null,
+  page = 0,
+  size = 5,
+  from = null,
+  to = null,
+}) => {
+  if (!businessId && !corporations.length && !corporationId) return;
+
+  let result = {};
+  const urlPath = 'record/by-params-for-business';
+  try {
+    await withToken(fetchHelper)({
+      urlPath,
+      moduleUrl: 'karma',
+      method: 'POST',
+      body: {
+        page,
+        size,
+        corporationId: corporationId || (corporations.length ? corporations[0].id : null),
+        businessIds: businessId ? [businessId] : [],
+        from,
+        to,
+      },
+    }).then(async (response) => {
+      if (response.status === 204) return {};
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return {};
+    }).then(data => result = data);
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'ordersPage',
   };
 };
 
@@ -350,6 +437,29 @@ export const fetchRecordsByClient = async ({
   return {
     data: result,
     fieldName: 'recordsByUser',
+  };
+};
+
+export const fetchFAQuestions = async () => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: 'faq',
+      moduleUrl: 'karma',
+    }).then(async (response) => {
+      if (response.status === 204) return [];
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return [];
+    }).then(data => result.push(...data));
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'faQuestions',
   };
 };
 
