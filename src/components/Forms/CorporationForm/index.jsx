@@ -23,7 +23,7 @@ class CorporationForm extends PureComponent {
       form,
       chosenCorporation,
       readOnlyMode,
-      corporationLogoUrl,
+      logoUrl,
       isError,
       loading,
       onChange,
@@ -79,10 +79,10 @@ class CorporationForm extends PureComponent {
                 ) : (
                   <>
                     {
-                      corporationLogoUrl && (
+                      logoUrl && (
                         <img
                           className={b('uploader-image')}
-                          src={corporationLogoUrl}
+                          src={logoUrl}
                           alt="uploaded_image"
                         />
                       )

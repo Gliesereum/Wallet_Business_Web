@@ -23,7 +23,7 @@ class CorporationInfo extends Component {
   state = {
     readOnlyMode: !this.props.isAddMode,
     deleteModalVisible: false,
-    corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
+    logoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
     isError: false,
     fileLoader: false,
   };
@@ -36,7 +36,7 @@ class CorporationInfo extends Component {
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
-  onChange = ({ file }) => {
+  onUploaderChange = ({ file }) => {
     switch (file.status) {
       case 'uploading':
         this.setState({ fileLoader: true });
@@ -60,7 +60,7 @@ class CorporationInfo extends Component {
     await body.append('file', file);
     await body.append('open', true);
     const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body, onSuccess });
-    this.setState({ corporationLogoUrl: imageUrl, isError: false });
+    this.setState({ logoUrl: imageUrl, isError: false });
   };
 
   handleUpdateCorporation = async () => {
@@ -78,7 +78,7 @@ class CorporationInfo extends Component {
         const body = {
           ...chosenCorporation,
           ...values,
-          logoUrl: this.state.corporationLogoUrl,
+          logoUrl: this.state.logoUrl,
         };
         const method = isAddMode ? 'POST' : 'PUT';
         try {
@@ -117,7 +117,7 @@ class CorporationInfo extends Component {
     const {
       readOnlyMode,
       deleteModalVisible,
-      corporationLogoUrl,
+      logoUrl,
       isError,
       fileLoader,
     } = this.state;
@@ -145,9 +145,9 @@ class CorporationInfo extends Component {
             chosenCorporation={chosenCorporation}
             isError={isError}
             loading={fileLoader}
-            onChange={this.onChange}
+            onChange={this.onUploaderChange}
             uploadCorporationImage={this.uploadCorporationImage}
-            corporationLogoUrl={corporationLogoUrl}
+            logoUrl={logoUrl}
           />
           <Row
             className={b('formBox-controlBtns')}
