@@ -25,6 +25,7 @@ class CorporationInfo extends Component {
     deleteModalVisible: false,
     corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
     isError: false,
+    fileLoader: false,
   };
 
   toggleDeleteModal = () => {
@@ -35,18 +36,30 @@ class CorporationInfo extends Component {
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
+  onChange = ({ file }) => {
+    switch (file.status) {
+      case 'uploading':
+        this.setState({ fileLoader: true });
+        break;
+      case 'done':
+        this.setState({ fileLoader: false });
+        break;
 
-  uploadCorporationImage = async (info) => {
-    if ((info.file.size / 1024 / 1024) > 2) {
+      default:
+        console.error('Error');
+    }
+  };
+
+  uploadCorporationImage = async ({ file, onSuccess }) => {
+    if ((file.size / 1024 / 1024) > 2) {
       this.setState({ isError: true });
       return;
     }
     const url = 'upload';
     const body = new FormData();
-    await body.append('file', info.file);
+    await body.append('file', file);
     await body.append('open', true);
-    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
-
+    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body, onSuccess });
     this.setState({ corporationLogoUrl: imageUrl, isError: false });
   };
 
@@ -106,6 +119,7 @@ class CorporationInfo extends Component {
       deleteModalVisible,
       corporationLogoUrl,
       isError,
+      fileLoader,
     } = this.state;
     const {
       corporations,
@@ -130,6 +144,8 @@ class CorporationInfo extends Component {
             readOnlyMode={readOnlyMode}
             chosenCorporation={chosenCorporation}
             isError={isError}
+            loading={fileLoader}
+            onChange={this.onChange}
             uploadCorporationImage={this.uploadCorporationImage}
             corporationLogoUrl={corporationLogoUrl}
           />
