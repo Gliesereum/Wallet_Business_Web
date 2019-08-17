@@ -10,7 +10,6 @@ import { SignInForm } from '../../components/Forms';
 
 import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
-import { defaultGeoPosition } from '../../components/Map/mapConfig';
 
 const b = bem('signIn');
 
@@ -18,23 +17,8 @@ class SignIn extends Component {
   state = {
     phone: null,
     gotCode: false,
-    currentLocation: defaultGeoPosition,
     validateStatus: '',
   };
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        this.setState(prevState => ({
-          ...prevState,
-          currentLocation: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-        }));
-      }
-    );
-  }
 
   gotCodeHandler = () => this.setState(prevState => ({
     ...prevState,

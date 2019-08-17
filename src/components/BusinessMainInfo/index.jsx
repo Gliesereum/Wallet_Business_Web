@@ -14,7 +14,6 @@ import {
 
 import { BusinessMainInfoForm } from '../Forms';
 import DeleteModal from '../DeleteModal';
-import { defaultGeoPosition } from '../Map/mapConfig';
 
 import {
   asyncRequest,
@@ -30,7 +29,7 @@ class BusinessMainInfo extends Component {
   state = {
     businessCategories: [],
     deleteModalVisible: false,
-    currentLocation: defaultGeoPosition,
+    currentLocation: null,
     businessLogoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
     isError: false,
   };
