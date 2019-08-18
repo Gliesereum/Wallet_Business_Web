@@ -286,12 +286,12 @@ class WorkingSpaceForm extends PureComponent {
                       className={b('workersBox-table-chosenCard-item-body-workers-list')}
                       dataSource={selectedWorkers}
                       renderItem={({ user, id, ...rest }) => (
-                        <div
-                          className={b('workersBox-table-chosenCard-item-body-workers-list-item')}
-                          onClick={toggleWorkerInfoDrawer({ user, ...rest })}
-                        >
+                        <div className={b('workersBox-table-chosenCard-item-body-workers-list-item')}>
                           <LinkTo />
-                          <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}>
+                          <div
+                            className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}
+                            onClick={toggleWorkerInfoDrawer({ user, ...rest })}
+                          >
                             {`${user.lastName} ${user.firstName} ${user.middleName}`}
                           </div>
                           <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-deleteBox')}>
