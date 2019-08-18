@@ -20,7 +20,7 @@ const { Option } = Select;
 const { Search } = Input;
 
 const generateDate = (date, withTimestamp = false) => {
-  if (!date) return 'Невалидная дата';
+  if (!date) return '';
 
   const dateInMS = new Date(date);
   const YYYY = dateInMS.getFullYear();
@@ -39,6 +39,16 @@ const generateDate = (date, withTimestamp = false) => {
 
 const generateSchedule = (from, to, isWork) => {
   if (!isWork) return 'Выходной';
+
+  const dateInMSFrom = new Date(from);
+  const fromHours = String(dateInMSFrom.getHours()).padStart(2, '0');
+  const fromMinutes = String(dateInMSFrom.getMinutes()).padStart(2, '0');
+
+  const dateInMsTo = new Date(to);
+  const toHours = String(dateInMsTo.getHours()).padStart(2, '0');
+  const toMinutes = String(dateInMsTo.getMinutes()).padStart(2, '0');
+
+  return `${fromHours}:${fromMinutes} - ${toHours}:${toMinutes}`;
 };
 
 class WorkersList extends Component {
@@ -158,7 +168,7 @@ class WorkersList extends Component {
   });
 
   renderExpandedRow = (worker) => {
-    const { workTimes, position, user } = worker;
+    const { workTimes, position, user = {} } = worker;
     const schedules = dayTranslateTemporary.map((day, index) => ({
       from: workTimes.length ? workTimes[index].from : 0,
       to: workTimes.length ? workTimes[index].to : 0,
@@ -186,24 +196,36 @@ class WorkersList extends Component {
                 <div className="title">Должность:</div>
                 <div className="data">{position}</div>
               </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Профайл создано:</div>
-                <div className="data">{generateDate(user.createDate)}</div>
-              </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Последняя активность:</div>
-                <div className="data">{generateDate(user.lastActivity, true)}</div>
-              </div>
+              {
+                user.createDate && (
+                  <div className={b('expandTable-row-userInfo-box')}>
+                    <div className="title">Профайл создано:</div>
+                    <div className="data">{generateDate(user.createDate)}</div>
+                  </div>
+                )
+              }
+              {
+                user.lastActivity && (
+                  <div className={b('expandTable-row-userInfo-box')}>
+                    <div className="title">Последняя активность:</div>
+                    <div className="data">{generateDate(user.lastActivity, true)}</div>
+                  </div>
+                )
+              }
             </Col>
             <Col lg={11}>
               <div className={b('expandTable-row-userInfo-box')}>
                 <div className="title">Пол:</div>
                 <div className="data">{user.gender ? genders[user.gender] : genders.UNKNOWN}</div>
               </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Последняя сессия:</div>
-                <div className="data">{generateDate(user.lastSignIn, true)}</div>
-              </div>
+              {
+                user.lastSignIn && (
+                  <div className={b('expandTable-row-userInfo-box')}>
+                    <div className="title">Последняя сессия:</div>
+                    <div className="data">{generateDate(user.lastSignIn, true)}</div>
+                  </div>
+                )
+              }
             </Col>
           </Row>
         </Col>
