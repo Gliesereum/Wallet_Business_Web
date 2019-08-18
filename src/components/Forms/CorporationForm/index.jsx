@@ -8,6 +8,7 @@ import {
   Form,
   Select,
   Upload,
+  Spin,
 } from 'antd';
 
 import { checkInputHandler } from '../../../utils';
@@ -22,8 +23,10 @@ class CorporationForm extends PureComponent {
       form,
       chosenCorporation,
       readOnlyMode,
-      corporationLogoUrl,
+      logoUrl,
       isError,
+      loading,
+      onChange,
       uploadCorporationImage,
     } = this.props;
 
@@ -67,39 +70,46 @@ class CorporationForm extends PureComponent {
               name="file"
               listType="picture-card"
               showUploadList={false}
+              onChange={onChange}
               customRequest={uploadCorporationImage}
             >
               <div className={b('uploader-container')}>
-                {
-                  corporationLogoUrl && (
-                    <img
-                      className={b('uploader-image')}
-                      src={corporationLogoUrl}
-                      alt="uploaded_image"
-                    />
-                  )
-                }
-                {
-                  !readOnlyMode && (
-                    <div className={b('uploader-inside')}>
-                      <AddIcon
-                        className={b('uploader-inside-icon', { errorView: isError })}
-                        size={{
-                          x: isError ? 32 : 48,
-                          y: isError ? 32 : 48,
-                        }}
-                      />
-                      <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                      {
-                        isError && (
-                          <p className={b('uploader-inside-error')}>
-                            Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                          </p>
-                        )
-                      }
-                    </div>
-                  )
-                }
+                {loading ? (
+                  <Spin size="large" />
+                ) : (
+                  <>
+                    {
+                      logoUrl && (
+                        <img
+                          className={b('uploader-image')}
+                          src={logoUrl}
+                          alt="uploaded_image"
+                        />
+                      )
+                    }
+                    {
+                      !readOnlyMode && (
+                        <div className={b('uploader-inside')}>
+                          <AddIcon
+                            className={b('uploader-inside-icon', { errorView: isError })}
+                            size={{
+                              x: isError ? 32 : 48,
+                              y: isError ? 32 : 48,
+                            }}
+                          />
+                          <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                          {
+                            isError && (
+                              <p className={b('uploader-inside-error')}>
+                                Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                              </p>
+                            )
+                          }
+                        </div>
+                      )
+                    }
+                  </>
+                )}
               </div>
             </UploadDragger>
           </Col>

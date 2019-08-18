@@ -205,7 +205,7 @@ class OrdersPage extends Component {
       {
         key: 'price',
         title: 'Сумма',
-        render: (text, { price }) => <span>{price}</span>,
+        render: (text, { price }) => <span>{`${price} грн`}</span>,
       },
     ];
 

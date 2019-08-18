@@ -23,8 +23,9 @@ class CorporationInfo extends Component {
   state = {
     readOnlyMode: !this.props.isAddMode,
     deleteModalVisible: false,
-    corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
+    logoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
     isError: false,
+    fileLoader: false,
   };
 
   toggleDeleteModal = () => {
@@ -35,19 +36,31 @@ class CorporationInfo extends Component {
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
+  onUploaderChange = ({ file }) => {
+    switch (file.status) {
+      case 'uploading':
+        this.setState({ fileLoader: true });
+        break;
+      case 'done':
+        this.setState({ fileLoader: false });
+        break;
 
-  uploadCorporationImage = async (info) => {
-    if ((info.file.size / 1024 / 1024) > 2) {
+      default:
+        console.error('Error');
+    }
+  };
+
+  uploadCorporationImage = async ({ file, onSuccess }) => {
+    if ((file.size / 1024 / 1024) > 2) {
       this.setState({ isError: true });
       return;
     }
     const url = 'upload';
     const body = new FormData();
-    await body.append('file', info.file);
+    await body.append('file', file);
     await body.append('open', true);
-    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
-
-    this.setState({ corporationLogoUrl: imageUrl, isError: false });
+    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body, onSuccess });
+    this.setState({ logoUrl: imageUrl, isError: false });
   };
 
   handleUpdateCorporation = async () => {
@@ -65,7 +78,7 @@ class CorporationInfo extends Component {
         const body = {
           ...chosenCorporation,
           ...values,
-          logoUrl: this.state.corporationLogoUrl,
+          logoUrl: this.state.logoUrl,
         };
         const method = isAddMode ? 'POST' : 'PUT';
         try {
@@ -104,8 +117,9 @@ class CorporationInfo extends Component {
     const {
       readOnlyMode,
       deleteModalVisible,
-      corporationLogoUrl,
+      logoUrl,
       isError,
+      fileLoader,
     } = this.state;
     const {
       corporations,
@@ -130,8 +144,10 @@ class CorporationInfo extends Component {
             readOnlyMode={readOnlyMode}
             chosenCorporation={chosenCorporation}
             isError={isError}
+            loading={fileLoader}
+            onChange={this.onUploaderChange}
             uploadCorporationImage={this.uploadCorporationImage}
-            corporationLogoUrl={corporationLogoUrl}
+            logoUrl={logoUrl}
           />
           <Row
             className={b('formBox-controlBtns')}

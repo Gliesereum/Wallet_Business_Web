@@ -135,7 +135,7 @@ class ClientInfo extends Component {
           </div>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Сумма платежа:</div>
-            <div className="data">{price}</div>
+            <div className="data">{`${price} грн`}</div>
           </div>
         </Col>
       </Row>

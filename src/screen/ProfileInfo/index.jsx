@@ -19,22 +19,36 @@ const b = bem('profileInfo');
 
 class ProfileInfo extends Component {
   state = {
-    avatarImageUrl: this.props.user ? this.props.user.avatarUrl : '',
+    logoUrl: this.props.user ? this.props.user.avatarUrl : '',
     isError: false,
+    fileLoader: false,
   };
 
-  uploadAvatarImage = async (info) => {
-    if ((info.file.size / 1024 / 1024) > 2) {
+  onUploaderChange = ({ file }) => {
+    switch (file.status) {
+      case 'uploading':
+        this.setState({ fileLoader: true });
+        break;
+      case 'done':
+        this.setState({ fileLoader: false });
+        break;
+
+      default:
+        console.error('Error');
+    }
+  };
+
+  uploadAvatarImage = async ({ file, onSuccess }) => {
+    if ((file.size / 1024 / 1024) > 2) {
       this.setState({ isError: true });
       return;
     }
     const url = 'upload';
     const body = new FormData();
-    await body.append('file', info.file);
+    await body.append('file', file);
     await body.append('open', true);
-    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
-
-    this.setState({ avatarImageUrl: imageUrl, isError: false });
+    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body, onSuccess });
+    this.setState({ logoUrl: imageUrl, isError: false });
   };
 
   handleUpdateUserData = () => {
@@ -44,7 +58,7 @@ class ProfileInfo extends Component {
       if (!error) {
         const url = 'user';
         const body = {
-          avatarUrl: this.state.avatarImageUrl,
+          avatarUrl: this.state.logoUrl,
           ...values,
         };
         const method = 'PUT';
@@ -64,7 +78,7 @@ class ProfileInfo extends Component {
   };
 
   render() {
-    const { avatarImageUrl, isError } = this.state;
+    const { logoUrl, isError, fileLoader } = this.state;
     const { user, email, verifyUserEmail } = this.props;
 
     return (
@@ -78,8 +92,10 @@ class ProfileInfo extends Component {
           <ProfileForm
             wrappedComponentRef={form => this.profileForm = form}
             user={user}
+            onChange={this.onUploaderChange}
             uploadAvatarImage={this.uploadAvatarImage}
-            avatarImageUrl={avatarImageUrl}
+            logoUrl={logoUrl}
+            loading={fileLoader}
             isError={isError}
             email={email}
             verifyUserEmail={verifyUserEmail}
