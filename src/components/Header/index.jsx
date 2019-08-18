@@ -16,35 +16,38 @@ import { getFirstLetterName } from '../../utils';
 
 const b = bem('header');
 
-const ProfileMenu = () => (
-  <Menu className={b('menu')}>
-    <Menu.Item
-      className={b('menu-item')}
-    >
-      <Link to="/profile">
-        <Icon type="user" />
-        <span className={b('menu-item-text')}>Мой профиль</span>
-      </Link>
-    </Menu.Item>
-    <Menu.Item
-      disabled
-      className={b('menu-item')}
-    >
-      <Icon type="safety-certificate" />
-      <span className={b('menu-item-text')}>
-        Личный помощник
-        <div className={b('menu-item-indicator')}>for premium</div>
-      </span>
-    </Menu.Item>
-  </Menu>
-);
-
 class Header extends Component {
   state = {
     visibleDropdown: false,
   };
 
-  handlerDropdownVisible = visibility => this.setState({ visibleDropdown: visibility });
+  handlerDropdownVisible = () => this.setState(prevState => ({ visibleDropdown: !prevState.visibleDropdown }));
+
+  renderProfileMenu = () => (
+    <Menu
+      className={b('menu')}
+      onClick={this.handlerDropdownVisible}
+    >
+      <Menu.Item
+        className={b('menu-item')}
+      >
+        <Link to="/profile">
+          <Icon type="user" />
+          <span className={b('menu-item-text')}>Мой профиль</span>
+        </Link>
+      </Menu.Item>
+      <Menu.Item
+        disabled
+        className={b('menu-item')}
+      >
+        <Icon type="safety-certificate" />
+        <span className={b('menu-item-text')}>
+          Личный помощник
+          <div className={b('menu-item-indicator')}>for premium</div>
+        </span>
+      </Menu.Item>
+    </Menu>
+  );
 
   render() {
     const { user } = this.props;
@@ -62,7 +65,7 @@ class Header extends Component {
         {/* </div> */}
         <Dropdown
           trigger={['click']}
-          overlay={ProfileMenu}
+          overlay={this.renderProfileMenu}
           className={b('content-box')}
           onVisibleChange={this.handlerDropdownVisible}
         >
