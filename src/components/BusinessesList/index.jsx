@@ -24,8 +24,11 @@ class BusinessesList extends PureComponent {
     return (
       <List
         grid={{
-          gutter: 16,
-          xl: 2,
+          gutter: 32,
+          xl: 3,
+          lg: 3,
+          md: 2,
+          sm: 1,
         }}
         dataSource={data}
         renderItem={({

@@ -31,22 +31,36 @@ class BusinessMainInfo extends Component {
     businessCategories: [],
     deleteModalVisible: false,
     currentLocation: defaultGeoPosition,
-    businessLogoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
+    logoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
     isError: false,
+    fileLoader: false,
   };
 
-  uploadBusinessImage = async (info) => {
-    if ((info.file.size / 1024 / 1024) > 2) {
+  onUploaderChange = ({ file }) => {
+    switch (file.status) {
+      case 'uploading':
+        this.setState({ fileLoader: true });
+        break;
+      case 'done':
+        this.setState({ fileLoader: false });
+        break;
+
+      default:
+        console.error('Error');
+    }
+  };
+
+  uploadBusinessImage = async ({ file, onSuccess }) => {
+    if ((file.size / 1024 / 1024) > 2) {
       this.setState({ isError: true });
       return;
     }
     const url = 'upload';
     const body = new FormData();
-    await body.append('file', info.file);
+    await body.append('file', file);
     await body.append('open', true);
-    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
-
-    this.setState({ businessLogoUrl: imageUrl, isError: false });
+    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body, onSuccess });
+    this.setState({ logoUrl: imageUrl, isError: false });
   };
 
   handleSubmit = async () => {
@@ -58,7 +72,7 @@ class BusinessMainInfo extends Component {
       changeActiveTab,
       changeTabDisable,
     } = this.props;
-    const { currentLocation, timeZone, businessLogoUrl } = this.state;
+    const { currentLocation, timeZone, logoUrl } = this.state;
 
     this.mainInfoForm.props.form.validateFields(async (error, values) => {
       if (!error) {
@@ -69,7 +83,7 @@ class BusinessMainInfo extends Component {
         const body = {
           ...singleBusiness,
           ...values,
-          logoUrl: businessLogoUrl,
+          logoUrl,
           latitude: currentLocation ? currentLocation.lat : singleBusiness.latitude,
           longitude: currentLocation ? currentLocation.lng : singleBusiness.longitude,
           timeZone: timeZone || ((singleBusiness && singleBusiness.timeZone) ? singleBusiness.timeZone : 0),
@@ -144,8 +158,9 @@ class BusinessMainInfo extends Component {
     const {
       businessCategories,
       deleteModalVisible,
-      businessLogoUrl,
+      logoUrl,
       isError,
+      fileLoader,
     } = this.state;
 
     return (
@@ -159,9 +174,11 @@ class BusinessMainInfo extends Component {
           chosenCorpId={chosenCorpId}
           singleBusiness={singleBusiness}
           isError={isError}
+          loading={fileLoader}
+          onChange={this.onUploaderChange}
           uploadBusinessImage={this.uploadBusinessImage}
           changeBusinessType={this.handleChangeBusinessType}
-          businessLogoUrl={businessLogoUrl}
+          logoUrl={logoUrl}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}
         />

@@ -9,6 +9,7 @@ import {
   AutoComplete,
   Select,
   Upload,
+  Spin,
 } from 'antd';
 
 import Map from '../../Map';
@@ -131,8 +132,10 @@ class BusinessMainInfoForm extends Component {
       corporations = [],
       isAddBusinessMode,
       chosenCorpId,
-      businessLogoUrl,
+      logoUrl,
+      loading,
       isError,
+      onChange,
       uploadBusinessImage,
       changeBusinessType,
     } = this.props;
@@ -175,35 +178,44 @@ class BusinessMainInfoForm extends Component {
                     name="file"
                     listType="picture-card"
                     showUploadList={false}
+                    onChange={onChange}
                     customRequest={uploadBusinessImage}
                   >
                     <div className={b('uploader-container')}>
                       {
-                        businessLogoUrl && (
-                          <img
-                            className={b('uploader-image')}
-                            src={businessLogoUrl}
-                            alt="uploaded_image"
-                          />
+                        loading ? (
+                          <Spin size="large" />
+                        ) : (
+                          <>
+                            {
+                              logoUrl && (
+                                <img
+                                  className={b('uploader-image')}
+                                  src={logoUrl}
+                                  alt="uploaded_image"
+                                />
+                              )
+                            }
+                            <div className={b('uploader-inside')}>
+                              <AddIcon
+                                className={b('uploader-inside-icon', { errorView: isError })}
+                                size={{
+                                  x: isError ? 32 : 48,
+                                  y: isError ? 32 : 48,
+                                }}
+                              />
+                              <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                              {
+                                isError && (
+                                  <p className={b('uploader-inside-error')}>
+                                   Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                                  </p>
+                                )
+                              }
+                            </div>
+                          </>
                         )
                       }
-                      <div className={b('uploader-inside')}>
-                        <AddIcon
-                          className={b('uploader-inside-icon', { errorView: isError })}
-                          size={{
-                            x: isError ? 32 : 48,
-                            y: isError ? 32 : 48,
-                          }}
-                        />
-                        <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                        {
-                          isError && (
-                            <p className={b('uploader-inside-error')}>
-                              Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                            </p>
-                          )
-                        }
-                      </div>
                     </div>
                   </UploadDragger>
                 </Col>
