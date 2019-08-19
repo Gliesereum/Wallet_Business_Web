@@ -143,7 +143,7 @@ class WorkingSpaceForm extends PureComponent {
 
     const columns = [
       {
-        title: 'ФИО работника',
+        title: 'ФИО сотрудника',
         key: 'fullName',
         width: '35%',
         sorter: (first, second) => {
@@ -255,7 +255,7 @@ class WorkingSpaceForm extends PureComponent {
         </Row>
 
         <div className={b('workersBox')}>
-          <h1 className={b('workersBox-title')}>Сотрудники рабочего места</h1>
+          <h1 className={b('workersBox-title')}>Сотрудники</h1>
           <Row
             className={b('workersBox-table')}
             gutter={16}

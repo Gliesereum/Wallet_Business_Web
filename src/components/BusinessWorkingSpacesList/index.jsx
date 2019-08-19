@@ -104,7 +104,7 @@ class BusinessWorkingSpacesList extends Component {
             </>
           ) : (
             <EmptyState
-              title="У вас нету рабочих мест"
+              title="У вас пока нет рабочих мест"
               descrText="Создайте первое рабочее место, куда Вы сможете добавить Ваших работников и куда будут записываться Ваши клиенты"
               addItemText="Создать рабочее место"
               addItemHandler={changeActiveWorkingSpace}

@@ -78,10 +78,11 @@ class BusinessScheduleInfo extends PureComponent {
             url, body, method, moduleUrl: 'karma',
           });
           await updateSchedule(newSchedules);
+          this.handleChangeActiveTab('services')();
         } catch (err) {
           notification.error({
             duration: 5,
-            message: err.message || 'Ошибка',
+            message: err.code === 1436 ? 'Бизнес уже работает по этому расписанию' : err.message,
             description: 'Возникла ошибка',
           });
         }
@@ -93,7 +94,6 @@ class BusinessScheduleInfo extends PureComponent {
 
   render() {
     const { scheduleList } = this.state;
-    const { packagesDisable } = this.props;
 
     return (
       <div className={b()}>
@@ -110,12 +110,11 @@ class BusinessScheduleInfo extends PureComponent {
         >
           <Col lg={12}>
             <Button
-              disabled={packagesDisable}
               className={b('controlBtns-btn backBtn')}
-              onClick={this.handleChangeActiveTab('packages')}
+              onClick={this.handleChangeActiveTab('mainInfo')}
             >
               <Icon type="left" />
-              Назад к пакетам услуг
+              Назад
             </Button>
           </Col>
           <Col lg={12}>

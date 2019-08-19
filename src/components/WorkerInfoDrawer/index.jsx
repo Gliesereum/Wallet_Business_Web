@@ -31,7 +31,7 @@ const renderMainPart = worker => [
     lineContent: worker.user.phone,
   },
   {
-    lineTitle: 'Профайл создано:',
+    lineTitle: 'Профайл создан:',
     lineContent: worker.user.createDate || 'Неизвестно',
   },
   {

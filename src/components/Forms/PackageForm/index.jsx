@@ -40,6 +40,14 @@ class PackageForm extends Component {
     return discount <= 0 ? sumServicesPrice : sumServicesPrice - sumServicesPrice * discount / 100;
   };
 
+  getPackageDuration = (servicesIds) => {
+    const { form, servicePricesList } = this.props;
+    const sumServicesDuration = servicePricesList
+      .filter(item => servicesIds.includes(item.id))
+      .reduce((acc, service) => acc += service.duration, 0);
+    form.setFieldsValue({ duration: sumServicesDuration });
+  };
+
   render() {
     const {
       form,
@@ -53,7 +61,7 @@ class PackageForm extends Component {
           <Col lg={12}>
             <FormItem>
               <Card
-                title="Услуги для пакета"
+                title="Услуги, входящие в пакет"
                 className={b('card')}
               >
                 {form.getFieldDecorator('servicesIds', {
@@ -62,7 +70,7 @@ class PackageForm extends Component {
                     { required: true, message: 'Для создания пакета нужно выбрать хотя бы одну услугу' },
                   ],
                 })(
-                  <CheckboxGroup>
+                  <CheckboxGroup onChange={this.getPackageDuration}>
                     <Row gutter={10}>
                       {
                       servicePricesList.map(({ id, name }) => (

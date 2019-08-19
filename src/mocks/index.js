@@ -14,23 +14,23 @@ export const genders = {
 export const dayTranslateTemporary = [
   {
     translate: 'Понедельник',
-    dayOfWeek: 'TUESDAY',
+    dayOfWeek: 'MONDAY',
   },
   {
     translate: 'Вторник',
-    dayOfWeek: 'WEDNESDAY',
+    dayOfWeek: 'TUESDAY',
   },
   {
     translate: 'Среда',
-    dayOfWeek: 'THURSDAY',
+    dayOfWeek: 'WEDNESDAY',
   },
   {
     translate: 'Четверг',
-    dayOfWeek: 'FRIDAY',
+    dayOfWeek: 'THURSDAY',
   },
   {
     translate: 'Пятница',
-    dayOfWeek: 'MONDAY',
+    dayOfWeek: 'FRIDAY',
   },
   {
     translate: 'Суббота',
@@ -46,43 +46,43 @@ export const scheduleListDefault = [
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'MONDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'TUESDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'WEDNESDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'THURSDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'FRIDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'SATURDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'SUNDAY',
   },
 ];
@@ -118,6 +118,6 @@ export const recordTranslate = {
 };
 
 export const translateBusinessType = {
-  CAR: 'Машины',
-  HUMAN: 'Человек',
+  CAR: 'Автомобильная',
+  HUMAN: 'Другая',
 };

@@ -153,7 +153,7 @@ class WorkerForm extends PureComponent {
                         : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
                       ],
                     })(
                       <PhoneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
@@ -164,7 +164,7 @@ class WorkerForm extends PureComponent {
               <Col lg={12}>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Компания в которой работает сотрудник"
+                  label="Компания, в которой работает сотрудник "
                 >
                   {
                     form.getFieldDecorator('corporationId', {
@@ -194,7 +194,7 @@ class WorkerForm extends PureComponent {
                 </FormItem>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Бизнесс в которой работает сотрудник"
+                  label="Филиал компании, за которым закреплен сотрудник"
                 >
                   {
                     form.getFieldDecorator('businessId', {
@@ -284,7 +284,7 @@ class WorkerForm extends PureComponent {
                         <Checkbox
                           disabled={readOnlyMode}
                         >
-                          Предоставить этому сотруднику права администратора
+                          Предоставить сотруднику права администратора в этом филиале компании
                         </Checkbox>
                       )
                     }

@@ -57,7 +57,7 @@ class WorkerInfo extends Component {
   handleGetBusinessByCorporationId = async (corporationId) => {
     const { chosenWorker, getBusinessByCorporationId } = this.props;
 
-    const businesses = await getBusinessByCorporationId(corporationId, true);
+    const businesses = await getBusinessByCorporationId(corporationId);
     this.setState({ businesses });
     chosenWorker && await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
   };
@@ -221,7 +221,7 @@ class WorkerInfo extends Component {
     if (readOnlyMode) {
       return (
         <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр профайла сотрудника</p>
+          <p className={b('header-title')}>Просмотр профиля сотрудника</p>
         </div>
       );
     } if (isAddMode) {
@@ -253,7 +253,7 @@ class WorkerInfo extends Component {
     }
     return (
       <div className={b('header')}>
-        <p className={b('header-title')}>Редактирование профайла сотрудника</p>
+        <p className={b('header-title')}>Редактирование профиля сотрудника</p>
       </div>
     );
   };

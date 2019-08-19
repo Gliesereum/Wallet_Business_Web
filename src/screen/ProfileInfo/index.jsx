@@ -135,7 +135,7 @@ class ProfileInfo extends Component {
                   type="primary"
                   onClick={this.handleUpdateUserData}
                 >
-                  Обновить профиль
+                  Обновить
                 </Button>
               </Col>
             )

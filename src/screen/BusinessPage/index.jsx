@@ -102,6 +102,14 @@ class BusinessPage extends Component {
         },
       },
       {
+        tabName: 'Расписание',
+        keyName: 'schedule',
+        ContentComponent: BusinessScheduleInfo,
+        props: {
+          changeActiveTab: this.changeActiveTab,
+        },
+      },
+      {
         tabName: 'Услуги',
         keyName: 'services',
         disabled: disabledTab.servicesDisable,
@@ -112,22 +120,13 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Пакет Услуг',
+        tabName: 'Пакет услуг',
         keyName: 'packages',
         disabled: disabledTab.packagesDisable,
         ContentComponent: BusinessPackages,
         props: {
           packages: businessPackages,
           servicePrices,
-        },
-      },
-      {
-        tabName: 'Рассписание',
-        keyName: 'schedule',
-        ContentComponent: BusinessScheduleInfo,
-        props: {
-          changeActiveTab: this.changeActiveTab,
-          packagesDisable: disabledTab.packagesDisable,
         },
       },
       {
@@ -145,7 +144,7 @@ class BusinessPage extends Component {
       <div className={b()}>
         <div className={b('header')}>
           <p className={b('header-title')}>
-            {isAddBusinessMode ? 'Добавить бизнес' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
+            {isAddBusinessMode ? 'Создать филиал' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
           </p>
         </div>
         <Tabs
