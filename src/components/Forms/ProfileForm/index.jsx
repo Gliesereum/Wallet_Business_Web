@@ -70,7 +70,11 @@ class ProfileForm extends PureComponent {
                             y: isError ? 32 : 48,
                           }}
                         />
-                        <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                        <h1 className={b('uploader-inside-header')}>
+                          {
+                            user.avatarUrl ? 'загрузить новое изображение' : 'добавить изображение'
+                          }
+                        </h1>
                         {
                           isError && (
                             <p className={b('uploader-inside-error')}>

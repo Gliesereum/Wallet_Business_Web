@@ -200,7 +200,13 @@ class BusinessMainInfoForm extends Component {
                                   y: isError ? 32 : 48,
                                 }}
                               />
-                              <h1 className={b('uploader-inside-header')}>добавить логотип</h1>
+                              <h1 className={b('uploader-inside-header')}>
+                                {
+                                  singleBusiness && singleBusiness.logoUrl
+                                    ? 'загрузить новый логотип'
+                                    : 'добавить логотип'
+                                }
+                              </h1>
                               {
                                 isError && (
                                   <p className={b('uploader-inside-error')}>
