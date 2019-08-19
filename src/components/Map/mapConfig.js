@@ -101,7 +101,7 @@ export const mapConfig = {
       stylers: [{ color: '#ffffff' }],
     },
   ],
-  zoomControl: false,
+  zoomControl: true,
   streetViewControl: false,
   mapTypeControl: false,
   fullscreenControl: false,
