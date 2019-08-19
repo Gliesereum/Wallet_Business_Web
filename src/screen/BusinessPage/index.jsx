@@ -102,6 +102,14 @@ class BusinessPage extends Component {
         },
       },
       {
+        tabName: 'Рассписание',
+        keyName: 'schedule',
+        ContentComponent: BusinessScheduleInfo,
+        props: {
+          changeActiveTab: this.changeActiveTab,
+        },
+      },
+      {
         tabName: 'Услуги',
         keyName: 'services',
         disabled: disabledTab.servicesDisable,
@@ -119,15 +127,6 @@ class BusinessPage extends Component {
         props: {
           packages: businessPackages,
           servicePrices,
-        },
-      },
-      {
-        tabName: 'Рассписание',
-        keyName: 'schedule',
-        ContentComponent: BusinessScheduleInfo,
-        props: {
-          changeActiveTab: this.changeActiveTab,
-          packagesDisable: disabledTab.packagesDisable,
         },
       },
       {

@@ -67,7 +67,7 @@ class BusinessServicesList extends Component {
           <Col lg={12}>
             <Button
               className={b('grid-controlBtns-btn backBtn')}
-              onClick={this.handleChangeActiveTab('mainInfo')}
+              onClick={this.handleChangeActiveTab('schedule')}
             >
               <Icon type="left" />
               Назад

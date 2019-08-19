@@ -98,7 +98,7 @@ class BusinessMainInfo extends Component {
           } else {
             await updateBusiness(newBusiness);
           }
-          changeActiveTab('services', newBusiness.id);
+          changeActiveTab('schedule', newBusiness.id);
         } catch (err) {
           notification.error({
             duration: 5,
