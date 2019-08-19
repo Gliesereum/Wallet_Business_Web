@@ -56,6 +56,7 @@ class BusinessServiceInfo extends Component {
       isAddMode,
       addServicePrice,
       updateServicePrice,
+      filters,
     } = this.props;
     const {
       mainInfo,
@@ -121,7 +122,10 @@ class BusinessServiceInfo extends Component {
       }
     }
 
-    additionalInfoVisible && changeActiveService(null, false)();
+    (
+      (singleBusiness.businessCategory.businessType !== 'CAR' && filters.length < 1)
+      || additionalInfoVisible)
+    && changeActiveService(null, false)();
   };
 
   handleRemoveServicePrice = async () => {
