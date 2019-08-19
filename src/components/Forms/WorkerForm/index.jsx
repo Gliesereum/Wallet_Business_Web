@@ -284,7 +284,7 @@ class WorkerForm extends PureComponent {
                         <Checkbox
                           disabled={readOnlyMode}
                         >
-                          Предоставить этому сотруднику права администратора
+                          Предоставить сотруднику права администратора в этом филиале компании
                         </Checkbox>
                       )
                     }
