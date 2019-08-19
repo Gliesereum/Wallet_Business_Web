@@ -82,7 +82,7 @@ class BusinessScheduleInfo extends PureComponent {
         } catch (err) {
           notification.error({
             duration: 5,
-            message: err.message || 'Ошибка',
+            message: err.code === 1436 ? 'Бизнес уже работает по этому расписанию' : err.message,
             description: 'Возникла ошибка',
           });
         }
