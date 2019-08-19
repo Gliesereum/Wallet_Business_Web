@@ -238,7 +238,7 @@ class BusinessServiceInfo extends Component {
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.handleRemoveServicePrice}
                 >
-                  Удалить сервис
+                  Удалить услугу
                 </Button>
               </Col>
             )

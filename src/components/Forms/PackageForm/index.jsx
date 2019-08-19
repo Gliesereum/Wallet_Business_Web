@@ -45,7 +45,6 @@ class PackageForm extends Component {
     const sumServicesDuration = servicePricesList
       .filter(item => servicesIds.includes(item.id))
       .reduce((acc, service) => acc += service.duration, 0);
-    console.log(sumServicesDuration);
     form.setFieldsValue({ duration: sumServicesDuration });
   };
 
@@ -62,7 +61,7 @@ class PackageForm extends Component {
           <Col lg={12}>
             <FormItem>
               <Card
-                title="Услуги для пакета"
+                title="Услуги, входящие в пакет"
                 className={b('card')}
               >
                 {form.getFieldDecorator('servicesIds', {

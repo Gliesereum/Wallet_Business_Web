@@ -14,23 +14,23 @@ export const genders = {
 export const dayTranslateTemporary = [
   {
     translate: 'Понедельник',
-    dayOfWeek: 'TUESDAY',
+    dayOfWeek: 'MONDAY',
   },
   {
     translate: 'Вторник',
-    dayOfWeek: 'WEDNESDAY',
+    dayOfWeek: 'TUESDAY',
   },
   {
     translate: 'Среда',
-    dayOfWeek: 'THURSDAY',
+    dayOfWeek: 'WEDNESDAY',
   },
   {
     translate: 'Четверг',
-    dayOfWeek: 'FRIDAY',
+    dayOfWeek: 'THURSDAY',
   },
   {
     translate: 'Пятница',
-    dayOfWeek: 'MONDAY',
+    dayOfWeek: 'FRIDAY',
   },
   {
     translate: 'Суббота',
@@ -118,6 +118,6 @@ export const recordTranslate = {
 };
 
 export const translateBusinessType = {
-  CAR: 'Машины',
-  HUMAN: 'Человек',
+  CAR: 'Автомобильная',
+  HUMAN: 'Другая',
 };

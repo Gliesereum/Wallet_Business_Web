@@ -14,7 +14,7 @@ import {
 import EmptyState from '../EmptyState';
 import ScreenLoading from '../ScreenLoading';
 
-import { genders, dayTranslateTemporary } from '../../mocks';
+import { genders, dayTranslateTemporary, dayTranslate } from '../../mocks';
 
 const b = bem('workersList');
 const { Option } = Select;
@@ -182,7 +182,7 @@ class WorkersList extends Component {
       from: workTimes.length ? workTimes[index].from : 0,
       to: workTimes.length ? workTimes[index].to : 0,
       isWork: workTimes.length ? workTimes[index].isWork : false,
-      dayOfWeek: workTimes.length ? workTimes[index].dayOfWeek : day.translate,
+      dayOfWeek: workTimes.length ? dayTranslate[workTimes[index].dayOfWeek] : day.translate,
     }));
 
     return (
@@ -195,7 +195,7 @@ class WorkersList extends Component {
           lg={10}
           className={b('expandTable-row')}
         >
-          <h1 className={b('expandTable-row-header')}>Данные работника</h1>
+          <h1 className={b('expandTable-row-header')}>Данные сотрудника</h1>
           <Row
             type="flex"
             justify="space-between"
@@ -208,7 +208,7 @@ class WorkersList extends Component {
               {
                 user.createDate && (
                   <div className={b('expandTable-row-userInfo-box')}>
-                    <div className="title">Профайл создано:</div>
+                    <div className="title">Профайл создан:</div>
                     <div className="data">{generateDate(user.createDate)}</div>
                   </div>
                 )
@@ -242,7 +242,7 @@ class WorkersList extends Component {
           lg={10}
           className={b('expandTable-row')}
         >
-          <h1 className={b('expandTable-row-header')}>Дни и время работы</h1>
+          <h1 className={b('expandTable-row-header')}>Дни и часы работы </h1>
           <Row
             type="flex"
             justify="space-between"
@@ -366,7 +366,7 @@ class WorkersList extends Component {
     return (
       <div className={b()}>
         <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр сотрудников</p>
+          <p className={b('header-title')}>Список сотрудников</p>
           <div className={b('header-selectorBox')}>
             <Select
               onChange={this.handleCorpChange}
@@ -417,7 +417,7 @@ class WorkersList extends Component {
                   isWorkersExist ? (
                     <>
                       <div className={b('content-searchBox')}>
-                        <label htmlFor="searchWorkerInput">Поиск по имени или номеру телефона</label>
+                        <label htmlFor="searchWorkerInput">Поиск по имени / номеру телефона </label>
                         <Search
                           placeholder="Поиск..."
                           id="searchWorkerInput"
@@ -452,7 +452,7 @@ class WorkersList extends Component {
                         <Col lg={14}>
                           <div className={b('content-controlBtns-infoBlock')}>
                             <Icon type="info-circle" />
-                            <div>Если профайл сотрудника отсутствует, его необходимо создать</div>
+                            <div>Если сотрудник отсутствует в списке, необходимо внести его в систему</div>
                             <div className={b('content-controlBtns-infoBlock-arrow')} />
                           </div>
                         </Col>
@@ -462,7 +462,7 @@ class WorkersList extends Component {
                             onClick={changeActiveWorker(null, true)}
                             type="primary"
                           >
-                            Создать профайл сотрудника
+                            Создать профиль сотрудника
                           </Button>
                         </Col>
                       </Row>

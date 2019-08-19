@@ -200,7 +200,7 @@ class BusinessMainInfoForm extends Component {
                                   y: isError ? 32 : 48,
                                 }}
                               />
-                              <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                              <h1 className={b('uploader-inside-header')}>добавить логотип</h1>
                               {
                                 isError && (
                                   <p className={b('uploader-inside-error')}>
@@ -238,7 +238,7 @@ class BusinessMainInfoForm extends Component {
                     )}
                   </FormItem>
                   <FormItem
-                    label="Название бизнеса"
+                    label="Название филиала"
                   >
                     {form.getFieldDecorator('name', {
                       initialValue: formInitValues.name,
@@ -246,14 +246,14 @@ class BusinessMainInfoForm extends Component {
                         { required: true, message: 'Поле обязательное для заполнения' },
                         { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
-                    })(<Input placeholder="Название бизнесса" />)}
+                    })(<Input placeholder="Название филиала" />)}
                   </FormItem>
                 </Col>
               </Row>
               <Row gutter={31}>
                 <Col lg={12}>
                   <FormItem
-                    label="Деловая активность"
+                    label="Сфера деятельности компании"
                   >
                     {form.getFieldDecorator('serviceType', {
                       initialValue: formInitValues.businessType,
@@ -280,7 +280,7 @@ class BusinessMainInfoForm extends Component {
                 </Col>
                 <Col lg={12}>
                   <FormItem
-                    label="Категория бизнесса"
+                    label="Категория"
                   >
                     {form.getFieldDecorator('businessCategoryId', {
                       initialValue: formInitValues.businessCategory,
@@ -308,7 +308,7 @@ class BusinessMainInfoForm extends Component {
               <Row gutter={31}>
                 <Col lg={12}>
                   <FormItem
-                    label="Оприделение бизнеса (описание)"
+                    label="Описание филиала"
                   >
                     {form.getFieldDecorator('description', {
                       initialValue: formInitValues.description,
@@ -327,7 +327,7 @@ class BusinessMainInfoForm extends Component {
                       initialValue: formInitValues.phone,
                       rules: [
                         { required: true, message: 'Please enter your phone number!' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
                       ],
                     })(
                       <PhoneInput />

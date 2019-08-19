@@ -15,7 +15,7 @@ const b = bem('workingSpaceInfoReadOnly');
 const WorkingSpaceInfoReadOnly = ({ chosenSpace, toggleWorkerInfoDrawer }) => {
   const columns = [
     {
-      title: 'ФИО работника',
+      title: 'ФИО сотрудника',
       key: 'fullName',
       width: '35%',
       sorter: (first, second) => first.user.lastName && first.user.lastName.localeCompare(second.user.lastName),

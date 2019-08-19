@@ -64,7 +64,7 @@ class CorporationsPage extends Component {
                       ) : (
                         <EmptyState
                           title="Компания не выбрана"
-                          descrText="Выберите компанию, чтобы увидеть список бизнесов"
+                          descrText="Выберите компанию, чтобы увидеть список филиалов "
                           withoutBtn
                         />
                       )

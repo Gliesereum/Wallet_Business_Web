@@ -97,8 +97,8 @@ class BusinessPackagesList extends PureComponent {
             this.renderPackagesList(packagesList)
           ) : (
             <EmptyState
-              title="У вас нету пакетов услуг"
-              descrText="Сучасна методологія розробки в значній мірі обумовлює важливість своєчасного виконання надзавдання. Тому, створіть послугу!"
+              title="У вас пока нет пакетов услуг"
+              descrText="Создайте пакет услуг, добавив выбранные услуги"
               addItemText="Создать пакет услуг"
               addItemHandler={changeActivePackage}
             />

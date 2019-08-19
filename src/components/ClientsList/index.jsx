@@ -302,7 +302,7 @@ class ClientsList extends Component {
                   isClientsExist ? (
                     <>
                       <div className={b('content-searchBox')}>
-                        <label htmlFor="searchClientInput">Поиск по имени или номеру телефона</label>
+                        <label htmlFor="searchClientInput">Поиск по имени / номеру телефона </label>
                         <Search
                           placeholder="Поиск с 3-х символов..."
                           id="searchClientInput"
@@ -333,7 +333,7 @@ class ClientsList extends Component {
                         <Col lg={14}>
                           <div className={b('content-controlBtns-infoBlock')}>
                             <Icon type="info-circle" />
-                            <div>Выберите клиентов, для которых нужно создать рассылку </div>
+                            <div>Выберите клиентов, для которых нужно создать рассылку уведомлений</div>
                             <div className={b('content-controlBtns-infoBlock-arrow')} />
                           </div>
                         </Col>
@@ -351,8 +351,8 @@ class ClientsList extends Component {
                     </>
                   ) : (
                     <EmptyState
-                      title="У вас нету зарегистрированных клиентов"
-                      descrText="Когда клиенты появлятся, вы сможете просмотреть их в этом месте"
+                      title="Здесь будут отображаться клиенты, сделавшие заказ в вашей компании через приложение Coupler или сервис Coupler Widget"
+                      descrText="Когда клиенты появятся, вы сможете просмотреть их в этом месте. Каждый новый клиент будет добавляться в единую базу, которую вы можете посмотреть в этой вкладке."
                       withoutBtn
                     />
                   )
