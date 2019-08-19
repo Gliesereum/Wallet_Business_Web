@@ -13,6 +13,7 @@ import {
 } from 'antd';
 
 import EmptyState from '../EmptyState';
+import ScreenLoading from '../ScreenLoading';
 
 import { fetchBusinessesByCorp, fetchClientsByIds } from '../../fetches';
 
@@ -22,6 +23,7 @@ const { Search } = Input;
 
 class ClientsList extends Component {
   state = {
+    loader: false, // TODO: refactor in next realise
     clients: [],
     chosenCorporation: '',
     chosenBusiness: undefined,
@@ -49,6 +51,7 @@ class ClientsList extends Component {
   }
 
   handleCorpChange = async (corporationId) => {
+    this.setState({ loader: true });
     const businesses = await this.handleGetBusinessByCorporationId(corporationId, true);
 
     this.props.changeChoseCorporationId(corporationId);
@@ -60,11 +63,9 @@ class ClientsList extends Component {
   };
 
   handleBusinessChange = async (businessId) => {
-    await this.handleGetClientsById({ businessId });
+    this.setState({ loader: true, chosenBusiness: businessId });
 
-    this.setState({
-      chosenBusiness: businessId,
-    });
+    await this.handleGetClientsById({ businessId });
   };
 
   handleGetBusinessByCorporationId = async (corporationId, getClients = false) => {
@@ -116,6 +117,8 @@ class ClientsList extends Component {
         message: err.message || 'Ошибка',
         description: 'Возникла ошибка',
       });
+    } finally {
+      this.setState({ loader: false });
     }
   };
 
@@ -185,6 +188,7 @@ class ClientsList extends Component {
       searchProcess,
       columnSortOrder: { name, phone },
       pagination,
+      loader,
     } = this.state;
     const { corporations, changeActiveClient } = this.props;
     const isClientsExist = (clients && clients.length) || searchProcess;
@@ -290,62 +294,70 @@ class ClientsList extends Component {
         </div>
         <div className={b('content', { isClientsExist })}>
           {
-            isClientsExist ? (
-              <>
-                <div className={b('content-searchBox')}>
-                  <label htmlFor="searchClientInput">Поиск по имени или номеру телефона</label>
-                  <Search
-                    placeholder="Поиск с 3-х символов..."
-                    id="searchClientInput"
-                    onChange={this.handleSearchClients}
-                  />
-                </div>
-                <Table
-                  rowKey={client => client.id}
-                  className={b('content-clientsTable')}
-                  columns={columns}
-                  dataSource={searchedClients}
-                  pagination={pagination.totalPages > 1
-                    ? {
-                      ...pagination,
-                      pageSize: 7,
-                      className: b('content-pagination'),
-                    }
-                    : false
-                    }
-                  onChange={this.handleTableChange}
-                  scroll={{ y: 336 }}
-                />
-
-                <Row
-                  gutter={32}
-                  className={b('content-controlBtns')}
-                >
-                  <Col lg={14}>
-                    <div className={b('content-controlBtns-infoBlock')}>
-                      <Icon type="info-circle" />
-                      <div>Выберите клиентов, для которых нужно создать рассылку </div>
-                      <div className={b('content-controlBtns-infoBlock-arrow')} />
-                    </div>
-                  </Col>
-                  <Col lg={10}>
-                    <Button
-                      disabled // TODO: make createMailing feature
-                      className={b('content-controlBtns-btn')}
-                      onClick={this.createMailing}
-                      type="primary"
-                    >
-                      Создать рассылку
-                    </Button>
-                  </Col>
-                </Row>
-              </>
+            loader ? (
+              <ScreenLoading />
             ) : (
-              <EmptyState
-                title="У вас нету зарегистрированных клиентов"
-                descrText="Когда клиенты появлятся, вы сможете просмотреть их в этом месте"
-                withoutBtn
-              />
+              <>
+                {
+                  isClientsExist ? (
+                    <>
+                      <div className={b('content-searchBox')}>
+                        <label htmlFor="searchClientInput">Поиск по имени или номеру телефона</label>
+                        <Search
+                          placeholder="Поиск с 3-х символов..."
+                          id="searchClientInput"
+                          onChange={this.handleSearchClients}
+                        />
+                      </div>
+                      <Table
+                        rowKey={client => client.id}
+                        className={b('content-clientsTable')}
+                        columns={columns}
+                        dataSource={searchedClients}
+                        pagination={pagination.totalPages > 1
+                          ? {
+                            ...pagination,
+                            pageSize: 7,
+                            className: b('content-pagination'),
+                          }
+                          : false
+                        }
+                        onChange={this.handleTableChange}
+                        scroll={{ y: 336 }}
+                      />
+
+                      <Row
+                        gutter={32}
+                        className={b('content-controlBtns')}
+                      >
+                        <Col lg={14}>
+                          <div className={b('content-controlBtns-infoBlock')}>
+                            <Icon type="info-circle" />
+                            <div>Выберите клиентов, для которых нужно создать рассылку </div>
+                            <div className={b('content-controlBtns-infoBlock-arrow')} />
+                          </div>
+                        </Col>
+                        <Col lg={10}>
+                          <Button
+                            disabled // TODO: make createMailing feature
+                            className={b('content-controlBtns-btn')}
+                            onClick={this.createMailing}
+                            type="primary"
+                          >
+                            Создать рассылку
+                          </Button>
+                        </Col>
+                      </Row>
+                    </>
+                  ) : (
+                    <EmptyState
+                      title="У вас нету зарегистрированных клиентов"
+                      descrText="Когда клиенты появлятся, вы сможете просмотреть их в этом месте"
+                      withoutBtn
+                    />
+                  )
+                }
+              </>
             )
           }
         </div>

@@ -12,6 +12,7 @@ import {
 } from 'antd';
 
 import EmptyState from '../EmptyState';
+import ScreenLoading from '../ScreenLoading';
 
 import { genders, dayTranslateTemporary } from '../../mocks';
 
@@ -53,6 +54,7 @@ const generateSchedule = (from, to, isWork) => {
 
 class WorkersList extends Component {
   state = {
+    loader: false, // TODO: refactor in next realise
     businesses: [],
     chosenCorporation: '',
     chosenBusiness: undefined,
@@ -77,8 +79,11 @@ class WorkersList extends Component {
     this.setState({ searchedWorkers: nextProps.workers });
   }
 
+  toggleLoader = bool => this.setState({ loader: bool });
+
   handleCorpChange = async (corporationId) => {
-    const businesses = await this.props.getBusinessByCorporationId(corporationId, true);
+    this.toggleLoader(true);
+    const businesses = await this.props.getBusinessByCorporationId(corporationId, true, this.toggleLoader);
 
     this.setState({
       chosenCorporation: corporationId,
@@ -88,9 +93,10 @@ class WorkersList extends Component {
   };
 
   handleBusinessChange = async (businessId) => {
+    this.toggleLoader(true);
     const { getWorkers } = this.props;
 
-    await getWorkers({ businessId });
+    await getWorkers({ businessId, loaderHandler: this.toggleLoader });
     this.setState({ chosenBusiness: businessId });
   };
 
@@ -144,10 +150,13 @@ class WorkersList extends Component {
     const { chosenBusiness, chosenCorporation } = this.state;
     const { getWorkers } = this.props;
 
+    this.toggleLoader(true);
+
     getWorkers({
       corporationId: chosenCorporation,
       businessId: chosenBusiness,
       page: pagination.current - 1,
+      loaderHandler: this.toggleLoader,
     });
   };
 
@@ -285,6 +294,7 @@ class WorkersList extends Component {
       searchProcess,
       expandedRowKeys,
       columnSortOrder: { name, phone, position },
+      loader,
     } = this.state;
     const isWorkersExist = (workers && workers.length) || searchProcess;
 
@@ -399,66 +409,74 @@ class WorkersList extends Component {
         </div>
         <div className={b('content', { isWorkersExist })}>
           {
-            isWorkersExist ? (
-              <>
-                <div className={b('content-searchBox')}>
-                  <label htmlFor="searchWorkerInput">Поиск по имени или номеру телефона</label>
-                  <Search
-                    placeholder="Поиск..."
-                    id="searchWorkerInput"
-                    onChange={this.handleSearchWorkers}
-                  />
-                </div>
-                <Table
-                  rowKey={worker => worker.id}
-                  className={b('content-workersTable')}
-                  columns={columns}
-                  dataSource={searchedWorkers}
-                  expandedRowRender={worker => this.renderExpandedRow(worker)}
-                  expandIconAsCell={false} // need for hidden default expand icon
-                  expandRowByClick
-                  onRow={this.handleExpandRow}
-                  pagination={pagination.totalPages > 1
-                    ? {
-                      ...pagination,
-                      pageSize: 7,
-                      className: b('content-pagination'),
-                    }
-                    : false
-                  }
-                  onChange={this.handleTableChange}
-                  scroll={{ y: 337 }}
-                />
-
-                <Row
-                  gutter={32}
-                  className={b('content-controlBtns')}
-                >
-                  <Col lg={14}>
-                    <div className={b('content-controlBtns-infoBlock')}>
-                      <Icon type="info-circle" />
-                      <div>Если профайл сотрудника отсутствует, его необходимо создать</div>
-                      <div className={b('content-controlBtns-infoBlock-arrow')} />
-                    </div>
-                  </Col>
-                  <Col lg={10}>
-                    <Button
-                      className={b('content-controlBtns-btn')}
-                      onClick={changeActiveWorker(null, true)}
-                      type="primary"
-                    >
-                      Создать профайл сотрудника
-                    </Button>
-                  </Col>
-                </Row>
-              </>
+            loader ? (
+              <ScreenLoading />
             ) : (
-              <EmptyState
-                title="У вас нету зарегистрированных сотрудников"
-                descrText="Создайте работника, чтобы просматривать и редактировать информацию о нем"
-                addItemText="Создать сотрудника"
-                addItemHandler={changeActiveWorker}
-              />
+              <>
+                {
+                  isWorkersExist ? (
+                    <>
+                      <div className={b('content-searchBox')}>
+                        <label htmlFor="searchWorkerInput">Поиск по имени или номеру телефона</label>
+                        <Search
+                          placeholder="Поиск..."
+                          id="searchWorkerInput"
+                          onChange={this.handleSearchWorkers}
+                        />
+                      </div>
+                      <Table
+                        rowKey={worker => worker.id}
+                        className={b('content-workersTable')}
+                        columns={columns}
+                        dataSource={searchedWorkers}
+                        expandedRowRender={worker => this.renderExpandedRow(worker)}
+                        expandIconAsCell={false} // need for hidden default expand icon
+                        expandRowByClick
+                        onRow={this.handleExpandRow}
+                        pagination={pagination.totalPages > 1
+                          ? {
+                            ...pagination,
+                            pageSize: 7,
+                            className: b('content-pagination'),
+                          }
+                          : false
+                        }
+                        onChange={this.handleTableChange}
+                        scroll={{ y: 337 }}
+                      />
+
+                      <Row
+                        gutter={32}
+                        className={b('content-controlBtns')}
+                      >
+                        <Col lg={14}>
+                          <div className={b('content-controlBtns-infoBlock')}>
+                            <Icon type="info-circle" />
+                            <div>Если профайл сотрудника отсутствует, его необходимо создать</div>
+                            <div className={b('content-controlBtns-infoBlock-arrow')} />
+                          </div>
+                        </Col>
+                        <Col lg={10}>
+                          <Button
+                            className={b('content-controlBtns-btn')}
+                            onClick={changeActiveWorker(null, true)}
+                            type="primary"
+                          >
+                            Создать профайл сотрудника
+                          </Button>
+                        </Col>
+                      </Row>
+                    </>
+                  ) : (
+                    <EmptyState
+                      title="У вас нету зарегистрированных сотрудников"
+                      descrText="Создайте работника, чтобы просматривать и редактировать информацию о нем"
+                      addItemText="Создать сотрудника"
+                      addItemHandler={changeActiveWorker}
+                    />
+                  )
+                }
+              </>
             )
           }
         </div>

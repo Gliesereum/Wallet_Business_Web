@@ -28,11 +28,11 @@ class WorkersPage extends Component {
     isAddWorkerMode,
   });
 
-  handleGetBusinessByCorporationId = async (corporationId, getWorkers = false) => {
+  handleGetBusinessByCorporationId = async (corporationId, getWorkers = false, loaderHandler) => {
     let businesses = [];
     try {
       const { data = [] } = await fetchBusinessesByCorp({ corporationId });
-      getWorkers && await this.handleGetWorkers({ corporationId });
+      getWorkers && await this.handleGetWorkers({ corporationId, loaderHandler });
 
       businesses = data;
     } catch (err) {
@@ -51,6 +51,7 @@ class WorkersPage extends Component {
     businessId,
     queryValue,
     page,
+    loaderHandler,
   }) => {
     try {
       const { data: admins = [] } = await fetchAdminsByCorporation({ corporationId, businessId });
@@ -77,6 +78,8 @@ class WorkersPage extends Component {
         message: err.message || 'Ошибка',
         description: 'Возникла ошибка',
       });
+    } finally {
+      loaderHandler(false);
     }
   };
 
