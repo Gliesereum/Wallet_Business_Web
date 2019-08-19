@@ -116,3 +116,8 @@ export const recordTranslate = {
     COMPLETED: Completed,
   },
 };
+
+export const translateBusinessType = {
+  CAR: 'Машины',
+  HUMAN: 'Человек',
+};

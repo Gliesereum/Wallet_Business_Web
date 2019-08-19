@@ -155,6 +155,7 @@ class BusinessServiceInfo extends Component {
       chosenService,
       changeActiveService,
       isAddMode,
+      singleBusiness,
     } = this.props;
 
     return (
@@ -169,30 +170,48 @@ class BusinessServiceInfo extends Component {
         {
           additionalInfoVisible ? (
             <div>
-              <h1 className={b('header')}>Дополнительная информация</h1>
-              <ServiceAdditional
-                filters={filters}
-                servicePrice={chosenService}
-                updateFormData={this.updateFormData}
-              />
-              <h1 className={b('header')}>Класс обслуживания</h1>
-              <ServiceClasses
-                classes={classes}
-                servicePrice={chosenService}
-                updateFormData={this.updateFormData}
-              />
+              {
+                (filters.length > 0) && (
+                  <>
+                    <h1 className={b('header')}>Дополнительная информация</h1>
+                    <ServiceAdditional
+                      filters={filters}
+                      servicePrice={chosenService}
+                      updateFormData={this.updateFormData}
+                    />
+                  </>
+                )
+              }
+              {
+                singleBusiness.businessCategory.businessType === 'CAR' && (
+                  <>
+                    <h1 className={b('header')}>Класс обслуживания</h1>
+                    <ServiceClasses
+                      classes={classes}
+                      servicePrice={chosenService}
+                      updateFormData={this.updateFormData}
+                    />
+                  </>
+                )
+              }
             </div>
           ) : (
-            <div className={b('infoBlock')}>
-              <p className={b('infoBlock-text')}>
-                <span className={b('infoBlock-text', { firstParagraph: true })}>Внимание!</span>
-                <br />
-                <span>
-                  Введите и сохраните основную информацию услуги для доступа к редакции дополнительной информации
-                  Вы не можете создать пакет услуг пока не создадите услугу.
-                </span>
-              </p>
-            </div>
+            <>
+              {
+                filters.length > 0 && singleBusiness.businessCategory.businessType === 'CAR' && (
+                  <div className={b('infoBlock')}>
+                    <p className={b('infoBlock-text')}>
+                      <span className={b('infoBlock-text', { firstParagraph: true })}>Внимание!</span>
+                      <br />
+                      <span>
+                        Введите и сохраните основную информацию услуги для доступа к редакции дополнительной информации
+                        Вы не можете создать пакет услуг пока не создадите услугу.
+                      </span>
+                    </p>
+                  </div>
+                )
+              }
+            </>
           )
         }
         <Row
@@ -227,7 +246,9 @@ class BusinessServiceInfo extends Component {
               type="primary"
             >
               {
-                !additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'
+                (filters.length < 1 && singleBusiness.businessCategory.businessType !== 'CAR')
+                  ? 'Сохранить'
+                  : `${!additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'}`
               }
             </Button>
           </Col>

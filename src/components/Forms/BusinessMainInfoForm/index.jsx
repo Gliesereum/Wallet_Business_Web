@@ -13,20 +13,16 @@ import {
 } from 'antd';
 
 import Map from '../../Map';
-import ProneInput from '../../ProneInput';
+import PhoneInput from '../../PhoneInput';
 import { AddIcon } from '../../../assets/iconComponents';
 
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
+import { translateBusinessType } from '../../../mocks';
 
 const FormItem = Form.Item;
 const { Dragger: UploadDragger } = Upload;
 const b = bem('businessMainForm');
-
-const translateBusinessType = {
-  CAR: 'Машины',
-  HUMAN: 'Человек',
-};
 
 const initialFieldValues = chosenCorpId => ({
   corporationId: chosenCorpId,
@@ -334,7 +330,7 @@ class BusinessMainInfoForm extends Component {
                         { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
                       ],
                     })(
-                      <ProneInput />
+                      <PhoneInput />
                     )}
                   </FormItem>
                 </Col>

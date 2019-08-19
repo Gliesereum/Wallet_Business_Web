@@ -24,10 +24,19 @@
       font-feature-settings: 'pnum' on, 'lnum' on;
     }
 
-    &-searchInput {
-      width: 248px;
+    &-searchBlock {
+      display: flex;
 
-      & > .ant-input {
+      &-text {
+        font-family: $sans;
+        color: $white;
+        line-height: 48px;
+        padding-right: 25px;
+      }
+
+      &-searchInput {
+        width: 248px;
+        margin-right: 25px;
         background: rgba(255, 255, 255, 0.08);
         color: $white;
 
@@ -36,41 +45,14 @@
         }
       }
 
-      & .ant-input-search-icon {
-        color: $white;
-
-        &:hover {
-          font-size: 16px;
-        }
+      &-searchResultBlock {
+        width: 248px;
+        height: 48px;
+        text-transform: unset;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 12px 16px;
       }
-    }
-
-    &-searchResultBlock {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: 248px;
-      height: 48px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 12px 16px;
-
-      &-text {
-        font-family: $sans;
-        font-size: 14px;
-        line-height: 24px;
-        letter-spacing: 0.02em;
-        font-feature-settings: 'pnum' on, 'lnum' on;
-        color: $white;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-      }
-    }
-
-    &-searchResultButton {
-      width: 88px;
-      margin: unset;
     }
   }
 
