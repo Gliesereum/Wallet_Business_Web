@@ -161,7 +161,7 @@ class CorporationInfo extends Component {
                     onClick={changeActiveCorporation(null, false)}
                   >
                     <Icon type="left" />
-                    К списку
+                    Назад
                   </Button>
                 ) : (
                   <Button
@@ -172,7 +172,7 @@ class CorporationInfo extends Component {
                     }
                   >
                     <Icon type="left" />
-                    Отмена
+                    Назад
                   </Button>
                 )
               }
