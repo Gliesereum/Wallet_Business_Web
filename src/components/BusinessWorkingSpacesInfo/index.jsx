@@ -227,11 +227,7 @@ class BusinessWorkingSpacesInfo extends Component {
                   Удалить рабочее место
                 </Button>
               ) : (
-                <Button
-                  className={b('controlBtns-btn deleteBtn')}
-                >
-                  Інфо блок
-                </Button>
+                <div />
               )
             }
           </Col>
