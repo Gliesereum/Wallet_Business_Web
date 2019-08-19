@@ -27,25 +27,21 @@
     &-searchBlock {
       display: flex;
 
+      &-text {
+        font-family: $sans;
+        color: $white;
+        line-height: 48px;
+        padding-right: 25px;
+      }
+
       &-searchInput {
         width: 248px;
         margin-right: 25px;
+        background: rgba(255, 255, 255, 0.08);
+        color: $white;
 
-        & > .ant-input {
-          background: rgba(255, 255, 255, 0.08);
-          color: $white;
-
-          &::placeholder {
-            color: rgba(255, 255, 255, 0.64);
-          }
-        }
-
-        & .ant-input-search-icon {
-          color: $white;
-
-          &:hover {
-            font-size: 16px;
-          }
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.64);
         }
       }
 

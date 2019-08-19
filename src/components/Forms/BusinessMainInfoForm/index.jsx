@@ -13,7 +13,7 @@ import {
 } from 'antd';
 
 import Map from '../../Map';
-import ProneInput from '../../ProneInput';
+import PhoneInput from '../../PhoneInput';
 import { AddIcon } from '../../../assets/iconComponents';
 
 import config from '../../../config';
@@ -330,7 +330,7 @@ class BusinessMainInfoForm extends Component {
                         { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
                       ],
                     })(
-                      <ProneInput />
+                      <PhoneInput />
                     )}
                   </FormItem>
                 </Col>

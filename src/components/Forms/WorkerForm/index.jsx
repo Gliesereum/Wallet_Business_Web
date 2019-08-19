@@ -10,7 +10,7 @@ import {
   Checkbox,
 } from 'antd';
 
-import ProneInput from '../../ProneInput';
+import PhoneInput from '../../PhoneInput';
 import FromToInput from '../../FromToInput';
 
 const b = bem('workerForm');
@@ -156,7 +156,7 @@ class WorkerForm extends PureComponent {
                         { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
                       ],
                     })(
-                      <ProneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
+                      <PhoneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
                     )
                   }
                 </FormItem>

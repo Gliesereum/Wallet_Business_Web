@@ -16,7 +16,6 @@ import DeleteModal from '../DeleteModal';
 import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
 
-const { Search } = Input;
 const b = bem('workerInfo');
 
 class WorkerInfo extends Component {
@@ -195,8 +194,16 @@ class WorkerInfo extends Component {
     }
   };
 
-  handleSearchUserByNumber = async (value) => {
-    const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${value}` }) || null;
+  handleSearchUserByNumber = async (e) => {
+    const { value } = e.target;
+    const searchedPhone = value.replace(/[()\s+]/g, '');
+
+    if (searchedPhone.length !== 12) {
+      this.props.changeActiveWorker(null, true)();
+      return;
+    }
+
+    const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${searchedPhone}` }) || null;
     this.setState({ foundUser: user });
     if (!user) this.props.changeActiveWorker(null, true)();
   };
@@ -222,10 +229,11 @@ class WorkerInfo extends Component {
         <div className={b('header', { isAddMode })}>
           <p className={b('header-title')}>Создание профайла сотрудника</p>
           <div className={b('header-searchBlock')}>
-            <Search
+            <span className={b('header-searchBlock-text')}>Поиск по номеру</span>
+            <Input
               className={b('header-searchBlock-searchInput')}
-              placeholder="Поиск по номеру..."
-              onSearch={this.handleSearchUserByNumber}
+              placeholder="+380507595188"
+              onChange={this.handleSearchUserByNumber}
             />
             <Button
               type="primary"

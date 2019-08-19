@@ -19,7 +19,7 @@ import BusinessScheduleInfo from './BusinessScheduleInfo';
 import BusinessMainInfo from './BusinessMainInfo';
 import EmptyState from './EmptyState';
 import FromToInput from './FromToInput';
-import ProneInput from './ProneInput';
+import PhoneInput from './PhoneInput';
 import DeleteModal from './DeleteModal';
 import PeriodSelector from './PeriodSelector';
 
@@ -45,7 +45,7 @@ export {
   BusinessMainInfo,
   EmptyState,
   FromToInput,
-  ProneInput,
+  PhoneInput,
   DeleteModal,
   PeriodSelector,
 };
