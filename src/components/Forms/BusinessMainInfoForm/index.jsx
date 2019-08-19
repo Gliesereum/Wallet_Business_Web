@@ -18,15 +18,11 @@ import { AddIcon } from '../../../assets/iconComponents';
 
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
+import { translateBusinessType } from '../../../mocks';
 
 const FormItem = Form.Item;
 const { Dragger: UploadDragger } = Upload;
 const b = bem('businessMainForm');
-
-const translateBusinessType = {
-  CAR: 'Машины',
-  HUMAN: 'Человек',
-};
 
 const initialFieldValues = chosenCorpId => ({
   corporationId: chosenCorpId,
