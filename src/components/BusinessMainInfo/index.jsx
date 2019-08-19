@@ -95,6 +95,7 @@ class BusinessMainInfo extends Component {
           if (isAddBusinessMode && !singleBusiness) {
             await addNewBusiness(newBusiness);
             changeTabDisable('services');
+            changeTabDisable('workingSpace');
           } else {
             await updateBusiness(newBusiness);
           }
