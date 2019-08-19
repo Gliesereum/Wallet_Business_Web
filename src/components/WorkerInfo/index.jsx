@@ -221,27 +221,25 @@ class WorkerInfo extends Component {
       return (
         <div className={b('header', { isAddMode })}>
           <p className={b('header-title')}>Создание профайла сотрудника</p>
-          <Search
-            className={b('header-searchInput')}
-            placeholder="Поиск по номеру..."
-            onSearch={this.handleSearchUserByNumber}
-          />
-          <div className={b('header-searchResultBlock')}>
-            <span className={b('header-searchResultBlock-text')}>
+          <div className={b('header-searchBlock')}>
+            <Search
+              className={b('header-searchBlock-searchInput')}
+              placeholder="Поиск по номеру..."
+              onSearch={this.handleSearchUserByNumber}
+            />
+            <Button
+              type="primary"
+              disabled={!foundUser}
+              className={b('header-searchBlock-searchResultBlock')}
+              onClick={changeActiveWorker({ user: foundUser }, true)}
+            >
               {
                 foundUser
                   ? `${foundUser.phone} | ${foundUser.lastName} ${foundUser.firstName} ${foundUser.middleName}`
                   : 'Результат поиска...'
               }
-            </span>
+            </Button>
           </div>
-          <Button
-            disabled={!foundUser}
-            className={b('header-searchResultButton')}
-            onClick={changeActiveWorker({ user: foundUser }, true)}
-          >
-            Выбрать
-          </Button>
         </div>
       );
     }
