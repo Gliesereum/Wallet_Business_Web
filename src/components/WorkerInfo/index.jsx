@@ -23,6 +23,7 @@ class WorkerInfo extends Component {
     readOnlyMode: !this.props.isAddMode,
     businesses: [],
     workingSpaces: [],
+    workTimes: [],
     scheduleList: [],
     foundUser: null,
     deleteModalVisible: false,
@@ -42,8 +43,8 @@ class WorkerInfo extends Component {
     }
   }
 
-  initScheduleList = () => {
-    const { workTimes } = this.props.chosenWorker || { workTimes: [] };
+  initScheduleList = (workingTime = { workTimes: [] }) => {
+    const { workTimes } = this.props.chosenWorker || workingTime;
     const initDaysList = scheduleListDefault.reduce((acc, day) => {
       const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
       acc.push({ ...day, ...initDay });
@@ -65,7 +66,10 @@ class WorkerInfo extends Component {
   handleGetWorkingSpacesByBusinessId = (businessId) => {
     const { businesses } = this.state;
     const [business] = businesses.filter(item => item.id === businessId);
-    this.setState({ workingSpaces: business ? business.spaces : [] });
+    this.initScheduleList({ workTimes: business.workTimes });
+    this.setState({
+      workingSpaces: business ? business.spaces : [],
+    });
   };
 
   handleUpdateWorker = async () => {
@@ -92,7 +96,7 @@ class WorkerInfo extends Component {
           const isWorkTimesExist = this.state.scheduleList[0].id;
           const workTimes = [];
           const [business] = this.state.businesses.filter(item => item.id === businessId);
-          if (isWorkTimesExist) {
+          if (isWorkTimesExist && chosenWorker) {
             chosenWorker.workTimes.forEach((item) => {
               workTimes.push({
                 ...item,
@@ -273,6 +277,7 @@ class WorkerInfo extends Component {
       deleteModalVisible,
       isAdmin,
       foundUser,
+      workTimes,
     } = this.state;
 
     return (
@@ -284,6 +289,7 @@ class WorkerInfo extends Component {
             corporations={corporations}
             businesses={businesses}
             workingSpaces={workingSpaces}
+            workTimes={workTimes}
             scheduleList={scheduleList}
             dayTranslate={dayTranslate}
             chosenWorker={chosenWorker}
