@@ -66,7 +66,8 @@ const WorkerInfoDrawer = ({
       visible={visible}
       className={b()}
       width={448}
-      closable={false}
+      mask
+      maskClosable={false}
       onClose={onClose}
       placement="right"
       title="Профайл работника"
