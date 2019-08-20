@@ -26,6 +26,73 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script type="application/javascript">
+      window.Coupler = {
+        storageKey: "c3",
+        appId: "4ba91ec3-5a50-400f-9d29-08e4f6f022e9",
+        server: "https://api.coupler.app/api",
+        key: "be2520e2-53f2-43f9-92ed-c0295ee4c411",
+        brandName: "COUPLER",
+        version: "0.7.987 (Demo)",
+        startButtonClassName: "coupler-demo-button",
+        phrases: {
+          "title.masters": "Выберете исполнителя",
+          "title.service": "Выберете услуги",
+          "button.start.label": "COUPLER WIDGET (DEMO)",
+          "button.start.loading": "Загрузка",
+          "currency": "₴",
+          "record.header.label": "Вы выбрали",
+          "record.button.label": "Заказать",
+        },
+        theme: {
+          selectedColor: "#0a6af6",
+          noSelectedColor: "#cccccc",
+          backButton:{
+            background: "#0a58b7",
+            iconColor: "#f2f2f2"
+          },
+          exitButton:{
+            background: "#0a58b7",
+            iconColor: "#f2f2f2"
+          },
+          recordButton: {
+            background: "#0a6af6",
+            textColor:"#f2f2f2"
+          },
+          recordTotalLabelColor: "#0a6af6",
+          button: {
+            background: "#0a6af6",
+            label: "#ffffff",
+            width: "200px",
+            height: "36px",
+            fontSize: "12px",
+            borderRadius: "4px"
+          },
+          header: {
+            background: "#0a6af6",
+            brandLabelColor: "#ffffff",
+            borderBottomColor: "#0a6af6"
+          },
+          contentContainer: {
+            background: "#f2f2f2",
+            textColor: "#575c6e",
+            bordersColor: "#d2dbef"
+          },
+          infoTitle: {
+            background: "#e0e0e0",
+            borderColor: "#d2dbef",
+            textColor: "#575c6e"
+          }
+        }
+      };
+    </script>
+    <style type="text/css">
+        .coupler-demo-button {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+        }
+    </style>
     <title>Coupler Business</title>
 </head>
 <body id="contentBody">
@@ -41,5 +108,6 @@
   To begin the development, run `npm start` or `yarn start`.
   To create a production bundle, use `npm run build` or `yarn build`.
 -->
+<script src="https://glcdn.sgp1.digitaloceanspaces.com/static/coupler.min.js"></script>
 </body>
 </html>
