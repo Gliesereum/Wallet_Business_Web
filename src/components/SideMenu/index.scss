@@ -2,8 +2,10 @@
 
 .sidebar {
   overflow-y: scroll;
-  width: 256px;
-  background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
+  width: 290px;
+  //background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
+  //Експеримент восприятия
+  background: #212631;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
   z-index: 3;
   @media screen and (max-width: $max-lg) {
@@ -23,7 +25,8 @@
   &__menu {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+    //Експеримент восприятия
+    border-bottom: 1px solid #2c3140;
     padding: 16px 0;
 
     &-item {

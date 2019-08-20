@@ -204,9 +204,9 @@ const initState = {
         en: 'Phone number',
       },
       'signIn.form.message.sendCode': {
-        ru: 'Код был отправлен на номер',
-        uk: 'Код був відправлений на номер',
-        en: 'The code was sent to',
+        ru: 'CPS код был отправлен на номер',
+        uk: 'CPS код був відправлений на номер',
+        en: 'CPS код was sent to',
       },
       'signIn.form.inputPhone.label.validation': {
         ru: 'Введите номер телефона',
@@ -219,14 +219,14 @@ const initState = {
         en: '+380 93 000 00 03',
       },
       'signIn.form.inputCode.label.validation': {
-        ru: 'Неверный код',
-        uk: 'Невірний код',
-        en: 'Incorrect code',
+        ru: 'Неверный CPS код',
+        uk: 'Невірний CPS код',
+        en: 'Incorrect CPS code',
       },
       'signIn.form.inputCode.label': {
-        ru: 'Одноразовый пароль из смс',
-        uk: 'Одноразовий пароль з смс',
-        en: 'One-time password from SMS',
+        ru: 'Одноразовый CPS код из СМС',
+        uk: 'Одноразовий CPS код',
+        en: 'CPS code from SMS',
       },
       'signIn.form.inputPhone.timerReturn': {
         ru: 'Отправить повторно',
@@ -234,14 +234,14 @@ const initState = {
         en: 'Resend',
       },
       'signIn.form.inputPhone.confirm': {
-        ru: 'Подтвердить пароль',
-        uk: 'Підтвердити пароль',
-        en: 'Confirm password',
+        ru: 'Подтвердить CPS код',
+        uk: 'Підтвердити CPS код',
+        en: 'Confirm CPS code',
       },
       'signIn.form.button.getCode': {
-        ru: 'Получить одноразовый пароль',
-        uk: 'Отримати одноразовий пароль',
-        en: 'Get a one-time password',
+        ru: 'Получить CPS код',
+        uk: 'Отримати CPS код',
+        en: 'Get a CPS code',
       },
       'core.button.cancel': {
         ru: 'Отменить',
