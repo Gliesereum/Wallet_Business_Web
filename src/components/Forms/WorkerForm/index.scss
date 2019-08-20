@@ -44,6 +44,10 @@
             overflow: hidden;
           }
         }
+
+        & .ant-form-explain {
+          display: none;
+        }
       }
     }
 
