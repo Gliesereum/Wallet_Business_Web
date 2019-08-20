@@ -52,6 +52,8 @@ class SignInForm extends Component {
       phone,
       validateStatus,
       gotCodeHandler,
+      language,
+      defaultLanguage,
     } = this.props;
 
     return (
@@ -71,20 +73,19 @@ class SignInForm extends Component {
           {
             gotCode ? (
               <div>
-                <p>Код был отправлен на номер</p>
+                <p>{language.phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]}</p>
                 <p>{phone}</p>
               </div>
             ) : (
               <div>
-                <p>Попробуйте</p>
-                <p>простую и удобную CRM</p>
+                <p>{language.phrases['signIn.form.welcome'][defaultLanguage.isoKey]}</p>
               </div>
             )
           }
         </div>
         <Form.Item
           colon={false}
-          label={gotCode ? 'Одноразовый пароль из смс' : 'Номер телефона'}
+          label={gotCode ? language.phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey] : language.phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
           hasFeedback
@@ -94,7 +95,7 @@ class SignInForm extends Component {
               getValueFromEvent: checkInputHandler('code', form),
               rules: [
                 { required: true, message: 'Please enter your code number!' },
-                { pattern: new RegExp(/^[\d ]{6}$/), message: 'Неверный код' },
+                { pattern: new RegExp(/^[\d ]{6}$/), message: language.phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
               ],
             })(
               <Input.Password
@@ -106,18 +107,18 @@ class SignInForm extends Component {
               />
             )
             : form.getFieldDecorator('phone', {
-              initialValue: '+380',
+              initialValue: '',
               getValueFromEvent: checkInputHandler('phone', form),
               rules: [
                 { required: true, message: 'Please enter your phone number!' },
-                { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Введите номер телефона' },
+                { pattern: new RegExp(/^\+[\d ]{12}$/), message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
               ],
               validateTrigger: 'onBlur',
             })(
               <Input
                 autoFocus={false}
                 size="large"
-                placeholder="+38093 000 00 03"
+                placeholder={language.phrases['signIn.form.inputPhone.mask'][defaultLanguage.isoKey]}
                 className={b('number', { phoneInput: true })}
               />
             )
@@ -131,7 +132,7 @@ class SignInForm extends Component {
                 onClick={timerIsFinished ? this.getFormCodeHandler(phone) : this.sendFormCodeHandler}
               >
                 {
-                  timerIsFinished ? 'Отправить повторно' : 'Подтвердить пароль'
+                  timerIsFinished ? language.phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey] : language.phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
                 }
               </Button>
               <Button
@@ -147,7 +148,7 @@ class SignInForm extends Component {
               className={b('button')}
               onClick={this.getFormCodeHandler()}
             >
-              Получить одноразовый пароль
+              {language.phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
             </Button>
           )
         }

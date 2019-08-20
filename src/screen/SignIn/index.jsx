@@ -77,19 +77,26 @@ class SignIn extends Component {
       validateStatus,
     } = this.state;
 
+    const {
+      language,
+      defaultLanguage,
+    } = this.props.app;
+
     return (
       <div className={b()}>
         <div className={b('main')}>
           <div className={b('logo')} />
           <div className={b('titleBlock')}>
             <h1 className={b('titleBlock-title')}>
-              Панель управления бизнесом
+              {language.phrases['signIn.form.header'][defaultLanguage.isoKey]}
             </h1>
             <p className={b('titleBlock-subtitle')}>
-              удаленный контроль 24/7
+              {language.phrases['signIn.form.title'][defaultLanguage.isoKey]}
             </p>
           </div>
           <SignInForm
+            defaultLanguage={defaultLanguage}
+            language={language}
             gotCode={gotCode}
             phone={phone}
             validateStatus={validateStatus}
@@ -99,13 +106,15 @@ class SignIn extends Component {
           />
         </div>
         <div className={b('footer')}>
-          <span className={b('footer-text')}>All rights reserved. Copyright &copy; 2019 &nbsp;</span>
+          <span className={b('footer-text')}>
+            {language.phrases['footer.copyright'][defaultLanguage.isoKey]}
+          </span>
           <a
             className={b('footer-text')}
             href="https://www.gliesereum.com/"
             target="_blank"
           >
-            Gliesereum Ukraine
+            {language.phrases['footer.copyright.company'][defaultLanguage.isoKey]}
           </a>
         </div>
       </div>
@@ -118,6 +127,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(state => state, mapDispatchToProps),
   withRouter,
 )(SignIn);
