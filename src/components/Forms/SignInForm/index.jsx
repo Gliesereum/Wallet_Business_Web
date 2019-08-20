@@ -94,7 +94,7 @@ class SignInForm extends Component {
               getValueFromEvent: checkInputHandler('code', form),
               rules: [
                 { required: true, message: 'Please enter your code number!' },
-                { pattern: new RegExp(/^[\d ]{6}$/), message: 'Номер введен неверно. Повторите попытку' },
+                { pattern: new RegExp(/^[\d ]{6}$/), message: 'Неверный код' },
               ],
             })(
               <Input.Password

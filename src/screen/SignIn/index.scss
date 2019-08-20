@@ -11,10 +11,18 @@
     background: linear-gradient(48.16deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
     box-shadow: 24px 24px 48px rgba(0, 0, 0, 0.24);
     border-radius: 4px;
-    width: 592px;
-    height: 592px;
-    padding: 32px 104px;
+    //width: 592px;
+    //height: 592px;
+    //padding: 32px 104px;
+    max-width: 590px;
+    width: 100%;
     margin: auto;
+
+    .signInForm {
+      padding: 56px 12px;
+      max-width: 320px;
+      margin: auto;
+    }
   }
 
   &__logo {
@@ -23,6 +31,7 @@
     height: 64px;
     width: 64px;
     margin: 0 auto;
+    margin-top: 24px;
   }
 
   &__titleBlock {
