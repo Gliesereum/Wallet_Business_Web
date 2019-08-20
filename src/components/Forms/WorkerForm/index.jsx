@@ -8,6 +8,7 @@ import {
   Input,
   Select,
   Checkbox,
+  notification,
 } from 'antd';
 
 import PhoneInput from '../../PhoneInput';
@@ -53,8 +54,20 @@ class WorkerForm extends PureComponent {
   };
 
   checkHours = (rule, value, callback) => {
-    if (value.from <= 0) callback('Время начала работы должно быть больше 0');
-    if (value.to <= 0) callback('Время конца работы должно быть больше 0');
+    let errText = null;
+    if (value.from <= 0) errText = 'Время начала работы должно быть больше 0';
+    if (value.to <= 0) errText = 'Время конца работы должно быть больше 0';
+
+    if (errText) {
+      notification.error({
+        duration: 5,
+        message: errText || 'Ошибка расписания',
+        description: 'Возникла ошибка',
+      });
+      callback(true);
+      return undefined;
+    }
+
     callback();
     return undefined;
   };

@@ -272,6 +272,7 @@ class WorkerInfo extends Component {
       scheduleList,
       deleteModalVisible,
       isAdmin,
+      foundUser,
     } = this.state;
 
     return (
@@ -310,7 +311,7 @@ class WorkerInfo extends Component {
                 ) : (
                   <Button
                     className={b('content-controlBtns-btn backBtn')}
-                    onClick={chosenWorker
+                    onClick={(chosenWorker && !foundUser)
                       ? this.handleToggleReadOnlyMode(true)
                       : changeActiveWorker(null, false)
                     }

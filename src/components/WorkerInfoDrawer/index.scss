@@ -1,6 +1,12 @@
 @import '../../styles/theme.scss';
 
 .workerInfoDrawer {
+  & .ant-drawer-header {
+    z-index: 1;
+    position: sticky;
+    top: 0;
+  }
+
   & .ant-drawer-title {
     font-family: $sans;
     font-size: 16px;

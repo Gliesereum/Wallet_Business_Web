@@ -97,7 +97,13 @@ class CorporationForm extends PureComponent {
                               y: isError ? 32 : 48,
                             }}
                           />
-                          <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
+                          <h1 className={b('uploader-inside-header')}>
+                            {
+                              chosenCorporation && chosenCorporation.logoUrl
+                                ? 'загрузить новый логотип'
+                                : 'добавить логотип'
+                            }
+                          </h1>
                           {
                             isError && (
                               <p className={b('uploader-inside-error')}>
