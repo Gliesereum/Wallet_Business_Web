@@ -81,6 +81,8 @@ class BusinessPage extends Component {
       servicePrices,
       businessPackages,
       workingSpaces,
+      defaultLanguage,
+      language,
     } = this.props;
 
     const { disabledTab } = this.state;
@@ -89,7 +91,7 @@ class BusinessPage extends Component {
 
     const businessTabs = [
       {
-        tabName: 'Основная информация',
+        tabName: language.phrases['core.button.mainInfo'][defaultLanguage.isoKey],
         keyName: 'mainInfo',
         ContentComponent: BusinessMainInfo,
         props: {
@@ -102,7 +104,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Расписание',
+        tabName: language.phrases['core.button.schedule'][defaultLanguage.isoKey],
         keyName: 'schedule',
         ContentComponent: BusinessScheduleInfo,
         props: {
@@ -110,7 +112,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Услуги',
+        tabName: language.phrases['core.button.services'][defaultLanguage.isoKey],
         keyName: 'services',
         disabled: disabledTab.servicesDisable,
         ContentComponent: BusinessServices,
@@ -120,7 +122,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Пакет услуг',
+        tabName: language.phrases['core.button.package'][defaultLanguage.isoKey],
         keyName: 'packages',
         disabled: disabledTab.packagesDisable,
         ContentComponent: BusinessPackages,
@@ -130,7 +132,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Рабочие места',
+        tabName: language.phrases['core.button.workingSpaces'][defaultLanguage.isoKey],
         keyName: 'workingSpace',
         disabled: disabledTab.workingSpaceDisable,
         ContentComponent: BusinessWorkingSpaces,
@@ -144,7 +146,9 @@ class BusinessPage extends Component {
       <div className={b()}>
         <div className={b('header')}>
           <p className={b('header-title')}>
-            {isAddBusinessMode ? 'Создать филиал' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
+            {isAddBusinessMode
+              ? language.phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]
+              : `${language.phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${singleBusiness.name}\u00BB`}
           </p>
         </div>
         <Tabs
@@ -190,6 +194,8 @@ const mapStateToProps = (state, { match, location }) => {
     return item.id === newBusinessId;
   });
   return {
+    defaultLanguage: state.app.defaultLanguage,
+    language: state.app.language,
     businessPackages: state.business.businessPackages,
     corporations: state.corporations.corporations,
     servicePrices: state.business.servicePrices,

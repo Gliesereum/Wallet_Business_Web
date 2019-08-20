@@ -268,6 +268,36 @@ const initState = {
         uk: 'Зберегти',
         en: 'Save',
       },
+      'core.button.workingSpaces': {
+        ru: 'Рабочие места',
+        uk: 'Робочі місця',
+        en: 'Workplaces',
+      },
+      'core.button.workingSpace': {
+        ru: 'Рабочее место',
+        uk: 'Робоче місце',
+        en: 'Workplace',
+      },
+      'core.button.package': {
+        ru: 'Пакет услуг',
+        uk: 'Пакет послуг',
+        en: 'Package of services',
+      },
+      'core.button.services': {
+        ru: 'Услуги',
+        uk: 'Послуги',
+        en: 'Services',
+      },
+      'core.button.schedule': {
+        ru: 'Расписание',
+        uk: 'Розклад',
+        en: 'Schedule',
+      },
+      'core.button.mainInfo': {
+        ru: 'Основная информация',
+        uk: 'Основна інформація',
+        en: 'Basic information',
+      },
       'footer.copyright': {
         ru: 'Все права защищены. ',
         uk: 'Всі права захищені. ',
