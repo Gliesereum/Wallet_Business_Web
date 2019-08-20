@@ -244,8 +244,8 @@ class CorporationInfo extends Component {
               ))) : (
                 <div className={b('emptyState-wrapper')}>
                   <EmptyState
-                    title="У вас нету компаний"
-                    descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
+                    title="У вас пока нет компаний"
+                    descrText="Создайте свою первую компанию, в которую вы сможете добавить филиалы"
                     withoutBtn
                   />
                 </div>

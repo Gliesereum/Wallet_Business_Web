@@ -7,6 +7,7 @@ import bem from 'bem-join';
 import { notification } from 'antd';
 
 import { SignInForm } from '../../components/Forms';
+import Footer from '../../components/Footer';
 
 import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
@@ -117,6 +118,7 @@ class SignIn extends Component {
             {language.phrases['footer.copyright.company'][defaultLanguage.isoKey]}
           </a>
         </div>
+        <Footer />
       </div>
     );
   }
