@@ -50,19 +50,14 @@ class Header extends Component {
   );
 
   render() {
-    const { user } = this.props;
+    const { user, fullScreenAction } = this.props;
     const { visibleDropdown } = this.state;
 
     return (
       <div className={b()}>
-        {/* <div className={b('content-box')}> */}
-        {/*  <Badge */}
-        {/*    count={3} */}
-        {/*    className={b('notification-box')} */}
-        {/*  > */}
-        {/*    <img src={Notification} alt="notification" /> */}
-        {/*  </Badge> */}
-        {/* </div> */}
+        <div className={b('content-box')}>
+          <Icon type="fullscreen" style={{ fontSize: '20px', color: '#08c' }} onClick={() => fullScreenAction()} />
+        </div>
         <Dropdown
           trigger={['click']}
           overlay={this.renderProfileMenu}

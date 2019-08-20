@@ -10,13 +10,13 @@ import Footer from '../../components/Footer';
 const b = bem('container');
 
 const Container = ({
-  user = {}, children, app, $setLanguage,
+  user = {}, children, app, $setLanguage, fullScreenAction,
 }) => (
   <div className={b()}>
     {user.firstName && <SideMenu />}
 
     <div className={b('wrapper')}>
-      {user.firstName && <Header user={user} />}
+      {user.firstName && <Header fullScreenAction={fullScreenAction} user={user} />}
       <div className={b('layout')}>{children}</div>
       <Footer
         langPack={app.langPack}

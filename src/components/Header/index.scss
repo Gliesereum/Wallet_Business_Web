@@ -19,6 +19,8 @@
     display: flex;
     flex-direction: row;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
 
     &-avatar.ant-avatar-circle {
       background-color: $coupler-light-blue;
