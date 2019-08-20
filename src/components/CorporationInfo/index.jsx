@@ -229,7 +229,7 @@ class CorporationInfo extends Component {
         </div>
 
         <div className={b('otherCorpBox')}>
-          <h1 className={b('otherCorpBox-header')}>Мои другие компании</h1>
+          <h1 className={b('otherCorpBox-header')}>Другие мои компании</h1>
           {
             corporations.length ? (
               corporations.map(corp => (

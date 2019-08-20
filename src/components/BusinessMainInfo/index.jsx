@@ -137,7 +137,8 @@ class BusinessMainInfo extends Component {
   changeCurrentTimeZone = timeZone => this.setState({ timeZone });
 
   handleChangeBusinessType = async (businessType) => {
-    const { data: businessCategories } = await fetchGetBusinessCategoriesAccordingToBusinessTypeId({ businessType });
+    const { data } = await fetchGetBusinessCategoriesAccordingToBusinessTypeId({ businessType });
+    const businessCategories = data.filter(category => category.active);
     this.setState({ businessCategories });
   };
 
