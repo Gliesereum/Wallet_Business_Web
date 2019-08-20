@@ -104,6 +104,18 @@ const Waiting = () => (
   </svg>
 );
 
+const ArrowDown = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.9999 10L11.9999 14L7.99988 10" stroke="black" strokeOpacity="0.24" strokeWidth="2" />
+  </svg>
+);
+
+const ArrowUp = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.9999 14L11.9999 10L7.99988 14" stroke="black" strokeOpacity="0.16" strokeWidth="2" />
+  </svg>
+);
+
 export {
   MyCorporations,
   Orders,
@@ -119,4 +131,6 @@ export {
   Completed,
   Timer,
   Waiting,
+  ArrowDown,
+  ArrowUp,
 };

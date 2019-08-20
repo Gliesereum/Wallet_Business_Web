@@ -8,9 +8,10 @@ import {
   Input,
   Select,
   Checkbox,
+  notification,
 } from 'antd';
 
-import ProneInput from '../../ProneInput';
+import PhoneInput from '../../PhoneInput';
 import FromToInput from '../../FromToInput';
 
 const b = bem('workerForm');
@@ -53,8 +54,20 @@ class WorkerForm extends PureComponent {
   };
 
   checkHours = (rule, value, callback) => {
-    if (value.from <= 0) callback('Время начала работы должно быть больше 0');
-    if (value.to <= 0) callback('Время конца работы должно быть больше 0');
+    let errText = null;
+    if (value.from <= 0) errText = 'Время начала работы должно быть больше 0';
+    if (value.to <= 0) errText = 'Время конца работы должно быть больше 0';
+
+    if (errText) {
+      notification.error({
+        duration: 5,
+        message: errText || 'Ошибка расписания',
+        description: 'Возникла ошибка',
+      });
+      callback(true);
+      return undefined;
+    }
+
     callback();
     return undefined;
   };
@@ -153,10 +166,10 @@ class WorkerForm extends PureComponent {
                         : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
                       ],
                     })(
-                      <ProneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
+                      <PhoneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
                     )
                   }
                 </FormItem>
@@ -164,7 +177,7 @@ class WorkerForm extends PureComponent {
               <Col lg={12}>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Компания в которой работает сотрудник"
+                  label="Компания"
                 >
                   {
                     form.getFieldDecorator('corporationId', {
@@ -194,7 +207,7 @@ class WorkerForm extends PureComponent {
                 </FormItem>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Бизнесс в которой работает сотрудник"
+                  label="Филиал компании"
                 >
                   {
                     form.getFieldDecorator('businessId', {
@@ -284,7 +297,7 @@ class WorkerForm extends PureComponent {
                         <Checkbox
                           disabled={readOnlyMode}
                         >
-                          Предоставить этому сотруднику права администратора
+                          Предоставить сотруднику права администратора в этом филиале компании
                         </Checkbox>
                       )
                     }

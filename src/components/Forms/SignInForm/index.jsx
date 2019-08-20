@@ -7,6 +7,7 @@ import {
   Button,
 } from 'antd';
 
+import { checkInputHandler } from '../../../utils';
 import Timer from '../../Timer';
 
 const b = bem('signInForm');
@@ -21,7 +22,7 @@ class SignInForm extends Component {
 
     form.validateFields((error, values) => {
       if (!error) {
-        sendCodeHandler(values.codeInput);
+        sendCodeHandler(values.code);
       }
     });
   };
@@ -35,21 +36,10 @@ class SignInForm extends Component {
           await getCodeHandler(phoneRepeat);
           this.timerRef.restartTimer();
         } else {
-          await getCodeHandler(values.phoneInput);
+          await getCodeHandler(values.phone);
         }
       }
     });
-  };
-
-  checkPasswordHandler = (e) => {
-    const { value } = e.target;
-    const regExp = /^[\d]{0,6}$/;
-
-    if (Number.isNaN(value) || !regExp.test(value)) {
-      return this.props.form.getFieldValue('codeInput');
-    }
-
-    return value;
   };
 
   timerFinishHandler = value => this.setState({ timerIsFinished: value });
@@ -100,8 +90,8 @@ class SignInForm extends Component {
           hasFeedback
         >
           {gotCode
-            ? form.getFieldDecorator('codeInput', {
-              getValueFromEvent: this.checkPasswordHandler,
+            ? form.getFieldDecorator('code', {
+              getValueFromEvent: checkInputHandler('code', form),
               rules: [
                 { required: true, message: 'Please enter your code number!' },
                 { pattern: new RegExp(/^[\d ]{6}$/), message: 'Invalid code number!' },
@@ -115,8 +105,9 @@ class SignInForm extends Component {
                 maxLength={6}
               />
             )
-            : form.getFieldDecorator('phoneInput', {
+            : form.getFieldDecorator('phone', {
               initialValue: '+380',
+              getValueFromEvent: checkInputHandler('phone', form),
               rules: [
                 { required: true, message: 'Please enter your phone number!' },
                 { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
@@ -128,7 +119,6 @@ class SignInForm extends Component {
                 size="large"
                 placeholder="+38093 000 00 03"
                 className={b('number', { phoneInput: true })}
-                onChange={this.checkPasswordHandler}
               />
             )
           }

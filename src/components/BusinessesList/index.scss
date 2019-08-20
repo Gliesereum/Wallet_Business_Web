@@ -1,7 +1,11 @@
 @import "../../styles/theme.scss";
 
 .businessesList {
-  width: 100%;
+  position: absolute;
+  left: 264px;
+  bottom: 0;
+  right: 0;
+  top: 0;
   overflow-y: scroll;
   padding: 43px 24px 43px 16px;
 
@@ -25,7 +29,7 @@
     }
 
     &-img {
-      background: center/contain no-repeat;
+      background: center/cover no-repeat;
       width: 100%;
       height: 144px;
     }

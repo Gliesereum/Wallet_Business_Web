@@ -49,7 +49,7 @@ class CorporationsList extends PureComponent {
                   className={b('panel-editBtn')}
                   onClick={changeActiveCorporation(corp, false)}
                 >
-                  Редактировать информацию
+                  Информация
                 </Button>
               </Panel>
             ))

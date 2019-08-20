@@ -8,6 +8,7 @@ import {
   Input,
   Select,
   Upload,
+  Spin,
 } from 'antd';
 
 import ProfileEmail from '../ProfileEmail';
@@ -22,11 +23,13 @@ class ProfileForm extends PureComponent {
     const {
       form,
       user,
-      uploadAvatarImage,
-      avatarImageUrl,
+      logoUrl,
       isError,
+      loading,
       email,
       verifyUserEmail,
+      onChange,
+      uploadAvatarImage,
     } = this.props;
 
     return (
@@ -41,35 +44,48 @@ class ProfileForm extends PureComponent {
               name="file"
               listType="picture-card"
               showUploadList={false}
+              onChange={onChange}
               customRequest={uploadAvatarImage}
             >
               <div className={b('uploader-container')}>
                 {
-                  avatarImageUrl && (
-                    <img
-                      className={b('uploader-image')}
-                      src={avatarImageUrl}
-                      alt="uploaded_image"
-                    />
+                  loading ? (
+                    <Spin size="large" />
+                  ) : (
+                    <>
+                      {
+                        logoUrl && (
+                          <img
+                            className={b('uploader-image')}
+                            src={logoUrl}
+                            alt="uploaded_image"
+                          />
+                        )
+                      }
+                      <div className={b('uploader-inside')}>
+                        <AddIcon
+                          className={b('uploader-inside-icon', { errorView: isError })}
+                          size={{
+                            x: isError ? 32 : 48,
+                            y: isError ? 32 : 48,
+                          }}
+                        />
+                        <h1 className={b('uploader-inside-header')}>
+                          {
+                            user.avatarUrl ? 'загрузить новое изображение' : 'добавить изображение'
+                          }
+                        </h1>
+                        {
+                          isError && (
+                            <p className={b('uploader-inside-error')}>
+                              Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                            </p>
+                          )
+                        }
+                      </div>
+                    </>
                   )
                 }
-                <div className={b('uploader-inside')}>
-                  <AddIcon
-                    className={b('uploader-inside-icon', { errorView: isError })}
-                    size={{
-                      x: isError ? 32 : 48,
-                      y: isError ? 32 : 48,
-                    }}
-                  />
-                  <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                  {
-                    isError && (
-                      <p className={b('uploader-inside-error')}>
-                        Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                      </p>
-                    )
-                  }
-                </div>
               </div>
             </UploadDragger>
           </Col>

@@ -1,8 +1,8 @@
 @import '../../styles/theme.scss';
 
-.business {
+.businessPage {
   overflow-y: scroll;
-  height: calc(100% - 54px);
+  flex: 1;
 
   &__header {
     display: flex;

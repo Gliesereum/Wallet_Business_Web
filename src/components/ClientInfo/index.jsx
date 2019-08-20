@@ -126,7 +126,7 @@ class ClientInfo extends Component {
         </Col>
         <Col lg={12}>
           <div className={b('expandTable-infoBox')}>
-            <div className="title">Филия:</div>
+            <div className="title">Филиал компании:</div>
             <div className="data">{business.name}</div>
           </div>
           <div className={b('expandTable-infoBox')}>
@@ -135,7 +135,7 @@ class ClientInfo extends Component {
           </div>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Сумма платежа:</div>
-            <div className="data">{price}</div>
+            <div className="data">{`${price} грн`}</div>
           </div>
         </Col>
       </Row>

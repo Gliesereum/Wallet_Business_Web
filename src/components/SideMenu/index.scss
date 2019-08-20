@@ -1,7 +1,14 @@
 @import '../../styles/theme.scss';
 
 .sidebar {
-  flex: 1;
+  overflow-y: scroll;
+  width: 256px;
+  background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
+  z-index: 3;
+  @media screen and (max-width: $max-lg) {
+    width: 105px;
+  }
 
   &__logo {
     background: no-repeat 32px 16px $coupler_logo_beta; // imported from base.scss
@@ -34,7 +41,7 @@
 
       & span {
         font-family: $sans;
-        font-size: 16px;
+        font-size: 14px;
         color: $white;
         letter-spacing: 0.01em;
 
@@ -44,7 +51,7 @@
       }
 
       & i.anticon {
-        padding-right: 32px;
+        padding-right: 14px;
         @media screen and (max-width: $max-lg) {
           padding-right: 0;
         }

@@ -31,7 +31,7 @@ const renderMainPart = worker => [
     lineContent: worker.user.phone,
   },
   {
-    lineTitle: 'Профайл создано:',
+    lineTitle: 'Профайл создан:',
     lineContent: worker.user.createDate || 'Неизвестно',
   },
   {
@@ -66,7 +66,8 @@ const WorkerInfoDrawer = ({
       visible={visible}
       className={b()}
       width={448}
-      closable={false}
+      mask
+      maskClosable={false}
       onClose={onClose}
       placement="right"
       title="Профайл работника"

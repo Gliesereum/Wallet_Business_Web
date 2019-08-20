@@ -284,12 +284,13 @@ export const fetchWorkersById = async ({
 
 export const fetchAdminsByCorporation = async ({
   corporationId,
+  businessId,
 }) => {
   const result = [];
 
   try {
     await withToken(fetchHelper)({
-      urlPath: `business-administrator/by-corporation?id=${corporationId}`,
+      urlPath: `business-administrator/${businessId ? 'by-business' : 'by-corporation'}?id=${businessId || corporationId}`,
       moduleUrl: 'karma',
     }).then(async (response) => {
       if (response.status === 204) return [];

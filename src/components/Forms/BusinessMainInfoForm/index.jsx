@@ -9,23 +9,20 @@ import {
   AutoComplete,
   Select,
   Upload,
+  Spin,
 } from 'antd';
 
 import Map from '../../Map';
-import ProneInput from '../../ProneInput';
+import PhoneInput from '../../PhoneInput';
 import { AddIcon } from '../../../assets/iconComponents';
 
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
+import { translateBusinessType } from '../../../mocks';
 
 const FormItem = Form.Item;
 const { Dragger: UploadDragger } = Upload;
 const b = bem('businessMainForm');
-
-const translateBusinessType = {
-  CAR: 'Машины',
-  HUMAN: 'Человек',
-};
 
 const initialFieldValues = chosenCorpId => ({
   corporationId: chosenCorpId,
@@ -131,8 +128,10 @@ class BusinessMainInfoForm extends Component {
       corporations = [],
       isAddBusinessMode,
       chosenCorpId,
-      businessLogoUrl,
+      logoUrl,
+      loading,
       isError,
+      onChange,
       uploadBusinessImage,
       changeBusinessType,
     } = this.props;
@@ -175,35 +174,50 @@ class BusinessMainInfoForm extends Component {
                     name="file"
                     listType="picture-card"
                     showUploadList={false}
+                    onChange={onChange}
                     customRequest={uploadBusinessImage}
                   >
                     <div className={b('uploader-container')}>
                       {
-                        businessLogoUrl && (
-                          <img
-                            className={b('uploader-image')}
-                            src={businessLogoUrl}
-                            alt="uploaded_image"
-                          />
+                        loading ? (
+                          <Spin size="large" />
+                        ) : (
+                          <>
+                            {
+                              logoUrl && (
+                                <img
+                                  className={b('uploader-image')}
+                                  src={logoUrl}
+                                  alt="uploaded_image"
+                                />
+                              )
+                            }
+                            <div className={b('uploader-inside')}>
+                              <AddIcon
+                                className={b('uploader-inside-icon', { errorView: isError })}
+                                size={{
+                                  x: isError ? 32 : 48,
+                                  y: isError ? 32 : 48,
+                                }}
+                              />
+                              <h1 className={b('uploader-inside-header')}>
+                                {
+                                  singleBusiness && singleBusiness.logoUrl
+                                    ? 'загрузить новый логотип'
+                                    : 'добавить логотип'
+                                }
+                              </h1>
+                              {
+                                isError && (
+                                  <p className={b('uploader-inside-error')}>
+                                   Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                                  </p>
+                                )
+                              }
+                            </div>
+                          </>
                         )
                       }
-                      <div className={b('uploader-inside')}>
-                        <AddIcon
-                          className={b('uploader-inside-icon', { errorView: isError })}
-                          size={{
-                            x: isError ? 32 : 48,
-                            y: isError ? 32 : 48,
-                          }}
-                        />
-                        <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                        {
-                          isError && (
-                            <p className={b('uploader-inside-error')}>
-                              Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                            </p>
-                          )
-                        }
-                      </div>
                     </div>
                   </UploadDragger>
                 </Col>
@@ -230,7 +244,7 @@ class BusinessMainInfoForm extends Component {
                     )}
                   </FormItem>
                   <FormItem
-                    label="Название бизнеса"
+                    label="Название филиала"
                   >
                     {form.getFieldDecorator('name', {
                       initialValue: formInitValues.name,
@@ -238,14 +252,14 @@ class BusinessMainInfoForm extends Component {
                         { required: true, message: 'Поле обязательное для заполнения' },
                         { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
-                    })(<Input placeholder="Название бизнесса" />)}
+                    })(<Input placeholder="Название филиала" />)}
                   </FormItem>
                 </Col>
               </Row>
               <Row gutter={31}>
                 <Col lg={12}>
                   <FormItem
-                    label="Деловая активность"
+                    label="Сфера деятельности компании"
                   >
                     {form.getFieldDecorator('serviceType', {
                       initialValue: formInitValues.businessType,
@@ -272,7 +286,7 @@ class BusinessMainInfoForm extends Component {
                 </Col>
                 <Col lg={12}>
                   <FormItem
-                    label="Категория бизнесса"
+                    label="Категория"
                   >
                     {form.getFieldDecorator('businessCategoryId', {
                       initialValue: formInitValues.businessCategory,
@@ -300,7 +314,7 @@ class BusinessMainInfoForm extends Component {
               <Row gutter={31}>
                 <Col lg={12}>
                   <FormItem
-                    label="Оприделение бизнеса (описание)"
+                    label="Описание филиала"
                   >
                     {form.getFieldDecorator('description', {
                       initialValue: formInitValues.description,
@@ -319,10 +333,10 @@ class BusinessMainInfoForm extends Component {
                       initialValue: formInitValues.phone,
                       rules: [
                         { required: true, message: 'Please enter your phone number!' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
                       ],
                     })(
-                      <ProneInput />
+                      <PhoneInput />
                     )}
                   </FormItem>
                 </Col>

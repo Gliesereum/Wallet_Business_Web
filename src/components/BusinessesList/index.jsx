@@ -24,8 +24,11 @@ class BusinessesList extends PureComponent {
     return (
       <List
         grid={{
-          gutter: 16,
-          xl: 2,
+          gutter: 32,
+          xl: 3,
+          lg: 3,
+          md: 2,
+          sm: 1,
         }}
         dataSource={data}
         renderItem={({
@@ -43,7 +46,7 @@ class BusinessesList extends PureComponent {
                 >
                   <Card className={b('card', { addCard: true })}>
                     <img src={AddIcon} alt="addBusiness" />
-                    <div className={b('card--addCard-addText')}>Добавить бизнес</div>
+                    <div className={b('card--addCard-addText')}>Создать филиал</div>
                   </Card>
                 </Link>
               ) : (
@@ -82,9 +85,9 @@ class BusinessesList extends PureComponent {
             this.renderBusinessesList()
           ) : (
             <EmptyState
-              title="У вас нету бизнеса"
-              descrText="Создайте первый бизнес внутри вашей компании. После вы сможете создать для бизнеса услуги, их пакетные конфигурации, создать рабочие места и проставить режим работы"
-              addItemText="Создать бизнес"
+              title="В вашем бизнесе пока нет филиалов"
+              descrText="Создайте минимум один, чтобы добавить услуги, сотрудников, выбрать прочие атрибуты компании"
+              addItemText="Создать филиал"
               linkToData={{
                 pathname: '/business/add',
                 state: {

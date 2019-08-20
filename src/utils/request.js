@@ -72,7 +72,7 @@ export const asyncRequest = ({
 });
 
 export const asyncUploadFile = ({
-  url, method = 'POST', moduleUrl = 'file', token, body,
+  url, method = 'POST', moduleUrl = 'file', token, body, onSuccess,
 }) => new Promise(async (resolve, reject) => {
   try {
     const fullURL = `${config.urlPrefix}${moduleUrl}/v1/${url}`;
@@ -90,7 +90,8 @@ export const asyncUploadFile = ({
     }
     if (request.status >= 200 && request.status <= 300) {
       const data = await request.json();
-      resolve(data);
+      await resolve(data);
+      await onSuccess('done');
     } else {
       const data = await request.json();
       reject(data);

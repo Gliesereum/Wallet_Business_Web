@@ -143,7 +143,7 @@ class WorkingSpaceForm extends PureComponent {
 
     const columns = [
       {
-        title: 'ФИО работника',
+        title: 'ФИО сотрудника',
         key: 'fullName',
         width: '35%',
         sorter: (first, second) => {
@@ -255,7 +255,7 @@ class WorkingSpaceForm extends PureComponent {
         </Row>
 
         <div className={b('workersBox')}>
-          <h1 className={b('workersBox-title')}>Сотрудники рабочего места</h1>
+          <h1 className={b('workersBox-title')}>Сотрудники</h1>
           <Row
             className={b('workersBox-table')}
             gutter={16}
@@ -275,23 +275,23 @@ class WorkingSpaceForm extends PureComponent {
             <Col lg={8}>
               <Card
                 className={b('workersBox-table-chosenCard')}
-                title="Рабочая локация"
+                title="Рабочее место"
               >
                 <div className={b('workersBox-table-chosenCard-item-body')}>
                   <div className={b('workersBox-table-chosenCard-item-body-title')}>
-                    <h1>Список выбраных работников</h1>
+                    <h1>Список выбранных сотрудников</h1>
                   </div>
                   <div className={b('workersBox-table-chosenCard-item-body-workers')}>
                     <List
                       className={b('workersBox-table-chosenCard-item-body-workers-list')}
                       dataSource={selectedWorkers}
                       renderItem={({ user, id, ...rest }) => (
-                        <div
-                          className={b('workersBox-table-chosenCard-item-body-workers-list-item')}
-                          onClick={toggleWorkerInfoDrawer({ user, ...rest })}
-                        >
+                        <div className={b('workersBox-table-chosenCard-item-body-workers-list-item')}>
                           <LinkTo />
-                          <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}>
+                          <div
+                            className={b('workersBox-table-chosenCard-item-body-workers-list-item-worker')}
+                            onClick={toggleWorkerInfoDrawer({ user, ...rest })}
+                          >
                             {`${user.lastName} ${user.firstName} ${user.middleName}`}
                           </div>
                           <div className={b('workersBox-table-chosenCard-item-body-workers-list-item-deleteBox')}>

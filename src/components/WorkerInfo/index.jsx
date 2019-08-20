@@ -16,7 +16,6 @@ import DeleteModal from '../DeleteModal';
 import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
 
-const { Search } = Input;
 const b = bem('workerInfo');
 
 class WorkerInfo extends Component {
@@ -58,7 +57,7 @@ class WorkerInfo extends Component {
   handleGetBusinessByCorporationId = async (corporationId) => {
     const { chosenWorker, getBusinessByCorporationId } = this.props;
 
-    const businesses = await getBusinessByCorporationId(corporationId, true);
+    const businesses = await getBusinessByCorporationId(corporationId);
     this.setState({ businesses });
     chosenWorker && await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
   };
@@ -195,8 +194,16 @@ class WorkerInfo extends Component {
     }
   };
 
-  handleSearchUserByNumber = async (value) => {
-    const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${value}` }) || null;
+  handleSearchUserByNumber = async (e) => {
+    const { value } = e.target;
+    const searchedPhone = value.replace(/[()\s+]/g, '');
+
+    if (searchedPhone.length !== 12) {
+      this.props.changeActiveWorker(null, true)();
+      return;
+    }
+
+    const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${searchedPhone}` }) || null;
     this.setState({ foundUser: user });
     if (!user) this.props.changeActiveWorker(null, true)();
   };
@@ -214,40 +221,39 @@ class WorkerInfo extends Component {
     if (readOnlyMode) {
       return (
         <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр профайла сотрудника</p>
+          <p className={b('header-title')}>Просмотр профиля сотрудника</p>
         </div>
       );
     } if (isAddMode) {
       return (
         <div className={b('header', { isAddMode })}>
           <p className={b('header-title')}>Создание профайла сотрудника</p>
-          <Search
-            className={b('header-searchInput')}
-            placeholder="Поиск по номеру..."
-            onSearch={this.handleSearchUserByNumber}
-          />
-          <div className={b('header-searchResultBlock')}>
-            <span className={b('header-searchResultBlock-text')}>
+          <div className={b('header-searchBlock')}>
+            <span className={b('header-searchBlock-text')}>Поиск по номеру</span>
+            <Input
+              className={b('header-searchBlock-searchInput')}
+              placeholder="+380507595188"
+              onChange={this.handleSearchUserByNumber}
+            />
+            <Button
+              type="primary"
+              disabled={!foundUser}
+              className={b('header-searchBlock-searchResultBlock')}
+              onClick={changeActiveWorker({ user: foundUser }, true)}
+            >
               {
                 foundUser
                   ? `${foundUser.phone} | ${foundUser.lastName} ${foundUser.firstName} ${foundUser.middleName}`
                   : 'Результат поиска...'
               }
-            </span>
+            </Button>
           </div>
-          <Button
-            disabled={!foundUser}
-            className={b('header-searchResultButton')}
-            onClick={changeActiveWorker({ user: foundUser }, true)}
-          >
-            Выбрать
-          </Button>
         </div>
       );
     }
     return (
       <div className={b('header')}>
-        <p className={b('header-title')}>Редактирование профайла сотрудника</p>
+        <p className={b('header-title')}>Редактирование профиля сотрудника</p>
       </div>
     );
   };
@@ -266,6 +272,7 @@ class WorkerInfo extends Component {
       scheduleList,
       deleteModalVisible,
       isAdmin,
+      foundUser,
     } = this.state;
 
     return (
@@ -304,7 +311,7 @@ class WorkerInfo extends Component {
                 ) : (
                   <Button
                     className={b('content-controlBtns-btn backBtn')}
-                    onClick={chosenWorker
+                    onClick={(chosenWorker && !foundUser)
                       ? this.handleToggleReadOnlyMode(true)
                       : changeActiveWorker(null, false)
                     }
@@ -325,11 +332,7 @@ class WorkerInfo extends Component {
                     Удалить сотрудника
                   </Button>
                 ) : (
-                  <Button
-                    className={b('content-controlBtns-btn deleteBtn')}
-                  >
-                    Інфо блок
-                  </Button>
+                  <div />
                 )
               }
             </Col>

@@ -104,8 +104,8 @@ class BusinessWorkingSpacesList extends Component {
             </>
           ) : (
             <EmptyState
-              title="У вас нету рабочих мест"
-              descrText="Создайте первое рабочее место, куда Вы сможете добавить Ваших работников и куда будут записываться Ваши клиенты"
+              title="У вас пока нет рабочих мест"
+              descrText="Создайте рабочие места. За ними вы сможете закрепить ваших сотрудников, к которым через Coupler и Coupler Widget будут записываться клиенты"
               addItemText="Создать рабочее место"
               addItemHandler={changeActiveWorkingSpace}
             />

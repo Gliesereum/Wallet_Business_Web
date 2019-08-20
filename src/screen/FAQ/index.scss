@@ -2,7 +2,7 @@
 
 .help {
   display: flex;
-  height: calc(100% - 56px);
+  flex: 1;
 
   &__mainInfo {
     overflow-y: scroll;

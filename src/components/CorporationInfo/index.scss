@@ -1,8 +1,8 @@
 @import "../../styles/theme";
 
-.corporation {
+.corporationInfo {
   display: flex;
-  height: 100%;
+  flex: 1;
 
   &__emptyState-wrapper {
     padding: 0 24px 0 16px;

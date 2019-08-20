@@ -24,13 +24,14 @@ import {
   fetchGetWorkingSpaces,
 } from '../../fetches';
 
-const b = bem('business');
+const b = bem('businessPage');
 
 class BusinessPage extends Component {
   state = {
     disabledTab: {
       servicesDisable: null,
       packagesDisable: null,
+      workingSpaceDisable: null,
     },
   };
 
@@ -48,6 +49,7 @@ class BusinessPage extends Component {
       disabledTab: {
         servicesDisable: initialTabDisabled,
         packagesDisable: !singleBusiness || (singleBusiness && servicePrices && !servicePrices[singleBusiness.id]),
+        workingSpaceDisable: !singleBusiness,
       },
     });
   }
@@ -100,6 +102,14 @@ class BusinessPage extends Component {
         },
       },
       {
+        tabName: 'Расписание',
+        keyName: 'schedule',
+        ContentComponent: BusinessScheduleInfo,
+        props: {
+          changeActiveTab: this.changeActiveTab,
+        },
+      },
+      {
         tabName: 'Услуги',
         keyName: 'services',
         disabled: disabledTab.servicesDisable,
@@ -110,7 +120,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Пакет Услуг',
+        tabName: 'Пакет услуг',
         keyName: 'packages',
         disabled: disabledTab.packagesDisable,
         ContentComponent: BusinessPackages,
@@ -120,17 +130,9 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Рассписание',
-        keyName: 'schedule',
-        ContentComponent: BusinessScheduleInfo,
-        props: {
-          changeActiveTab: this.changeActiveTab,
-          packagesDisable: disabledTab.packagesDisable,
-        },
-      },
-      {
         tabName: 'Рабочие места',
         keyName: 'workingSpace',
+        disabled: disabledTab.workingSpaceDisable,
         ContentComponent: BusinessWorkingSpaces,
         props: {
           workingSpaces,
@@ -142,7 +144,7 @@ class BusinessPage extends Component {
       <div className={b()}>
         <div className={b('header')}>
           <p className={b('header-title')}>
-            {isAddBusinessMode ? 'Добавить бизнес' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
+            {isAddBusinessMode ? 'Создать филиал' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
           </p>
         </div>
         <Tabs
