@@ -94,7 +94,7 @@ class SignInForm extends Component {
               getValueFromEvent: checkInputHandler('code', form),
               rules: [
                 { required: true, message: 'Please enter your code number!' },
-                { pattern: new RegExp(/^[\d ]{6}$/), message: 'Invalid code number!' },
+                { pattern: new RegExp(/^[\d ]{6}$/), message: 'Неверный код' },
               ],
             })(
               <Input.Password
@@ -110,7 +110,7 @@ class SignInForm extends Component {
               getValueFromEvent: checkInputHandler('phone', form),
               rules: [
                 { required: true, message: 'Please enter your phone number!' },
-                { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Invalid phone number!' },
+                { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Введите номер телефона' },
               ],
               validateTrigger: 'onBlur',
             })(
