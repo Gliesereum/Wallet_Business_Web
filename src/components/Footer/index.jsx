@@ -30,7 +30,7 @@ const Footer = ({
       </a>
     </div>
     <div className={b('lang_box')}>
-      {langPack.map(lang => <div style={{ color: defaultLanguage.isoKey === lang.isoKey ? '#9ca6e2' : '#444' }} onClick={() => setLanguage(lang)} key={lang.isoKey}>{lang.label}</div>)}
+      {langPack.map(lang => <div style={{ color: defaultLanguage.isoKey === lang.isoKey ? '#a9a9a9' : '#444' }} onClick={() => setLanguage(lang)} key={lang.isoKey}>{lang.label}</div>)}
     </div>
   </div>
 );

@@ -49,10 +49,27 @@ const actions = {
   DATA_LOADING_STATUS: 'DATA_LOADING_STATUS',
   SET_LANGUAGE: 'SET_LANGUAGE',
 
-  $setLanguage: language => ({ type: actions.SET_LANGUAGE, payload: language }),
+  $setLanguage: (language) => {
+    cookieStorage.set('_lgCp', JSON.stringify(language));
+    return ({ type: actions.SET_LANGUAGE, payload: language });
+  },
 
   $startApp: () => async (dispatch) => {
     await dispatch(actions.$appStatus('loading'));
+
+    const lang = await cookieStorage.get('_lgCp');
+
+    if (!lang) {
+      await cookieStorage.set('_lgCp', JSON.stringify({
+        isoKey: 'en',
+        label: 'English',
+        icon: '',
+        direction: 'ltr',
+        module: 'web',
+      }));
+    } else {
+      await dispatch({ type: actions.SET_LANGUAGE, payload: JSON.parse(lang) });
+    }
 
     // check for server
     try {

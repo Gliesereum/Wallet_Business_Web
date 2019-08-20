@@ -40,6 +40,7 @@ const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
 });
 
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRouter,

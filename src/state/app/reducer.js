@@ -9,17 +9,23 @@ const initState = {
     isoKey: 'ru',
     label: 'Русский',
     icon: '',
+    direction: 'ltr',
+    module: 'web',
   },
   langPack: [
     {
       isoKey: 'ru',
       label: 'Русский',
       icon: '',
+      direction: 'ltr',
+      module: 'web',
     },
     {
       isoKey: 'en',
       label: 'English',
       icon: '',
+      direction: 'ltr',
+      module: 'web',
     },
   ],
   language: {
