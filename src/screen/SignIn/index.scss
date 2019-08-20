@@ -17,19 +17,6 @@
     margin: auto;
   }
 
-  &__footer {
-    padding: 16px 0 24px;
-
-    &-text {
-      font-size: 12px;
-      line-height: 16px;
-      text-align: center;
-      letter-spacing: 0.01em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
-      color: #B3B3B3;
-    }
-  }
-
   &__logo {
     background: no-repeat $logo-single-white-signIn; // imported from base.scss
     background-size: 64px 64px;

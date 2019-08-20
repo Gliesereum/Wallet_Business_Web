@@ -78,8 +78,8 @@ class CorporationsPage extends Component {
                       </h1>
                     </div>
                     <EmptyState
-                      title="У вас нету компаний"
-                      descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
+                      title="У вас пока нет компаний"
+                      descrText="Создайте свою первую компанию, в которую вы сможете добавить филиалы"
                       addItemText="Создать компанию"
                       addItemHandler={this.changeActiveCorporation}
                     />

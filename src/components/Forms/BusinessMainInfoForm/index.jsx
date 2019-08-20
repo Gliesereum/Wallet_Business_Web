@@ -322,7 +322,7 @@ class BusinessMainInfoForm extends Component {
                         { required: true, message: 'Поле обязательное для заполнения' },
                         { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
-                    })(<Input placeholder="Описание бизнесса" />)}
+                    })(<Input placeholder="Описание филиала" />)}
                   </FormItem>
                 </Col>
                 <Col lg={12}>
@@ -332,7 +332,7 @@ class BusinessMainInfoForm extends Component {
                     {form.getFieldDecorator('phone', {
                       initialValue: formInitValues.phone,
                       rules: [
-                        { required: true, message: 'Please enter your phone number!' },
+                        { required: true, message: 'Пожалуйста, введите ваш номер телефона' },
                         { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
                       ],
                     })(

@@ -7,6 +7,7 @@ import bem from 'bem-join';
 import { notification } from 'antd';
 
 import { SignInForm } from '../../components/Forms';
+import Footer from '../../components/Footer';
 
 import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
@@ -98,16 +99,7 @@ class SignIn extends Component {
             gotCodeHandler={this.gotCodeHandler}
           />
         </div>
-        <div className={b('footer')}>
-          <span className={b('footer-text')}>All rights reserved. Copyright &copy; 2019 &nbsp;</span>
-          <a
-            className={b('footer-text')}
-            href="https://www.gliesereum.com/"
-            target="_blank"
-          >
-            Gliesereum Ukraine
-          </a>
-        </div>
+        <Footer />
       </div>
     );
   }

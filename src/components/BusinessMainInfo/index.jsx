@@ -203,7 +203,7 @@ class BusinessMainInfo extends Component {
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.toggleDeleteModal}
                 >
-                  Удалить бизнес
+                  Удалить филиал
                 </Button>
               </Col>
             )
