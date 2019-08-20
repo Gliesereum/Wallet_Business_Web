@@ -12,7 +12,12 @@ const b = bem('businessesList');
 
 class BusinessesList extends PureComponent {
   renderBusinessesList = () => {
-    const { viewCorp, business } = this.props;
+    const {
+      viewCorp,
+      business,
+      defaultLanguage,
+      language,
+    } = this.props;
     const data = business.map(item => ({
       name: item.name,
       category: item.businessCategory.name,
@@ -46,7 +51,9 @@ class BusinessesList extends PureComponent {
                 >
                   <Card className={b('card', { addCard: true })}>
                     <img src={AddIcon} alt="addBusiness" />
-                    <div className={b('card--addCard-addText')}>Создать филиал</div>
+                    <div className={b('card--addCard-addText')}>
+                      {language.phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
+                    </div>
                   </Card>
                 </Link>
               ) : (
@@ -73,7 +80,12 @@ class BusinessesList extends PureComponent {
   };
 
   render() {
-    const { business, viewCorp } = this.props;
+    const {
+      business,
+      viewCorp,
+      defaultLanguage,
+      language,
+    } = this.props;
 
     return (
       <div className={b()}>
@@ -85,9 +97,9 @@ class BusinessesList extends PureComponent {
             this.renderBusinessesList()
           ) : (
             <EmptyState
-              title="В вашем бизнесе пока нет филиалов"
-              descrText="Создайте минимум один, чтобы добавить услуги, сотрудников, выбрать прочие атрибуты компании"
-              addItemText="Создать филиал"
+              title={language.phrases['company.page.business.branch.emptyState.title'][defaultLanguage.isoKey]}
+              descrText={language.phrases['company.page.business.branch.emptyState.description'][defaultLanguage.isoKey]}
+              addItemText={language.phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
               linkToData={{
                 pathname: '/business/add',
                 state: {

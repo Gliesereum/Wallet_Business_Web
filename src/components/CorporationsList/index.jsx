@@ -21,7 +21,12 @@ class CorporationsList extends PureComponent {
   };
 
   render() {
-    const { corporations, changeActiveCorporation } = this.props;
+    const {
+      corporations,
+      changeActiveCorporation,
+      defaultLanguage,
+      language,
+    } = this.props;
 
     return (
       <div className={b()}>
@@ -49,7 +54,7 @@ class CorporationsList extends PureComponent {
                   className={b('panel-editBtn')}
                   onClick={changeActiveCorporation(corp, false)}
                 >
-                  Информация
+                  {language.phrases['company.button.detailsInfo'][defaultLanguage.isoKey]}
                 </Button>
               </Panel>
             ))
@@ -60,7 +65,7 @@ class CorporationsList extends PureComponent {
             type="primary"
             onClick={changeActiveCorporation(null, true)}
           >
-            Добавить новую компанию
+            {language.phrases['company.button.addNewCompany'][defaultLanguage.isoKey]}
           </Button>
         </div>
       </div>

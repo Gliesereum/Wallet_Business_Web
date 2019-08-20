@@ -31,7 +31,12 @@ class CorporationsPage extends Component {
   };
 
   render() {
-    const { corporations, business: allBusiness } = this.props;
+    const {
+      corporations,
+      business: allBusiness,
+      defaultLanguage,
+      language,
+    } = this.props;
     const { chosenCorporation, isAddCorporationMode, viewCorp } = this.state;
 
     return (
@@ -50,6 +55,8 @@ class CorporationsPage extends Component {
                 corporations && corporations.length ? (
                   <>
                     <CorporationsList
+                      defaultLanguage={defaultLanguage}
+                      language={language}
                       viewCorp={viewCorp}
                       corporations={corporations}
                       changeActiveCorporation={this.changeActiveCorporation}
@@ -58,13 +65,15 @@ class CorporationsPage extends Component {
                     {
                       viewCorp ? (
                         <BusinessesList
+                          defaultLanguage={defaultLanguage}
+                          language={language}
                           viewCorp={viewCorp}
                           business={allBusiness.filter(item => item.corporationId === viewCorp.id)}
                         />
                       ) : (
                         <EmptyState
-                          title="Компания не выбрана"
-                          descrText="Выберите компанию, чтобы увидеть список филиалов "
+                          title={language.phrases['company.page.emptyState.title'][defaultLanguage.isoKey]}
+                          descrText={language.phrases['company.page.emptyState.description'][defaultLanguage.isoKey]}
                           withoutBtn
                         />
                       )
@@ -74,13 +83,13 @@ class CorporationsPage extends Component {
                   <div className={b('empty')}>
                     <div className={b('header')}>
                       <h1 className={b('header-title')}>
-                        Информация о компании
+                        {language.phrases['company.page.emptyState.information'][defaultLanguage.isoKey]}
                       </h1>
                     </div>
                     <EmptyState
-                      title="У вас пока нет компаний"
-                      descrText="Создайте свою первую компанию, в которую вы сможете добавить филиалы"
-                      addItemText="Создать компанию"
+                      title={language.phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
+                      descrText={language.phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
+                      addItemText={language.phrases['company.button.addNewCompany'][defaultLanguage.isoKey]}
                       addItemHandler={this.changeActiveCorporation}
                     />
                   </div>
@@ -95,6 +104,8 @@ class CorporationsPage extends Component {
 }
 
 const mapStateToProps = state => ({
+  defaultLanguage: state.app.defaultLanguage,
+  language: state.app.language,
   corporations: state.corporations.corporations,
   business: state.business.business,
 });

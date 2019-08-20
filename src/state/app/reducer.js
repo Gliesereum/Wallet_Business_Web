@@ -37,6 +37,97 @@ const initState = {
   ],
   language: {
     phrases: {
+      'company.pageCreate.rightBar.header.title': {
+        ru: 'Другие мои компании',
+        uk: 'Другие мои компании',
+        en: 'Другие мои компании',
+      },
+      'company.pageCreate.header.title': {
+        ru: 'Создание компании',
+        uk: 'Создание компании',
+        en: 'Создание компании',
+      },
+      // -------------------------------------------------//
+      'company.page.business.branch.emptyState.title': {
+        ru: 'В вашем бизнесе пока нет филиалов',
+        uk: 'У вашому бізнесі поки немає філій',
+        en: 'There are no branches in your business yet',
+      },
+      'company.page.business.branch.emptyState.description': {
+        ru: 'Создайте минимум один, чтобы добавить услуги, сотрудников, выбрать прочие атрибуты компании',
+        uk: 'Створіть мінімум один, щоб додати послуги, співробітників, вибрати інші атрибути компанії',
+        en: 'Create at least one to add services, employees, select other company attributes',
+      },
+      'company.page.business.createNewBranch': {
+        ru: 'Создать филиал',
+        uk: 'Створити філію',
+        en: 'Create branch',
+      },
+      'company.page.emptyState.title': {
+        ru: 'Компания не выбрана',
+        uk: 'Компанія не обрана',
+        en: 'No company selected',
+      },
+      'company.page.emptyState.information': {
+        ru: 'Информация о компании',
+        uk: 'Информация о компании',
+        en: 'Информация о компании',
+      },
+      'company.page.emptyState.description': {
+        ru: 'Выберите компанию, чтобы увидеть список филиалов',
+        uk: 'Виберіть компанію, щоб побачити список філій',
+        en: 'Select a company to see a list of branches',
+      },
+      'company.page.emptyState.createNewCompany.title': {
+        ru: 'У вас пока нет компаний',
+        uk: 'У вас поки немає компаній',
+        en: 'You have no companies yet',
+      },
+      'company.page.emptyState.createNewCompany.description': {
+        ru: 'Создайте свою первую компанию, в которую вы сможете добавить филиалы',
+        uk: 'Створіть свою першу компанію, в яку ви зможете додати філії',
+        en: 'Create your first company to which you can add branches',
+      },
+      'company.button.detailsInfo': {
+        ru: 'Информация',
+        uk: 'інформація',
+        en: 'Details',
+      },
+      'company.button.addNewCompany': {
+        ru: 'Добавить новую компанию',
+        uk: 'Додати нову компанію',
+        en: 'Add new company',
+      },
+      'sideBar.menu.company.label': {
+        ru: 'Мои компании',
+        uk: 'Мої компанії',
+        en: 'My company',
+      },
+      'sideBar.menu.orders.label': {
+        ru: 'Заказы',
+        uk: 'Замовлення',
+        en: 'Orders',
+      },
+      'sideBar.menu.employees.label': {
+        ru: 'Сотрудники',
+        uk: 'Співробітники',
+        en: 'Employees',
+      },
+      'sideBar.menu.clients.label': {
+        ru: 'Клиенты',
+        uk: 'Клієнти',
+        en: 'Clients',
+      },
+      'sideBar.menu.help.label': {
+        ru: 'Помощь',
+        uk: 'Допомога',
+        en: 'Help',
+      },
+      'sideBar.menu.logOut.label': {
+        ru: 'Выход',
+        uk: 'Вихід',
+        en: 'Log out',
+      },
       'signIn.form.header': {
         ru: 'ПАНЕЛЬ УПРАВЛЕНИЯ БИЗНЕСОМ',
         uk: 'ПАНЕЛЬ УПРАВЛІННЯ БІЗНЕСОМ',

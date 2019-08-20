@@ -20,53 +20,6 @@ import {
 
 const b = bem('sidebar');
 
-const mainMenuItems = [
-  {
-    icon: MyCorporations,
-    text: 'Мои компании',
-    linkTo: '/corporations',
-    canDisabled: true,
-  },
-  {
-    icon: Orders,
-    text: 'Заказы',
-    linkTo: '/orders',
-    // canDisabled: true,
-  },
-  // { // TODO: add in the next release
-  //   icon: Analytics,
-  //   text: 'Аналитика',
-  //   linkTo: '/analytics',
-  //   canDisabled: true,
-  // },
-  {
-    icon: Workers,
-    text: 'Сотрудники',
-    linkTo: '/workers',
-    // canDisabled: true,
-  },
-  {
-    icon: Clients,
-    text: 'Клиенты',
-    linkTo: '/clients',
-    // canDisabled: true,
-  },
-];
-
-const supportMenuItems = [
-  // { // TODO: add in the next release
-  // icon: Settings,
-  // text: 'Настройки',
-  // linkTo: '/settings',
-  // canDisabled: true,
-  // },
-  {
-    icon: Help,
-    text: 'Помощь',
-    linkTo: '/help',
-    canDisabled: false,
-  },
-];
 
 class SideMenu extends Component {
   signOutHandler = () => {
@@ -76,7 +29,60 @@ class SideMenu extends Component {
   };
 
   render() {
-    const { isUserExist, location } = this.props;
+    const {
+      isUserExist,
+      location,
+      language,
+      defaultLanguage,
+    } = this.props;
+
+    const mainMenuItems = [
+      {
+        icon: MyCorporations,
+        text: language.phrases['sideBar.menu.company.label'][defaultLanguage.isoKey],
+        linkTo: '/corporations',
+        canDisabled: true,
+      },
+      {
+        icon: Orders,
+        text: language.phrases['sideBar.menu.orders.label'][defaultLanguage.isoKey],
+        linkTo: '/orders',
+        // canDisabled: true,
+      },
+      // { // TODO: add in the next release
+      //   icon: Analytics,
+      //   text: 'Аналитика',
+      //   linkTo: '/analytics',
+      //   canDisabled: true,
+      // },
+      {
+        icon: Workers,
+        text: language.phrases['sideBar.menu.employees.label'][defaultLanguage.isoKey],
+        linkTo: '/workers',
+        // canDisabled: true,
+      },
+      {
+        icon: Clients,
+        text: language.phrases['sideBar.menu.clients.label'][defaultLanguage.isoKey],
+        linkTo: '/clients',
+        // canDisabled: true,
+      },
+    ];
+
+    const supportMenuItems = [
+      // { // TODO: add in the next release
+      // icon: Settings,
+      // text: 'Настройки',
+      // linkTo: '/settings',
+      // canDisabled: true,
+      // },
+      {
+        icon: Help,
+        text: language.phrases['sideBar.menu.help.label'][defaultLanguage.isoKey],
+        linkTo: '/help',
+        canDisabled: false,
+      },
+    ];
 
     return (
       <div className={b()}>
@@ -122,7 +128,7 @@ class SideMenu extends Component {
         <div className={b('exit')}>
           <div className={b('menu-item')} onClick={this.signOutHandler}>
             <Icon style={{ color: 'white' }} component={Exit} />
-            <span>Выход</span>
+            <span>{language.phrases['sideBar.menu.logOut.label'][defaultLanguage.isoKey]}</span>
           </div>
         </div>
       </div>
@@ -131,6 +137,8 @@ class SideMenu extends Component {
 }
 
 const mapStateToProps = state => ({
+  defaultLanguage: state.app.defaultLanguage,
+  language: state.app.language,
   isUserExist: state.auth.user.firstName,
 });
 
