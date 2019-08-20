@@ -44,6 +44,8 @@ class CorporationsPage extends Component {
         {
           isAddCorporationMode || (chosenCorporation && chosenCorporation.id) ? (
             <CorporationInfo
+              defaultLanguage={defaultLanguage}
+              language={language}
               isAddMode={isAddCorporationMode}
               corporations={corporations}
               chosenCorporation={chosenCorporation}

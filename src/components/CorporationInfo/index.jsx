@@ -126,13 +126,15 @@ class CorporationInfo extends Component {
       chosenCorporation,
       isAddMode,
       changeActiveCorporation,
+      defaultLanguage,
+      language,
     } = this.props;
 
-    let headerTitle = 'Редактирование компании';
+    let headerTitle = language.phrases['company.pageCreate.headerEdit.title'][defaultLanguage.isoKey];
     if (readOnlyMode) {
-      headerTitle = 'Информация о компании';
+      headerTitle = language.phrases['company.pageCreate.headerInfo.title'][defaultLanguage.isoKey];
     } else if (isAddMode) {
-      headerTitle = 'Создание компании';
+      headerTitle = language.phrases['company.pageCreate.headerCreate.title'][defaultLanguage.isoKey];
     }
 
     return (
@@ -140,6 +142,8 @@ class CorporationInfo extends Component {
         <div className={b('formBox')}>
           <h1 className={b('formBox-header')}>{headerTitle}</h1>
           <CorporationForm
+            defaultLanguage={defaultLanguage}
+            language={language}
             wrappedComponentRef={form => this.corporationForm = form}
             readOnlyMode={readOnlyMode}
             chosenCorporation={chosenCorporation}
@@ -161,7 +165,7 @@ class CorporationInfo extends Component {
                     onClick={changeActiveCorporation(null, false)}
                   >
                     <Icon type="left" />
-                    Назад
+                    {language.phrases['core.button.back'][defaultLanguage.isoKey]}
                   </Button>
                 ) : (
                   <Button
@@ -172,7 +176,7 @@ class CorporationInfo extends Component {
                     }
                   >
                     <Icon type="left" />
-                    Назад
+                    {language.phrases['core.button.back'][defaultLanguage.isoKey]}
                   </Button>
                 )
               }
@@ -184,7 +188,7 @@ class CorporationInfo extends Component {
                     className={b('formBox-controlBtns-btn deleteBtn')}
                     onClick={this.toggleDeleteModal}
                   >
-                    Удалить
+                    {language.phrases['core.button.remove'][defaultLanguage.isoKey]}
                   </Button>
                 ) : (
                   <div />
@@ -199,7 +203,7 @@ class CorporationInfo extends Component {
                     type="primary"
                     onClick={this.handleToggleReadOnlyMode(false)}
                   >
-                    Редактировать компанию
+                    {language.phrases['core.button.edit'][defaultLanguage.isoKey]}
                   </Button>
                 ) : (
                   <Button
@@ -207,7 +211,7 @@ class CorporationInfo extends Component {
                     type="primary"
                     onClick={this.handleUpdateCorporation}
                   >
-                    Сохранить
+                    {language.phrases['core.button.save'][defaultLanguage.isoKey]}
                   </Button>
                 )
               }
@@ -217,8 +221,8 @@ class CorporationInfo extends Component {
             deleteModalVisible && (
               <DeleteModal
                 visible={deleteModalVisible}
-                okText="Удалить"
-                cancelText="Отменить"
+                okText={language.phrases['core.button.remove'][defaultLanguage.isoKey]}
+                cancelText={language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
                 onOk={this.handleRemoveCorporation}
                 onCancel={this.toggleDeleteModal}
                 deletedName={chosenCorporation.name}
@@ -229,7 +233,9 @@ class CorporationInfo extends Component {
         </div>
 
         <div className={b('otherCorpBox')}>
-          <h1 className={b('otherCorpBox-header')}>Другие мои компании</h1>
+          <h1 className={b('otherCorpBox-header')}>
+            {language.phrases['company.pageCreate.rightBar.header.title'][defaultLanguage.isoKey]}
+          </h1>
           {
             corporations.length ? (
               corporations.map(corp => (
@@ -244,8 +250,8 @@ class CorporationInfo extends Component {
               ))) : (
                 <div className={b('emptyState-wrapper')}>
                   <EmptyState
-                    title="У вас пока нет компаний"
-                    descrText="Создайте свою первую компанию, в которую вы сможете добавить филиалы"
+                    title={language.phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
+                    descrText={language.phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
                     withoutBtn
                   />
                 </div>

@@ -37,15 +37,70 @@ const initState = {
   ],
   language: {
     phrases: {
+      'company.pageCreate.form.uploadFileNew.label': {
+        ru: 'Загрузить новый логотип',
+        uk: 'Завантажити новий логотип',
+        en: 'Загрузить новый логотип',
+      },
+      'company.pageCreate.form.uploadFileAdd.label': {
+        ru: 'Добавить логотип',
+        uk: 'Додати логотип',
+        en: 'Add logo',
+      },
+      'company.pageCreate.form.inputHome.label': {
+        ru: 'Дом',
+        uk: 'Будинок',
+        en: 'House',
+      },
+      'company.pageCreate.form.inputStreet.label': {
+        ru: 'Улица',
+        uk: 'Вулиця',
+        en: 'Outside',
+      },
+      'company.pageCreate.form.inputCity.label': {
+        ru: 'Город',
+        uk: 'Місто',
+        en: 'City',
+      },
+      'company.pageCreate.form.inputDetails.label': {
+        ru: 'Описание',
+        uk: 'Опис',
+        en: 'Description',
+      },
+      'company.pageCreate.form.inputPhone.label': {
+        ru: 'Номер телефона',
+        uk: 'Номер телефону',
+        en: 'Phone number',
+      },
+      'company.pageCreate.form.inputCountry.label': {
+        ru: 'Страна',
+        uk: 'Країна',
+        en: 'Country',
+      },
+      'company.pageCreate.form.inputNameCompany.label': {
+        ru: 'Название компании',
+        uk: 'Назва компанії',
+        en: 'Company name',
+      },
       'company.pageCreate.rightBar.header.title': {
         ru: 'Другие мои компании',
-        uk: 'Другие мои компании',
-        en: 'Другие мои компании',
+        uk: 'Інші мої компанії',
+        en: 'My other companies',
       },
-      'company.pageCreate.header.title': {
+      'company.pageCreate.headerCreate.title': {
         ru: 'Создание компании',
-        uk: 'Создание компании',
-        en: 'Создание компании',
+        uk: 'Створення компанії',
+        en: 'Company creation',
+      },
+      'company.pageCreate.headerInfo.title': {
+        ru: 'Информация о компании',
+        uk: 'Информация о компании',
+        en: 'Информация о компании',
+      },
+      'company.pageCreate.headerEdit.title': {
+        ru: 'Редактирование компании',
+        uk: 'Редактирование компании',
+        en: 'Редактирование компании',
       },
       // -------------------------------------------------//
       'company.page.business.branch.emptyState.title': {
@@ -187,6 +242,31 @@ const initState = {
         ru: 'Получить одноразовый пароль',
         uk: 'Отримати одноразовий пароль',
         en: 'Get a one-time password',
+      },
+      'core.button.cancel': {
+        ru: 'Отменить',
+        uk: 'Скасувати',
+        en: 'Cancel',
+      },
+      'core.button.edit': {
+        ru: 'Редактировать',
+        uk: 'Редагувати',
+        en: 'Edit',
+      },
+      'core.button.remove': {
+        ru: 'Удалить',
+        uk: 'Видалити',
+        en: 'Delete',
+      },
+      'core.button.back': {
+        ru: 'Назад',
+        uk: 'Повернуться',
+        en: 'Back',
+      },
+      'core.button.save': {
+        ru: 'Сохранить',
+        uk: 'Зберегти',
+        en: 'Save',
       },
       'footer.copyright': {
         ru: 'Все права защищены. ',
