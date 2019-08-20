@@ -24,9 +24,9 @@ class App extends Component {
           <AppRouter user={user} isPrivateRoute={authenticated} />
         );
       case 'error':
-        return <div>Error</div>;
+        return <ScreenLoading />;
       default:
-        return <div>Default</div>;
+        return <ScreenLoading />;
     }
   }
 }

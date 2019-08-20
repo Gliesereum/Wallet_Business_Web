@@ -61,12 +61,12 @@ const actions = {
 
     if (!lang) {
       await cookieStorage.set('_lgCp', JSON.stringify({
-        isoKey: 'en',
-        label: 'English',
+        isoKey: 'uk',
+        label: 'Українська',
         icon: '',
         direction: 'ltr',
         module: 'web',
-      }));
+      },));
     } else {
       await dispatch({ type: actions.SET_LANGUAGE, payload: JSON.parse(lang) });
     }
