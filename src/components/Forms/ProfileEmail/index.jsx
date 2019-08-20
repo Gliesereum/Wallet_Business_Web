@@ -119,14 +119,18 @@ class ProfileEmail extends PureComponent {
                 onChange={this.handleInputChange('email')}
               />
               <div className={b('errorMessage')}>{errorMessage}</div>
-              <Button
-                className={b('controlBtn')}
-                type="primary"
-                onClick={this.getCode}
-                loading={loading}
-              >
-                {'верифицировать'.toUpperCase()}
-              </Button>
+              {
+                (!email || (email && email !== this.props.email)) && (
+                  <Button
+                    className={b('controlBtn')}
+                    type="primary"
+                    onClick={this.getCode}
+                    loading={loading}
+                  >
+                    {'подтвердить'.toUpperCase()}
+                  </Button>
+                )
+              }
             </>
           )
         }
