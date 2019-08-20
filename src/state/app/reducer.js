@@ -6,7 +6,7 @@ const initState = {
   loading: false,
   // TODO Вот так пишем многоязычность!
   defaultLanguage: {
-    isoKey: 'en',
+    isoKey: 'ru',
     label: 'Русский',
     icon: '',
   },
