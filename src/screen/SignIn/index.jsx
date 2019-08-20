@@ -46,7 +46,7 @@ class SignIn extends Component {
   sendCodeHandler = async (code) => {
     if (code.length === 6) {
       const { phone } = this.state;
-      const { startApp } = this.props;
+      const { $startApp } = this.props;
       const body = { value: phone.slice(1, 13), type: 'PHONE', code };
       const userDataUrl = 'auth/signin';
 
@@ -60,7 +60,7 @@ class SignIn extends Component {
           cookieStorage.set('refresh_token', refreshToken, { expires: new Date(refreshExpirationDate), path: '/' });
         }
 
-        await startApp();
+        await $startApp();
       } catch (err) {
         notification.error({
           duration: 5,
@@ -118,13 +118,13 @@ class SignIn extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+/* const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
-});
+}); */
 
-const { $setLanguage } = actions.app;
+const { $setLanguage, $startApp } = actions.app;
 
 export default compose(
-  connect(state => state, { mapDispatchToProps, $setLanguage }),
+  connect(state => state, { $startApp, $setLanguage }),
   withRouter,
 )(SignIn);

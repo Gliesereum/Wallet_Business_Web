@@ -9,8 +9,8 @@ import { ScreenLoading } from './components';
 
 class App extends Component {
   componentDidMount() {
-    const { startApp } = this.props;
-    startApp();
+    const { $startApp } = this.props;
+    $startApp();
   }
 
   render() {
@@ -21,7 +21,7 @@ class App extends Component {
         return <ScreenLoading />;
       case 'ready':
         return (
-          <AppRouter user={user} isPrivateRoute={authenticated} />
+          <AppRouter user={user} isPrivateRoute={authenticated} {...this.props} />
         );
       case 'error':
         return <ScreenLoading />;
@@ -36,12 +36,14 @@ const mapStateToProps = state => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = dispatch => ({
+/* const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
-});
+}); */
+
+const { $startApp } = actions.app;
 
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, { $startApp }),
   withRouter,
 )(App);

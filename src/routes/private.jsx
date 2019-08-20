@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import {
   Route,
   BrowserRouter as Router,
@@ -16,6 +17,7 @@ import {
   OrdersPage,
   FAQ,
 } from '../screen';
+import { actions } from '../state';
 
 class PrivateRouter extends PureComponent {
   render() {
@@ -23,7 +25,7 @@ class PrivateRouter extends PureComponent {
 
     return (
       <Router>
-        <Container user={user}>
+        <Container user={user} {...this.props}>
           {
             (
               user
@@ -59,4 +61,6 @@ class PrivateRouter extends PureComponent {
   }
 }
 
-export default PrivateRouter;
+const { $setLanguage } = actions.app;
+
+export default connect(state => state, { $setLanguage })(PrivateRouter);
