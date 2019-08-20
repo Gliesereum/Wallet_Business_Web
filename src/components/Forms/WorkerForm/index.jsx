@@ -177,7 +177,7 @@ class WorkerForm extends PureComponent {
               <Col lg={12}>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Компания, в которой работает сотрудник "
+                  label="Компания"
                 >
                   {
                     form.getFieldDecorator('corporationId', {
@@ -207,7 +207,7 @@ class WorkerForm extends PureComponent {
                 </FormItem>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Филиал компании, за которым закреплен сотрудник"
+                  label="Филиал компании"
                 >
                   {
                     form.getFieldDecorator('businessId', {
