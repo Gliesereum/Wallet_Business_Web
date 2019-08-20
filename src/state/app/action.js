@@ -47,6 +47,9 @@ const getTokenAndUser = async (dispatch, access_token, refresh_token) => {
 const actions = {
   APP_STATUS: 'APP_STATUS',
   DATA_LOADING_STATUS: 'DATA_LOADING_STATUS',
+  SET_LANGUAGE: 'SET_LANGUAGE',
+
+  $setLanguage: language => ({ type: actions.SET_LANGUAGE, payload: language }),
 
   $startApp: () => async (dispatch) => {
     await dispatch(actions.$appStatus('loading'));

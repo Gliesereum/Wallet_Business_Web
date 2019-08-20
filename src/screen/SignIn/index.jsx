@@ -81,6 +81,7 @@ class SignIn extends Component {
     const {
       language,
       defaultLanguage,
+      langPack,
     } = this.props.app;
 
     return (
@@ -106,19 +107,12 @@ class SignIn extends Component {
             gotCodeHandler={this.gotCodeHandler}
           />
         </div>
-        <div className={b('footer')}>
-          <span className={b('footer-text')}>
-            {language.phrases['footer.copyright'][defaultLanguage.isoKey]}
-          </span>
-          <a
-            className={b('footer-text')}
-            href="https://www.gliesereum.com/"
-            target="_blank"
-          >
-            {language.phrases['footer.copyright.company'][defaultLanguage.isoKey]}
-          </a>
-        </div>
-        <Footer />
+        <Footer
+          langPack={langPack}
+          setLanguage={this.props.$setLanguage}
+          defaultLanguage={defaultLanguage}
+          language={language}
+        />
       </div>
     );
   }
@@ -128,7 +122,9 @@ const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
 });
 
+const { $setLanguage } = actions.app;
+
 export default compose(
-  connect(state => state, mapDispatchToProps),
+  connect(state => state, { mapDispatchToProps, $setLanguage }),
   withRouter,
 )(SignIn);

@@ -6,6 +6,17 @@
   position: sticky;
   top: 100%;
 
+  &__lang_box {
+    display: flex;
+    justify-content: center;
+
+    div {
+      font-size: 12px;
+      cursor: pointer;
+      margin-right: 4px;
+    }
+  }
+
   &__links {
     font-family: $sans;
     font-size: 12px;

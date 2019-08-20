@@ -94,7 +94,7 @@ class SignInForm extends Component {
             ? form.getFieldDecorator('code', {
               getValueFromEvent: checkInputHandler('code', form),
               rules: [
-                { required: true, message: 'Please enter your code number!' },
+                { required: true, message: language.phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
                 { pattern: new RegExp(/^[\d ]{6}$/), message: language.phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
               ],
             })(
@@ -110,7 +110,7 @@ class SignInForm extends Component {
               initialValue: '',
               getValueFromEvent: checkInputHandler('phone', form),
               rules: [
-                { required: true, message: 'Please enter your phone number!' },
+                { required: true, message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
                 { pattern: new RegExp(/^\+[\d ]{12}$/), message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
               ],
               validateTrigger: 'onBlur',

@@ -6,7 +6,7 @@ const initState = {
   loading: false,
   // TODO Вот так пишем многоязычность!
   defaultLanguage: {
-    isoKey: 'ru',
+    isoKey: 'en',
     label: 'Русский',
     icon: '',
   },
@@ -76,6 +76,14 @@ const initState = {
         ru: 'Все права защищены. ',
         en: 'All rights reserved. ',
       },
+      'footer.copyright.link.policy': {
+        ru: 'Политика конфиденциальности',
+        en: 'Privacy policy',
+      },
+      'footer.copyright.link.terms': {
+        ru: 'Условия использования',
+        en: 'Terms of Use',
+      },
       'footer.copyright.company': {
         ru: 'Coupler App LLC 2019 год',
         en: 'Coupler App LLC 2019 year',
@@ -90,6 +98,11 @@ const initReducers = {
   [actions.APP_STATUS]: (state, payload) => ({
     ...state,
     appStatus: payload,
+  }),
+
+  [actions.SET_LANGUAGE]: (state, payload) => ({
+    ...state,
+    defaultLanguage: payload,
   }),
 
   [actions.DATA_LOADING_STATUS]: (state, payload) => ({
