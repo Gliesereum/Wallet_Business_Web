@@ -30,7 +30,7 @@ class PrivateRouter extends PureComponent {
   }
 
   goFull = () => {
-    this.setState({ isFull: true });
+    // this.setState({ isFull: true });
   };
 
   render() {

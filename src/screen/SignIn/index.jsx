@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import bem from 'bem-join';
+import { Helmet } from 'react-helmet';
 
 import { notification } from 'antd';
 
@@ -86,6 +87,10 @@ class SignIn extends Component {
 
     return (
       <div className={b()}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{language.phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
+        </Helmet>
         <div className={b('main')}>
           <div className={b('logo')} />
           <div className={b('titleBlock')}>
@@ -117,10 +122,6 @@ class SignIn extends Component {
     );
   }
 }
-
-/* const mapDispatchToProps = dispatch => ({
-  startApp: () => dispatch(actions.app.$startApp()),
-}); */
 
 const { $setLanguage, $startApp } = actions.app;
 

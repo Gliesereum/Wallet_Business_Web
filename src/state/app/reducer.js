@@ -288,6 +288,11 @@ const initState = {
         uk: 'Coupler App LLC 2019 год',
         en: 'Coupler App LLC 2019 year',
       },
+      'page.signIn.helmet.Title': {
+        ru: 'Вход в панель управления',
+        uk: 'Вхід в панель управління',
+        en: 'Control panel login',
+      },
     },
   },
   message: 'Start server connect!',
