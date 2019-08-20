@@ -26,7 +26,8 @@
     display: flex;
     flex-direction: column;
     //Експеримент восприятия
-    border-bottom: 1px solid #2c3140;
+    //border-bottom: 1px solid #2c3140;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
     padding: 16px 0;
 
     &-item {
