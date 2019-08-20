@@ -42,12 +42,12 @@ const generateSchedule = (from, to, isWork) => {
   if (!isWork) return 'Выходной';
 
   const dateInMSFrom = new Date(from);
-  const fromHours = String(dateInMSFrom.getHours()).padStart(2, '0');
-  const fromMinutes = String(dateInMSFrom.getMinutes()).padStart(2, '0');
+  const fromHours = String(dateInMSFrom.getUTCHours()).padStart(2, '0');
+  const fromMinutes = String(dateInMSFrom.getUTCMinutes()).padStart(2, '0');
 
   const dateInMsTo = new Date(to);
-  const toHours = String(dateInMsTo.getHours()).padStart(2, '0');
-  const toMinutes = String(dateInMsTo.getMinutes()).padStart(2, '0');
+  const toHours = String(dateInMsTo.getUTCHours()).padStart(2, '0');
+  const toMinutes = String(dateInMsTo.getUTCMinutes()).padStart(2, '0');
 
   return `${fromHours}:${fromMinutes} - ${toHours}:${toMinutes}`;
 };
