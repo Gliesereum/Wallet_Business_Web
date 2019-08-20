@@ -13,12 +13,12 @@
   margin: auto;
   overflow: auto;
   //Експеримент восприятия
-  background: #212631;
+  //background: #212631;
 
   &__main {
     //Експеримент восприятия
-    background: #1078e1;
-    //background: linear-gradient(48.16deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
+    //background: #1078e1;
+    background: linear-gradient(48.16deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
     box-shadow: 24px 24px 48px rgba(0, 0, 0, 0.24);
     border-radius: 4px;
     //width: 592px;

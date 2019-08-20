@@ -3,9 +3,9 @@
 .sidebar {
   overflow-y: scroll;
   width: 290px;
-  //background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
+  background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
   //Експеримент восприятия
-  background: #212631;
+  //background: #212631;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
   z-index: 3;
   @media screen and (max-width: $max-lg) {
