@@ -177,13 +177,12 @@ class WorkersList extends Component {
   });
 
   renderExpandedRow = (worker) => {
-    const { workTimes, position, user = {} } = worker;
-    const schedules = dayTranslateTemporary.map((day, index) => ({
-      from: workTimes.length ? workTimes[index].from : 0,
-      to: workTimes.length ? workTimes[index].to : 0,
-      isWork: workTimes.length ? workTimes[index].isWork : false,
-      dayOfWeek: workTimes.length ? dayTranslate[workTimes[index].dayOfWeek] : day.translate,
-    }));
+    const { workTimes = [], position, user = {} } = worker;
+    const schedules = dayTranslateTemporary.reduce((acc, day) => {
+      const [dayOfWeek] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
+      acc.push({ ...day, ...dayOfWeek });
+      return acc;
+    }, []);
 
     return (
       <Row
@@ -254,7 +253,7 @@ class WorkersList extends Component {
                     key={day.dayOfWeek}
                     className={b('expandTable-row-userInfo-box')}
                   >
-                    <div className="title">{`${day.dayOfWeek}:`}</div>
+                    <div className="title">{`${dayTranslate[day.dayOfWeek]}:`}</div>
                     <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
                   </div>
                 ))
@@ -267,7 +266,7 @@ class WorkersList extends Component {
                     key={day.dayOfWeek}
                     className={b('expandTable-row-userInfo-box')}
                   >
-                    <div className="title">{`${day.dayOfWeek}:`}</div>
+                    <div className="title">{`${dayTranslate[day.dayOfWeek]}:`}</div>
                     <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
                   </div>
                 ))
