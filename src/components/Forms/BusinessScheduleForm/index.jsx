@@ -87,7 +87,7 @@ class BusinessScheduleForm extends Component {
                   >
                     {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                       initialValue: { from, to },
-                      rules: [{ validator: this.checkHours }],
+                      // rules: [{ validator: this.checkHours }],
                     })(
                       <FromToInput readOnly={readOnlyMode} />
                     )}
@@ -129,7 +129,7 @@ class BusinessScheduleForm extends Component {
                   >
                     {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                       initialValue: { from, to },
-                      rules: [{ validator: this.checkHours }],
+                      // rules: [{ validator: this.checkHours }],
                     })(
                       <FromToInput readOnly={readOnlyMode} />
                     )}
