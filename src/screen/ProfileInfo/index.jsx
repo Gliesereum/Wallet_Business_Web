@@ -80,6 +80,14 @@ class ProfileInfo extends Component {
     });
   };
 
+  handleResetFields = () => {
+    const { user } = this.props;
+    this.profileForm.props.form.resetFields();
+    this.setState({
+      logoUrl: (user && user.avatarUrl) || null,
+    });
+  };
+
   render() {
     const {
       logoUrl,
@@ -129,16 +137,19 @@ class ProfileInfo extends Component {
                     className={b('controlBtns-btn backBtn')}
                   >
                     <Icon type="left" />
-                    Компании
+                    {language.phrases['profile.page.navigation.goToCompanies'][defaultLanguage.isoKey]}
                   </Button>
                 </Link>
               ) : (
                 <Button
                   className={b('controlBtns-btn backBtn')}
-                  onClick={this.handleToggleReadOnlyMode(true)}
+                  onClick={(user && user.firstName)
+                    ? this.handleToggleReadOnlyMode(true)
+                    : this.handleResetFields
+                  }
                 >
                   <Icon type="left" />
-                  Отмена
+                  {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
                 </Button>
               )
             }

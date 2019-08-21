@@ -328,6 +328,11 @@ const initState = {
         uk: 'Вхід в панель управління',
         en: 'Control panel login',
       },
+      'profile.page.navigation.goToCompanies': {
+        ru: 'К компаниям',
+        uk: 'До компаній',
+        en: 'To companies',
+      },
     },
   },
   message: 'Start server connect!',
