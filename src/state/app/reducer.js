@@ -333,6 +333,11 @@ const initState = {
         uk: 'До компаній',
         en: 'To companies',
       },
+      'start.page.welcome.message': {
+        ru: 'Публичная BETA',
+        uk: 'Публічна BETA',
+        en: 'Public BETA',
+      },
     },
   },
   message: 'Start server connect!',
