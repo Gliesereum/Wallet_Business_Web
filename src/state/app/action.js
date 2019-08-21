@@ -1,6 +1,8 @@
 import { asyncRequest, withToken, cookieStorage } from '../../utils';
 
 import authActions from '../auth/action';
+import corporationsActions from '../corporations/action';
+import businessActions from '../business/action';
 
 const getTokenAndUser = async (dispatch, access_token, refresh_token) => {
   if (access_token && access_token !== 'undefined') {
@@ -84,6 +86,15 @@ const actions = {
 
     await dispatch(authActions.$updateUserData(user));
     await dispatch(authActions.$addUserEmail(email));
+
+    const businessesUrl = 'business/by-current-user/like-owner';
+    const corporationsUrl = 'corporation/by-user';
+
+    const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
+    const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
+
+    await dispatch(businessActions.$getBusiness(business));
+    await dispatch(corporationsActions.$getCorporations(corporations));
 
     await dispatch(actions.$appStatus('ready'));
   },
