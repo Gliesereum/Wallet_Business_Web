@@ -79,7 +79,7 @@ class ClientsList extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
 
@@ -115,7 +115,7 @@ class ClientsList extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     } finally {
       this.setState({ loader: false });
@@ -352,7 +352,7 @@ class ClientsList extends Component {
                   ) : (
                     <EmptyState
                       title="Здесь будут отображаться клиенты, сделавшие заказ в вашей компании через приложение Coupler или сервис Coupler Widget"
-                      descrText="Каждый новый клиент будет добавляться в единую базу, которую вы можете посмотреть в этой вкладке."
+                      descrText="Каждый новый клиент будет добавляться в единую базу, которую вы можете посмотреть в этой вкладке"
                       withoutBtn
                     />
                   )

@@ -37,7 +37,7 @@ class ProfileEmail extends PureComponent {
         notification.error({
           duration: 5,
           message: err.message || 'Ошибка',
-          description: 'Возникла ошибка',
+          description: 'Ошибка',
         });
       } finally {
         this.setState({ loading: false });
@@ -63,7 +63,7 @@ class ProfileEmail extends PureComponent {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     } finally {
       this.setState({ loading: false, gotCode: false, errorMessage: false });

@@ -37,7 +37,7 @@ class SignIn extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     } finally {
       this.setState({ gotCode: true, phone: value, validateStatus: '' });
@@ -66,7 +66,7 @@ class SignIn extends Component {
         notification.error({
           duration: 5,
           message: err.message || 'Ошибка',
-          description: 'Возникла ошибка',
+          description: 'Ошибка',
         });
       }
     }
