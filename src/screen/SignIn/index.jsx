@@ -92,6 +92,9 @@ class SignIn extends Component {
           <title>{language.phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
         </Helmet>
         <div className={b('main')}>
+          <div className={b('badge')}>
+            {language.phrases['start.page.welcome.message'][defaultLanguage.isoKey]}
+          </div>
           <div className={b('logo')} />
           <div className={b('titleBlock')}>
             <h1 className={b('titleBlock-title')}>

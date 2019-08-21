@@ -12,8 +12,25 @@
   height: 100%;
   margin: auto;
   overflow: auto;
+  //background: linear-gradient(-15deg, #30b43d, #e7a252, rgb(155, 200, 231), #107ed8);
+  //background-size: 400% 400%;
+  //animation: gradientBG 0.2s ease infinite;
   //Експеримент восприятия
   //background: #212631;
+
+  &__badge {
+    background: #FF7A00;
+    color: #ffffff;
+    width: 180px;
+    text-align: center;
+    padding: 14px;
+    font-weight: bold;
+    font-size: 18px;
+    top: 30px;
+    right: -18px;
+    position: absolute;
+    border-radius: 10px;
+  }
 
   &__main {
     //Експеримент восприятия
@@ -27,6 +44,7 @@
     max-width: 590px;
     width: 98%;
     margin: auto;
+    position: relative;
 
     .signInForm {
       padding: 34px 12px 56px 12px;
@@ -70,5 +88,17 @@
       letter-spacing: 0.01em;
       font-feature-settings: 'pnum' on, 'lnum' on;
     }
+  }
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

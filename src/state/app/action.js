@@ -50,8 +50,8 @@ const actions = {
   SET_LANGUAGE: 'SET_LANGUAGE',
 
   $setLanguage: (language) => {
-    cookieStorage.set('_lgCp', JSON.stringify(language));
-    return ({ type: actions.SET_LANGUAGE, payload: language });
+    cookieStorage.set('_lgCp', language.target.value);
+    return ({ type: actions.SET_LANGUAGE, payload: JSON.parse(language.target.value) });
   },
 
   $startApp: () => async (dispatch) => {

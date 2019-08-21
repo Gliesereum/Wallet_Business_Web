@@ -15,9 +15,25 @@ const Footer = ({
     }}
   >
     <div className={b('links')}>
-      <a target="_blank" href="https://coupler.app/terms">{language.phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}</a>
+      <a target="_blank" href="https://coupler.app/terms">
+        {language.phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}
+      </a>
       <Divider type="vertical" />
-      <a target="_blank" href="https://coupler.app/policy">{language.phrases['footer.copyright.link.policy'][defaultLanguage.isoKey]}</a>
+      <a target="_blank" href="https://coupler.app/policy">
+        {language.phrases['footer.copyright.link.policy'][defaultLanguage.isoKey]}
+      </a>
+      <div className={b('lang_box')}>
+        <select defaultValue={JSON.stringify(defaultLanguage)} onChange={e => setLanguage(e)}>
+          {langPack.map(lang => (
+            <option
+              key={lang.isoKey}
+              value={JSON.stringify(lang)}
+            >
+              {lang.label}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
     <div>
       <span className={b('text')}>{language.phrases['footer.copyright'][defaultLanguage.isoKey]}</span>
@@ -28,9 +44,6 @@ const Footer = ({
       >
         {language.phrases['footer.copyright.company'][defaultLanguage.isoKey]}
       </a>
-    </div>
-    <div className={b('lang_box')}>
-      {langPack.map(lang => <div style={{ color: defaultLanguage.isoKey === lang.isoKey ? '#a9a9a9' : '#444' }} onClick={() => setLanguage(lang)} key={lang.isoKey}>{lang.label}</div>)}
     </div>
   </div>
 );
