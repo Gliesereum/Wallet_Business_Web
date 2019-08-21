@@ -174,6 +174,8 @@ class BusinessPage extends Component {
                   singleBusiness={singleBusiness}
                   isAddBusinessMode={isAddBusinessMode}
                   changeActiveTab={this.changeActiveTab}
+                  defaultLanguage={defaultLanguage}
+                  language={language}
                   {...props}
                 />
               </Tabs.TabPane>

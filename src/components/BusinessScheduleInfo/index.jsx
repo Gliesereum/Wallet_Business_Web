@@ -23,6 +23,7 @@ const b = bem('businessScheduleInfo');
 class BusinessScheduleInfo extends PureComponent {
   state = {
     scheduleList: [],
+    readOnlyMode: !this.props.isAddBusinessMode,
   };
 
   componentDidMount() {
@@ -38,6 +39,8 @@ class BusinessScheduleInfo extends PureComponent {
     }, []);
     this.setState({ scheduleList: initDaysList });
   };
+
+  handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
   handleSubmitForm = async () => {
     const { singleBusiness, updateSchedule } = this.props;
@@ -93,7 +96,8 @@ class BusinessScheduleInfo extends PureComponent {
   handleChangeActiveTab = toTab => () => this.props.changeActiveTab(toTab);
 
   render() {
-    const { scheduleList } = this.state;
+    const { scheduleList, readOnlyMode } = this.state;
+    const { defaultLanguage, language } = this.props;
 
     return (
       <div className={b()}>
@@ -102,6 +106,7 @@ class BusinessScheduleInfo extends PureComponent {
           wrappedComponentRef={form => this.scheduleForm = form}
           dayTranslate={dayTranslate}
           scheduleList={scheduleList}
+          readOnlyMode={readOnlyMode}
         />
 
         <Row
@@ -109,22 +114,46 @@ class BusinessScheduleInfo extends PureComponent {
           className={b('controlBtns')}
         >
           <Col lg={12}>
-            <Button
-              className={b('controlBtns-btn backBtn')}
-              onClick={this.handleChangeActiveTab('mainInfo')}
-            >
-              <Icon type="left" />
-              Назад
-            </Button>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn backBtn')}
+                  onClick={this.handleChangeActiveTab('mainInfo')}
+                >
+                  <Icon type="left" />
+                  {language.phrases['core.button.back'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn backBtn')}
+                  onClick={this.handleToggleReadOnlyMode(true)}
+                >
+                  <Icon type="left" />
+                  {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
           </Col>
           <Col lg={12}>
-            <Button
-              className={b('controlBtns-btn')}
-              onClick={this.handleSubmitForm}
-              type="primary"
-            >
-              Сохранить
-            </Button>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn')}
+                  onClick={this.handleToggleReadOnlyMode(false)}
+                  type="primary"
+                >
+                  {language.phrases['core.button.edit'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn')}
+                  onClick={this.handleSubmitForm}
+                  type="primary"
+                >
+                  {language.phrases['core.button.save'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
           </Col>
         </Row>
       </div>

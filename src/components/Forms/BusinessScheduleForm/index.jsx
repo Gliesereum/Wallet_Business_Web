@@ -39,6 +39,7 @@ class BusinessScheduleForm extends Component {
       form,
       dayTranslate,
       scheduleList,
+      readOnlyMode,
     } = this.props;
 
     const formItemLayout = {
@@ -71,7 +72,12 @@ class BusinessScheduleForm extends Component {
                       initialValue: isWork,
                       valuePropName: 'checked',
                     })(
-                      <Checkbox value={isWork}>{dayTranslate[dayOfWeek]}</Checkbox>
+                      <Checkbox
+                        value={isWork}
+                        disabled={readOnlyMode}
+                      >
+                        {dayTranslate[dayOfWeek]}
+                      </Checkbox>
                     )}
                   </Form.Item>
                   <Form.Item
@@ -83,7 +89,7 @@ class BusinessScheduleForm extends Component {
                       initialValue: { from, to },
                       rules: [{ validator: this.checkHours }],
                     })(
-                      <FromToInput />
+                      <FromToInput readOnly={readOnlyMode} />
                     )}
                   </Form.Item>
                 </div>
@@ -108,7 +114,12 @@ class BusinessScheduleForm extends Component {
                       initialValue: isWork,
                       valuePropName: 'checked',
                     })(
-                      <Checkbox value={isWork}>{dayTranslate[dayOfWeek]}</Checkbox>
+                      <Checkbox
+                        disabled={readOnlyMode}
+                        value={isWork}
+                      >
+                        {dayTranslate[dayOfWeek]}
+                      </Checkbox>
                     )}
                   </Form.Item>
                   <Form.Item
@@ -120,7 +131,7 @@ class BusinessScheduleForm extends Component {
                       initialValue: { from, to },
                       rules: [{ validator: this.checkHours }],
                     })(
-                      <FromToInput />
+                      <FromToInput readOnly={readOnlyMode} />
                     )}
                   </Form.Item>
                 </div>
