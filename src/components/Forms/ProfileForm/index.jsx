@@ -13,6 +13,7 @@ import {
 
 import ProfileEmail from '../ProfileEmail';
 import { AddIcon } from '../../../assets/iconComponents';
+import { genders } from '../../../mocks';
 
 
 const { Dragger: UploadDragger } = Upload;
@@ -237,13 +238,14 @@ class ProfileForm extends PureComponent {
               label="Пол"
             >
               {form.getFieldDecorator('gender', {
-                initialValue: user.gender || 'UNKNOWN',
+                initialValue: (!readOnlyMode ? user.gender : genders[user.gender])
+                  || (!readOnlyMode ? 'UNKNOWN' : genders.UNKNOWN),
               })(
                 !readOnlyMode ? (
                   <Select size="large">
-                    <Select.Option value="UNKNOWN" key="UNKNOWN">Не указано</Select.Option>
-                    <Select.Option value="MALE" key="MALE">Мужской</Select.Option>
-                    <Select.Option value="FEMALE" key="FEMALE">Женский</Select.Option>
+                    <Select.Option value="UNKNOWN" key="UNKNOWN">{genders.UNKNOWN}</Select.Option>
+                    <Select.Option value="MALE" key="MALE">{genders.MALE}</Select.Option>
+                    <Select.Option value="FEMALE" key="FEMALE">{genders.FEMALE}</Select.Option>
                   </Select>
                 ) : (
                   <Input readOnly={readOnlyMode} />
