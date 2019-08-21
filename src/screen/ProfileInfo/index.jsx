@@ -73,7 +73,7 @@ class ProfileInfo extends Component {
           notification.error({
             duration: 5,
             message: err.message || 'Ошибка',
-            description: 'Возникла ошибка',
+            description: 'Ошибка',
           });
         }
       }

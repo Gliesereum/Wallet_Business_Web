@@ -62,7 +62,7 @@ class WorkerForm extends PureComponent {
       notification.error({
         duration: 5,
         message: errText || 'Ошибка расписания',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
       callback(true);
       return undefined;

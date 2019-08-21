@@ -76,7 +76,7 @@ class OrdersPage extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
 
@@ -113,7 +113,7 @@ class OrdersPage extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   };
@@ -283,8 +283,8 @@ class OrdersPage extends Component {
                 </>
               ) : (
                 <EmptyState
-                  title="У вас нету заказов"
-                  descrText="Когда клиенты сделают заказы, вы сможете просмотреть их в этом месте"
+                  title="У вас пока нет заказов"
+                  descrText="Здесь будут появляться заказы, сделанные вашими клиентами через Coupler и Coupler Widget"
                   withoutBtn
                 />
               )

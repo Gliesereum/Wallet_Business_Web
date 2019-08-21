@@ -9,7 +9,7 @@ class ServiceMainInfoForm extends PureComponent {
     const { form, serviceTypes, servicePrice } = this.props;
 
     return (
-      <Form>
+      <Form colon={false}>
         <Row gutter={40}>
           <Col lg={12}>
             <Form.Item
