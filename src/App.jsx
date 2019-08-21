@@ -15,19 +15,31 @@ class App extends Component {
 
   render() {
     const { authenticated, user, appStatus } = this.props;
-
-    switch (appStatus) {
-      case 'loading':
-        return <ScreenLoading />;
-      case 'ready':
-        return (
-          <AppRouter user={user} isPrivateRoute={authenticated} {...this.props} />
-        );
-      case 'error':
-        return <ScreenLoading />;
-      default:
-        return <ScreenLoading />;
+    if (appStatus === 'loading') {
+      return (
+        <ScreenLoading />
+      );
     }
+    if (appStatus === 'error') {
+      return (
+        <div className="CouplerErrorPageBeta">
+          <div className="CouplerErrorPageBeta_Title">
+            <h1>500</h1>
+          </div>
+          <div className="CouplerErrorPageBeta_Message">
+            <span>SERVER ERROR</span>
+          </div>
+          <div className="CouplerErrorPageBeta_Button">
+            <button type="button" onClick={() => window.location.reload()}>
+              Reload
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <AppRouter user={user} isPrivateRoute={authenticated} {...this.props} />
+    );
   }
 }
 const mapStateToProps = state => ({
@@ -35,10 +47,6 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
   user: state.auth.user,
 });
-
-/* const mapDispatchToProps = dispatch => ({
-  startApp: () => dispatch(actions.app.$startApp()),
-}); */
 
 const { $startApp } = actions.app;
 
