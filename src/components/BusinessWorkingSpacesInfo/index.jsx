@@ -49,7 +49,11 @@ const addWorkersToWorkingSpace = async (addedWorkers = [], newWorkingSpace, remo
         throw e;
       }
     }));
-    newWorkingSpace.workers.unshift(...workersOfNewWorkingSpace);
+    if (newWorkingSpace.workers) {
+      newWorkingSpace.workers.unshift(...workersOfNewWorkingSpace);
+    } else {
+      newWorkingSpace.workers = [...workersOfNewWorkingSpace];
+    }
     return newWorkingSpace;
   } catch (err) {
     throw err;
@@ -118,16 +122,15 @@ class BusinessWorkingSpacesInfo extends Component {
           };
 
           try {
+            const newWorkingSpace = await withToken(asyncRequest)({
+              url, body: data, method, moduleUrl: 'karma',
+            });
             // if some of workers were being added
-            let workingSpace = await addWorkersToWorkingSpace(addedWorkers, data, removeFromOldWS);
+            let workingSpace = await addWorkersToWorkingSpace(addedWorkers, newWorkingSpace, removeFromOldWS);
             // if some of workers were being removed
             workingSpace = await removeWorkersFromWorkingSpace(removedWorkers, workingSpace);
 
-            const newWorkingSpace = await withToken(asyncRequest)({
-              url, body: workingSpace, method, moduleUrl: 'karma',
-            });
-
-            isAddMode ? await addWorkingSpace(newWorkingSpace) : await updateWorkingSpace(newWorkingSpace);
+            isAddMode ? await addWorkingSpace(workingSpace) : await updateWorkingSpace(workingSpace);
             await changeActiveWorkingSpace(null, false)();
           } catch (err) {
             notification.error({
