@@ -214,9 +214,9 @@ const initState = {
         en: 'Enter phone number',
       },
       'signIn.form.inputPhone.mask': {
-        ru: '+380 93 000 00 03',
-        uk: '+380 93 000 00 03',
-        en: '+380 93 000 00 03',
+        ru: '380 93 000 00 03',
+        uk: '380 93 000 00 03',
+        en: '380 93 000 00 03',
       },
       'signIn.form.inputCode.label.validation': {
         ru: 'Неверный CPS код',

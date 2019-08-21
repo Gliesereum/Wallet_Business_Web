@@ -111,7 +111,7 @@ class SignInForm extends Component {
               getValueFromEvent: checkInputHandler('phone', form),
               rules: [
                 { required: true, message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
-                { pattern: new RegExp(/^\+[\d ]{12}$/), message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
+                { pattern: new RegExp(/^[\d ]{12}$/), message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
               ],
               validateTrigger: 'onBlur',
             })(

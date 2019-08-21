@@ -28,7 +28,7 @@ class SignIn extends Component {
   }));
 
   getCodeHandler = async (value) => {
-    const url = `phone/code?phone=${value.slice(1, 13)}`;
+    const url = `phone/code?phone=${value}`;
 
     try {
       this.setState({ validateStatus: 'validating' });
@@ -48,7 +48,7 @@ class SignIn extends Component {
     if (code.length === 6) {
       const { phone } = this.state;
       const { $startApp } = this.props;
-      const body = { value: phone.slice(1, 13), type: 'PHONE', code };
+      const body = { value: phone, type: 'PHONE', code };
       const userDataUrl = 'auth/signin';
 
       try {
