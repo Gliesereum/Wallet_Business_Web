@@ -1,4 +1,4 @@
-const serverURL = 'https://dev.gliesereum.com/api/';
+const serverURL = 'https://api.coupler.app/api/';
 
 export default {
   urlPrefix: serverURL,
