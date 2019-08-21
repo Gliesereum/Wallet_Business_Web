@@ -3,6 +3,8 @@
 .ordersPage {
   display: flex;
   flex: 1;
+  animation: fadein 0.8s ease;
+
   &__wrapper {
     flex: 1;
   }

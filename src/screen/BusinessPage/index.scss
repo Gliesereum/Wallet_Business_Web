@@ -3,6 +3,7 @@
 .businessPage {
   overflow-y: scroll;
   flex: 1;
+  animation: fadein 0.8s ease;
 
   &__header {
     display: flex;
