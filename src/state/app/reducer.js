@@ -319,9 +319,9 @@ const initState = {
         en: 'Terms of Use',
       },
       'footer.copyright.company': {
-        ru: 'Coupler App LLC 2019 год',
-        uk: 'Coupler App LLC 2019 год',
-        en: 'Coupler App LLC 2019 year',
+        ru: 'Разработано компанией Gliesereum Ukraine 2019',
+        uk: 'Розроблено компанією Gliesereum Ukraine 2019',
+        en: 'Developed by company Gliesereum Ukraine 2019',
       },
       'page.signIn.helmet.Title': {
         ru: 'Вход в панель управления',
