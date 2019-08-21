@@ -97,7 +97,7 @@ class BusinessScheduleInfo extends PureComponent {
 
   render() {
     const { scheduleList, readOnlyMode } = this.state;
-    const { defaultLanguage, language } = this.props;
+    const { isAddBusinessMode, defaultLanguage, language } = this.props;
 
     return (
       <div className={b()}>
@@ -126,7 +126,9 @@ class BusinessScheduleInfo extends PureComponent {
               ) : (
                 <Button
                   className={b('controlBtns-btn backBtn')}
-                  onClick={this.handleToggleReadOnlyMode(true)}
+                  onClick={isAddBusinessMode
+                    ? this.handleChangeActiveTab('mainInfo')
+                    : this.handleToggleReadOnlyMode(true)}
                 >
                   <Icon type="left" />
                   {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
