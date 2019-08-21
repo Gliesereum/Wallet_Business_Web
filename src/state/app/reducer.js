@@ -268,6 +268,11 @@ const initState = {
         uk: 'Зберегти',
         en: 'Save',
       },
+      'core.button.update': {
+        ru: 'Обновить',
+        uk: 'Оновити',
+        en: 'Update',
+      },
       'core.button.workingSpaces': {
         ru: 'Рабочие места',
         uk: 'Робочі місця',
