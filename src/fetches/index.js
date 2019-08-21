@@ -27,6 +27,55 @@ const fetchHelper = async ({
   return await fetch(fullUrl, _requestConfig);
 };
 
+export const fetchCorporationsByUser = async ({ getCorporations }) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({ urlPath: 'corporation/by-user' }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then((data) => {
+      getCorporations(data);
+      result.push(...data);
+    });
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'corporations',
+  };
+};
+
+export const fetchBusinessesLikeOwner = async ({ getBusiness }) => {
+  const result = [];
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath: 'business/by-current-user/like-owner',
+      moduleUrl: 'karma',
+    }).then(async (item) => {
+      if (item.status === 204) return [];
+      if (item.status === 200) return await item.json();
+      if (item.status >= 400) throw Error('error');
+      return [];
+    }).then((data) => {
+      getBusiness(data);
+      result.push(...data);
+    });
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: 'business',
+  };
+};
+
 export const fetchGetBusinessTypes = async () => {
   const result = [];
 

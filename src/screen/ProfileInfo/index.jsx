@@ -55,7 +55,7 @@ class ProfileInfo extends Component {
   };
 
   handleUpdateUserData = () => {
-    const { updateUserData } = this.props;
+    const { updateUserData, isFirstSignIn, history } = this.props;
 
     this.profileForm.props.form.validateFields(async (error, values) => {
       if (!error) {
@@ -69,6 +69,7 @@ class ProfileInfo extends Component {
         try {
           const updatedUser = await withToken(asyncRequest)({ url, method, body });
           await updateUserData(updatedUser);
+          isFirstSignIn && history.replace('/help');
         } catch (err) {
           notification.error({
             duration: 5,
@@ -80,12 +81,10 @@ class ProfileInfo extends Component {
     });
   };
 
-  handleResetFields = () => {
-    const { user } = this.props;
-    this.profileForm.props.form.resetFields();
-    this.setState({
-      logoUrl: (user && user.avatarUrl) || null,
-    });
+  handleGoBack = () => {
+    const { signOut, history } = this.props;
+    history.push('/');
+    signOut();
   };
 
   render() {
@@ -145,11 +144,11 @@ class ProfileInfo extends Component {
                   className={b('controlBtns-btn backBtn')}
                   onClick={(user && user.firstName)
                     ? this.handleToggleReadOnlyMode(true)
-                    : this.handleResetFields
+                    : this.handleGoBack
                   }
                 >
                   <Icon type="left" />
-                  {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                  {language.phrases['core.button.back'][defaultLanguage.isoKey]}
                 </Button>
               )
             }
@@ -191,6 +190,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updateUserData: user => dispatch(actions.auth.$updateUserData(user)),
   verifyUserEmail: email => dispatch(actions.auth.$verifyUserEmail(email)),
+  signOut: () => dispatch(actions.auth.$signOut()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfo);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import bem from 'bem-join';
 
 import {
@@ -8,6 +9,13 @@ import {
   EmptyState,
   CorporationInfo,
 } from '../../components';
+
+import { fetchDecorator } from '../../utils';
+import {
+  fetchCorporationsByUser,
+  fetchBusinessesLikeOwner,
+} from '../../fetches';
+import { actions } from '../../state';
 
 const b = bem('corporationsPage');
 
@@ -112,4 +120,18 @@ const mapStateToProps = state => ({
   business: state.business.business,
 });
 
-export default connect(mapStateToProps)(CorporationsPage);
+const mapDispatchToProps = dispatch => ({
+  getBusiness: data => dispatch(actions.business.$getBusiness(data)),
+  getCorporations: data => dispatch(actions.corporations.$getCorporations(data)),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchDecorator({
+    actions: [
+      fetchCorporationsByUser,
+      fetchBusinessesLikeOwner,
+    ],
+    config: { loader: true },
+  })
+)(CorporationsPage);
