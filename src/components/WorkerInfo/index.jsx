@@ -44,7 +44,7 @@ class WorkerInfo extends Component {
   }
 
   initScheduleList = (workingTime = { workTimes: [] }) => {
-    const { workTimes } = this.props.chosenWorker || workingTime;
+    const { workTimes } = (!this.state.foundUser && this.props.chosenWorker) || workingTime;
     const initDaysList = scheduleListDefault.reduce((acc, day) => {
       const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
       acc.push({ ...day, ...initDay });
@@ -60,7 +60,7 @@ class WorkerInfo extends Component {
 
     const businesses = await getBusinessByCorporationId(corporationId);
     this.setState({ businesses });
-    chosenWorker && await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
+    chosenWorker && !this.state.foundUser && await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
   };
 
   handleGetWorkingSpacesByBusinessId = (businessId) => {
@@ -92,11 +92,12 @@ class WorkerInfo extends Component {
             chosenWorker,
             changeActiveWorker,
           } = this.props;
+          const { scheduleList, foundUser, businesses } = this.state;
 
-          const isWorkTimesExist = this.state.scheduleList[0].id;
+          const isWorkTimesExist = scheduleList[0].id;
           const workTimes = [];
-          const [business] = this.state.businesses.filter(item => item.id === businessId);
-          if (isWorkTimesExist && chosenWorker) {
+          const [business] = businesses.filter(item => item.id === businessId);
+          if (isWorkTimesExist && chosenWorker && !foundUser) {
             chosenWorker.workTimes.forEach((item) => {
               workTimes.push({
                 ...item,
