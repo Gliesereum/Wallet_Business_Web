@@ -19,10 +19,13 @@ const b = bem('profileInfo');
 
 class ProfileInfo extends Component {
   state = {
+    readOnlyMode: !!(this.props.user && this.props.user.firstName),
     logoUrl: this.props.user ? this.props.user.avatarUrl : '',
     isError: false,
     fileLoader: false,
   };
+
+  handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
   onUploaderChange = ({ file }) => {
     switch (file.status) {
@@ -77,9 +80,28 @@ class ProfileInfo extends Component {
     });
   };
 
+  handleResetFields = () => {
+    const { user } = this.props;
+    this.profileForm.props.form.resetFields();
+    this.setState({
+      logoUrl: (user && user.avatarUrl) || null,
+    });
+  };
+
   render() {
-    const { logoUrl, isError, fileLoader } = this.state;
-    const { user, email, verifyUserEmail } = this.props;
+    const {
+      logoUrl,
+      isError,
+      fileLoader,
+      readOnlyMode,
+    } = this.state;
+    const {
+      user,
+      email,
+      verifyUserEmail,
+      defaultLanguage,
+      language,
+    } = this.props;
 
     return (
       <div className={b()}>
@@ -94,6 +116,7 @@ class ProfileInfo extends Component {
             user={user}
             onChange={this.onUploaderChange}
             uploadAvatarImage={this.uploadAvatarImage}
+            readOnlyMode={readOnlyMode}
             logoUrl={logoUrl}
             loading={fileLoader}
             isError={isError}
@@ -106,40 +129,52 @@ class ProfileInfo extends Component {
           gutter={40}
           className={b('controlBtns')}
         >
-          {
-            user && user.name ? (
-              <>
-                <Col lg={12}>
-                  <Link to="/corporations">
-                    <Button
-                      className={b('controlBtns-btn backBtn')}
-                    >
-                      <Icon type="left" />
-                      Компании
-                    </Button>
-                  </Link>
-                </Col>
-                <Col lg={12}>
+          <Col lg={12}>
+            {
+              readOnlyMode ? (
+                <Link to="/corporations">
                   <Button
-                    className={b('controlBtns-btn')}
-                    type="primary"
+                    className={b('controlBtns-btn backBtn')}
                   >
-                    Сохранить
+                    <Icon type="left" />
+                    {language.phrases['profile.page.navigation.goToCompanies'][defaultLanguage.isoKey]}
                   </Button>
-                </Col>
-              </>
-            ) : (
-              <Col lg={24}>
+                </Link>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn backBtn')}
+                  onClick={(user && user.firstName)
+                    ? this.handleToggleReadOnlyMode(true)
+                    : this.handleResetFields
+                  }
+                >
+                  <Icon type="left" />
+                  {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
+          </Col>
+          <Col lg={12}>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn')}
+                  type="primary"
+                  onClick={this.handleToggleReadOnlyMode(false)}
+                >
+                  {language.phrases['core.button.edit'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
                 <Button
                   className={b('controlBtns-btn')}
                   type="primary"
                   onClick={this.handleUpdateUserData}
                 >
-                  Обновить
+                  {language.phrases['core.button.save'][defaultLanguage.isoKey]}
                 </Button>
-              </Col>
-            )
-          }
+              )
+            }
+          </Col>
         </Row>
       </div>
     );
@@ -149,6 +184,8 @@ class ProfileInfo extends Component {
 const mapStateToProps = state => ({
   user: state.auth.user,
   email: state.auth.email.email,
+  defaultLanguage: state.app.defaultLanguage,
+  language: state.app.language,
 });
 
 const mapDispatchToProps = dispatch => ({

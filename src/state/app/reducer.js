@@ -214,9 +214,9 @@ const initState = {
         en: 'Enter phone number',
       },
       'signIn.form.inputPhone.mask': {
-        ru: '+380 93 000 00 03',
-        uk: '+380 93 000 00 03',
-        en: '+380 93 000 00 03',
+        ru: '380 93 000 00 03',
+        uk: '380 93 000 00 03',
+        en: '380 93 000 00 03',
       },
       'signIn.form.inputCode.label.validation': {
         ru: 'Неверный CPS код',
@@ -267,6 +267,11 @@ const initState = {
         ru: 'Сохранить',
         uk: 'Зберегти',
         en: 'Save',
+      },
+      'core.button.update': {
+        ru: 'Обновить',
+        uk: 'Оновити',
+        en: 'Update',
       },
       'core.button.workingSpaces': {
         ru: 'Рабочие места',
@@ -322,6 +327,11 @@ const initState = {
         ru: 'Вход в панель управления',
         uk: 'Вхід в панель управління',
         en: 'Control panel login',
+      },
+      'profile.page.navigation.goToCompanies': {
+        ru: 'К компаниям',
+        uk: 'До компаній',
+        en: 'To companies',
       },
     },
   },

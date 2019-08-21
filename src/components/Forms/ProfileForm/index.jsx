@@ -23,6 +23,7 @@ class ProfileForm extends PureComponent {
     const {
       form,
       user,
+      readOnlyMode,
       logoUrl,
       isError,
       loading,
@@ -40,6 +41,7 @@ class ProfileForm extends PureComponent {
         <Row gutter={32}>
           <Col lg={8}>
             <UploadDragger
+              disabled={readOnlyMode}
               className={b('uploader')}
               name="file"
               listType="picture-card"
@@ -62,27 +64,31 @@ class ProfileForm extends PureComponent {
                           />
                         )
                       }
-                      <div className={b('uploader-inside')}>
-                        <AddIcon
-                          className={b('uploader-inside-icon', { errorView: isError })}
-                          size={{
-                            x: isError ? 32 : 48,
-                            y: isError ? 32 : 48,
-                          }}
-                        />
-                        <h1 className={b('uploader-inside-header')}>
-                          {
-                            user.avatarUrl ? 'загрузить новое изображение' : 'добавить изображение'
-                          }
-                        </h1>
-                        {
-                          isError && (
-                            <p className={b('uploader-inside-error')}>
-                              Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                            </p>
-                          )
-                        }
-                      </div>
+                      {
+                        !readOnlyMode && (
+                          <div className={b('uploader-inside')}>
+                            <AddIcon
+                              className={b('uploader-inside-icon', { errorView: isError })}
+                              size={{
+                                x: isError ? 32 : 48,
+                                y: isError ? 32 : 48,
+                              }}
+                            />
+                            <h1 className={b('uploader-inside-header')}>
+                              {
+                                user.avatarUrl ? 'загрузить новое изображение' : 'добавить изображение'
+                              }
+                            </h1>
+                            {
+                              isError && (
+                                <p className={b('uploader-inside-error')}>
+                                  Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                                </p>
+                              )
+                            }
+                          </div>
+                        )
+                      }
                     </>
                   )
                 }
@@ -103,7 +109,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -119,7 +129,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -137,7 +151,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -153,7 +171,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -171,7 +193,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -187,7 +213,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -199,6 +229,7 @@ class ProfileForm extends PureComponent {
             <ProfileEmail
               email={email}
               verifyUserEmail={verifyUserEmail}
+              readOnly={readOnlyMode}
             />
           </Col>
           <Col lg={8}>
@@ -208,11 +239,15 @@ class ProfileForm extends PureComponent {
               {form.getFieldDecorator('gender', {
                 initialValue: user.gender || 'UNKNOWN',
               })(
-                <Select size="large">
-                  <Select.Option value="UNKNOWN" key="UNKNOWN">Не указано</Select.Option>
-                  <Select.Option value="MALE" key="MALE">Мужской</Select.Option>
-                  <Select.Option value="FEMALE" key="FEMALE">Женский</Select.Option>
-                </Select>
+                !readOnlyMode ? (
+                  <Select size="large">
+                    <Select.Option value="UNKNOWN" key="UNKNOWN">Не указано</Select.Option>
+                    <Select.Option value="MALE" key="MALE">Мужской</Select.Option>
+                    <Select.Option value="FEMALE" key="FEMALE">Женский</Select.Option>
+                  </Select>
+                ) : (
+                  <Input readOnly={readOnlyMode} />
+                )
               )}
             </Form.Item>
           </Col>

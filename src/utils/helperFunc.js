@@ -28,7 +28,7 @@ export const checkInputHandler = (inputField, form) => (e) => {
   const { value } = e.target;
 
   const regExp = {
-    phone: /^\+[\d]{0,12}$/,
+    phone: /^[\d]{0,12}$/,
     code: /^[\d]{0,6}$/,
   };
 
