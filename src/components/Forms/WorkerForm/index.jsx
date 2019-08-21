@@ -342,7 +342,7 @@ class WorkerForm extends PureComponent {
                     {
                       form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                         initialValue: { from, to },
-                        rules: [{ validator: this.checkHours }],
+                        // rules: [{ validator: this.checkHours }],
                       })(
                         <FromToInput readOnly={readOnlyMode} />
                       )
