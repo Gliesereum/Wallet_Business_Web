@@ -57,6 +57,11 @@
   "../screen/OrdersPage/index.scss";
 }
 
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 body {
   p {
     margin: 0;
@@ -75,4 +80,42 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 10px !important;
   color: #FFC107 !important;
   display: none !important;
+}
+
+.CouplerErrorPageBeta {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  flex: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.CouplerErrorPageBeta_Title {
+  h1 {
+    font-size: 110px;
+    color: $coupler-blue;
+  }
+}
+
+.CouplerErrorPageBeta_Message {
+  color: $coupler-blue;
+  font-size: 38px;
+  margin-bottom: 1em;
+}
+
+.CouplerErrorPageBeta_Button {
+  button {
+    width: 200px;
+    background: $coupler-blue;
+    color: $white;
+    height: 48px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+  }
 }

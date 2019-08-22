@@ -57,46 +57,45 @@ const actions = {
   $startApp: () => async (dispatch) => {
     await dispatch(actions.$appStatus('loading'));
 
-    const lang = await cookieStorage.get('_lgCp');
-
-    if (!lang) {
-      await cookieStorage.set('_lgCp', JSON.stringify({
-        isoKey: 'uk',
-        label: 'Українська',
-        icon: '',
-        direction: 'ltr',
-        module: 'web',
-      },));
-    } else {
-      await dispatch({ type: actions.SET_LANGUAGE, payload: JSON.parse(lang) });
-    }
-
     // check for server
     try {
+      const lang = await cookieStorage.get('_lgCp');
+
+      if (!lang) {
+        await cookieStorage.set('_lgCp', JSON.stringify({
+          isoKey: 'uk',
+          label: 'Українська',
+          icon: '',
+          direction: 'ltr',
+          module: 'web',
+        },));
+      } else {
+        await dispatch({ type: actions.SET_LANGUAGE, payload: JSON.parse(lang) });
+      }
       await asyncRequest({ fullUrl: 'status' });
+
+      const access_token = cookieStorage.get('access_token');
+      const refresh_token = cookieStorage.get('refresh_token');
+
+      const user = await getTokenAndUser(dispatch, access_token, refresh_token);
+      const email = await withToken(asyncRequest)({ url: 'email/by-user' }) || {};
+
+      await dispatch(authActions.$updateUserData(user));
+      await dispatch(authActions.$addUserEmail(email));
+
+      const businessesUrl = 'business/by-current-user/like-owner';
+      const corporationsUrl = 'corporation/by-user';
+
+      const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
+      const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
+
+      await dispatch(businessActions.$getBusiness(business));
+      await dispatch(corporationsActions.$getCorporations(corporations));
+
+      await dispatch(actions.$appStatus('success'));
     } catch (e) {
       await dispatch(actions.$appStatus('error'));
     }
-
-    const access_token = cookieStorage.get('access_token');
-    const refresh_token = cookieStorage.get('refresh_token');
-
-    const user = await getTokenAndUser(dispatch, access_token, refresh_token);
-    const email = await withToken(asyncRequest)({ url: 'email/by-user' }) || {};
-
-    await dispatch(authActions.$updateUserData(user));
-    await dispatch(authActions.$addUserEmail(email));
-
-    const businessesUrl = 'business/by-current-user/like-owner';
-    const corporationsUrl = 'corporation/by-user';
-
-    const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
-    const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
-
-    await dispatch(businessActions.$getBusiness(business));
-    await dispatch(corporationsActions.$getCorporations(corporations));
-
-    await dispatch(actions.$appStatus('ready'));
   },
 
   $appStatus: payload => ({ type: actions.APP_STATUS, payload }),
