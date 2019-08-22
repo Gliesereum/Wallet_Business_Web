@@ -351,7 +351,6 @@ class ClientsList extends Component {
                     </>
                   ) : (
                     <EmptyState
-                      title="Здесь будут отображаться клиенты, сделавшие заказ в вашей компании через приложение Coupler или сервис Coupler Widget"
                       descrText="Каждый новый клиент будет добавляться в единую базу, которую вы можете посмотреть в этой вкладке"
                       withoutBtn
                     />

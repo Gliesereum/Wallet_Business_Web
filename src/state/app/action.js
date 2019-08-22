@@ -83,23 +83,15 @@ const actions = {
       await dispatch(authActions.$updateUserData(user));
       await dispatch(authActions.$addUserEmail(email));
 
-      if (
-        user
-        && user.firstName
-        && user.lastName
-        && user.middleName
-        && user.country
-        && user.city
-      ) {
-        const businessesUrl = 'business/by-current-user/like-owner';
-        const corporationsUrl = 'corporation/by-user';
+      const businessesUrl = 'business/by-current-user/like-owner';
+      const corporationsUrl = 'corporation/by-user';
 
-        const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
-        const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
+      const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
+      const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
 
-        await dispatch(businessActions.$getBusiness(business));
-        await dispatch(corporationsActions.$getCorporations(corporations));
-      }
+      await dispatch(businessActions.$getBusiness(business));
+      await dispatch(corporationsActions.$getCorporations(corporations));
+
       await dispatch(actions.$appStatus('success'));
     } catch (e) {
       await dispatch(actions.$appStatus('error'));

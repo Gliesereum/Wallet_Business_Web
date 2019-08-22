@@ -52,7 +52,7 @@ class PrivateRouter extends PureComponent {
               </Switch>
               ) : (
                 <Switch>
-                  <Route component={ProfileInfo} />
+                  <Route render={routeProps => <ProfileInfo {...routeProps} isFirstSignIn />} />
                 </Switch>
               )
           }

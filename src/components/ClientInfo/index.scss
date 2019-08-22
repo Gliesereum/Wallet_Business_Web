@@ -47,13 +47,6 @@
       & .ant-table {
         &-body {
           min-height: 336px;
-
-          & .status-column > div {
-            display: flex;
-            flex-direction: unset;
-            justify-content: space-between;
-            line-height: 16px;
-          }
         }
 
         &-thead {

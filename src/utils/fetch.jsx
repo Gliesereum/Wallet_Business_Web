@@ -21,52 +21,52 @@ export default ({ actions = actionDefault, config = configDefault }) => Componen
       this.fetch();
     }
 
-    fetch = async () => {
-      if (!this.state.loading) return;
-      // delay for testing
-      // const delay = time => result => new Promise(resolve => setTimeout(() => resolve(result), time));
-      // usage:  - await func(this.props).then(delay(time));
-      await Promise.all(actions.map(async (func) => {
-        try {
-          const fetchedData = await func(this.props);
-          if (fetchedData) {
-            this.setState(state => ({
-              ...state,
-              injectedProps: {
-                ...state.injectedProps,
-                [fetchedData.fieldName]: fetchedData.data,
-              },
-            }));
-          }
-        } catch (e) {
-          console.error(e);
+  fetch = async () => {
+    if (!this.state.loading) return;
+    // delay for testing
+    // const delay = time => result => new Promise(resolve => setTimeout(() => resolve(result), time));
+    // usage:  - await func(this.props).then(delay(time));
+    await Promise.all(actions.map(async (func) => {
+      try {
+        const fetchedData = await func(this.props);
+        if (fetchedData) {
+          this.setState(state => ({
+            ...state,
+            injectedProps: {
+              ...state.injectedProps,
+              [fetchedData.fieldName]: fetchedData.data,
+            },
+          }));
         }
-      }));
+      } catch (e) {
+        console.error(e);
+      }
+    }));
 
-      this.setState({ loading: false });
-    };
+    this.setState({ loading: false });
+  };
 
-    render() {
-      const { loading, injectedProps } = this.state;
+  render() {
+    const { loading, injectedProps } = this.state;
 
-      if (loading && config.loader) return <ScreenLoading />;
-      return (
-        <Component
-          {...injectedProps}
-          {...this.props}
-          loading={loading}
-          fetch={(mutated = {}) => {
-            this.setState(state => ({
-              loading: config.loader,
-              injectedProps: { ...state.injectedProps, ...mutated },
-            }), this.fetch);
-          }}
-          mutate={(mutated = {}) => {
-            this.setState(state => ({
-              injectedProps: { ...state.injectedProps, ...mutated },
-            }));
-          }}
-        />
-      );
-    }
+    if (loading && config.loader) return <ScreenLoading />;
+    return (
+      <Component
+        {...injectedProps}
+        {...this.props}
+        loading={loading}
+        fetch={(mutated = {}) => {
+          this.setState(state => ({
+            loading: config.loader,
+            injectedProps: { ...state.injectedProps, ...mutated },
+          }), this.fetch);
+        }}
+        mutate={(mutated = {}) => {
+          this.setState(state => ({
+            injectedProps: { ...state.injectedProps, ...mutated },
+          }));
+        }}
+      />
+    );
+  }
 };

@@ -10,6 +10,8 @@ import {
   Icon,
   notification,
   Table,
+  Row,
+  Col,
 } from 'antd';
 
 import { EmptyState, PeriodSelector } from '../../components';
@@ -37,6 +39,7 @@ class OrdersPage extends Component {
     },
     from: null,
     to: null,
+    expandedRowKeys: [], // for Icon type regulation
   };
 
   componentDidMount() {
@@ -151,6 +154,99 @@ class OrdersPage extends Component {
     });
   };
 
+  handleExpandRow = worker => ({
+    onClick: () => this.setState((prevState) => {
+      let newExpandedRowKeys = prevState.expandedRowKeys;
+
+      if (prevState.expandedRowKeys.includes(worker.id)) {
+        newExpandedRowKeys = newExpandedRowKeys.filter(key => key !== worker.id);
+      } else {
+        newExpandedRowKeys.push(worker.id);
+      }
+
+      return {
+        expandedRowKeys: newExpandedRowKeys,
+      };
+    }),
+  });
+
+  renderExpandedRow = ({
+    packageDto,
+    services,
+    business,
+    statusPay,
+    price,
+    statusProcess,
+    canceledDescription,
+  }) => {
+    const isPackageExist = !!packageDto;
+    const { statusPay: statusPayLocalize } = recordTranslate;
+
+    return (
+      <Row
+        className={b('expandTable')}
+        gutter={56}
+      >
+        <Col lg={8}>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Статус заказа:</div>
+            <div className="data">{recordTranslate.statusProcess[statusProcess]}</div>
+          </div>
+          {
+            canceledDescription && (
+              <div className={b('expandTable-infoBox')}>
+                <div className="title">Причина отмены:</div>
+                <div className="data">{canceledDescription}</div>
+              </div>
+            )
+          }
+        </Col>
+        <Col lg={8}>
+          {
+            isPackageExist && (
+              <>
+                <div className={b('expandTable-infoBox')}>
+                  <div className="title">Пакет услуг:</div>
+                  <div className="data">{packageDto.name}</div>
+                </div>
+                <div className={b('expandTable-infoBox')}>
+                  <div className="title">Список услуг, которые входят в пакет:</div>
+                  <ul className="data listMode">
+                    {
+                      packageDto.services.map(packageService => <li key={packageService.id}>{packageService.name}</li>)
+                    }
+                  </ul>
+                </div>
+              </>
+            )
+          }
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">{isPackageExist ? 'Дополнительные услуги' : 'Список услуг:'}</div>
+            <ul className="data listMode">
+              {
+                services.map(service => <li key={service.id}>{service.name}</li>)
+              }
+            </ul>
+          </div>
+        </Col>
+        <Col lg={8}>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Филиал компании:</div>
+            <div className="data">{business.name}</div>
+          </div>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Статус платежа:</div>
+            <div className="data">{statusPayLocalize[statusPay]}</div>
+          </div>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Сумма платежа:</div>
+            <div className="data">{`${price} грн`}</div>
+          </div>
+        </Col>
+      </Row>
+    );
+  };
+
   render() {
     const {
       chosenCorporation,
@@ -158,6 +254,7 @@ class OrdersPage extends Component {
       businesses,
       orders,
       pagination,
+      expandedRowKeys,
     } = this.state;
     const {
       corporations,
@@ -192,7 +289,6 @@ class OrdersPage extends Component {
         title: 'Статус',
         render: (text, { statusProcess }) => (
           <div>
-            <span>{recordTranslate.statusProcess[statusProcess]}</span>
             {recordTranslate.statusIcon[statusProcess]()}
           </div>
         ),
@@ -206,6 +302,12 @@ class OrdersPage extends Component {
         key: 'price',
         title: 'Сумма',
         render: (text, { price }) => <span>{`${price} грн`}</span>,
+      },
+      {
+        title: '',
+        align: 'right',
+        width: 80,
+        render: record => <Icon type={expandedRowKeys.includes(record.id) ? 'up' : 'down'} />,
       },
     ];
 
@@ -277,7 +379,12 @@ class OrdersPage extends Component {
                         }
                         : false
                       }
+                      expandedRowRender={record => this.renderExpandedRow(record)}
+                      expandIconAsCell={false} // need for hidden default expand icon
+                      expandRowByClick
+                      onRow={this.handleExpandRow}
                       onChange={this.handleTableChange}
+                      scroll={{ y: 336 }}
                     />
                   </div>
                 </>
