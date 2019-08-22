@@ -87,6 +87,8 @@ class ClientInfo extends Component {
     business,
     statusPay,
     price,
+    statusProcess,
+    canceledDescription,
   }) => {
     const isPackageExist = !!packageDto;
     const { statusPay: statusPayLocalize } = recordTranslate;
@@ -96,7 +98,21 @@ class ClientInfo extends Component {
         className={b('expandTable')}
         gutter={56}
       >
-        <Col lg={12}>
+        <Col lg={8}>
+          <div className={b('expandTable-infoBox')}>
+            <div className="title">Статус заказа:</div>
+            <div className="data">{recordTranslate.statusProcess[statusProcess]}</div>
+          </div>
+          {
+            canceledDescription && (
+              <div className={b('expandTable-infoBox')}>
+                <div className="title">Причина отмены:</div>
+                <div className="data">{canceledDescription}</div>
+              </div>
+            )
+          }
+        </Col>
+        <Col lg={8}>
           {
             isPackageExist && (
               <>
@@ -124,7 +140,7 @@ class ClientInfo extends Component {
             </ul>
           </div>
         </Col>
-        <Col lg={12}>
+        <Col lg={8}>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Филиал компании:</div>
             <div className="data">{business.name}</div>
@@ -163,12 +179,12 @@ class ClientInfo extends Component {
           onClick: () => this.handleSortColumn('date', date),
         }),
         render: (text, record) => <span>{getDate(record.begin)}</span>,
-        width: 190,
+        width: 230,
       },
       {
         title: 'Время',
         render: (text, record) => <span>{getDate(record.begin, true)}</span>,
-        width: 140,
+        width: 180,
       },
       {
         className: 'status-column',
@@ -183,16 +199,15 @@ class ClientInfo extends Component {
         }),
         render: (text, record) => (
           <div>
-            <span>{recordTranslate.statusProcess[record.statusProcess]}</span>
             {recordTranslate.statusIcon[record.statusProcess]()}
           </div>
         ),
-        width: 140,
+        width: 100,
       },
       {
         title: '',
         align: 'right',
-        width: 120,
+        width: 80,
         render: record => <Icon type={expandedRowKeys.includes(record.id) ? 'up' : 'down'} />,
       },
     ];
