@@ -16,7 +16,7 @@ import DeleteModal from '../DeleteModal';
 import WorkingSpaceInfoReadOnly from '../WorkingSpaceInfoReadOnly';
 
 import { asyncRequest, withToken, fetchDecorator } from '../../utils';
-import { fetchWorkersById } from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('workingSpaceInfo');
@@ -284,7 +284,13 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(null, mapDispatchToProps),
   fetchDecorator({
-    actions: [fetchWorkersById],
+    actions: [
+      ({ singleBusiness }) => singleBusiness && fetchAction({
+        url: `worker/by-business?businessId=${singleBusiness.id}&page=${0}&size=7`,
+        fieldName: 'workersPage',
+        fieldType: {},
+      })(),
+    ],
     config: { loader: true },
   })
 )(BusinessWorkingSpacesInfo);

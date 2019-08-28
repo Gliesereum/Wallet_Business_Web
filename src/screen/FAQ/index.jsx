@@ -4,7 +4,7 @@ import bem from 'bem-join';
 import { Collapse, Icon, Anchor } from 'antd';
 
 import { fetchDecorator } from '../../utils';
-import { fetchFAQuestions } from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 import './index.scss';
 
@@ -82,6 +82,6 @@ class FAQ extends PureComponent {
 }
 
 export default fetchDecorator({
-  actions: [fetchFAQuestions],
+  actions: [fetchAction({ url: 'faq', fieldName: 'faQuestions' })],
   config: { loader: true },
 })(FAQ);

@@ -6,7 +6,7 @@ import { notification } from 'antd';
 
 import { WorkerInfo, WorkersList } from '../../components';
 
-import { fetchWorkersById, fetchBusinessesByCorp, fetchAdminsByCorporation } from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('workersPage');
 
@@ -31,7 +31,10 @@ class WorkersPage extends Component {
   handleGetBusinessByCorporationId = async (corporationId, getWorkers = false, loaderHandler) => {
     let businesses = [];
     try {
-      const { data = [] } = await fetchBusinessesByCorp({ corporationId });
+      const { data = [] } = await fetchAction({
+        url: `business/by-corporation-id?id=${corporationId}`,
+        fieldName: 'business',
+      })();
       getWorkers && await this.handleGetWorkers({ corporationId, loaderHandler });
 
       businesses = data;
@@ -50,17 +53,19 @@ class WorkersPage extends Component {
     corporationId,
     businessId,
     queryValue,
-    page,
+    page = 0,
     loaderHandler,
   }) => {
     try {
-      const { data: admins = [] } = await fetchAdminsByCorporation({ corporationId, businessId });
-      const { data: workersPage = {} } = await fetchWorkersById({
-        corporationId,
-        businessId,
-        queryValue,
-        page,
-      });
+      const { data: admins = [] } = await fetchAction({
+        url: `business-administrator/${businessId ? 'by-business' : 'by-corporation'}?id=${businessId || corporationId}`,
+        fieldName: 'admins',
+      })();
+      const { data: workersPage = {} } = await fetchAction({
+        url: `worker/${corporationId ? 'by-corporation?corporationId' : 'by-business?businessId'}=${businessId || corporationId}&page=${page}&size=7`,
+        fieldName: 'workersPage',
+        fieldType: {},
+      })();
       this.setState(prevState => ({
         ...prevState,
         workers: queryValue ? prevState.clients : workersPage.content,

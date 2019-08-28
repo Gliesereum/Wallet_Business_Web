@@ -15,7 +15,7 @@ import {
 import EmptyState from '../EmptyState';
 import ScreenLoading from '../ScreenLoading';
 
-import { fetchBusinessesByCorp, fetchClientsByIds } from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('clientsList');
 const { Option } = Select;
@@ -71,7 +71,10 @@ class ClientsList extends Component {
   handleGetBusinessByCorporationId = async (corporationId, getClients = false) => {
     let businesses = [];
     try {
-      const { data = [] } = await fetchBusinessesByCorp({ corporationId });
+      const { data = [] } = await fetchAction({
+        url: `business/by-corporation-id?id=${corporationId}`,
+        fieldName: 'business',
+      })();
       getClients && await this.handleGetClientsById({ corporationId });
 
       businesses = data;
@@ -90,15 +93,14 @@ class ClientsList extends Component {
     corporationId,
     businessId,
     queryValue,
-    page,
+    page = 0,
   }) => {
     try {
-      const { data: clientsPage = { content: [] } } = await fetchClientsByIds({
-        corporationId,
-        businessId,
-        query: queryValue,
-        page,
-      });
+      const { data: clientsPage = { content: [] } } = await fetchAction({
+        url: `business/customers?${corporationId ? 'corporationId' : 'businessIds'}=${corporationId || [businessId]}&page=${page}&size=7${queryValue ? `&query=${queryValue}` : ''}`,
+        fieldName: 'clientsPage',
+        fieldType: {},
+      })();
 
       this.setState(prevState => ({
         ...prevState,

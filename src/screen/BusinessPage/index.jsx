@@ -17,12 +17,7 @@ import {
 
 import { actions } from '../../state';
 import { fetchDecorator } from '../../utils';
-import {
-  fetchGetBusinessTypes,
-  fetchGetPriceServices,
-  fetchGetBusinessPackages,
-  fetchGetWorkingSpaces,
-} from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('businessPage');
 
@@ -216,10 +211,25 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   fetchDecorator({
     actions: [
-      fetchGetPriceServices,
-      fetchGetBusinessTypes,
-      fetchGetBusinessPackages,
-      fetchGetWorkingSpaces,
+      fetchAction({
+        url: 'business-category/business-type',
+        fieldName: 'businessTypes',
+      }),
+      ({ singleBusiness, getPriceService }) => singleBusiness && fetchAction({
+        url: `price/by-business/${singleBusiness.id}`,
+        fieldName: 'servicePrices',
+        reduxAction: getPriceService,
+      })(),
+      ({ singleBusiness, getBusinessPackages }) => singleBusiness && fetchAction({
+        url: `package/by-business/${singleBusiness.id}`,
+        fieldName: 'businessPackages',
+        reduxAction: getBusinessPackages,
+      })(),
+      ({ singleBusiness, getWorkingSpaces }) => singleBusiness && fetchAction({
+        url: `working-space/${singleBusiness.id}`,
+        fieldName: 'workingSpaces',
+        reduxAction: getWorkingSpaces,
+      })(),
     ],
     config: { loader: true },
   }),

@@ -18,11 +18,7 @@ import {
 } from '../Forms';
 
 import { asyncRequest, withToken, fetchDecorator } from '../../utils';
-import {
-  fetchGetServiceTypes,
-  fetchGetFilters,
-  fetchGetClasses,
-} from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('businessServiceInfo');
@@ -270,7 +266,20 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(null, mapDispatchToProps),
   fetchDecorator({
-    actions: [fetchGetServiceTypes, fetchGetFilters, fetchGetClasses],
+    actions: [
+      ({ singleBusiness }) => singleBusiness && fetchAction({
+        url: `service/by-business-category?businessCategoryId=${singleBusiness.businessCategoryId}`,
+        fieldName: 'serviceTypes',
+      })(),
+      ({ singleBusiness }) => singleBusiness && fetchAction({
+        url: `filter/by-business-category?businessCategoryId=${singleBusiness.businessCategoryId}`,
+        fieldName: 'filters',
+      })(),
+      ({ singleBusiness }) => singleBusiness && fetchAction({
+        url: 'class',
+        fieldName: 'classes',
+      })(),
+    ],
     config: { loader: true },
   }),
 )(BusinessServiceInfo);

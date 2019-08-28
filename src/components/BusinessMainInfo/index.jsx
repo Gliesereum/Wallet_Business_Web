@@ -20,7 +20,7 @@ import {
   asyncUploadFile,
   withToken,
 } from '../../utils';
-import { fetchGetBusinessCategoriesAccordingToBusinessTypeId } from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('businessMainInfo');
@@ -137,7 +137,10 @@ class BusinessMainInfo extends Component {
   changeCurrentTimeZone = timeZone => this.setState({ timeZone });
 
   handleChangeBusinessType = async (businessType) => {
-    const { data } = await fetchGetBusinessCategoriesAccordingToBusinessTypeId({ businessType });
+    const { data } = await fetchAction({
+      url: `business-category/by-business-type?businessType=${businessType}`,
+      fieldName: 'businessCategories',
+    })();
     const businessCategories = data.filter(category => category.active);
     this.setState({ businessCategories });
   };
