@@ -45,7 +45,7 @@ class BusinessPackagesInfo extends PureComponent {
             isAddMode,
             createPackage,
             updatePackage,
-            singleBusiness,
+            chosenBusiness,
             changeActivePackage,
           } = this.props;
           const url = 'package';
@@ -54,7 +54,7 @@ class BusinessPackagesInfo extends PureComponent {
           const data = {
             ...chosenPackage,
             ...values,
-            businessId: singleBusiness.id,
+            businessId: chosenBusiness.id,
           };
 
           try {

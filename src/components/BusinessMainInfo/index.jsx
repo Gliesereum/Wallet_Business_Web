@@ -30,7 +30,7 @@ class BusinessMainInfo extends Component {
     businessCategories: [],
     deleteModalVisible: false,
     currentLocation: null,
-    logoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
+    logoUrl: this.props.chosenBusiness ? this.props.chosenBusiness.logoUrl : null,
     isError: false,
     fileLoader: false,
   };
@@ -67,7 +67,7 @@ class BusinessMainInfo extends Component {
       updateBusiness,
       isAddBusinessMode,
       addNewBusiness,
-      singleBusiness,
+      chosenBusiness,
       changeActiveTab,
       changeTabDisable,
     } = this.props;
@@ -76,23 +76,23 @@ class BusinessMainInfo extends Component {
     this.mainInfoForm.props.form.validateFields(async (error, values) => {
       if (!error) {
         const businessUrl = 'business';
-        const method = isAddBusinessMode && !singleBusiness ? 'POST' : 'PUT';
+        const method = isAddBusinessMode && !chosenBusiness ? 'POST' : 'PUT';
         const moduleUrl = 'karma';
 
         const body = {
-          ...singleBusiness,
+          ...chosenBusiness,
           ...values,
           logoUrl,
-          latitude: currentLocation ? currentLocation.lat : singleBusiness.latitude,
-          longitude: currentLocation ? currentLocation.lng : singleBusiness.longitude,
-          timeZone: timeZone || ((singleBusiness && singleBusiness.timeZone) ? singleBusiness.timeZone : 0),
+          latitude: currentLocation ? currentLocation.lat : chosenBusiness.latitude,
+          longitude: currentLocation ? currentLocation.lng : chosenBusiness.longitude,
+          timeZone: timeZone || ((chosenBusiness && chosenBusiness.timeZone) ? chosenBusiness.timeZone : 0),
         };
 
         try {
           const newBusiness = await withToken(asyncRequest)({
             url: businessUrl, method, moduleUrl, body,
           });
-          if (isAddBusinessMode && !singleBusiness) {
+          if (isAddBusinessMode && !chosenBusiness) {
             await addNewBusiness(newBusiness);
             changeTabDisable('services');
             changeTabDisable('workingSpace');
@@ -112,13 +112,13 @@ class BusinessMainInfo extends Component {
   };
 
   handleRemoveBusiness = async () => {
-    const { removeBusiness, singleBusiness, history } = this.props;
-    const removeBusinessUrl = `business/${singleBusiness.id}`;
+    const { removeBusiness, chosenBusiness, history } = this.props;
+    const removeBusinessUrl = `business/${chosenBusiness.id}`;
 
     try {
       await withToken(asyncRequest)({ url: removeBusinessUrl, method: 'DELETE', moduleUrl: 'karma' });
       history.replace('/corporations');
-      await removeBusiness(singleBusiness.id);
+      await removeBusiness(chosenBusiness.id);
     } catch (err) {
       notification.error({
         duration: 5,
@@ -157,7 +157,7 @@ class BusinessMainInfo extends Component {
       corporations,
       businessTypes,
       chosenCorpId,
-      singleBusiness,
+      chosenBusiness,
     } = this.props;
     const {
       businessCategories,
@@ -176,7 +176,7 @@ class BusinessMainInfo extends Component {
           businessCategories={businessCategories}
           businessTypes={businessTypes}
           chosenCorpId={chosenCorpId}
-          singleBusiness={singleBusiness}
+          chosenBusiness={chosenBusiness}
           isError={isError}
           loading={fileLoader}
           onChange={this.onUploaderChange}
@@ -230,7 +230,7 @@ class BusinessMainInfo extends Component {
               cancelText="Отменить"
               onOk={this.handleRemoveBusiness}
               onCancel={this.toggleDeleteModal}
-              deletedName={singleBusiness.name}
+              deletedName={chosenBusiness.name}
               deletedItem="бизнес"
             />
           )

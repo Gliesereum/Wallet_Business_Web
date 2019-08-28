@@ -31,7 +31,7 @@ class BusinessScheduleInfo extends PureComponent {
   }
 
   initForm = () => {
-    const { workTimes } = this.props.singleBusiness || { workTimes: [] };
+    const { workTimes } = this.props.chosenBusiness || { workTimes: [] };
     const initDaysList = scheduleListDefault.reduce((acc, day) => {
       const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
       acc.push({ ...day, ...initDay });
@@ -43,14 +43,14 @@ class BusinessScheduleInfo extends PureComponent {
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
   handleSubmitForm = async () => {
-    const { singleBusiness, updateSchedule } = this.props;
+    const { chosenBusiness, updateSchedule } = this.props;
     const isNewScheduleList = !this.state.scheduleList[0].id;
     this.scheduleForm.props.form.validateFields(async (error, values) => {
       if (!error) {
         const body = [];
 
         if (!isNewScheduleList) {
-          singleBusiness.workTimes.forEach((item) => {
+          chosenBusiness.workTimes.forEach((item) => {
             body.push({
               ...item,
               from: values[`${item.dayOfWeek}-workHours`].from,
@@ -66,8 +66,8 @@ class BusinessScheduleInfo extends PureComponent {
               from: values[`${day}-workHours`].from,
               to: values[`${day}-workHours`].to,
               isWork: values[`${day}-isWork`],
-              objectId: singleBusiness.id,
-              businessCategoryId: singleBusiness.businessCategoryId,
+              objectId: chosenBusiness.id,
+              businessCategoryId: chosenBusiness.businessCategoryId,
               type: 'BUSINESS',
             });
           }

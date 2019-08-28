@@ -121,7 +121,7 @@ class BusinessMainInfoForm extends Component {
 
   render() {
     const {
-      singleBusiness,
+      chosenBusiness,
       businessTypes = [],
       businessCategories = [],
       form,
@@ -139,23 +139,23 @@ class BusinessMainInfoForm extends Component {
       addressNodes, currentLocation, currentAddress,
     } = this.state;
 
-    const formInitValues = singleBusiness ? {
-      corporationId: corporations.filter(corp => corp.id === singleBusiness.corporationId)[0].id,
-      name: singleBusiness.name,
-      description: singleBusiness.description,
-      phone: singleBusiness.phone.replace(/[()\s+]/g, ''),
-      businessType: singleBusiness.businessCategory.businessType,
-      businessCategory: singleBusiness.businessCategory.id,
-      currentAddressValue: singleBusiness.address,
+    const formInitValues = chosenBusiness ? {
+      corporationId: corporations.filter(corp => corp.id === chosenBusiness.corporationId)[0].id,
+      name: chosenBusiness.name,
+      description: chosenBusiness.description,
+      phone: chosenBusiness.phone.replace(/[()\s+]/g, ''),
+      businessType: chosenBusiness.businessCategory.businessType,
+      businessCategory: chosenBusiness.businessCategory.id,
+      currentAddressValue: chosenBusiness.address,
       currentLocationValue: {
-        lat: singleBusiness.latitude,
-        lng: singleBusiness.longitude,
+        lat: chosenBusiness.latitude,
+        lng: chosenBusiness.longitude,
       },
     } : initialFieldValues(chosenCorpId);
 
     let businessCategoriesList = [];
-    if (singleBusiness && singleBusiness.id) {
-      businessCategoriesList = [singleBusiness.businessCategory];
+    if (chosenBusiness && chosenBusiness.id) {
+      businessCategoriesList = [chosenBusiness.businessCategory];
     } else if (businessCategories && businessCategories.length) {
       businessCategoriesList = businessCategories;
     }
@@ -202,7 +202,7 @@ class BusinessMainInfoForm extends Component {
                               />
                               <h1 className={b('uploader-inside-header')}>
                                 {
-                                  singleBusiness && singleBusiness.logoUrl
+                                  chosenBusiness && chosenBusiness.logoUrl
                                     ? 'загрузить новый логотип'
                                     : 'добавить логотип'
                                 }

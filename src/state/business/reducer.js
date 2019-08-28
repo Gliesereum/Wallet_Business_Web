@@ -3,6 +3,7 @@ import { createReducer } from '../../utils';
 
 const initState = {
   business: [],
+  chosenBusiness: null,
   servicePrices: {},
   businessPackages: {},
   workingSpaces: [],
@@ -31,6 +32,11 @@ const initReducers = {
   [actions.REMOVE_BUSINESS]: (state, businessId) => ({
     ...state,
     business: state.business.filter(item => item.id !== businessId),
+  }),
+
+  [actions.CHANGE_CHOSEN_BUSINESS]: (state, businessId) => ({
+    ...state,
+    chosenBusiness: state.business.find(item => item.id === businessId),
   }),
 
   [actions.GET_SERVICE_PRICE]: (state, payload) => {

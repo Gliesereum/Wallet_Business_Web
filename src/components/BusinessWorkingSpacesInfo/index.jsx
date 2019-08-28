@@ -106,7 +106,7 @@ class BusinessWorkingSpacesInfo extends Component {
             chosenSpace,
             isAddMode,
             changeActiveWorkingSpace,
-            singleBusiness,
+            chosenBusiness,
             addWorkingSpace,
             updateWorkingSpace,
             removeFromOldWS,
@@ -117,8 +117,8 @@ class BusinessWorkingSpacesInfo extends Component {
           const data = {
             ...chosenSpace,
             ...values,
-            businessId: singleBusiness.id,
-            businessCategoryId: singleBusiness.businessCategoryId,
+            businessId: chosenBusiness.id,
+            businessCategoryId: chosenBusiness.businessCategoryId,
           };
 
           try {
@@ -285,8 +285,8 @@ export default compose(
   connect(null, mapDispatchToProps),
   fetchDecorator({
     actions: [
-      ({ singleBusiness }) => singleBusiness && fetchAction({
-        url: `worker/by-business?businessId=${singleBusiness.id}&page=${0}&size=7`,
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: `worker/by-business?businessId=${chosenBusiness.id}&page=${0}&size=7`,
         fieldName: 'workersPage',
         fieldType: {},
       })(),

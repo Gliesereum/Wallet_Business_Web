@@ -46,7 +46,7 @@ class BusinessServiceInfo extends Component {
 
     const {
       chosenService,
-      singleBusiness,
+      chosenBusiness,
       changeActiveService,
       changeTabDisable,
       isAddMode,
@@ -69,7 +69,7 @@ class BusinessServiceInfo extends Component {
       const body = {
         ...(chosenService || {}),
         ...mainInfo,
-        businessId: singleBusiness.id,
+        businessId: chosenBusiness.id,
       };
 
       try {
@@ -119,7 +119,7 @@ class BusinessServiceInfo extends Component {
     }
 
     (
-      (singleBusiness.businessCategory.businessType !== 'CAR' && filters.length < 1)
+      (chosenBusiness.businessCategory.businessType !== 'CAR' && filters.length < 1)
       || additionalInfoVisible)
     && changeActiveService(null, false)();
   };
@@ -128,13 +128,13 @@ class BusinessServiceInfo extends Component {
     const {
       removeServicePrice,
       chosenService,
-      singleBusiness,
+      chosenBusiness,
       changeActiveService,
     } = this.props;
     const removeServicePriceUrl = `price/${chosenService.id}`;
     try {
       await withToken(asyncRequest)({ url: removeServicePriceUrl, method: 'DELETE', moduleUrl: 'karma' });
-      await removeServicePrice({ servicePriceId: chosenService.id, businessId: singleBusiness.id });
+      await removeServicePrice({ servicePriceId: chosenService.id, businessId: chosenBusiness.id });
 
       changeActiveService(null, false)();
     } catch (err) {
@@ -155,7 +155,7 @@ class BusinessServiceInfo extends Component {
       chosenService,
       changeActiveService,
       isAddMode,
-      singleBusiness,
+      chosenBusiness,
     } = this.props;
 
     return (
@@ -183,7 +183,7 @@ class BusinessServiceInfo extends Component {
                 )
               }
               {
-                singleBusiness.businessCategory.businessType === 'CAR' && (
+                chosenBusiness.businessCategory.businessType === 'CAR' && (
                   <>
                     <h1 className={b('header')}>Класс обслуживания</h1>
                     <ServiceClasses
@@ -198,7 +198,7 @@ class BusinessServiceInfo extends Component {
           ) : (
             <>
               {
-                filters.length > 0 && singleBusiness.businessCategory.businessType === 'CAR' && (
+                filters.length > 0 && chosenBusiness.businessCategory.businessType === 'CAR' && (
                   <div className={b('infoBlock')}>
                     <p className={b('infoBlock-text')}>
                       <span className={b('infoBlock-text', { firstParagraph: true })}>Внимание!</span>
@@ -245,7 +245,7 @@ class BusinessServiceInfo extends Component {
               type="primary"
             >
               {
-                (filters.length < 1 && singleBusiness.businessCategory.businessType !== 'CAR')
+                (filters.length < 1 && chosenBusiness.businessCategory.businessType !== 'CAR')
                   ? 'Сохранить'
                   : `${!additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'}`
               }
@@ -267,15 +267,15 @@ export default compose(
   connect(null, mapDispatchToProps),
   fetchDecorator({
     actions: [
-      ({ singleBusiness }) => singleBusiness && fetchAction({
-        url: `service/by-business-category?businessCategoryId=${singleBusiness.businessCategoryId}`,
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: `service/by-business-category?businessCategoryId=${chosenBusiness.businessCategoryId}`,
         fieldName: 'serviceTypes',
       })(),
-      ({ singleBusiness }) => singleBusiness && fetchAction({
-        url: `filter/by-business-category?businessCategoryId=${singleBusiness.businessCategoryId}`,
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: `filter/by-business-category?businessCategoryId=${chosenBusiness.businessCategoryId}`,
         fieldName: 'filters',
       })(),
-      ({ singleBusiness }) => singleBusiness && fetchAction({
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
         url: 'class',
         fieldName: 'classes',
       })(),
