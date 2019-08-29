@@ -303,6 +303,51 @@ const initState = {
         uk: 'Основна інформація',
         en: 'Basic information',
       },
+      'header.totalPrice.today': {
+        ru: 'Сегодня',
+        uk: 'Сьогодні',
+        en: 'Today',
+      },
+      'header.totalPrice.yesterday': {
+        ru: 'Вчера',
+        uk: 'Вчора',
+        en: 'Yesterday',
+      },
+      'header.menu.myProfile': {
+        ru: 'Мой профиль',
+        uk: 'Мій профіль',
+        en: 'My profile',
+      },
+      'header.menu.personalAssistant': {
+        ru: 'Личный помощник',
+        uk: 'Особистий помічник',
+        en: 'Personal assistant',
+      },
+      'header.totalPriceDrawer.button.today': {
+        ru: 'Сегодня',
+        uk: 'Сьогодні',
+        en: 'Today',
+      },
+      'header.totalPriceDrawer.button.week': {
+        ru: 'Неделя',
+        uk: 'Тиждень',
+        en: 'Week',
+      },
+      'header.totalPriceDrawer.button.month': {
+        ru: 'Месяц',
+        uk: 'Місяць',
+        en: 'Month',
+      },
+      'header.totalPriceDrawer.selector.business.placeholder': {
+        ru: 'Выберите филиал',
+        uk: 'Оберіть філіал',
+        en: 'Choose a branch',
+      },
+      'header.totalPriceDrawer.proceeds': {
+        ru: 'Выручка',
+        uk: 'Виручка',
+        en: 'Proceeds',
+      },
       'footer.copyright': {
         ru: 'Все права защищены. ',
         uk: 'Всі права захищені. ',

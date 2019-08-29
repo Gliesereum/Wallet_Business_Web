@@ -47,7 +47,10 @@ export const fetchAction = ({
     }).then(async (item) => {
       if (item.status === 204) return fieldType;
       if (item.status === 200) return await item.json();
-      if (item.status >= 400) throw Error('error');
+      if (response.status >= 400) {
+        const error = await response.json();
+        throw Error(error.message);
+      }
       return fieldType;
     }).then((data) => {
       result = data;

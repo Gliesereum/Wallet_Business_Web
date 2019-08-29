@@ -22,9 +22,42 @@
     align-items: center;
     justify-content: center;
 
+    &:first-child {
+      cursor: default;
+    }
+
     &-avatar.ant-avatar-circle {
       background-color: $coupler-light-blue;
       color: $coupler-blue;
+    }
+
+    &-price {
+      padding: 0 24px;
+      display: flex;
+      color: $middle-gray;
+      font-family: $sans;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      text-transform: lowercase;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+
+
+      &-day {
+        padding-right: 24px;
+
+        & > div:first-child {
+          color: $font-title-black;
+        }
+      }
+
+      &-number {
+        text-align: right;
+
+        & > div:first-child {
+          color: #30373E;
+          font-weight: 500;
+        }
+      }
     }
 
     &-naming {
@@ -36,6 +69,7 @@
         color: $gray;
         letter-spacing: 0.01em;
         line-height: 30px;
+        margin: 0;
       }
 
       & p {
@@ -49,6 +83,17 @@
       & + i {
         line-height: 30px;
       }
+    }
+
+    &-more {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      background-color: #F8F8F8;
+      border-radius: 25px;
+      cursor: pointer;
     }
   }
 

@@ -1,0 +1,68 @@
+@import '../../styles/theme';
+
+.totalPriceInfoDrawer {
+  & .ant-drawer-title {
+    font-family: $sans;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.02em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: $font-title-black;
+    text-align: center;
+  }
+
+  &__selector {
+    width: 100%;
+
+    &:last-child {
+      padding-top: 24px;
+    }
+  }
+
+  &__totalPriceBlock {
+    height: 160px;
+    padding: 56px 0;
+    position: relative;
+
+    &-sum {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      height: 48px;
+      border-radius: 4px;
+      border: 2px solid $coupler-blue;
+      font-family: $sans;
+      color: $coupler-blue;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+
+      &-number {
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__periods {
+    display: flex;
+    justify-content: space-between;
+
+    &-block {
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      text-transform: lowercase;
+      border-radius: 4px;
+      border: 1px solid #CCCCCC;
+      align-self: center;
+      width: 72px;
+      cursor: pointer;
+
+      &--active {
+        border-color: $coupler-blue;
+        color: $coupler-blue;
+      }
+    }
+  }
+}
