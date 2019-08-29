@@ -156,13 +156,13 @@ class WorkerInfo extends Component {
           }
 
           try {
-            await withToken(asyncRequest)({
+            const newWorker = await withToken(asyncRequest)({
               url, body, method, moduleUrl: 'karma',
             });
 
             if (this.state.isAdmin !== isAdmin) {
               await withToken(asyncRequest)({
-                url: `business-administrator?businessId=${businessId}&userId=${body.userId}`,
+                url: `business-administrator?businessId=${businessId}&userId=${newWorker.userId}`,
                 method: isAdmin ? 'POST' : 'DELETE',
                 moduleUrl: 'karma',
               });
