@@ -44,9 +44,9 @@ export const fetchAction = ({
       moduleUrl,
       method,
       body,
-    }).then(async (item) => {
-      if (item.status === 204) return fieldType;
-      if (item.status === 200) return await item.json();
+    }).then(async (response) => {
+      if (response.status === 204) return fieldType;
+      if (response.status === 200) return await response.json();
       if (response.status >= 400) {
         const error = await response.json();
         throw Error(error.message);
