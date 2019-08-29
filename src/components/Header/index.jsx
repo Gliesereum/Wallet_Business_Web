@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import bem from 'bem-join';
 import { Link } from 'react-router-dom';
 
@@ -10,20 +12,31 @@ import {
   Icon,
 } from 'antd';
 
+import TotalPriceInfoDrawer from '../TotalPriceInfoDrawer';
+
 // import Notification from '../../assets/Notification.svg';
-import { ArrowDown, ArrowUp } from '../../assets/iconComponents';
-import { getFirstLetterName } from '../../utils';
+import {
+  ArrowDown,
+  ArrowUp,
+  TotalPrice,
+  MoreIcon,
+} from '../../assets/iconComponents';
+import { fetchDecorator, getFirstLetterName } from '../../utils';
+import { fetchPaymentInfo } from '../../fetches';
 
 const b = bem('header');
 
 class Header extends Component {
   state = {
     visibleDropdown: false,
+    totalPriceDrawerVisible: false,
   };
 
   handlerDropdownVisible = () => this.setState(prevState => ({ visibleDropdown: !prevState.visibleDropdown }));
 
-  renderProfileMenu = () => (
+  handleTotalPriceDrawerVisible = () => this.setState(prevState => ({ totalPriceDrawerVisible: !prevState.totalPriceDrawerVisible }));
+
+  renderProfileMenu = (language, defaultLanguage) => () => (
     <Menu
       className={b('menu')}
       onClick={this.handlerDropdownVisible}
@@ -33,7 +46,7 @@ class Header extends Component {
       >
         <Link to="/profile">
           <Icon type="user" />
-          <span className={b('menu-item-text')}>Мой профиль</span>
+          <span className={b('menu-item-text')}>{language.phrases['header.menu.myProfile'][defaultLanguage.isoKey]}</span>
         </Link>
       </Menu.Item>
       <Menu.Item
@@ -42,7 +55,7 @@ class Header extends Component {
       >
         <Icon type="safety-certificate" />
         <span className={b('menu-item-text')}>
-          Личный помощник
+          {language.phrases['header.menu.personalAssistant'][defaultLanguage.isoKey]}
           <div className={b('menu-item-indicator')}>for premium</div>
         </span>
       </Menu.Item>
@@ -50,17 +63,44 @@ class Header extends Component {
   );
 
   render() {
-    const { user, fullScreenAction } = this.props;
-    const { visibleDropdown } = this.state;
+    const {
+      user,
+      fullScreenAction,
+      todayTotalPrice,
+      yesterdayTotalPrice,
+      corporations,
+      defaultLanguage,
+      language,
+    } = this.props;
+    const { visibleDropdown, totalPriceDrawerVisible } = this.state;
 
     return (
       <div className={b()}>
+        <div className={b('content-box')}>
+          <TotalPrice />
+          <div className={b('content-box-price')}>
+            <div className={b('content-box-price-day')}>
+              <div>{`${language.phrases['header.totalPrice.today'][defaultLanguage.isoKey]}:`}</div>
+              <div>{`${language.phrases['header.totalPrice.yesterday'][defaultLanguage.isoKey]}:`}</div>
+            </div>
+            <div className={b('content-box-price-number')}>
+              <div>{todayTotalPrice.sum}</div>
+              <div>{yesterdayTotalPrice.sum}</div>
+            </div>
+          </div>
+          <div
+            className={b('content-box-more')}
+            onClick={this.handleTotalPriceDrawerVisible}
+          >
+            <MoreIcon />
+          </div>
+        </div>
         <div className={b('content-box')}>
           <Icon type="fullscreen" style={{ fontSize: '20px', color: '#08c' }} onClick={() => fullScreenAction()} />
         </div>
         <Dropdown
           trigger={['click']}
-          overlay={this.renderProfileMenu}
+          overlay={this.renderProfileMenu(language, defaultLanguage)}
           className={b('content-box')}
           onVisibleChange={this.handlerDropdownVisible}
         >
@@ -74,9 +114,47 @@ class Header extends Component {
             {visibleDropdown ? <ArrowUp /> : <ArrowDown />}
           </div>
         </Dropdown>
+        {
+          totalPriceDrawerVisible && (
+            <TotalPriceInfoDrawer
+              visible={totalPriceDrawerVisible}
+              corporations={corporations}
+              onClose={this.handleTotalPriceDrawerVisible}
+              defaultLanguage={defaultLanguage}
+              language={language}
+            />
+          )
+        }
       </div>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  corporations: state.corporations.corporations,
+  defaultLanguage: state.app.defaultLanguage,
+  language: state.app.language,
+});
+
+export default compose(
+  connect(mapStateToProps),
+  fetchDecorator({
+    actions: [
+      // today
+      ({ corporations }) => fetchPaymentInfo({
+        corporationIds: corporations.map(item => item.id),
+        from: new Date().setUTCHours(0, 0, 0, 1),
+        to: new Date().setUTCHours(23, 59, 59, 999),
+        day: 'today',
+      }),
+      // yesterday
+      ({ corporations }) => fetchPaymentInfo({
+        corporationIds: corporations.map(item => item.id),
+        from: new Date(new Date().setUTCDate(new Date().getUTCDate() - 1)).setUTCHours(0, 0, 0, 1),
+        to: new Date(new Date().setUTCDate(new Date().getUTCDate() - 1)).setUTCHours(24, 59, 59, 999),
+        day: 'yesterday',
+      }),
+    ],
+    config: { loader: true },
+  })
+)(Header);
