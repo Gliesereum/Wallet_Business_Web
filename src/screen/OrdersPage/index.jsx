@@ -17,10 +17,7 @@ import {
 import { EmptyState, PeriodSelector } from '../../components';
 
 import { fetchDecorator, getDate } from '../../utils';
-import {
-  fetchBusinessesByCorp,
-  fetchOrdersByIds,
-} from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { recordTranslate } from '../../mocks';
 
 const b = bem('ordersPage');
@@ -57,6 +54,8 @@ class OrdersPage extends Component {
       chosenCorporation: corporationId,
       chosenBusiness: undefined,
       businesses,
+      from: null,
+      to: null,
     });
   };
 
@@ -71,7 +70,10 @@ class OrdersPage extends Component {
   handleGetBusinessByCorporationId = async (corporationId, getOrders = false) => {
     let businesses = [];
     try {
-      const { data = [] } = await fetchBusinessesByCorp({ corporationId });
+      const { data = [] } = await fetchAction({
+        url: `business/by-corporation-id?id=${corporationId}`,
+        fieldName: 'business',
+      })();
       getOrders && await this.handleGetOrdersById({ corporationId });
 
       businesses = data;
@@ -94,13 +96,20 @@ class OrdersPage extends Component {
     page,
   }) => {
     try {
-      const { data: ordersPage = { content: [] } } = await fetchOrdersByIds({
-        corporationId,
-        businessId,
-        page,
-        from,
-        to,
-      });
+      const { data: ordersPage = { content: [] } } = await fetchAction({
+        url: 'record/by-params-for-business',
+        fieldName: 'ordersPage',
+        fieldType: {},
+        method: 'POST',
+        body: {
+          page,
+          size: 5,
+          corporationId: corporationId || null,
+          businessIds: businessId ? [businessId] : [],
+          from,
+          to,
+        },
+      })();
 
       this.setState(prevState => ({
         ...prevState,
@@ -124,12 +133,21 @@ class OrdersPage extends Component {
   handleRefreshOrdersByFromTo = async ({ from, to }) => {
     const { chosenCorporation, chosenBusiness } = this.state;
 
-    const { data } = await fetchOrdersByIds({
-      corporationId: chosenCorporation,
-      businessId: chosenBusiness,
-      from,
-      to,
-    });
+    const { data } = await fetchAction({
+      url: 'record/by-params-for-business',
+      fieldName: 'ordersPage',
+      fieldType: {},
+      method: 'POST',
+      body: {
+        page: 0,
+        size: 5,
+        corporationId: chosenCorporation || null,
+        businessIds: chosenBusiness ? [chosenBusiness] : [],
+        from,
+        to,
+      },
+    })();
+
     this.setState({
       orders: data.content || [],
       from,
@@ -410,7 +428,22 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps),
   fetchDecorator({
-    actions: [fetchOrdersByIds],
+    actions: [
+      ({ corporations }) => corporations.length && fetchAction({
+        url: 'record/by-params-for-business',
+        fieldName: 'ordersPage',
+        fieldType: {},
+        method: 'POST',
+        body: {
+          page: 0,
+          size: 5,
+          corporationId: corporations[0].id || null,
+          businessIds: [],
+          from: null,
+          to: null,
+        },
+      })(),
+    ],
     config: { loader: true },
   }),
 )(OrdersPage);

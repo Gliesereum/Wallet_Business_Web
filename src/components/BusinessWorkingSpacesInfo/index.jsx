@@ -16,7 +16,7 @@ import DeleteModal from '../DeleteModal';
 import WorkingSpaceInfoReadOnly from '../WorkingSpaceInfoReadOnly';
 
 import { asyncRequest, withToken, fetchDecorator } from '../../utils';
-import { fetchWorkersById } from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('workingSpaceInfo');
@@ -106,7 +106,7 @@ class BusinessWorkingSpacesInfo extends Component {
             chosenSpace,
             isAddMode,
             changeActiveWorkingSpace,
-            singleBusiness,
+            chosenBusiness,
             addWorkingSpace,
             updateWorkingSpace,
             removeFromOldWS,
@@ -117,8 +117,8 @@ class BusinessWorkingSpacesInfo extends Component {
           const data = {
             ...chosenSpace,
             ...values,
-            businessId: singleBusiness.id,
-            businessCategoryId: singleBusiness.businessCategoryId,
+            businessId: chosenBusiness.id,
+            businessCategoryId: chosenBusiness.businessCategoryId,
           };
 
           try {
@@ -284,7 +284,13 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(null, mapDispatchToProps),
   fetchDecorator({
-    actions: [fetchWorkersById],
+    actions: [
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: `worker/by-business?businessId=${chosenBusiness.id}&page=${0}&size=7`,
+        fieldName: 'workersPage',
+        fieldType: {},
+      })(),
+    ],
     config: { loader: true },
   })
 )(BusinessWorkingSpacesInfo);

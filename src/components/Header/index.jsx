@@ -22,7 +22,7 @@ import {
   MoreIcon,
 } from '../../assets/iconComponents';
 import { fetchDecorator, getFirstLetterName } from '../../utils';
-import { fetchPaymentInfo } from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('header');
 
@@ -66,8 +66,8 @@ class Header extends Component {
     const {
       user,
       fullScreenAction,
-      todayTotalPrice,
-      yesterdayTotalPrice,
+      todayTotalPrice = { sum: '' },
+      yesterdayTotalPrice = { sum: '' },
       corporations,
       defaultLanguage,
       language,
@@ -141,19 +141,29 @@ export default compose(
   fetchDecorator({
     actions: [
       // today
-      ({ corporations }) => fetchPaymentInfo({
-        corporationIds: corporations.map(item => item.id),
-        from: new Date().setUTCHours(0, 0, 0, 1),
-        to: new Date().setUTCHours(23, 59, 59, 999),
-        day: 'today',
-      }),
+      ({ corporations }) => fetchAction({
+        url: 'record/by-params-for-business/payment-info',
+        fieldName: 'todayTotalPrice',
+        fieldType: {},
+        method: 'POST',
+        body: {
+          corporationIds: corporations.map(item => item.id),
+          from: new Date().setUTCHours(0, 0, 0, 1),
+          to: new Date().setUTCHours(23, 59, 59, 999),
+        },
+      })(),
       // yesterday
-      ({ corporations }) => fetchPaymentInfo({
-        corporationIds: corporations.map(item => item.id),
-        from: new Date(new Date().setUTCDate(new Date().getUTCDate() - 1)).setUTCHours(0, 0, 0, 1),
-        to: new Date(new Date().setUTCDate(new Date().getUTCDate() - 1)).setUTCHours(24, 59, 59, 999),
-        day: 'yesterday',
-      }),
+      ({ corporations }) => fetchAction({
+        url: 'record/by-params-for-business/payment-info',
+        fieldName: 'yesterdayTotalPrice',
+        fieldType: {},
+        method: 'POST',
+        body: {
+          corporationIds: corporations.map(item => item.id),
+          from: new Date(new Date().setUTCDate(new Date().getUTCDate() - 1)).setUTCHours(0, 0, 0, 1),
+          to: new Date(new Date().setUTCDate(new Date().getUTCDate() - 1)).setUTCHours(24, 59, 59, 999),
+        },
+      })(),
     ],
     config: { loader: true },
   })

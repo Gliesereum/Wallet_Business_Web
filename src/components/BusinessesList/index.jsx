@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import { Link, withRouter } from 'react-router-dom';
 import bem from 'bem-join';
 
 import { List, Card } from 'antd';
@@ -8,9 +10,18 @@ import EmptyState from '../EmptyState';
 
 import AddIcon from '../../assets/AddIcon.svg';
 
+import { actions } from '../../state';
+
 const b = bem('businessesList');
 
 class BusinessesList extends PureComponent {
+  goToBusiness = businessId => async () => {
+    const { history, changeChosenBusiness } = this.props;
+
+    await changeChosenBusiness(businessId);
+    history.replace(`/business/${businessId}`);
+  };
+
   renderBusinessesList = () => {
     const {
       viewCorp,
@@ -58,8 +69,8 @@ class BusinessesList extends PureComponent {
                 </Link>
               ) : (
                 <Card className={b('card')}>
-                  <Link
-                    to={`/business/${id}`}
+                  <div
+                    onClick={this.goToBusiness(id)}
                   >
                     <div
                       style={{ backgroundImage: `url(${logoUrl})` }}
@@ -69,7 +80,7 @@ class BusinessesList extends PureComponent {
                       <p>{name}</p>
                       <p>{category}</p>
                     </div>
-                  </Link>
+                  </div>
                 </Card>
               )
             }
@@ -114,4 +125,11 @@ class BusinessesList extends PureComponent {
   }
 }
 
-export default BusinessesList;
+const mapDispatchToProps = dispatch => ({
+  changeChosenBusiness: businessId => dispatch(actions.business.$changeChosenBusiness(businessId)),
+});
+
+export default compose(
+  connect(null, mapDispatchToProps),
+  withRouter,
+)(BusinessesList);

@@ -17,12 +17,7 @@ import {
 
 import { actions } from '../../state';
 import { fetchDecorator } from '../../utils';
-import {
-  fetchGetBusinessTypes,
-  fetchGetPriceServices,
-  fetchGetBusinessPackages,
-  fetchGetWorkingSpaces,
-} from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('businessPage');
 
@@ -35,32 +30,51 @@ class BusinessPage extends Component {
     },
   };
 
+  componentWillMount() {
+    const {
+      match,
+      business,
+      chosenBusiness,
+      changeChosenBusiness,
+    } = this.props;
+
+    if (!chosenBusiness) {
+      business.forEach(async (item) => {
+        if (match.params && match.params.id && (match.params.id === item.id)) {
+          await changeChosenBusiness(match.params.id);
+        }
+      });
+    }
+  }
+
   componentDidMount() {
-    const { location, servicePrices, singleBusiness } = this.props;
+    const {
+      location,
+      servicePrices,
+      chosenBusiness,
+    } = this.props;
     const initialTabDisabled = Boolean(
       location.pathname.match('/add')
-      && !(
-        location.search
-      && qs.parse(location.search, { ignoreQueryPrefix: true })
-        .newBusiness)
+      && !chosenBusiness
     );
 
     this.setState({
       disabledTab: {
         servicesDisable: initialTabDisabled,
-        packagesDisable: !singleBusiness || (singleBusiness && servicePrices && !servicePrices[singleBusiness.id]),
-        workingSpaceDisable: !singleBusiness,
+        packagesDisable: !chosenBusiness || (chosenBusiness && servicePrices && !servicePrices[chosenBusiness.id]),
+        workingSpaceDisable: !chosenBusiness,
       },
     });
   }
 
   changeActiveTab = (activeTab, id) => {
-    const { history, location } = this.props;
-    const { newBusiness } = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    const { history, location, changeChosenBusiness } = this.props;
+
+    id && changeChosenBusiness(id);
 
     history.replace({
       location: location.pathname,
-      search: qs.stringify({ activeTab, newBusiness: newBusiness || id }),
+      search: qs.stringify({ activeTab }),
     });
   };
 
@@ -73,7 +87,7 @@ class BusinessPage extends Component {
 
   render() {
     const {
-      singleBusiness,
+      chosenBusiness,
       location,
       businessCategories,
       businessTypes,
@@ -148,7 +162,7 @@ class BusinessPage extends Component {
           <p className={b('header-title')}>
             {isAddBusinessMode
               ? language.phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]
-              : `${language.phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${singleBusiness.name}\u00BB`}
+              : `${language.phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${chosenBusiness && chosenBusiness.name}\u00BB`}
           </p>
         </div>
         <Tabs
@@ -171,7 +185,7 @@ class BusinessPage extends Component {
                 disabled={disabled}
               >
                 <ContentComponent
-                  singleBusiness={singleBusiness}
+                  chosenBusiness={chosenBusiness}
                   isAddBusinessMode={isAddBusinessMode}
                   changeActiveTab={this.changeActiveTab}
                   defaultLanguage={defaultLanguage}
@@ -187,39 +201,47 @@ class BusinessPage extends Component {
   }
 }
 
-const mapStateToProps = (state, { match, location }) => {
-  const [singleBusiness] = state.business.business.filter((item) => {
-    if (match.params && match.params.id) {
-      return item.id === match.params.id;
-    }
-    const { newBusiness: newBusinessId } = qs.parse(location.search, { ignoreQueryPrefix: true });
-    return item.id === newBusinessId;
-  });
-  return {
-    defaultLanguage: state.app.defaultLanguage,
-    language: state.app.language,
-    businessPackages: state.business.businessPackages,
-    corporations: state.corporations.corporations,
-    servicePrices: state.business.servicePrices,
-    workingSpaces: state.business.workingSpaces,
-    singleBusiness,
-  };
-};
+const mapStateToProps = state => ({
+  defaultLanguage: state.app.defaultLanguage,
+  language: state.app.language,
+  businessPackages: state.business.businessPackages,
+  corporations: state.corporations.corporations,
+  business: state.business.business,
+  servicePrices: state.business.servicePrices,
+  workingSpaces: state.business.workingSpaces,
+  chosenBusiness: state.business.chosenBusiness,
+});
 
 const mapDispatchToProps = dispatch => ({
   getPriceService: data => dispatch(actions.business.$getPriceService(data)),
   getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
   getWorkingSpaces: data => dispatch(actions.business.$getWorkingSpaces(data)),
+  changeChosenBusiness: businessId => dispatch(actions.business.$changeChosenBusiness(businessId)),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   fetchDecorator({
     actions: [
-      fetchGetPriceServices,
-      fetchGetBusinessTypes,
-      fetchGetBusinessPackages,
-      fetchGetWorkingSpaces,
+      fetchAction({
+        url: 'business-category/business-type',
+        fieldName: 'businessTypes',
+      }),
+      ({ chosenBusiness, getPriceService }) => chosenBusiness && fetchAction({
+        url: `price/by-business/${chosenBusiness.id}`,
+        fieldName: 'servicePrices',
+        reduxAction: getPriceService,
+      })(),
+      ({ chosenBusiness, getBusinessPackages }) => chosenBusiness && fetchAction({
+        url: `package/by-business/${chosenBusiness.id}`,
+        fieldName: 'businessPackages',
+        reduxAction: getBusinessPackages,
+      })(),
+      ({ chosenBusiness, getWorkingSpaces }) => chosenBusiness && fetchAction({
+        url: `working-space/${chosenBusiness.id}`,
+        fieldName: 'workingSpaces',
+        reduxAction: getWorkingSpaces,
+      })(),
     ],
     config: { loader: true },
   }),

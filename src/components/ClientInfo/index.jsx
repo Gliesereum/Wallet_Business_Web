@@ -13,17 +13,14 @@ import {
 import PeriodSelector from '../PeriodSelector';
 
 import { fetchDecorator, getDate } from '../../utils';
-import {
-  // fetchCarByClientId, TODO: need to discuss
-  fetchRecordsByClient,
-} from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { recordTranslate } from '../../mocks';
 
 const b = bem('clientInfo');
 
 class ClientInfo extends Component {
   state = {
-    recordsByUser: this.props.recordsByUser,
+    recordsByUser: this.props.recordsByUser ? this.props.recordsByUser.content : [],
     expandedRowKeys: [], // for Icon type regulation
     columnSortOrder: {
       date: 'ascend',
@@ -73,8 +70,23 @@ class ClientInfo extends Component {
 
   handleRefreshRecordsByFromTo = async ({ from, to }) => {
     const { chosenClient, chosenCorporationId } = this.props;
-    const { fieldName, data } = await fetchRecordsByClient({ chosenClient, chosenCorporationId, dateParams: { from, to } });
-    this.setState({ [fieldName]: data });
+    const { data } = await fetchAction({
+      url: 'record/by-params-for-business',
+      fieldName: 'recordsByUser',
+      fieldType: {},
+      method: 'POST',
+      body: {
+        clientIds: [chosenClient.id],
+        corporationId: chosenCorporationId,
+        from,
+        to,
+      },
+    })();
+    this.setState({
+      recordsByUser: data.content,
+      from,
+      to,
+    });
   };
 
   connectWithClient = () => {
@@ -295,8 +307,18 @@ class ClientInfo extends Component {
 
 export default fetchDecorator({
   actions: [
-    // fetchCarByClientId, TODO: need to discuss
-    fetchRecordsByClient,
+    ({ chosenClient, chosenCorporationId }) => fetchAction({
+      url: 'record/by-params-for-business',
+      fieldName: 'recordsByUser',
+      fieldType: {},
+      method: 'POST',
+      body: {
+        clientIds: [chosenClient.id],
+        corporationId: chosenCorporationId,
+        from: null,
+        to: null,
+      },
+    })(),
   ],
   config: { loader: true },
 })(ClientInfo);

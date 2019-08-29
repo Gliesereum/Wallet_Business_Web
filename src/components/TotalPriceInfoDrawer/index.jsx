@@ -8,7 +8,7 @@ import {
 
 import ScreenLoading from '../ScreenLoading';
 
-import { fetchBusinessesByCorp, fetchPaymentInfo } from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('totalPriceInfoDrawer');
 const { Option } = Select;
@@ -76,7 +76,10 @@ class TotalPriceInfoDrawer extends Component {
     const { currentTotalPricePeriod } = this.state;
 
     try {
-      const { data = [] } = await fetchBusinessesByCorp({ corporationId });
+      const { data = [] } = await fetchAction({
+        url: `business/by-corporation-id?id=${corporationId}`,
+        fieldName: 'business',
+      })();
       getTotalPrice && this.handleGetTotalPrice({
         corporationId,
         from: totalPricePeriod[currentTotalPricePeriod].from,
@@ -102,13 +105,18 @@ class TotalPriceInfoDrawer extends Component {
     to = null,
   }) => {
     try {
-      const { data: totalPrice } = await fetchPaymentInfo({
-        corporationId,
-        businessIds: businessId ? [businessId] : [],
-        from,
-        to,
-        day: '',
-      });
+      const { data: totalPrice = { sum: '' } } = await fetchAction({
+        url: 'record/by-params-for-business/payment-info',
+        fieldName: 'TotalPrice',
+        fieldType: {},
+        method: 'POST',
+        body: {
+          corporationId,
+          businessIds: businessId ? [businessId] : [],
+          from,
+          to,
+        },
+      })();
       this.setState({ totalPrice: totalPrice.sum });
     } catch (err) {
       notification.error({
@@ -203,7 +211,7 @@ class TotalPriceInfoDrawer extends Component {
             ) : (
               <div className={b('totalPriceBlock-sum')}>
                 <div className={b('totalPriceBlock-sum-text')}>
-                  {language.phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}
+                  {`${language.phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}:`}
                 </div>
                 <div className={b('totalPriceBlock-sum-number')}>{totalPrice}</div>
               </div>
