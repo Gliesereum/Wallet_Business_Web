@@ -366,7 +366,10 @@ export const fetchOrdersByIds = async ({
     }).then(async (response) => {
       if (response.status === 204) return {};
       if (response.status === 200) return await response.json();
-      if (response.status >= 400) throw Error('error');
+      if (response.status >= 400) {
+        const error = await response.json();
+        throw Error(error.message);
+      }
       return {};
     }).then(data => result = data);
   } catch (e) {
@@ -461,6 +464,46 @@ export const fetchFAQuestions = async () => {
   return {
     data: result,
     fieldName: 'faQuestions',
+  };
+};
+
+export const fetchPaymentInfo = async ({
+  corporationIds = [],
+  corporationId = null,
+  businessIds = [],
+  from = null,
+  to = null,
+  day,
+}) => {
+  let result = {};
+  const urlPath = 'record/by-params-for-business/payment-info';
+
+  try {
+    await withToken(fetchHelper)({
+      urlPath,
+      moduleUrl: 'karma',
+      method: 'POST',
+      body: {
+        corporationIds,
+        corporationId,
+        businessIds,
+        from,
+        to,
+        status: ['COMPLETED'],
+      },
+    }).then(async (response) => {
+      if (response.status === 204) return {};
+      if (response.status === 200) return await response.json();
+      if (response.status >= 400) throw Error('error');
+      return {};
+    }).then(data => result = data);
+  } catch (e) {
+    throw Error(e);
+  }
+
+  return {
+    data: result,
+    fieldName: `${day}TotalPrice`,
   };
 };
 
