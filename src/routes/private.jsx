@@ -6,7 +6,6 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-// import Fullscreen from 'react-full-screen';
 
 import {
   Container,
@@ -26,7 +25,7 @@ class PrivateRouter extends PureComponent {
 
     return (
       <Router>
-        <Container fullScreenAction={e => e} user={user} {...this.props}>
+        <Container user={user} {...this.props}>
           {
             (
               user

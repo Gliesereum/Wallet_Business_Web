@@ -98,8 +98,7 @@ class SignInForm extends Component {
                 { pattern: new RegExp(/^[\d ]{6}$/), message: language.phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
               ],
             })(
-              <Input.Password
-                disabled={false}
+              <Input
                 autoFocus
                 size="large"
                 className={b('number', { codeInput: true })}
