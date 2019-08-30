@@ -115,8 +115,14 @@ class Header extends Component {
                 <div>{`${language.phrases['header.totalPrice.yesterday'][defaultLanguage.isoKey]}:`}</div>
               </div>
               <div className={b('content-box-price-number')}>
-                <div>{loading ? <ScreenLoading /> : todayTotalPrice.sum}</div>
-                <div>{loading ? <ScreenLoading /> : yesterdayTotalPrice.sum}</div>
+                <div>
+                  {loading ? <ScreenLoading /> : todayTotalPrice.sum}
+                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                </div>
+                <div>
+                  {loading ? <ScreenLoading /> : yesterdayTotalPrice.sum}
+                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                </div>
               </div>
             </div>
             <div

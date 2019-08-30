@@ -37,6 +37,11 @@ const initState = {
   ],
   language: {
     phrases: {
+      'core.currency': {
+        ru: 'грн',
+        uk: 'грн',
+        en: 'uah',
+      },
       'company.pageCreate.form.uploadFileNew.label': {
         ru: 'Загрузить новый логотип',
         uk: 'Завантажити новий логотип',

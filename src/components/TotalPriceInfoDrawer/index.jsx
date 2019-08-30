@@ -112,7 +112,7 @@ class TotalPriceInfoDrawer extends Component {
         fieldType: {},
         method: 'POST',
         body: {
-          corporationId,
+          corporationId: !businessId ? corporationId : null,
           businessIds: businessId ? [businessId] : [],
           from,
           to,
@@ -213,7 +213,10 @@ class TotalPriceInfoDrawer extends Component {
                 <div className={b('totalPriceBlock-sum-text')}>
                   {`${language.phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}:`}
                 </div>
-                <div className={b('totalPriceBlock-sum-number')}>{totalPrice}</div>
+                <div className={b('totalPriceBlock-sum-number')}>
+                  {totalPrice}
+                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                </div>
               </div>
             )
           }
