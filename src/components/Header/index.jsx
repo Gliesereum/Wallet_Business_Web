@@ -13,13 +13,14 @@ import {
 } from 'antd';
 
 import TotalPriceInfoDrawer from '../TotalPriceInfoDrawer';
+import HelpDrawer from '../HelpDrawer';
+import ScreenLoading from '../ScreenLoading';
 
 // import Notification from '../../assets/Notification.svg';
 import {
-  ArrowDown,
-  ArrowUp,
   TotalPrice,
   MoreIcon,
+  HelpIcon,
 } from '../../assets/iconComponents';
 import { fetchDecorator, getFirstLetterName } from '../../utils';
 import { fetchAction } from '../../fetches';
@@ -28,19 +29,17 @@ const b = bem('header');
 
 class Header extends Component {
   state = {
-    visibleDropdown: false,
     totalPriceDrawerVisible: false,
+    helpModalVisible: false,
   };
 
-  handlerDropdownVisible = () => this.setState(prevState => ({ visibleDropdown: !prevState.visibleDropdown }));
-
-  handleTotalPriceDrawerVisible = () => this.setState(prevState => ({ totalPriceDrawerVisible: !prevState.totalPriceDrawerVisible }));
+  handleVisibleState = key => () => this.setState(prevState => ({
+    ...prevState,
+    [key]: !prevState[key],
+  }));
 
   renderProfileMenu = (language, defaultLanguage) => () => (
-    <Menu
-      className={b('menu')}
-      onClick={this.handlerDropdownVisible}
-    >
+    <Menu className={b('menu')}>
       <Menu.Item
         className={b('menu-item')}
       >
@@ -65,63 +64,81 @@ class Header extends Component {
   render() {
     const {
       user,
-      fullScreenAction,
       todayTotalPrice = { sum: '' },
       yesterdayTotalPrice = { sum: '' },
       corporations,
       defaultLanguage,
       language,
+      loading,
     } = this.props;
-    const { visibleDropdown, totalPriceDrawerVisible } = this.state;
+    const {
+      totalPriceDrawerVisible,
+      helpModalVisible,
+    } = this.state;
 
     return (
       <div className={b()}>
-        <div className={b('content-box')}>
-          <TotalPrice />
-          <div className={b('content-box-price')}>
-            <div className={b('content-box-price-day')}>
-              <div>{`${language.phrases['header.totalPrice.today'][defaultLanguage.isoKey]}:`}</div>
-              <div>{`${language.phrases['header.totalPrice.yesterday'][defaultLanguage.isoKey]}:`}</div>
-            </div>
-            <div className={b('content-box-price-number')}>
-              <div>{todayTotalPrice.sum}</div>
-              <div>{yesterdayTotalPrice.sum}</div>
-            </div>
-          </div>
-          <div
-            className={b('content-box-more')}
-            onClick={this.handleTotalPriceDrawerVisible}
-          >
-            <MoreIcon />
-          </div>
-        </div>
-        <div className={b('content-box')}>
-          <Icon type="fullscreen" style={{ fontSize: '20px', color: '#08c' }} onClick={() => fullScreenAction()} />
-        </div>
-        <Dropdown
-          trigger={['click']}
-          overlay={this.renderProfileMenu(language, defaultLanguage)}
-          className={b('content-box')}
-          onVisibleChange={this.handlerDropdownVisible}
+        <div
+          onClick={this.handleVisibleState('helpModalVisible')}
+          className={b('helpSection')}
         >
-          <div>
-            <Avatar src={user.avatarUrl || undefined} className={b('content-box-avatar')}>
-              {getFirstLetterName(user.firstName, user.lastName)}
-            </Avatar>
-            <div className={b('content-box-naming')}>
-              <h1>{`${user.firstName} ${user.lastName}`}</h1>
+          <HelpIcon
+            visible={helpModalVisible}
+            onClose={this.handleVisibleState('helpModalVisible')}
+          />
+          <div>Центр помощи</div>
+        </div>
+        <div className={b('optionsSection')}>
+          <Dropdown
+            trigger={['click']}
+            overlay={this.renderProfileMenu(language, defaultLanguage)}
+            className={b('content-box', { profileSection: true })}
+          >
+            <div>
+              <Avatar src={user.avatarUrl || undefined} className={b('content-box-avatar')}>
+                {getFirstLetterName(user.firstName, user.lastName)}
+              </Avatar>
+              <div className={b('content-box-naming')}>
+                <h1>{`${user.firstName} ${user.lastName}`}</h1>
+              </div>
             </div>
-            {visibleDropdown ? <ArrowUp /> : <ArrowDown />}
+          </Dropdown>
+          <div className={b('content-box')}>
+            <TotalPrice />
+            <div className={b('content-box-price')}>
+              <div className={b('content-box-price-day')}>
+                <div>{`${language.phrases['header.totalPrice.today'][defaultLanguage.isoKey]}:`}</div>
+                <div>{`${language.phrases['header.totalPrice.yesterday'][defaultLanguage.isoKey]}:`}</div>
+              </div>
+              <div className={b('content-box-price-number')}>
+                <div>{loading ? <ScreenLoading /> : todayTotalPrice.sum}</div>
+                <div>{loading ? <ScreenLoading /> : yesterdayTotalPrice.sum}</div>
+              </div>
+            </div>
+            <div
+              className={b('content-box-more')}
+              onClick={this.handleVisibleState('totalPriceDrawerVisible')}
+            >
+              <MoreIcon />
+            </div>
           </div>
-        </Dropdown>
+        </div>
         {
           totalPriceDrawerVisible && (
             <TotalPriceInfoDrawer
               visible={totalPriceDrawerVisible}
               corporations={corporations}
-              onClose={this.handleTotalPriceDrawerVisible}
+              onClose={this.handleVisibleState('totalPriceDrawerVisible')}
               defaultLanguage={defaultLanguage}
               language={language}
+            />
+          )
+        }
+        {
+          helpModalVisible && (
+            <HelpDrawer
+              visible={helpModalVisible}
+              onClose={this.handleVisibleState('helpModalVisible')}
             />
           )
         }
@@ -165,6 +182,6 @@ export default compose(
         },
       })(),
     ],
-    config: { loader: true },
+    config: { loader: false },
   })
 )(Header);

@@ -21,6 +21,7 @@ import EmptyState from './EmptyState';
 import FromToInput from './FromToInput';
 import PhoneInput from './PhoneInput';
 import DeleteModal from './DeleteModal';
+import HelpDrawer from './HelpDrawer';
 import PeriodSelector from './PeriodSelector';
 
 export {
@@ -47,5 +48,6 @@ export {
   FromToInput,
   PhoneInput,
   DeleteModal,
+  HelpDrawer,
   PeriodSelector,
 };

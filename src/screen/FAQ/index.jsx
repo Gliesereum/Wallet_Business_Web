@@ -82,6 +82,6 @@ class FAQ extends PureComponent {
 }
 
 export default fetchDecorator({
-  actions: [fetchAction({ url: 'faq', fieldName: 'faQuestions' })],
+  actions: [fetchAction({ url: 'information?tag=faq', fieldName: 'faQuestions' })],
   config: { loader: true },
 })(FAQ);
