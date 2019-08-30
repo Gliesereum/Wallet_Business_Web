@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import bem from 'bem-join';
 
 import {
-  Drawer, notification,
+  Drawer,
+  notification,
   Select,
 } from 'antd';
 
@@ -163,9 +164,8 @@ class TotalPriceInfoDrawer extends Component {
       <Drawer
         visible={visible}
         className={b()}
-        width={312}
+        width={344}
         mask
-        maskClosable={false}
         onClose={onClose}
         placement="right"
         title={language.phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}

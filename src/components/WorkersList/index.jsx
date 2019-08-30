@@ -56,7 +56,7 @@ class WorkersList extends Component {
   state = {
     loader: false, // TODO: refactor in next realise
     businesses: [],
-    chosenCorporation: '',
+    chosenCorporation: undefined,
     chosenBusiness: undefined,
     searchedWorkers: [],
     searchProcess: false,
@@ -368,9 +368,11 @@ class WorkersList extends Component {
           <p className={b('header-title')}>Список сотрудников</p>
           <div className={b('header-selectorBox')}>
             <Select
+              disabled={loader}
               onChange={this.handleCorpChange}
               style={{ width: '280px' }}
               value={chosenCorporation}
+              placeholder="Выберите компанию"
             >
               {
                 corporations.map(item => (
@@ -388,6 +390,7 @@ class WorkersList extends Component {
               className={b('header-selectorBox-rightArrow')}
             />
             <Select
+              disabled={loader}
               onChange={this.handleBusinessChange}
               style={{ width: '280px' }}
               value={chosenBusiness}

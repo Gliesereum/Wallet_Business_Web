@@ -14,7 +14,7 @@ import {
   Col,
 } from 'antd';
 
-import { EmptyState, PeriodSelector } from '../../components';
+import { EmptyState, PeriodSelector, ScreenLoading } from '../../components';
 
 import { fetchDecorator, getDate } from '../../utils';
 import { fetchAction } from '../../fetches';
@@ -25,7 +25,8 @@ const { Option } = Select;
 
 class OrdersPage extends Component {
   state = {
-    chosenCorporation: '',
+    loader: false,
+    chosenCorporation: undefined,
     chosenBusiness: undefined,
     orders: [],
     businesses: [],
@@ -48,6 +49,7 @@ class OrdersPage extends Component {
   }
 
   handleCorpChange = async (corporationId) => {
+    this.setState({ loader: true });
     const businesses = await this.handleGetBusinessByCorporationId(corporationId, true);
 
     this.setState({
@@ -60,11 +62,9 @@ class OrdersPage extends Component {
   };
 
   handleBusinessChange = async (businessId) => {
-    await this.handleGetOrdersById({ businessId });
+    this.setState({ loader: true, chosenBusiness: businessId });
 
-    this.setState({
-      chosenBusiness: businessId,
-    });
+    await this.handleGetOrdersById({ businessId });
   };
 
   handleGetBusinessByCorporationId = async (corporationId, getOrders = false) => {
@@ -127,6 +127,8 @@ class OrdersPage extends Component {
         message: err.message || 'Ошибка',
         description: 'Ошибка',
       });
+    } finally {
+      this.setState({ loader: false });
     }
   };
 
@@ -267,6 +269,7 @@ class OrdersPage extends Component {
 
   render() {
     const {
+      loader,
       chosenCorporation,
       chosenBusiness,
       businesses,
@@ -336,9 +339,11 @@ class OrdersPage extends Component {
             <p className={b('header-title')}>Заказы</p>
             <div className={b('header-selectorBox')}>
               <Select
+                disabled={loader}
                 onChange={this.handleCorpChange}
                 style={{ width: '280px' }}
                 value={chosenCorporation}
+                placeholder="Выберите компанию"
               >
                 {
                   corporations.map(item => (
@@ -356,6 +361,7 @@ class OrdersPage extends Component {
                 className={b('header-selectorBox-rightArrow')}
               />
               <Select
+                disabled={loader}
                 onChange={this.handleBusinessChange}
                 style={{ width: '280px' }}
                 value={chosenBusiness}
@@ -384,26 +390,32 @@ class OrdersPage extends Component {
                     />
                   </div>
                   <div className={b('content-orders')}>
-                    <Table
-                      rowKey={record => record.id}
-                      className={b('content-orders-ordersTable', { isEmpty: !isOrdersExist })}
-                      columns={columns}
-                      dataSource={orders}
-                      pagination={pagination.totalPages > 1
-                        ? {
-                          ...pagination,
-                          pageSize: 5,
-                          className: b('content-orders-pagination'),
-                        }
-                        : false
-                      }
-                      expandedRowRender={record => this.renderExpandedRow(record)}
-                      expandIconAsCell={false} // need for hidden default expand icon
-                      expandRowByClick
-                      onRow={this.handleExpandRow}
-                      onChange={this.handleTableChange}
-                      scroll={{ y: 336 }}
-                    />
+                    {
+                      loader ? (
+                        <ScreenLoading />
+                      ) : (
+                        <Table
+                          rowKey={record => record.id}
+                          className={b('content-orders-ordersTable', { isEmpty: !isOrdersExist })}
+                          columns={columns}
+                          dataSource={orders}
+                          pagination={pagination.totalPages > 1
+                            ? {
+                              ...pagination,
+                              pageSize: 5,
+                              className: b('content-orders-pagination'),
+                            }
+                            : false
+                          }
+                          expandedRowRender={record => this.renderExpandedRow(record)}
+                          expandIconAsCell={false} // need for hidden default expand icon
+                          expandRowByClick
+                          onRow={this.handleExpandRow}
+                          onChange={this.handleTableChange}
+                          scroll={{ y: 336 }}
+                        />
+                      )
+                    }
                   </div>
                 </>
               ) : (
