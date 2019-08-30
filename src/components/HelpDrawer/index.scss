@@ -1,7 +1,16 @@
 @import '../../styles/theme';
 
 .helpDrawer {
-  &__collapse-panel {
+  &__video {
     position: relative;
+    width: fit-content;
+
+    & iframe {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      border: 0
+    }
   }
 }
