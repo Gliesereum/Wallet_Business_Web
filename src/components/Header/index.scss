@@ -2,10 +2,9 @@
 
 .header {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 34px;
   width: 100%;
   height: 56px;
   box-shadow: $shadow-bottom;
@@ -14,29 +13,12 @@
   top: 0;
   background-color: $white;
 
-  &__helpSection {
+  &__leftSection {
     display: flex;
     align-items: center;
-    padding: 0 16px;
-    height: 48px;
-    cursor: pointer;
-    border-radius: 4px;
-    border: 2px solid $coupler-blue;
-    color: $coupler-blue;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-variant: small-caps;
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 16px;
-    font-family: $sans;
-
-    & > div {
-      padding-left: 11px;
-    }
   }
 
-  &__optionsSection {
+  &__rightSection {
     display: flex;
   }
 
@@ -50,6 +32,21 @@
     &--profileSection {
       cursor: pointer;
       border-right: 1px solid $border-gray;
+    }
+
+    &--helpSection {
+      cursor: pointer;
+
+      & > .text {
+        color: #758498;
+        font-family: $sans;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        font-variant: small-caps;
+        padding-left: 16px;
+      }
     }
 
     &-avatar.ant-avatar-circle {
@@ -92,9 +89,12 @@
 
       & h1 {
         font-family: $sans;
-        font-size: 14px;
-        color: $gray;
-        letter-spacing: 0.01em;
+        color: #758498;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        font-variant: small-caps;
         line-height: 30px;
         margin: 0;
       }
