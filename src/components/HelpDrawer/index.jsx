@@ -21,6 +21,10 @@ class HelpDrawer extends Component {
     frameLoad: false,
   };
 
+  componentWillReceiveProps(nextProps) {
+    this.triggerPanel(nextProps.helpPoints.length ? nextProps.helpPoints[0].id : undefined);
+  }
+
   triggerPanel = activeKey => this.setState({ activeKey, frameLoad: true });
 
   frameLoad = bool => () => this.setState({ frameLoad: bool });
@@ -49,6 +53,7 @@ class HelpDrawer extends Component {
           ) : (
             <Collapse
               activeKey={activeKey}
+              defaultActiveKey={helpPoints[0].id}
               accordion
               bordered={false}
               expandIcon={({ isActive }) => <Icon type={isActive ? 'minus' : 'plus'} />}
@@ -62,16 +67,19 @@ class HelpDrawer extends Component {
                     key={item.id}
                     className={b('collapse-panel')}
                   >
-                    {frameLoad && <ScreenLoading />}
-                    <iframe
-                      onLoad={this.frameLoad(false)}
-                      onError={this.frameLoad(false)}
-                      allowFullScreen
-                      title="videoFrame"
-                      src="https://www.youtube.com/embed/JDBoAmPvStA"
-                      width={280}
-                      height={175}
-                    />
+                    <div className={b('video')}>
+                      {frameLoad && <ScreenLoading />}
+                      <iframe
+                        onLoad={this.frameLoad(false)}
+                        onError={this.frameLoad(false)}
+                        allowFullScreen
+                        frameBorder="0"
+                        title="videoFrame"
+                        src={item.videoUrl}
+                        width={280}
+                        height={175}
+                      />
+                    </div>
                     {item.description}
                   </Panel>
                 ))
