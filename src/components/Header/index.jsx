@@ -65,7 +65,6 @@ class Header extends Component {
   render() {
     const {
       user,
-      fullScreenAction,
       todayTotalPrice = { sum: '' },
       yesterdayTotalPrice = { sum: '' },
       corporations,
@@ -94,9 +93,6 @@ class Header extends Component {
           >
             <MoreIcon />
           </div>
-        </div>
-        <div className={b('content-box')}>
-          <Icon type="fullscreen" style={{ fontSize: '20px', color: '#08c' }} onClick={() => fullScreenAction()} />
         </div>
         <Dropdown
           trigger={['click']}
