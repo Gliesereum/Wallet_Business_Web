@@ -16,6 +16,7 @@ import {
   ClientsPage,
   OrdersPage,
   FAQ,
+  AdminPanel,
 } from '../screen';
 import { actions } from '../state';
 
@@ -40,6 +41,8 @@ class PrivateRouter extends PureComponent {
                 <Route path="/orders" exact component={OrdersPage} />
                 <Route path="/workers" exact component={WorkersPage} />
                 <Route path="/clients" exact component={ClientsPage} />
+
+                <Route path="/adminPanel" exact component={AdminPanel} />
 
                 <Route path="/profile" exact component={ProfileInfo} />
 

@@ -77,6 +77,11 @@ class SideMenu extends Component {
       // canDisabled: true,
       // },
       {
+        icon: Clients,
+        text: 'Admin Panel',
+        linkTo: '/adminPanel',
+      },
+      {
         icon: Help,
         text: language.phrases['sideBar.menu.help.label'][defaultLanguage.isoKey],
         linkTo: '/help',
