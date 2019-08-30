@@ -67,6 +67,10 @@ class BusinessPage extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.props.changeChosenBusiness(null);
+  }
+
   changeActiveTab = (activeTab, id) => {
     const { history, location, changeChosenBusiness } = this.props;
 
