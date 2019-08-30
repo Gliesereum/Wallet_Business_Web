@@ -23,9 +23,9 @@ const { Search } = Input;
 
 class ClientsList extends Component {
   state = {
-    loader: false, // TODO: refactor in next realise
+    loader: false,
     clients: [],
-    chosenCorporation: '',
+    chosenCorporation: undefined,
     chosenBusiness: undefined,
     businesses: [],
     searchedClients: [],
@@ -256,9 +256,11 @@ class ClientsList extends Component {
           <p className={b('header-title')}>Просмотр клиентов</p>
           <div className={b('header-selectorBox')}>
             <Select
+              disabled={loader}
               onChange={this.handleCorpChange}
               style={{ width: '280px' }}
               value={chosenCorporation}
+              placeholder="Выберите компанию"
             >
               {
                 corporations.map(item => (
@@ -276,6 +278,7 @@ class ClientsList extends Component {
               className={b('header-selectorBox-rightArrow')}
             />
             <Select
+              disabled={loader}
               onChange={this.handleBusinessChange}
               style={{ width: '280px' }}
               value={chosenBusiness}
