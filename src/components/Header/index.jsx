@@ -79,16 +79,8 @@ class Header extends Component {
     return (
       <div className={b()}>
         <div
-          onClick={this.handleVisibleState('helpModalVisible')}
-          className={b('helpSection')}
+          className={b('leftSection')}
         >
-          <HelpIcon
-            visible={helpModalVisible}
-            onClose={this.handleVisibleState('helpModalVisible')}
-          />
-          <div>Центр помощи</div>
-        </div>
-        <div className={b('optionsSection')}>
           <Dropdown
             trigger={['click']}
             overlay={this.renderProfileMenu(language, defaultLanguage)}
@@ -99,10 +91,22 @@ class Header extends Component {
                 {getFirstLetterName(user.firstName, user.lastName)}
               </Avatar>
               <div className={b('content-box-naming')}>
-                <h1>{`${user.firstName} ${user.lastName}`}</h1>
+                <h1>ПРОФИЛЬ</h1>
               </div>
             </div>
           </Dropdown>
+          <div
+            className={b('content-box', { helpSection: true })}
+            onClick={this.handleVisibleState('helpModalVisible')}
+          >
+            <HelpIcon
+              visible={helpModalVisible}
+              onClose={this.handleVisibleState('helpModalVisible')}
+            />
+            <div className="text">Центр помощи</div>
+          </div>
+        </div>
+        <div className={b('rightSection')}>
           <div className={b('content-box')}>
             <TotalPrice />
             <div className={b('content-box-price')}>
@@ -111,8 +115,14 @@ class Header extends Component {
                 <div>{`${language.phrases['header.totalPrice.yesterday'][defaultLanguage.isoKey]}:`}</div>
               </div>
               <div className={b('content-box-price-number')}>
-                <div>{loading ? <ScreenLoading /> : todayTotalPrice.sum}</div>
-                <div>{loading ? <ScreenLoading /> : yesterdayTotalPrice.sum}</div>
+                <div>
+                  {loading ? <ScreenLoading /> : todayTotalPrice.sum}
+                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                </div>
+                <div>
+                  {loading ? <ScreenLoading /> : yesterdayTotalPrice.sum}
+                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                </div>
               </div>
             </div>
             <div

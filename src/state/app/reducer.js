@@ -37,6 +37,11 @@ const initState = {
   ],
   language: {
     phrases: {
+      'core.currency': {
+        ru: 'грн',
+        uk: 'грн',
+        en: 'uah',
+      },
       'company.pageCreate.form.uploadFileNew.label': {
         ru: 'Загрузить новый логотип',
         uk: 'Завантажити новий логотип',
@@ -206,7 +211,7 @@ const initState = {
       'signIn.form.message.sendCode': {
         ru: 'CPS код был отправлен на номер',
         uk: 'CPS код був відправлений на номер',
-        en: 'CPS код was sent to',
+        en: 'CPS code was sent to',
       },
       'signIn.form.inputPhone.label.validation': {
         ru: 'Введите номер телефона',

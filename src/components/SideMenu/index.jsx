@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import bem from 'bem-join';
 
-import { Icon } from 'antd';
+import {
+  Icon,
+  Select,
+} from 'antd';
 
 import { actions } from '../../state';
 import {
@@ -19,7 +22,7 @@ import {
 } from '../../assets/iconComponents';
 
 const b = bem('sidebar');
-
+const { Option } = Select;
 
 class SideMenu extends Component {
   signOutHandler = () => {
@@ -33,7 +36,9 @@ class SideMenu extends Component {
       isUserExist,
       location,
       language,
+      langPack,
       defaultLanguage,
+      setLanguage,
     } = this.props;
 
     const mainMenuItems = [
@@ -136,6 +141,24 @@ class SideMenu extends Component {
             <span>{language.phrases['sideBar.menu.logOut.label'][defaultLanguage.isoKey]}</span>
           </div>
         </div>
+        <div className={b('languages')}>
+          <Select
+            defaultValue={JSON.stringify(defaultLanguage)}
+            className={b('languages-selector')}
+            onChange={setLanguage}
+          >
+            {
+              langPack.map(lang => (
+                <Option
+                  key={lang.isoKey}
+                  value={JSON.stringify(lang)}
+                >
+                  {lang.label}
+                </Option>
+              ))
+            }
+          </Select>
+        </div>
       </div>
     );
   }
@@ -144,11 +167,13 @@ class SideMenu extends Component {
 const mapStateToProps = state => ({
   defaultLanguage: state.app.defaultLanguage,
   language: state.app.language,
+  langPack: state.app.langPack,
   isUserExist: state.auth.user.firstName,
 });
 
 const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(actions.auth.$signOut()),
+  setLanguage: language => dispatch(actions.app.$setLanguage(language)),
 });
 
 export default compose(

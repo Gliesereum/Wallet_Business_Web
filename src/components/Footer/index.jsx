@@ -1,9 +1,13 @@
 import React from 'react';
 import bem from 'bem-join';
 
-import { Divider } from 'antd';
+import {
+  Divider,
+  Select,
+} from 'antd';
 
 const b = bem('footer');
+const { Option } = Select;
 
 const Footer = ({
   background, defaultLanguage, language, langPack, setLanguage,
@@ -22,17 +26,22 @@ const Footer = ({
       <a target="_blank" href="https://coupler.app/policy">
         {language.phrases['footer.copyright.link.policy'][defaultLanguage.isoKey]}
       </a>
+      <Divider type="vertical" />
       <div className={b('lang_box')}>
-        <select defaultValue={JSON.stringify(defaultLanguage)} onChange={e => setLanguage(e)}>
+        <Select
+          defaultValue={JSON.stringify(defaultLanguage)}
+          className={b('lang_box-selector')}
+          onChange={setLanguage}
+        >
           {langPack.map(lang => (
-            <option
+            <Option
               key={lang.isoKey}
               value={JSON.stringify(lang)}
             >
               {lang.label}
-            </option>
+            </Option>
           ))}
-        </select>
+        </Select>
       </div>
     </div>
     <div>
