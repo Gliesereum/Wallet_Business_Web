@@ -248,6 +248,16 @@ const initState = {
         uk: 'Отримати CPS код',
         en: 'Get a CPS code',
       },
+      'signIn.landing.video.url': {
+        ru: 'https://www.youtube.com/embed/ja35weSUWEE',
+        uk: 'https://www.youtube.com/embed/jt__PYMNPjg',
+        en: 'https://www.youtube.com/embed/2QkbMeggBew',
+      },
+      'signIn.landing.banner.text': {
+        ru: 'Загрузите Coupler Worker для сотрудника',
+        uk: 'Завантажте Coupler Worker для працівника',
+        en: 'Download Coupler Worker',
+      },
       'core.button.cancel': {
         ru: 'Отменить',
         uk: 'Скасувати',
@@ -359,14 +369,14 @@ const initState = {
         en: 'All rights reserved. ',
       },
       'footer.copyright.link.policy': {
-        ru: 'Политика конфиденциальности',
-        uk: 'Політика конфіденційності',
-        en: 'Privacy policy',
+        ru: 'Конфиденциальность',
+        uk: 'Конфіденційність',
+        en: 'Policy',
       },
       'footer.copyright.link.terms': {
-        ru: 'Условия использования',
-        uk: 'Умови використання',
-        en: 'Terms of Use',
+        ru: 'Условия',
+        uk: 'Умови',
+        en: 'Terms',
       },
       'footer.copyright.company': {
         ru: 'Разработано компанией Gliesereum Ukraine 2019',

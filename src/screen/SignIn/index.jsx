@@ -10,15 +10,26 @@ import {
   Col,
   notification,
   Divider,
+  Button,
+  Icon,
+  Steps,
 } from 'antd';
 
 import { SignInForm } from '../../components/Forms';
 import Footer from '../../components/Footer';
 
+import {
+  Telegram,
+  Facebook,
+  YouTube,
+  PointBullet,
+} from '../../assets/iconComponents';
+
 import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
 
 const b = bem('signIn');
+const { Step } = Steps;
 
 class SignIn extends Component {
   state = {
@@ -123,7 +134,106 @@ class SignIn extends Component {
             />
           </Col>
           <Col xs={24}>
-            otherSection
+            <div className={b('description')}>
+              <h1 className={b('description-title')}>Головне про Coupler Business Web за 30 секунд</h1>
+              <p className={b('description-text')}>
+                Повна керованість бізнесу та віддалений контроль працівників. Ідеальна система автоматизації для сфери послуг.Особистий помічник у смартфоні
+              </p>
+            </div>
+            <div className={b('video')}>
+              <iframe
+                height={200}
+                width={328}
+                title="signIn Coupler Video"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                src={language.phrases['signIn.landing.video.url'][defaultLanguage.isoKey]}
+                frameBorder="0"
+                allowFullScreen
+              />
+            </div>
+            <Steps
+              className={b('businessPoints')}
+              direction="vertical"
+            >
+              <Step
+                status="process"
+                icon={<PointBullet />}
+                title="Актуальні дані бізнесу завжди під рукою"
+                description="Статистика та аналітика замовлень, клієнтів, виручки, ефективності співробітників. Більше не потрібно витрачати час на нудні адміністративні процеси збору та перевірки інформації. Відтепер точні й правдиві дані про стан вашого бізнесу доступні 24/7 з будь-якого девайсу"
+              />
+              <Step
+                status="process"
+                icon={<PointBullet />}
+                title="Можливість управління мережею бізнесів"
+                description="Облік та аналіз даних, що оновлюються у режимі реального часу, для одного або мережі бізнесів. Короткі наочні звіти з графіками та діаграмами"
+              />
+              <Step
+                status="process"
+                icon={<PointBullet />}
+                title="Керування послугами, пакетами послуг, цінами, акціями та програмами лояльності"
+                description="Заповніть інформацію про компанію та створіть основні пропозиції, щоб клієнти могли замовляти послуги онлайн"
+              />
+              <Step
+                status="process"
+                icon={<PointBullet />}
+                title="Контроль виконання замовлень та виручки"
+                description="Завантажте Coupler Worker для працівника, щоб стежити за робочим процесом навіть коли ви не в офісі"
+              />
+              <Step
+                status="process"
+                icon={<PointBullet />}
+                title="Зручний сервіс онлайн-запису для клієнтів вашого бізнесу"
+                description="Встановіть на сайт кнопку Coupler Widget та/або порекомендуйте клієнтам додаток Coupler, щоб отримувати замовлення онлайн, спростити процес бронювання послуг та роботу адміністраторів"
+              />
+            </Steps>
+            <div className={b('banner')}>
+              <div className={b('banner-bg')} />
+              <div className={b('banner-text')}>
+                {language.phrases['signIn.landing.banner.text'][defaultLanguage.isoKey]}
+              </div>
+              <a
+                className={b('banner-googlePlayBtn')}
+                href="https://play.google.com/store/apps/details?id=com.gliesereum.coupler_worker"
+                target="_blank"
+              />
+            </div>
+            <div className={b('otherServices')}>
+              <Button className="backBtn">
+                <Icon type="left" />
+                <a
+                  href="https://coupler.app/"
+                  target="_blank"
+                >
+                  Інші додатки Coupler
+                </a>
+              </Button>
+            </div>
+            <div className={b('networks')}>
+              <h1 className={b('networks-title')}>Стежте за нами у соцмережах</h1>
+              <div className={b('networks-icons')}>
+                <a
+                  href="https://t.me/coupler_public"
+                  className={b('networks-icon')}
+                  target="_blank"
+                >
+                  <Telegram />
+                </a>
+                <a
+                  href="https://www.facebook.com/coupler.platform"
+                  className={b('networks-icon')}
+                  target="_blank"
+                >
+                  <Facebook />
+                </a>
+                <a
+                  href="https://www.youtube.com/channel/UCOvMGeaG-MmcvAbrrn56ekQ"
+                  className={b('networks-icon')}
+                  target="_blank"
+                >
+                  <YouTube />
+                </a>
+              </div>
+            </div>
           </Col>
         </Row>
         <Footer
