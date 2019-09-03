@@ -88,7 +88,6 @@ class SignInForm extends Component {
           label={gotCode ? language.phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey] : language.phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
-          hasFeedback
         >
           {gotCode
             ? form.getFieldDecorator('code', {

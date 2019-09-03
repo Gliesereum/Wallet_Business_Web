@@ -5,10 +5,13 @@ import compose from 'recompose/compose';
 import bem from 'bem-join';
 import { Helmet } from 'react-helmet';
 
-import { notification } from 'antd';
+import {
+  notification,
+  Divider,
+} from 'antd';
 
 import { SignInForm } from '../../components/Forms';
-import Footer from '../../components/Footer';
+// import Footer from '../../components/Footer';
 
 import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
@@ -82,7 +85,7 @@ class SignIn extends Component {
     const {
       language,
       defaultLanguage,
-      langPack,
+      // langPack,
     } = this.props.app;
 
     return (
@@ -92,17 +95,18 @@ class SignIn extends Component {
           <title>{language.phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
         </Helmet>
         <div className={b('main')}>
-          <div className={b('badge')}>
-            {language.phrases['start.page.welcome.message'][defaultLanguage.isoKey]}
-          </div>
+          {/* <div className={b('badge')}> */}
+          {/*  {language.phrases['start.page.welcome.message'][defaultLanguage.isoKey]} */}
+          {/* </div> */}
           <div className={b('logo')} />
           <div className={b('titleBlock')}>
-            <h1 className={b('titleBlock-title')}>
+            <div className={b('titleBlock-title')}>
               {language.phrases['signIn.form.header'][defaultLanguage.isoKey]}
-            </h1>
-            <p className={b('titleBlock-subtitle')}>
+            </div>
+            <Divider className={b('titleBlock-divider')} />
+            <div className={b('titleBlock-subtitle')}>
               {language.phrases['signIn.form.title'][defaultLanguage.isoKey]}
-            </p>
+            </div>
           </div>
           <SignInForm
             defaultLanguage={defaultLanguage}
@@ -115,12 +119,12 @@ class SignIn extends Component {
             gotCodeHandler={this.gotCodeHandler}
           />
         </div>
-        <Footer
-          langPack={langPack}
-          setLanguage={this.props.$setLanguage}
-          defaultLanguage={defaultLanguage}
-          language={language}
-        />
+        {/* <Footer */}
+        {/*  langPack={langPack} */}
+        {/*  setLanguage={this.props.$setLanguage} */}
+        {/*  defaultLanguage={defaultLanguage} */}
+        {/*  language={language} */}
+        {/* /> */}
       </div>
     );
   }

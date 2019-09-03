@@ -1,6 +1,11 @@
 @import '../../../styles/theme';
 
 .signInForm {
+  background: linear-gradient(48.16deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  padding: 16px 16px 32px 16px;
+  min-height: 352px;
 
   ::-webkit-input-placeholder {
     color: rgba(222, 218, 226, 0.46);
@@ -36,7 +41,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 48px;
+    height: 56px;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 4px;
     font-family: $sans;

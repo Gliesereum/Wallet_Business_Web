@@ -1,10 +1,11 @@
 @import '../../styles/theme';
 
 .footer {
-  padding: 16px 32px;
+  padding: 0 16px;
   text-align: center;
-  position: sticky;
-  top: 100%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 
   &__lang_box {
     display: flex;

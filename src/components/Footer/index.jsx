@@ -12,7 +12,7 @@ const { Option } = Select;
 const Footer = ({
   background, defaultLanguage, language, langPack, setLanguage,
 }) => (
-  <div
+  <footer
     className={b()}
     style={{
       backgroundColor: background || 'transparent',
@@ -54,7 +54,7 @@ const Footer = ({
         {language.phrases['footer.copyright.company'][defaultLanguage.isoKey]}
       </a>
     </div>
-  </div>
+  </footer>
 );
 
 export default Footer;
