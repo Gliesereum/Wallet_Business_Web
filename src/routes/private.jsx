@@ -22,7 +22,7 @@ import { actions } from '../state';
 
 class PrivateRouter extends PureComponent {
   render() {
-    const { user } = this.props;
+    const { user, auth } = this.props;
 
     return (
       <Router>
@@ -42,7 +42,7 @@ class PrivateRouter extends PureComponent {
                 <Route path="/workers" exact component={WorkersPage} />
                 <Route path="/clients" exact component={ClientsPage} />
 
-                <Route path="/adminPanel" exact component={AdminPanel} />
+                {auth.hasAdminRights && <Route path="/adminPanel" exact component={AdminPanel} />}
 
                 <Route path="/profile" exact component={ProfileInfo} />
 

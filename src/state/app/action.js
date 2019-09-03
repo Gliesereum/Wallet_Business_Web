@@ -79,9 +79,14 @@ const actions = {
 
       const user = await getTokenAndUser(dispatch, access_token, refresh_token);
       const email = await withToken(asyncRequest)({ url: 'email/by-user' }) || {};
+      const { result: hasAdminRights } = await withToken(asyncRequest)({
+        url: 'group-user/user-have-group?groupPurpose=COUPLER_ADMIN',
+        moduleUrl: 'permission',
+      });
 
       await dispatch(authActions.$updateUserData(user));
       await dispatch(authActions.$addUserEmail(email));
+      await dispatch(authActions.$checkAdminRights(hasAdminRights));
 
       const businessesUrl = 'business/by-current-user/like-owner';
       const corporationsUrl = 'corporation/by-user';

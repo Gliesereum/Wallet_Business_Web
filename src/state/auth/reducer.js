@@ -5,6 +5,7 @@ const initState = {
   authenticated: false,
   user: {},
   email: {},
+  hasAdminRights: false,
 };
 
 const initReducers = {
@@ -30,6 +31,11 @@ const initReducers = {
       verifiedStatus: 'VERIFIED',
     },
     email: payload,
+  }),
+
+  [actions.CHECK_ADMIN_RIGHTS]: (state, payload) => ({
+    ...state,
+    hasAdminRights: payload,
   }),
 
   [actions.SIGNOUT_USER]: state => ({

@@ -38,6 +38,7 @@ class SideMenu extends Component {
       language,
       langPack,
       defaultLanguage,
+      hasAdminRights,
       setLanguage,
     } = this.props;
 
@@ -82,17 +83,18 @@ class SideMenu extends Component {
       // canDisabled: true,
       // },
       {
-        icon: Clients,
-        text: 'Admin Panel',
-        linkTo: '/adminPanel',
-      },
-      {
         icon: Help,
         text: language.phrases['sideBar.menu.help.label'][defaultLanguage.isoKey],
         linkTo: '/help',
         canDisabled: false,
       },
     ];
+
+    hasAdminRights && supportMenuItems.push({
+      icon: Clients,
+      text: 'Admin Panel',
+      linkTo: '/adminPanel',
+    });
 
     return (
       <div className={b()}>
@@ -169,6 +171,7 @@ const mapStateToProps = state => ({
   language: state.app.language,
   langPack: state.app.langPack,
   isUserExist: state.auth.user.firstName,
+  hasAdminRights: state.auth.hasAdminRights,
 });
 
 const mapDispatchToProps = dispatch => ({

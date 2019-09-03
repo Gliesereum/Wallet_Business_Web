@@ -22,8 +22,6 @@ class AdminPanelPhrases extends Component {
     const { chosenPhrase } = this.state;
     const {
       languageData = { packages: [], phrases: {} },
-      isAddPhraseMode,
-      addNewPhrase,
       updatePhrases,
     } = this.props;
     const { packages, phrases } = languageData;
@@ -64,9 +62,7 @@ class AdminPanelPhrases extends Component {
             method: 'PUT',
             moduleUrl: 'language',
             body,
-            reduxAction: isAddPhraseMode
-              ? await addNewPhrase(values.code, body.isoKey, values[`${body.isoKey}-text`])
-              : await updatePhrases(values.code, body.isoKey, values[`${body.isoKey}-text`]),
+            reduxAction: await updatePhrases(values.code, body.isoKey, values[`${body.isoKey}-text`]),
           })();
         });
 

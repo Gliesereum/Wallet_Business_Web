@@ -19,7 +19,6 @@ class AdminPanel extends Component {
   render() {
     const {
       languageData,
-      addNewPhrase,
       updatePhrases,
     } = this.props;
 
@@ -27,7 +26,6 @@ class AdminPanel extends Component {
       <div className={b()}>
         <AdminPanelPhrases
           languageData={languageData}
-          addNewPhrase={addNewPhrase}
           updatePhrases={updatePhrases}
         />
       </div>
