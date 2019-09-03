@@ -20,14 +20,20 @@ class AdminPanelPhrases extends Component {
     e.preventDefault();
 
     const { chosenPhrase } = this.state;
-    const { data, phrases } = this.props;
+    const {
+      languageData = { packages: [], phrases: {} },
+      isAddPhraseMode,
+      addNewPhrase,
+      updatePhrases,
+    } = this.props;
+    const { packages, phrases } = languageData;
 
     await this.adminPanelPhrasesForm.props.form.validateFields(async (err, values) => {
       if (!err) {
         const languages = ['en', 'ua', 'ru'];
 
         const bodies = languages.map((lang) => {
-          const { id: packageId } = data.packages.find(packageItem => packageItem.isoKey === lang);
+          const { id: packageId } = packages.find(packageItem => packageItem.isoKey === lang);
           const phrasesList = [];
           for (const key in phrases) {
             if (Object.prototype.hasOwnProperty.call(phrases, key)) {
@@ -52,12 +58,17 @@ class AdminPanelPhrases extends Component {
           });
         });
 
-        await bodies.forEach(async body => await fetchAction({
-          url: 'package',
-          method: 'PUT',
-          moduleUrl: 'language',
-          body,
-        })());
+        await bodies.forEach(async (body) => {
+          await fetchAction({
+            url: 'package',
+            method: 'PUT',
+            moduleUrl: 'language',
+            body,
+            reduxAction: isAddPhraseMode
+              ? await addNewPhrase(values.code, body.isoKey, values[`${body.isoKey}-text`])
+              : await updatePhrases(values.code, body.isoKey, values[`${body.isoKey}-text`]),
+          })();
+        });
 
         this.changeChosenPhrase(null, false)();
       }
@@ -66,7 +77,7 @@ class AdminPanelPhrases extends Component {
 
   render() {
     const { chosenPhrase, isAddPhraseMode } = this.state;
-    const { phrases = [] } = this.props;
+    const { phrases = {}, packages = [] } = this.props.languageData;
 
     return (
       <div style={{ flex: 1 }}>
@@ -80,7 +91,11 @@ class AdminPanelPhrases extends Component {
               changeChosenPhrase={this.changeChosenPhrase}
             />
           ) : (
-            <AdminPanelPhrasesList changeChosenPhrase={this.changeChosenPhrase} phrases={phrases} />
+            <AdminPanelPhrasesList
+              changeChosenPhrase={this.changeChosenPhrase}
+              phrases={phrases}
+              packages={packages}
+            />
           )
         }
       </div>

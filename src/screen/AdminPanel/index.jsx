@@ -17,22 +17,31 @@ class AdminPanel extends Component {
   };
 
   render() {
-    const { data, phrases } = this.props;
+    const {
+      languageData,
+      addNewPhrase,
+      updatePhrases,
+    } = this.props;
 
     return (
       <div className={b()}>
-        <AdminPanelPhrases data={data} phrases={phrases} />
+        <AdminPanelPhrases
+          languageData={languageData}
+          addNewPhrase={addNewPhrase}
+          updatePhrases={updatePhrases}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  phrases: state.admin.phrases,
+  languageData: state.admin.languageData,
 });
 
 const mapDispatchToProps = dispatch => ({
   getPhrases: phrases => dispatch(actions.admin.$getPhrases(phrases)),
+  updatePhrases: (code, isoKey, phrase) => dispatch(actions.admin.$updatePhrase(code, isoKey, phrase)),
 });
 
 export default compose(
@@ -41,7 +50,7 @@ export default compose(
     actions: [
       ({ getPhrases }) => fetchAction({
         url: 'package/map/by-module?module=coupler-web',
-        fieldName: 'data',
+        fieldName: 'languageData',
         fieldType: {},
         moduleUrl: 'language',
         reduxAction: getPhrases,
