@@ -44,10 +44,10 @@ const Footer = ({
         </Select>
       </div>
     </div>
-    <div>
-      <span className={b('text')}>{language.phrases['footer.copyright'][defaultLanguage.isoKey]}</span>
+    <div className={b('copyright')}>
+      <div className={b('copyright-text')}>{language.phrases['footer.copyright'][defaultLanguage.isoKey]}</div>
       <a
-        className={b('text')}
+        className={b('copyright-text')}
         href="https://www.gliesereum.com/"
         target="_blank"
       >

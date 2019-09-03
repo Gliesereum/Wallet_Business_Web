@@ -7,36 +7,6 @@
   padding: 16px 16px 32px 16px;
   min-height: 352px;
 
-  ::-webkit-input-placeholder {
-    color: rgba(222, 218, 226, 0.46);
-    text-align: center;
-  }
-
-  :-ms-input-placeholder {
-    color: rgba(222, 218, 226, 0.46);
-    text-align: center;
-  }
-
-  ::placeholder {
-    color: rgba(222, 218, 226, 0.46);
-    text-align: center;
-  }
-
-  &__title {
-    font-family: $sans;
-    font-size: 16px;
-    line-height: 16px;
-    text-align: center;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: $white;
-    //padding: 30px 0 0;
-
-    &--gotCode {
-      padding: 10px 10px;
-    }
-  }
-
   &__infoBlock {
     display: flex;
     justify-content: center;
@@ -45,12 +15,16 @@
     background: rgba(255, 255, 255, 0.08);
     border-radius: 4px;
     font-family: $sans;
-    font-size: 14px;
-    line-height: 24px;
-    letter-spacing: 0.01em;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 18px;
+    letter-spacing: 0.04em;
     color: $white;
-    mix-blend-mode: normal;
     margin-bottom: 32px;
+
+    & .timer {
+      font-weight: 500;
+    }
 
     & > div {
       text-align: center;
@@ -58,6 +32,8 @@
   }
 
   &__number {
+    margin: 0;
+
     &--labelBox {
       .ant-form-item-label > label {
         color: $white;
@@ -75,6 +51,33 @@
       transition: all 0.4s ease;
       box-shadow: 0 0 0 1px $white;
 
+      ::-webkit-input-placeholder {
+        font-family: $sans;
+        font-size: 14px;
+        font-weight: normal;
+        color: $white;
+        text-align: left;
+        line-height: 24px;
+      }
+
+      :-ms-input-placeholder {
+        font-family: $sans;
+        font-size: 14px;
+        font-weight: normal;
+        color: $white;
+        text-align: left;
+        line-height: 24px;
+      }
+
+      &::placeholder {
+        font-family: $sans;
+        font-size: 14px;
+        font-weight: normal;
+        color: $white;
+        text-align: left;
+        line-height: 24px;
+      }
+
       &:hover{
         box-shadow: 0 0 0 1px $white;
       }
@@ -88,8 +91,17 @@
       }
     }
 
+    &--phoneInput {
+      margin-bottom: 56px;
+    }
+
     &--codeInput {
       text-align: center;
+      margin-bottom: 56px;
+
+      &::placeholder {
+        text-align: center;
+      }
     }
   }
 

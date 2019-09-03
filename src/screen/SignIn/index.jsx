@@ -6,12 +6,14 @@ import bem from 'bem-join';
 import { Helmet } from 'react-helmet';
 
 import {
+  Row,
+  Col,
   notification,
   Divider,
 } from 'antd';
 
 import { SignInForm } from '../../components/Forms';
-// import Footer from '../../components/Footer';
+import Footer from '../../components/Footer';
 
 import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
@@ -85,7 +87,7 @@ class SignIn extends Component {
     const {
       language,
       defaultLanguage,
-      // langPack,
+      langPack,
     } = this.props.app;
 
     return (
@@ -94,37 +96,42 @@ class SignIn extends Component {
           <meta charSet="utf-8" />
           <title>{language.phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
         </Helmet>
-        <div className={b('main')}>
-          {/* <div className={b('badge')}> */}
-          {/*  {language.phrases['start.page.welcome.message'][defaultLanguage.isoKey]} */}
-          {/* </div> */}
-          <div className={b('logo')} />
-          <div className={b('titleBlock')}>
-            <div className={b('titleBlock-title')}>
-              {language.phrases['signIn.form.header'][defaultLanguage.isoKey]}
+        <Row className={b('main')}>
+          <Col xs={24}>
+            {/* <div className={b('badge')}> */}
+            {/*  {language.phrases['start.page.welcome.message'][defaultLanguage.isoKey]} */}
+            {/* </div> */}
+            <div className={b('logo')} />
+            <div className={b('titleBlock')}>
+              <div className={b('titleBlock-title')}>
+                {language.phrases['signIn.form.header'][defaultLanguage.isoKey]}
+              </div>
+              <Divider className={b('titleBlock-divider')} />
+              <div className={b('titleBlock-subtitle')}>
+                {language.phrases['signIn.form.title'][defaultLanguage.isoKey]}
+              </div>
             </div>
-            <Divider className={b('titleBlock-divider')} />
-            <div className={b('titleBlock-subtitle')}>
-              {language.phrases['signIn.form.title'][defaultLanguage.isoKey]}
-            </div>
-          </div>
-          <SignInForm
-            defaultLanguage={defaultLanguage}
-            language={language}
-            gotCode={gotCode}
-            phone={phone}
-            validateStatus={validateStatus}
-            getCodeHandler={this.getCodeHandler}
-            sendCodeHandler={this.sendCodeHandler}
-            gotCodeHandler={this.gotCodeHandler}
-          />
-        </div>
-        {/* <Footer */}
-        {/*  langPack={langPack} */}
-        {/*  setLanguage={this.props.$setLanguage} */}
-        {/*  defaultLanguage={defaultLanguage} */}
-        {/*  language={language} */}
-        {/* /> */}
+            <SignInForm
+              defaultLanguage={defaultLanguage}
+              language={language}
+              gotCode={gotCode}
+              phone={phone}
+              validateStatus={validateStatus}
+              getCodeHandler={this.getCodeHandler}
+              sendCodeHandler={this.sendCodeHandler}
+              gotCodeHandler={this.gotCodeHandler}
+            />
+          </Col>
+          <Col xs={24}>
+            otherSection
+          </Col>
+        </Row>
+        <Footer
+          langPack={langPack}
+          setLanguage={this.props.$setLanguage}
+          defaultLanguage={defaultLanguage}
+          language={language}
+        />
       </div>
     );
   }

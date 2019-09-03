@@ -58,23 +58,16 @@ class SignInForm extends Component {
 
     return (
       <Form className={b()}>
-        <div className={b('title', { gotCode })}>
-          {
-            gotCode && (
-              <Timer
-                ref={node => this.timerRef = node}
-                timerFinishHandler={this.timerFinishHandler}
-                time={180000}
-              />
-            )
-          }
-        </div>
         <div className={b('infoBlock')}>
           {
             gotCode ? (
               <div>
-                <p>{language.phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]}</p>
-                <p>{phone}</p>
+                <Timer
+                  ref={node => this.timerRef = node}
+                  timerFinishHandler={this.timerFinishHandler}
+                  time={180000}
+                />
+                <p>{`${language.phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]} ${phone}`}</p>
               </div>
             ) : (
               <div>
@@ -85,7 +78,6 @@ class SignInForm extends Component {
         </div>
         <Form.Item
           colon={false}
-          label={gotCode ? language.phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey] : language.phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
         >
@@ -102,6 +94,7 @@ class SignInForm extends Component {
                 size="large"
                 className={b('number', { codeInput: true })}
                 maxLength={6}
+                placeholder={language.phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey]}
               />
             )
             : form.getFieldDecorator('phone', {
@@ -116,7 +109,7 @@ class SignInForm extends Component {
               <Input
                 autoFocus={false}
                 size="large"
-                placeholder={language.phrases['signIn.form.inputPhone.mask'][defaultLanguage.isoKey]}
+                placeholder={language.phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
                 className={b('number', { phoneInput: true })}
               />
             )
@@ -138,7 +131,7 @@ class SignInForm extends Component {
                 className={b('button')}
                 onClick={gotCodeHandler}
               >
-                Отмена
+                {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
               </Button>
             </>
           ) : (

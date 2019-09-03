@@ -7,6 +7,10 @@
   bottom: 0;
   width: 100%;
 
+  & .ant-divider-vertical {
+    background-color: $coupler-blue;
+  }
+
   &__lang_box {
     display: flex;
     justify-content: center;
@@ -17,12 +21,15 @@
 
       & .ant-select {
         &-selection {
+          border: none;
+
           &--single {
-            height: 24px;
+            height: 16px;
           }
 
           &-selected-value {
-            line-height: 24px;
+            line-height: 16px;
+            padding: 0;
           }
         }
 
@@ -35,15 +42,16 @@
 
   &__links {
     font-family: $sans;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 500;
     line-height: 16px;
     color: $coupler-blue;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
     font-feature-settings: 'pnum' on, 'lnum' on;
     display: flex;
     justify-content: center;
-    height: 24px;
+    height: 16px;
     align-items: center;
 
     a {
@@ -51,12 +59,16 @@
     }
   }
 
-  &__text {
-    font-size: 12px;
-    line-height: 16px;
-    text-align: center;
-    letter-spacing: 0.01em;
-    font-feature-settings: 'pnum' on, 'lnum' on;
-    color: #B3B3B3;
+  &__copyright {
+    padding: 8px 0;
+
+    &-text {
+      font-size: 10px;
+      line-height: 16px;
+      text-align: center;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #B3B3B3;
+    }
   }
 }
