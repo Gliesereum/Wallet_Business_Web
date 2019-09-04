@@ -12,6 +12,8 @@ import SignInForm from './SignInForm';
 import CorporationForm from './CorporationForm';
 import ProfileForm from './ProfileForm';
 
+import AdminPanelPhrasesForm from './AdminPanelPhrasesForm';
+
 
 export {
   PackageForm,
@@ -25,4 +27,5 @@ export {
   CorporationForm,
   ServiceClasses,
   ProfileForm,
+  AdminPanelPhrasesForm,
 };

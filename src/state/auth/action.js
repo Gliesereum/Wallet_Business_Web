@@ -8,6 +8,8 @@ const actions = {
   ADD_EMAIL: 'ADD_EMAIL',
   VERIFY_EMAIL: 'VERIFY_EMAIL',
 
+  CHECK_ADMIN_RIGHTS: 'CHECK_ADMIN_RIGHTS',
+
   $checkAuthenticate: isAuth => ({
     type: actions.CHECK_AUTHENTICATE,
     payload: isAuth,
@@ -26,6 +28,11 @@ const actions = {
   $verifyUserEmail: email => ({
     type: actions.VERIFY_EMAIL,
     payload: email,
+  }),
+
+  $checkAdminRights: hasAdminRights => ({
+    type: actions.CHECK_ADMIN_RIGHTS,
+    payload: hasAdminRights,
   }),
 
   $signOut: () => async (dispatch) => {

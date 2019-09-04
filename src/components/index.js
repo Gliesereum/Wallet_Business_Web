@@ -23,6 +23,8 @@ import PhoneInput from './PhoneInput';
 import DeleteModal from './DeleteModal';
 import HelpDrawer from './HelpDrawer';
 import PeriodSelector from './PeriodSelector';
+import AdminPanelPhrases from './AdminPanelPhrases';
+import AdminPanelPhrasesList from './AdminPanelPhrasesList';
 
 export {
   Header,
@@ -50,4 +52,6 @@ export {
   DeleteModal,
   HelpDrawer,
   PeriodSelector,
+  AdminPanelPhrases,
+  AdminPanelPhrasesList,
 };
