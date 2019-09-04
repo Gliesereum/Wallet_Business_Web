@@ -52,7 +52,7 @@ class SignInForm extends Component {
       phone,
       validateStatus,
       gotCodeHandler,
-      language,
+      phrases,
       defaultLanguage,
     } = this.props;
 
@@ -73,19 +73,19 @@ class SignInForm extends Component {
           {
             gotCode ? (
               <div>
-                <p>{language.phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]}</p>
+                <p>{phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]}</p>
                 <p>{phone}</p>
               </div>
             ) : (
               <div>
-                <p>{language.phrases['signIn.form.welcome'][defaultLanguage.isoKey]}</p>
+                <p>{phrases['signIn.form.welcome'][defaultLanguage.isoKey]}</p>
               </div>
             )
           }
         </div>
         <Form.Item
           colon={false}
-          label={gotCode ? language.phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey] : language.phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
+          label={gotCode ? phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey] : phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
           hasFeedback
@@ -94,8 +94,8 @@ class SignInForm extends Component {
             ? form.getFieldDecorator('code', {
               getValueFromEvent: checkInputHandler('code', form),
               rules: [
-                { required: true, message: language.phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
-                { pattern: new RegExp(/^[\d ]{6}$/), message: language.phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
+                { required: true, message: phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
+                { pattern: new RegExp(/^[\d ]{6}$/), message: phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
               ],
             })(
               <Input
@@ -109,15 +109,15 @@ class SignInForm extends Component {
               initialValue: '',
               getValueFromEvent: checkInputHandler('phone', form),
               rules: [
-                { required: true, message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
-                { pattern: new RegExp(/^[\d ]{12}$/), message: language.phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
+                { required: true, message: phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
+                { pattern: new RegExp(/^[\d ]{12}$/), message: phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
               ],
               validateTrigger: 'onBlur',
             })(
               <Input
                 autoFocus={false}
                 size="large"
-                placeholder={language.phrases['signIn.form.inputPhone.mask'][defaultLanguage.isoKey]}
+                placeholder={phrases['signIn.form.inputPhone.mask'][defaultLanguage.isoKey]}
                 className={b('number', { phoneInput: true })}
               />
             )
@@ -131,7 +131,7 @@ class SignInForm extends Component {
                 onClick={timerIsFinished ? this.getFormCodeHandler(phone) : this.sendFormCodeHandler}
               >
                 {
-                  timerIsFinished ? language.phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey] : language.phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
+                  timerIsFinished ? phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey] : phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
                 }
               </Button>
               <Button
@@ -147,7 +147,7 @@ class SignInForm extends Component {
               className={b('button')}
               onClick={this.getFormCodeHandler()}
             >
-              {language.phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
+              {phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
             </Button>
           )
         }

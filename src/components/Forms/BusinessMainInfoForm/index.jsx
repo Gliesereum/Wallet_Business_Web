@@ -134,6 +134,8 @@ class BusinessMainInfoForm extends Component {
       onChange,
       uploadBusinessImage,
       changeBusinessType,
+      defaultLanguage,
+      phrases,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
@@ -203,8 +205,8 @@ class BusinessMainInfoForm extends Component {
                               <h1 className={b('uploader-inside-header')}>
                                 {
                                   chosenBusiness && chosenBusiness.logoUrl
-                                    ? 'загрузить новый логотип'
-                                    : 'добавить логотип'
+                                    ? phrases['company.pageCreate.form.uploadFileNew.label'][defaultLanguage.isoKey]
+                                    : phrases['company.pageCreate.form.uploadFileAdd.label'][defaultLanguage.isoKey]
                                 }
                               </h1>
                               {
@@ -314,7 +316,7 @@ class BusinessMainInfoForm extends Component {
               <Row gutter={31}>
                 <Col lg={12}>
                   <FormItem
-                    label="Описание филиала"
+                    label={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]}
                   >
                     {form.getFieldDecorator('description', {
                       initialValue: formInitValues.description,
@@ -322,12 +324,12 @@ class BusinessMainInfoForm extends Component {
                         { required: true, message: 'Поле обязательное для заполнения' },
                         { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                       ],
-                    })(<Input placeholder="Описание филиала" />)}
+                    })(<Input placeholder={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]} />)}
                   </FormItem>
                 </Col>
                 <Col lg={12}>
                   <FormItem
-                    label="Номер телефона"
+                    label={phrases['core.form.inputPhone.label'][defaultLanguage.isoKey]}
                   >
                     {form.getFieldDecorator('phone', {
                       initialValue: formInitValues.phone,

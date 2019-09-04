@@ -156,7 +156,7 @@ class TotalPriceInfoDrawer extends Component {
       visible,
       corporations,
       onClose,
-      language,
+      phrases,
       defaultLanguage,
     } = this.props;
 
@@ -168,7 +168,7 @@ class TotalPriceInfoDrawer extends Component {
         mask
         onClose={onClose}
         placement="right"
-        title={language.phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}
+        title={phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}
       >
         <Select
           onChange={this.handleCorpChange}
@@ -190,7 +190,7 @@ class TotalPriceInfoDrawer extends Component {
         <Select
           onChange={this.handleBusinessChange}
           value={chosenBusiness}
-          placeholder={language.phrases['header.totalPriceDrawer.selector.business.placeholder'][defaultLanguage.isoKey]}
+          placeholder={phrases['header.totalPriceDrawer.selector.business.placeholder'][defaultLanguage.isoKey]}
           className={b('selector')}
         >
           {
@@ -211,11 +211,11 @@ class TotalPriceInfoDrawer extends Component {
             ) : (
               <div className={b('totalPriceBlock-sum')}>
                 <div className={b('totalPriceBlock-sum-text')}>
-                  {`${language.phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}:`}
+                  {`${phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}:`}
                 </div>
                 <div className={b('totalPriceBlock-sum-number')}>
                   {totalPrice}
-                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                  {` ${phrases['core.currency'][defaultLanguage.isoKey]}`}
                 </div>
               </div>
             )
@@ -226,19 +226,19 @@ class TotalPriceInfoDrawer extends Component {
             className={b('periods-block', { active: currentTotalPricePeriod === totalPricePeriod.TODAY.name })}
             onClick={this.handleChangeTotalPricePeriod(totalPricePeriod.TODAY)}
           >
-            {language.phrases['header.totalPriceDrawer.button.today'][defaultLanguage.isoKey]}
+            {phrases['header.totalPriceDrawer.button.today'][defaultLanguage.isoKey]}
           </div>
           <div
             className={b('periods-block', { active: currentTotalPricePeriod === totalPricePeriod.WEEK.name })}
             onClick={this.handleChangeTotalPricePeriod(totalPricePeriod.WEEK)}
           >
-            {language.phrases['header.totalPriceDrawer.button.week'][defaultLanguage.isoKey]}
+            {phrases['header.totalPriceDrawer.button.week'][defaultLanguage.isoKey]}
           </div>
           <div
             className={b('periods-block', { active: currentTotalPricePeriod === totalPricePeriod.MONTH.name })}
             onClick={this.handleChangeTotalPricePeriod(totalPricePeriod.MONTH)}
           >
-            {language.phrases['header.totalPriceDrawer.button.month'][defaultLanguage.isoKey]}
+            {phrases['header.totalPriceDrawer.button.month'][defaultLanguage.isoKey]}
           </div>
         </div>
       </Drawer>

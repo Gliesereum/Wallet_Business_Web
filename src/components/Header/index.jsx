@@ -38,14 +38,14 @@ class Header extends Component {
     [key]: !prevState[key],
   }));
 
-  renderProfileMenu = (language, defaultLanguage) => () => (
+  renderProfileMenu = (phrases, defaultLanguage) => () => (
     <Menu className={b('menu')}>
       <Menu.Item
         className={b('menu-item')}
       >
         <Link to="/profile">
           <Icon type="user" />
-          <span className={b('menu-item-text')}>{language.phrases['header.menu.myProfile'][defaultLanguage.isoKey]}</span>
+          <span className={b('menu-item-text')}>{phrases['header.menu.myProfile'][defaultLanguage.isoKey]}</span>
         </Link>
       </Menu.Item>
       <Menu.Item
@@ -54,7 +54,7 @@ class Header extends Component {
       >
         <Icon type="safety-certificate" />
         <span className={b('menu-item-text')}>
-          {language.phrases['header.menu.personalAssistant'][defaultLanguage.isoKey]}
+          {phrases['header.menu.personalAssistant'][defaultLanguage.isoKey]}
           <div className={b('menu-item-indicator')}>for premium</div>
         </span>
       </Menu.Item>
@@ -68,7 +68,7 @@ class Header extends Component {
       yesterdayTotalPrice = { sum: '' },
       corporations,
       defaultLanguage,
-      language,
+      phrases,
       loading,
     } = this.props;
     const {
@@ -83,7 +83,7 @@ class Header extends Component {
         >
           <Dropdown
             trigger={['click']}
-            overlay={this.renderProfileMenu(language, defaultLanguage)}
+            overlay={this.renderProfileMenu(phrases, defaultLanguage)}
             className={b('content-box', { profileSection: true })}
           >
             <div>
@@ -111,17 +111,17 @@ class Header extends Component {
             <TotalPrice />
             <div className={b('content-box-price')}>
               <div className={b('content-box-price-day')}>
-                <div>{`${language.phrases['header.totalPrice.today'][defaultLanguage.isoKey]}:`}</div>
-                <div>{`${language.phrases['header.totalPrice.yesterday'][defaultLanguage.isoKey]}:`}</div>
+                <div>{`${phrases['header.totalPrice.today'][defaultLanguage.isoKey]}:`}</div>
+                <div>{`${phrases['header.totalPrice.yesterday'][defaultLanguage.isoKey]}:`}</div>
               </div>
               <div className={b('content-box-price-number')}>
                 <div>
                   {loading ? <ScreenLoading /> : todayTotalPrice.sum}
-                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                  {` ${phrases['core.currency'][defaultLanguage.isoKey]}`}
                 </div>
                 <div>
                   {loading ? <ScreenLoading /> : yesterdayTotalPrice.sum}
-                  {` ${language.phrases['core.currency'][defaultLanguage.isoKey]}`}
+                  {` ${phrases['core.currency'][defaultLanguage.isoKey]}`}
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ class Header extends Component {
               corporations={corporations}
               onClose={this.handleVisibleState('totalPriceDrawerVisible')}
               defaultLanguage={defaultLanguage}
-              language={language}
+              phrases={phrases}
             />
           )
         }
@@ -160,7 +160,7 @@ class Header extends Component {
 const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
   defaultLanguage: state.app.defaultLanguage,
-  language: state.app.language,
+  phrases: state.app.phrases,
 });
 
 export default compose(

@@ -35,7 +35,7 @@ class SideMenu extends Component {
     const {
       isUserExist,
       location,
-      language,
+      phrases,
       langPack,
       defaultLanguage,
       hasAdminRights,
@@ -45,13 +45,13 @@ class SideMenu extends Component {
     const mainMenuItems = [
       {
         icon: MyCorporations,
-        text: language.phrases['sideBar.menu.company.label'][defaultLanguage.isoKey],
+        text: phrases['sideBar.menu.company.label'][defaultLanguage.isoKey],
         linkTo: '/corporations',
         canDisabled: true,
       },
       {
         icon: Orders,
-        text: language.phrases['sideBar.menu.orders.label'][defaultLanguage.isoKey],
+        text: phrases['sideBar.menu.orders.label'][defaultLanguage.isoKey],
         linkTo: '/orders',
         // canDisabled: true,
       },
@@ -63,13 +63,13 @@ class SideMenu extends Component {
       // },
       {
         icon: Workers,
-        text: language.phrases['sideBar.menu.employees.label'][defaultLanguage.isoKey],
+        text: phrases['sideBar.menu.employees.label'][defaultLanguage.isoKey],
         linkTo: '/workers',
         // canDisabled: true,
       },
       {
         icon: Clients,
-        text: language.phrases['sideBar.menu.clients.label'][defaultLanguage.isoKey],
+        text: phrases['sideBar.menu.clients.label'][defaultLanguage.isoKey],
         linkTo: '/clients',
         // canDisabled: true,
       },
@@ -84,7 +84,7 @@ class SideMenu extends Component {
       // },
       {
         icon: Help,
-        text: language.phrases['sideBar.menu.help.label'][defaultLanguage.isoKey],
+        text: phrases['sideBar.menu.help.label'][defaultLanguage.isoKey],
         linkTo: '/help',
         canDisabled: false,
       },
@@ -140,7 +140,7 @@ class SideMenu extends Component {
         <div className={b('exit')}>
           <div className={b('menu-item')} onClick={this.signOutHandler}>
             <Icon style={{ color: 'white' }} component={Exit} />
-            <span>{language.phrases['sideBar.menu.logOut.label'][defaultLanguage.isoKey]}</span>
+            <span>{phrases['sideBar.menu.logOut.label'][defaultLanguage.isoKey]}</span>
           </div>
         </div>
         <div className={b('languages')}>
@@ -168,7 +168,7 @@ class SideMenu extends Component {
 
 const mapStateToProps = state => ({
   defaultLanguage: state.app.defaultLanguage,
-  language: state.app.language,
+  phrases: state.app.phrases,
   langPack: state.app.langPack,
   isUserExist: state.auth.user.firstName,
   hasAdminRights: state.auth.hasAdminRights,

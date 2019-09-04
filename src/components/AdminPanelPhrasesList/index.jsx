@@ -32,6 +32,7 @@ class AdminPanelPhrasesList extends Component {
     return (
       <div style={{ flex: 1 }}>
         <List
+          style={{ maxHeight: '500px', overflowY: 'scroll' }}
           size="large"
           bordered
           dataSource={phrasesList}
