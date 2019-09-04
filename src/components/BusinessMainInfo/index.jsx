@@ -158,6 +158,8 @@ class BusinessMainInfo extends Component {
       businessTypes,
       chosenCorpId,
       chosenBusiness,
+      defaultLanguage,
+      phrases,
     } = this.props;
     const {
       businessCategories,
@@ -185,6 +187,8 @@ class BusinessMainInfo extends Component {
           logoUrl={logoUrl}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
         />
 
         <Row
@@ -195,7 +199,7 @@ class BusinessMainInfo extends Component {
             <Button className={b('controlBtns-btn backBtn')}>
               <Link to="/corporations">
                 <Icon type="left" />
-                Назад к списку
+                {phrases['core.button.goToList'][defaultLanguage.isoKey]}
               </Link>
             </Button>
           </Col>
@@ -206,7 +210,7 @@ class BusinessMainInfo extends Component {
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.toggleDeleteModal}
                 >
-                  Удалить филиал
+                  {phrases['businessPage.mainInfo.deleteBranch'][defaultLanguage.isoKey]}
                 </Button>
               </Col>
             )
@@ -217,7 +221,11 @@ class BusinessMainInfo extends Component {
               onClick={this.handleSubmit}
               type="primary"
             >
-              {isAddBusinessMode ? 'Сохранить' : 'Далее'}
+              {
+                isAddBusinessMode
+                  ? phrases['core.button.save'][defaultLanguage.isoKey]
+                  : phrases['core.button.goForward'][defaultLanguage.isoKey]
+              }
             </Button>
           </Col>
         </Row>

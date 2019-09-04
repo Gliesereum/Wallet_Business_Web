@@ -108,12 +108,14 @@ export const recordTranslate = {
     STARTED: 'Начато',
     IN_PROCESS: 'В процессе',
     COMPLETED: 'Завершен',
+    EXPIRED: 'Истекший',
   },
   statusIcon: {
     CANCELED: Canceled,
     WAITING: Waiting,
     IN_PROCESS: Timer,
     COMPLETED: Completed,
+    EXPIRED: Waiting, // TODO: add icon
   },
 };
 

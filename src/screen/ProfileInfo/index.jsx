@@ -99,7 +99,7 @@ class ProfileInfo extends Component {
       email,
       verifyUserEmail,
       defaultLanguage,
-      language,
+      phrases,
     } = this.props;
 
     return (
@@ -136,7 +136,7 @@ class ProfileInfo extends Component {
                     className={b('controlBtns-btn backBtn')}
                   >
                     <Icon type="left" />
-                    {language.phrases['profile.page.navigation.goToCompanies'][defaultLanguage.isoKey]}
+                    {phrases['profile.page.navigation.goToCompanies'][defaultLanguage.isoKey]}
                   </Button>
                 </Link>
               ) : (
@@ -148,7 +148,7 @@ class ProfileInfo extends Component {
                   }
                 >
                   <Icon type="left" />
-                  {language.phrases['core.button.back'][defaultLanguage.isoKey]}
+                  {phrases['core.button.back'][defaultLanguage.isoKey]}
                 </Button>
               )
             }
@@ -161,7 +161,7 @@ class ProfileInfo extends Component {
                   type="primary"
                   onClick={this.handleToggleReadOnlyMode(false)}
                 >
-                  {language.phrases['core.button.edit'][defaultLanguage.isoKey]}
+                  {phrases['core.button.edit'][defaultLanguage.isoKey]}
                 </Button>
               ) : (
                 <Button
@@ -169,7 +169,7 @@ class ProfileInfo extends Component {
                   type="primary"
                   onClick={this.handleUpdateUserData}
                 >
-                  {language.phrases['core.button.save'][defaultLanguage.isoKey]}
+                  {phrases['core.button.save'][defaultLanguage.isoKey]}
                 </Button>
               )
             }
@@ -184,7 +184,7 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   email: state.auth.email.email,
   defaultLanguage: state.app.defaultLanguage,
-  language: state.app.language,
+  phrases: state.app.phrases,
 });
 
 const mapDispatchToProps = dispatch => ({

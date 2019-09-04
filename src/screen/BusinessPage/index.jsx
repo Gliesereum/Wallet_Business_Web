@@ -100,7 +100,7 @@ class BusinessPage extends Component {
       businessPackages,
       workingSpaces,
       defaultLanguage,
-      language,
+      phrases,
     } = this.props;
 
     const { disabledTab } = this.state;
@@ -109,7 +109,7 @@ class BusinessPage extends Component {
 
     const businessTabs = [
       {
-        tabName: language.phrases['core.button.mainInfo'][defaultLanguage.isoKey],
+        tabName: phrases['core.button.mainInfo'][defaultLanguage.isoKey],
         keyName: 'mainInfo',
         ContentComponent: BusinessMainInfo,
         props: {
@@ -122,7 +122,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: language.phrases['core.button.schedule'][defaultLanguage.isoKey],
+        tabName: phrases['core.button.schedule'][defaultLanguage.isoKey],
         keyName: 'schedule',
         ContentComponent: BusinessScheduleInfo,
         props: {
@@ -130,7 +130,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: language.phrases['core.button.services'][defaultLanguage.isoKey],
+        tabName: phrases['core.button.services'][defaultLanguage.isoKey],
         keyName: 'services',
         disabled: disabledTab.servicesDisable,
         ContentComponent: BusinessServices,
@@ -140,7 +140,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: language.phrases['core.button.package'][defaultLanguage.isoKey],
+        tabName: phrases['core.button.package'][defaultLanguage.isoKey],
         keyName: 'packages',
         disabled: disabledTab.packagesDisable,
         ContentComponent: BusinessPackages,
@@ -150,7 +150,7 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: language.phrases['core.button.workingSpaces'][defaultLanguage.isoKey],
+        tabName: phrases['core.button.workingSpaces'][defaultLanguage.isoKey],
         keyName: 'workingSpace',
         disabled: disabledTab.workingSpaceDisable,
         ContentComponent: BusinessWorkingSpaces,
@@ -165,8 +165,8 @@ class BusinessPage extends Component {
         <div className={b('header')}>
           <p className={b('header-title')}>
             {isAddBusinessMode
-              ? language.phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]
-              : `${language.phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${chosenBusiness && chosenBusiness.name}\u00BB`}
+              ? phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]
+              : `${phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${chosenBusiness && chosenBusiness.name}\u00BB`}
           </p>
         </div>
         <Tabs
@@ -193,7 +193,7 @@ class BusinessPage extends Component {
                   isAddBusinessMode={isAddBusinessMode}
                   changeActiveTab={this.changeActiveTab}
                   defaultLanguage={defaultLanguage}
-                  language={language}
+                  phrases={phrases}
                   {...props}
                 />
               </Tabs.TabPane>
@@ -207,7 +207,7 @@ class BusinessPage extends Component {
 
 const mapStateToProps = state => ({
   defaultLanguage: state.app.defaultLanguage,
-  language: state.app.language,
+  phrases: state.app.phrases,
   businessPackages: state.business.businessPackages,
   corporations: state.corporations.corporations,
   business: state.business.business,

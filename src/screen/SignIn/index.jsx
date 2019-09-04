@@ -80,7 +80,7 @@ class SignIn extends Component {
     } = this.state;
 
     const {
-      language,
+      phrases,
       defaultLanguage,
       langPack,
     } = this.props.app;
@@ -89,24 +89,24 @@ class SignIn extends Component {
       <div className={b()}>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{language.phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
+          <title>{phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
         </Helmet>
         <div className={b('main')}>
           <div className={b('badge')}>
-            {language.phrases['start.page.welcome.message'][defaultLanguage.isoKey]}
+            {phrases['start.page.welcome.message'][defaultLanguage.isoKey]}
           </div>
           <div className={b('logo')} />
           <div className={b('titleBlock')}>
             <h1 className={b('titleBlock-title')}>
-              {language.phrases['signIn.form.header'][defaultLanguage.isoKey]}
+              {phrases['signIn.form.header'][defaultLanguage.isoKey]}
             </h1>
             <p className={b('titleBlock-subtitle')}>
-              {language.phrases['signIn.form.title'][defaultLanguage.isoKey]}
+              {phrases['signIn.form.title'][defaultLanguage.isoKey]}
             </p>
           </div>
           <SignInForm
             defaultLanguage={defaultLanguage}
-            language={language}
+            phrases={phrases}
             gotCode={gotCode}
             phone={phone}
             validateStatus={validateStatus}
@@ -119,7 +119,7 @@ class SignIn extends Component {
           langPack={langPack}
           setLanguage={this.props.$setLanguage}
           defaultLanguage={defaultLanguage}
-          language={language}
+          phrases={phrases}
         />
       </div>
     );
