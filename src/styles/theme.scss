@@ -25,7 +25,8 @@ $shadow-right: 4px 4px 8px rgba(0, 0, 0, 0.16);
 $shadow-left: -2px 2px 4px rgba(0, 0, 0, 0.08);
 
 // -------- Fonts -----------
-$sans: 'Roboto', sans-serif;
+$Roboto: 'Roboto', sans-serif;
+$Montserrat: 'Montserrat', sans-serif;
 
 // -------- Media Sizes -----------
 $max-desktop: 1279px;
@@ -43,5 +44,3 @@ $coupler_logo_beta: url('../assets/coupler_logo_beta.svg');
 $logo-single-white: url('../assets/logo-single-white.svg');
 $logo-single-white-signIn: url('../assets/logo-signIn.svg');
 $coupler_logo_mobile: url('../assets/coupler_logo_mobile.svg');
-$coupler-worker-banner-bg: url('../assets/workerPromoBg.png');
-$coupler-worker-banner-googleBtn: url('../assets/googleplay.png');

@@ -9,9 +9,6 @@ import {
   Row,
   Col,
   notification,
-  Divider,
-  Button,
-  Icon,
   Steps,
 } from 'antd';
 
@@ -108,16 +105,15 @@ class SignIn extends Component {
           <title>{phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
         </Helmet>
         <Row className={b('main')}>
-          <Col xs={24}>
-            {/* <div className={b('badge')}> */}
-            {/*  {phrases['start.page.welcome.message'][defaultLanguage.isoKey]} */}
-            {/* </div> */}
+          <Col
+            className={b('main-formBlock')}
+            xs={24}
+          >
             <div className={b('logo')} />
             <div className={b('titleBlock')}>
               <div className={b('titleBlock-title')}>
                 {phrases['signIn.form.header'][defaultLanguage.isoKey]}
               </div>
-              <Divider className={b('titleBlock-divider')} />
               <div className={b('titleBlock-subtitle')}>
                 {phrases['signIn.form.title'][defaultLanguage.isoKey]}
               </div>
@@ -132,6 +128,10 @@ class SignIn extends Component {
               sendCodeHandler={this.sendCodeHandler}
               gotCodeHandler={this.gotCodeHandler}
             />
+            <div className={b('support')}>
+              <span>Виникли труднощі?</span>
+              <span>{' Зв\'язатись'}</span>
+            </div>
           </Col>
           <Col xs={24}>
             <div className={b('description')}>
@@ -139,17 +139,6 @@ class SignIn extends Component {
               <p className={b('description-text')}>
                 Повна керованість бізнесу та віддалений контроль працівників. Ідеальна система автоматизації для сфери послуг.Особистий помічник у смартфоні
               </p>
-            </div>
-            <div className={b('video')}>
-              <iframe
-                height={200}
-                width={328}
-                title="signIn Coupler Video"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                src={phrases['signIn.landing.video.url'][defaultLanguage.isoKey]}
-                frameBorder="0"
-                allowFullScreen
-              />
             </div>
             <Steps
               className={b('businessPoints')}
@@ -186,28 +175,6 @@ class SignIn extends Component {
                 description="Встановіть на сайт кнопку Coupler Widget та/або порекомендуйте клієнтам додаток Coupler, щоб отримувати замовлення онлайн, спростити процес бронювання послуг та роботу адміністраторів"
               />
             </Steps>
-            <div className={b('banner')}>
-              <div className={b('banner-bg')} />
-              <div className={b('banner-text')}>
-                {phrases['signIn.landing.banner.text'][defaultLanguage.isoKey]}
-              </div>
-              <a
-                className={b('banner-googlePlayBtn')}
-                href="https://play.google.com/store/apps/details?id=com.gliesereum.coupler_worker"
-                target="_blank"
-              />
-            </div>
-            <div className={b('otherServices')}>
-              <Button className="backBtn">
-                <Icon type="left" />
-                <a
-                  href="https://coupler.app/"
-                  target="_blank"
-                >
-                  Інші додатки Coupler
-                </a>
-              </Button>
-            </div>
             <div className={b('networks')}>
               <h1 className={b('networks-title')}>Стежте за нами у соцмережах</h1>
               <div className={b('networks-icons')}>

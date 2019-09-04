@@ -19,7 +19,7 @@
 
     &-title {
       color: $white;
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 18px;
       letter-spacing: 0.02em;
       font-feature-settings: 'pnum' on, 'lnum' on;
@@ -120,7 +120,7 @@
       margin-bottom: 9px;
 
       & .title {
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 10px;
         line-height: 12px;
         color: #1078E1;
@@ -130,7 +130,7 @@
       }
 
       & .data {
-        font-family: $sans;
+        font-family: $Roboto;
         font-weight: normal;
         font-size: 12px;
         line-height: 14px;

@@ -27,7 +27,7 @@
       border: unset;
       color: $font-title-black;
       font-size: 14px;
-      font-family: $sans;
+      font-family: $Roboto;
       letter-spacing: 0.02em;
     }
 
@@ -49,7 +49,7 @@
 
           & span:not(.ant-checkbox) {
             color: $gray;
-            font-family: $sans;
+            font-family: $Roboto;
             font-size: 12px;
             letter-spacing: 0.02em;
           }

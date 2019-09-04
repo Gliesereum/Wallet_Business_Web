@@ -94,7 +94,7 @@ class SignInForm extends Component {
                 size="large"
                 className={b('number', { codeInput: true })}
                 maxLength={6}
-                placeholder={language.phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey]}
+                placeholder={phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey]}
               />
             )
             : form.getFieldDecorator('phone', {
@@ -117,13 +117,15 @@ class SignInForm extends Component {
         </Form.Item>
         {
           gotCode ? (
-            <>
+            <div className="buttonGroup">
               <Button
                 className={b('button', { firstButton: true })}
                 onClick={timerIsFinished ? this.getFormCodeHandler(phone) : this.sendFormCodeHandler}
               >
                 {
-                  timerIsFinished ? phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey] : phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
+                  timerIsFinished
+                    ? phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]
+                    : phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
                 }
               </Button>
               <Button
@@ -131,16 +133,18 @@ class SignInForm extends Component {
                 className={b('button')}
                 onClick={gotCodeHandler}
               >
-                {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                {phrases['core.button.cancel'][defaultLanguage.isoKey]}
               </Button>
-            </>
+            </div>
           ) : (
-            <Button
-              className={b('button')}
-              onClick={this.getFormCodeHandler()}
-            >
-              {phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
-            </Button>
+            <div className="buttonGroup">
+              <Button
+                className={b('button')}
+                onClick={this.getFormCodeHandler()}
+              >
+                {phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
+              </Button>
+            </div>
           )
         }
       </Form>
