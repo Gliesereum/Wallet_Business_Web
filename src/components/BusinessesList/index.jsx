@@ -27,7 +27,7 @@ class BusinessesList extends PureComponent {
       viewCorp,
       business,
       defaultLanguage,
-      language,
+      phrases,
     } = this.props;
     const data = business.map(item => ({
       name: item.name,
@@ -63,7 +63,7 @@ class BusinessesList extends PureComponent {
                   <Card className={b('card', { addCard: true })}>
                     <img src={AddIcon} alt="addBusiness" />
                     <div className={b('card--addCard-addText')}>
-                      {language.phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
+                      {phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
                     </div>
                   </Card>
                 </Link>
@@ -95,7 +95,7 @@ class BusinessesList extends PureComponent {
       business,
       viewCorp,
       defaultLanguage,
-      language,
+      phrases,
     } = this.props;
 
     return (
@@ -108,9 +108,9 @@ class BusinessesList extends PureComponent {
             this.renderBusinessesList()
           ) : (
             <EmptyState
-              title={language.phrases['company.page.business.branch.emptyState.title'][defaultLanguage.isoKey]}
-              descrText={language.phrases['company.page.business.branch.emptyState.description'][defaultLanguage.isoKey]}
-              addItemText={language.phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
+              title={phrases['company.page.business.branch.emptyState.title'][defaultLanguage.isoKey]}
+              descrText={phrases['company.page.business.branch.emptyState.description'][defaultLanguage.isoKey]}
+              addItemText={phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
               linkToData={{
                 pathname: '/business/add',
                 state: {

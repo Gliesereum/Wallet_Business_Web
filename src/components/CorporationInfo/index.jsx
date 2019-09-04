@@ -127,14 +127,14 @@ class CorporationInfo extends Component {
       isAddMode,
       changeActiveCorporation,
       defaultLanguage,
-      language,
+      phrases,
     } = this.props;
 
-    let headerTitle = language.phrases['company.pageCreate.headerEdit.title'][defaultLanguage.isoKey];
+    let headerTitle = phrases['company.pageCreate.headerEdit.title'][defaultLanguage.isoKey];
     if (readOnlyMode) {
-      headerTitle = language.phrases['company.pageCreate.headerInfo.title'][defaultLanguage.isoKey];
+      headerTitle = phrases['company.pageCreate.headerInfo.title'][defaultLanguage.isoKey];
     } else if (isAddMode) {
-      headerTitle = language.phrases['company.pageCreate.headerCreate.title'][defaultLanguage.isoKey];
+      headerTitle = phrases['company.pageCreate.headerCreate.title'][defaultLanguage.isoKey];
     }
 
     return (
@@ -143,7 +143,7 @@ class CorporationInfo extends Component {
           <h1 className={b('formBox-header')}>{headerTitle}</h1>
           <CorporationForm
             defaultLanguage={defaultLanguage}
-            language={language}
+            phrases={phrases}
             wrappedComponentRef={form => this.corporationForm = form}
             readOnlyMode={readOnlyMode}
             chosenCorporation={chosenCorporation}
@@ -165,7 +165,7 @@ class CorporationInfo extends Component {
                     onClick={changeActiveCorporation(null, false)}
                   >
                     <Icon type="left" />
-                    {language.phrases['core.button.back'][defaultLanguage.isoKey]}
+                    {phrases['core.button.back'][defaultLanguage.isoKey]}
                   </Button>
                 ) : (
                   <Button
@@ -176,7 +176,7 @@ class CorporationInfo extends Component {
                     }
                   >
                     <Icon type="left" />
-                    {language.phrases['core.button.back'][defaultLanguage.isoKey]}
+                    {phrases['core.button.back'][defaultLanguage.isoKey]}
                   </Button>
                 )
               }
@@ -188,7 +188,7 @@ class CorporationInfo extends Component {
                     className={b('formBox-controlBtns-btn deleteBtn')}
                     onClick={this.toggleDeleteModal}
                   >
-                    {language.phrases['core.button.remove'][defaultLanguage.isoKey]}
+                    {phrases['core.button.remove'][defaultLanguage.isoKey]}
                   </Button>
                 ) : (
                   <div />
@@ -203,7 +203,7 @@ class CorporationInfo extends Component {
                     type="primary"
                     onClick={this.handleToggleReadOnlyMode(false)}
                   >
-                    {language.phrases['core.button.edit'][defaultLanguage.isoKey]}
+                    {phrases['core.button.edit'][defaultLanguage.isoKey]}
                   </Button>
                 ) : (
                   <Button
@@ -211,7 +211,7 @@ class CorporationInfo extends Component {
                     type="primary"
                     onClick={this.handleUpdateCorporation}
                   >
-                    {language.phrases['core.button.save'][defaultLanguage.isoKey]}
+                    {phrases['core.button.save'][defaultLanguage.isoKey]}
                   </Button>
                 )
               }
@@ -221,8 +221,8 @@ class CorporationInfo extends Component {
             deleteModalVisible && (
               <DeleteModal
                 visible={deleteModalVisible}
-                okText={language.phrases['core.button.remove'][defaultLanguage.isoKey]}
-                cancelText={language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                okText={phrases['core.button.remove'][defaultLanguage.isoKey]}
+                cancelText={phrases['core.button.cancel'][defaultLanguage.isoKey]}
                 onOk={this.handleRemoveCorporation}
                 onCancel={this.toggleDeleteModal}
                 deletedName={chosenCorporation.name}
@@ -234,7 +234,7 @@ class CorporationInfo extends Component {
 
         <div className={b('otherCorpBox')}>
           <h1 className={b('otherCorpBox-header')}>
-            {language.phrases['company.pageCreate.rightBar.header.title'][defaultLanguage.isoKey]}
+            {phrases['company.pageCreate.rightBar.header.title'][defaultLanguage.isoKey]}
           </h1>
           {
             corporations.length ? (
@@ -250,8 +250,8 @@ class CorporationInfo extends Component {
               ))) : (
                 <div className={b('emptyState-wrapper')}>
                   <EmptyState
-                    title={language.phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
-                    descrText={language.phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
+                    title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
+                    descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
                     withoutBtn
                   />
                 </div>

@@ -16,12 +16,13 @@ import {
   ClientsPage,
   OrdersPage,
   FAQ,
+  AdminPanel,
 } from '../screen';
 import { actions } from '../state';
 
 class PrivateRouter extends PureComponent {
   render() {
-    const { user } = this.props;
+    const { user, auth } = this.props;
 
     return (
       <Router>
@@ -40,6 +41,8 @@ class PrivateRouter extends PureComponent {
                 <Route path="/orders" exact component={OrdersPage} />
                 <Route path="/workers" exact component={WorkersPage} />
                 <Route path="/clients" exact component={ClientsPage} />
+
+                {auth.hasAdminRights && <Route path="/adminPanel" exact component={AdminPanel} />}
 
                 <Route path="/profile" exact component={ProfileInfo} />
 

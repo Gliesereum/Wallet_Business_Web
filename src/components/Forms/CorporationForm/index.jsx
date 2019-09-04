@@ -29,7 +29,7 @@ class CorporationForm extends PureComponent {
       onChange,
       uploadCorporationImage,
       defaultLanguage,
-      language,
+      phrases,
     } = this.props;
 
     return (
@@ -39,7 +39,7 @@ class CorporationForm extends PureComponent {
       >
         <Row gutter={31}>
           <Col lg={12}>
-            <Form.Item label={language.phrases['company.pageCreate.form.inputNameCompany.label'][defaultLanguage.isoKey]}>
+            <Form.Item label={phrases['company.pageCreate.form.inputNameCompany.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('name', {
                 initialValue: chosenCorporation ? chosenCorporation.name : '',
                 rules: [
@@ -48,7 +48,7 @@ class CorporationForm extends PureComponent {
                 ],
               })(<Input placeholder="ТОВ “Автомийки карваш”" readOnly={readOnlyMode} />)}
             </Form.Item>
-            <Form.Item label={language.phrases['company.pageCreate.form.inputCountry.label'][defaultLanguage.isoKey]}>
+            <Form.Item label={phrases['company.pageCreate.form.inputCountry.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('country', {
                 initialValue: chosenCorporation ? chosenCorporation.country : undefined,
                 rules: [
@@ -102,8 +102,8 @@ class CorporationForm extends PureComponent {
                           <h1 className={b('uploader-inside-header')}>
                             {
                               chosenCorporation && chosenCorporation.logoUrl
-                                ? language.phrases['company.pageCreate.form.uploadFileNew.label'][defaultLanguage.isoKey]
-                                : language.phrases['company.pageCreate.form.uploadFileAdd.label'][defaultLanguage.isoKey]
+                                ? phrases['company.pageCreate.form.uploadFileNew.label'][defaultLanguage.isoKey]
+                                : phrases['company.pageCreate.form.uploadFileAdd.label'][defaultLanguage.isoKey]
                             }
                           </h1>
                           {
@@ -124,7 +124,7 @@ class CorporationForm extends PureComponent {
         </Row>
         <Row gutter={31}>
           <Col lg={12}>
-            <Form.Item label={language.phrases['company.pageCreate.form.inputPhone.label'][defaultLanguage.isoKey]}>
+            <Form.Item label={phrases['core.form.inputPhone.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('phone', {
                 initialValue: chosenCorporation ? chosenCorporation.phone : '',
                 getValueFromEvent: checkInputHandler('phone', form),
@@ -137,7 +137,7 @@ class CorporationForm extends PureComponent {
             </Form.Item>
           </Col>
           <Col lg={12}>
-            <Form.Item label={language.phrases['company.pageCreate.form.inputCity.label'][defaultLanguage.isoKey]}>
+            <Form.Item label={phrases['company.pageCreate.form.inputCity.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('city', {
                 initialValue: chosenCorporation ? chosenCorporation.city : '',
                 rules: [
@@ -150,7 +150,7 @@ class CorporationForm extends PureComponent {
         </Row>
         <Row gutter={31}>
           <Col lg={12}>
-            <Form.Item label={language.phrases['company.pageCreate.form.inputDetails.label'][defaultLanguage.isoKey]}>
+            <Form.Item label={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('description', {
                 initialValue: chosenCorporation ? chosenCorporation.description : '',
                 rules: [
@@ -160,7 +160,7 @@ class CorporationForm extends PureComponent {
             </Form.Item>
           </Col>
           <Col lg={8}>
-            <Form.Item label={language.phrases['company.pageCreate.form.inputStreet.label'][defaultLanguage.isoKey]}>
+            <Form.Item label={phrases['company.pageCreate.form.inputStreet.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('street', {
                 initialValue: chosenCorporation ? chosenCorporation.street : '',
                 rules: [
@@ -171,7 +171,7 @@ class CorporationForm extends PureComponent {
             </Form.Item>
           </Col>
           <Col lg={4}>
-            <Form.Item label={language.phrases['company.pageCreate.form.inputHome.label'][defaultLanguage.isoKey]}>
+            <Form.Item label={phrases['company.pageCreate.form.inputHome.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('buildingNumber', {
                 initialValue: chosenCorporation ? chosenCorporation.buildingNumber : '',
                 rules: [

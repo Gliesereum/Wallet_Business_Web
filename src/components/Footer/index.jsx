@@ -10,7 +10,7 @@ const b = bem('footer');
 const { Option } = Select;
 
 const Footer = ({
-  background, defaultLanguage, language, langPack, setLanguage,
+  background, defaultLanguage, phrases, langPack, setLanguage,
 }) => (
   <footer
     className={b()}
@@ -20,11 +20,11 @@ const Footer = ({
   >
     <div className={b('links')}>
       <a target="_blank" href="https://coupler.app/terms">
-        {language.phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}
+        {phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}
       </a>
       <Divider type="vertical" />
       <a target="_blank" href="https://coupler.app/policy">
-        {language.phrases['footer.copyright.link.policy'][defaultLanguage.isoKey]}
+        {phrases['footer.copyright.link.policy'][defaultLanguage.isoKey]}
       </a>
       <Divider type="vertical" />
       <div className={b('lang_box')}>
@@ -45,13 +45,13 @@ const Footer = ({
       </div>
     </div>
     <div className={b('copyright')}>
-      <div className={b('copyright-text')}>{language.phrases['footer.copyright'][defaultLanguage.isoKey]}</div>
+      <div className={b('copyright-text')}>{phrases['footer.copyright'][defaultLanguage.isoKey]}</div>
       <a
         className={b('copyright-text')}
         href="https://www.gliesereum.com/"
         target="_blank"
       >
-        {language.phrases['footer.copyright.company'][defaultLanguage.isoKey]}
+        {phrases['footer.copyright.company'][defaultLanguage.isoKey]}
       </a>
     </div>
   </footer>

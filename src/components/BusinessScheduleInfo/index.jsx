@@ -97,7 +97,7 @@ class BusinessScheduleInfo extends PureComponent {
 
   render() {
     const { scheduleList, readOnlyMode } = this.state;
-    const { isAddBusinessMode, defaultLanguage, language } = this.props;
+    const { isAddBusinessMode, defaultLanguage, phrases } = this.props;
 
     return (
       <div className={b()}>
@@ -121,7 +121,7 @@ class BusinessScheduleInfo extends PureComponent {
                   onClick={this.handleChangeActiveTab('mainInfo')}
                 >
                   <Icon type="left" />
-                  {language.phrases['core.button.back'][defaultLanguage.isoKey]}
+                  {phrases['core.button.back'][defaultLanguage.isoKey]}
                 </Button>
               ) : (
                 <Button
@@ -131,7 +131,7 @@ class BusinessScheduleInfo extends PureComponent {
                     : this.handleToggleReadOnlyMode(true)}
                 >
                   <Icon type="left" />
-                  {language.phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                  {phrases['core.button.cancel'][defaultLanguage.isoKey]}
                 </Button>
               )
             }
@@ -144,7 +144,7 @@ class BusinessScheduleInfo extends PureComponent {
                   onClick={this.handleToggleReadOnlyMode(false)}
                   type="primary"
                 >
-                  {language.phrases['core.button.edit'][defaultLanguage.isoKey]}
+                  {phrases['core.button.edit'][defaultLanguage.isoKey]}
                 </Button>
               ) : (
                 <Button
@@ -152,7 +152,7 @@ class BusinessScheduleInfo extends PureComponent {
                   onClick={this.handleSubmitForm}
                   type="primary"
                 >
-                  {language.phrases['core.button.save'][defaultLanguage.isoKey]}
+                  {phrases['core.button.save'][defaultLanguage.isoKey]}
                 </Button>
               )
             }
