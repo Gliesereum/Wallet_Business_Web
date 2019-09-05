@@ -1,8 +1,13 @@
 @import '../../../styles/theme';
 
 .signInForm {
-  padding: 24px 24px 32px;
   min-height: 400px;
+  @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+    padding: 24px 24px 32px;
+  }
+  @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+    padding: 48px 24px 32px;
+  }
 
   &__infoBlock {
     display: flex;
@@ -12,11 +17,15 @@
     border: 1px dashed rgba(255, 255, 255, 0.4);
     border-radius: 4px;
     font-size: 13px;
-    font-weight: 500;
     line-height: 22px;
     letter-spacing: 0.04em;
     color: $white;
-    margin-bottom: 40px;
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      margin-bottom: 40px;
+    }
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+      margin-bottom: 56px;
+    }
 
     & .timer {
       font-weight: 500;

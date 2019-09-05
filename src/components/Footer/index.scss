@@ -1,10 +1,10 @@
 @import '../../styles/theme';
 
 .footer {
-  padding: 16px 0 8px;
   text-align: center;
   width: 100%;
   background-color: #FCFCFC;
+  padding: 16px 0;
 
   & .ant-divider-vertical {
     background-color: $coupler-blue;
@@ -72,7 +72,7 @@
     justify-content: center;
     align-items: center;
     border-top: 1px solid #EFEFEF;
-    padding: 16px 0 8px;
+    padding: 16px 0 6px;
 
     a {
       color: $coupler-blue;

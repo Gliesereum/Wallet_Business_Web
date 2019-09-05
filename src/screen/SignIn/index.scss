@@ -8,12 +8,29 @@
   &__main {
     position: relative;
     animation: fadeInUp 0.6s ease;
-    padding: 0 16px;
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      padding: 0 16px;
+    }
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+      padding: 0 24px;
+    }
 
     &-formBlock {
       min-height: 617px;
+      @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+        min-height: 617px;
+      }
+      @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+        min-height: 808px;
+      }
       background-color: $coupler-blue;
       box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.16);
+    }
+
+    &-contentBlock {
+      @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+        padding-left: 32px;
+      }
     }
   }
 
@@ -28,8 +45,13 @@
   &__titleBlock {
     width: 100%;
     text-align: center;
-    padding: 32px 0 24px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      padding: 32px 0 23px;
+    }
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+      padding: 56px 0 23px;
+    }
 
     &-title {
       font-family: $Montserrat;
@@ -74,7 +96,12 @@
 
   &__description {
     text-align: center;
-    padding: 40px 0 24px;
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      padding: 40px 0 24px;
+    }
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+      padding: 32px 0 16px;
+    }
 
     &-title {
       font-size: 18px;
@@ -107,7 +134,22 @@
   }
 
   &__businessPoints {
-    padding: 24px 0 8px;
+    & .ant-steps-item {
+      &-content {
+        @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+          padding-bottom: 40px;
+        }
+        @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+          padding-bottom: 56px;
+        }
+      }
+    }
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      padding: 24px 0 8px;
+    }
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+      padding: 16px 0 0;
+    }
   }
 }
 

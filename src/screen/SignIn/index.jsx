@@ -104,6 +104,7 @@ class SignIn extends Component {
             className={b('main-formBlock')}
             xs={24}
             sm={24}
+            md={12}
           >
             <div className={b('logo')} />
             <div className={b('titleBlock')}>
@@ -130,8 +131,10 @@ class SignIn extends Component {
             </div>
           </Col>
           <Col
+            className={b('main-contentBlock')}
             xs={24}
             sm={24}
+            md={12}
           >
             <div className={b('description')}>
               <h1 className={b('description-title')}>Повна керованість бізнесу</h1>
@@ -168,6 +171,8 @@ class SignIn extends Component {
               />
             </Steps>
           </Col>
+        </Row>
+        <Row>
           <Col
             xs={24}
             sm={24}
