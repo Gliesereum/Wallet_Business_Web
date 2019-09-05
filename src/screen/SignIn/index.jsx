@@ -99,13 +99,8 @@ class SignIn extends Component {
           <meta charSet="utf-8" />
           <title>{phrases['page.signIn.helmet.Title'][defaultLanguage.isoKey]}</title>
         </Helmet>
-        <Row className={b('main')}>
-          <Col
-            className={b('main-formBlock')}
-            xs={24}
-            sm={24}
-            md={12}
-          >
+        <div className={b('main')}>
+          <div className={b('main-formBlock')}>
             <div className={b('logo')} />
             <div className={b('titleBlock')}>
               <div className={b('titleBlock-title')}>
@@ -129,13 +124,8 @@ class SignIn extends Component {
               <span>Виникли труднощі?&nbsp;</span>
               <a href="mailto:support@gliesereum.com">Написати листа</a>
             </div>
-          </Col>
-          <Col
-            className={b('main-contentBlock')}
-            xs={24}
-            sm={24}
-            md={12}
-          >
+          </div>
+          <div className={b('main-contentBlock')}>
             <div className={b('description')}>
               <h1 className={b('description-title')}>Повна керованість бізнесу</h1>
               <p className={b('description-text')}>
@@ -144,34 +134,36 @@ class SignIn extends Component {
                 <span>Особистий помічник у смартфоні </span>
               </p>
             </div>
-            <div className={b('deviceImage')}>
-              <div className={b('deviceImage-container')} />
+            <div className={b('pointsDeviceContainer')}>
+              <div className={b('pointsDeviceContainer-deviceImage')}>
+                <div className={b('pointsDeviceContainer-deviceImage-container')} />
+              </div>
+              <Steps
+                className={b('pointsDeviceContainer-businessPoints')}
+                direction="vertical"
+              >
+                <Step
+                  status="process"
+                  icon={<PointBullet />}
+                  title="Актуальні дані бізнесу завжди під рукою"
+                  description="Статистика та аналітика замовлень, клієнтів, виручки, ефективності співробітників. Більше не потрібно витрачати час на нудні адміністративні процеси збору та перевірки інформації. Відтепер точні й правдиві дані про стан вашого бізнесу доступні 24/7 з будь-якого девайсу"
+                />
+                <Step
+                  status="process"
+                  icon={<PointBullet />}
+                  title="Можливість управління мережею бізнесів"
+                  description="Облік та аналіз даних, що оновлюються у режимі реального часу, для одного або мережі бізнесів. Короткі наочні звіти з графіками та діаграмами"
+                />
+                <Step
+                  status="process"
+                  icon={<PointBullet />}
+                  title="Керування послугами, пакетами послуг, цінами, акціями та програмами лояльності"
+                  description="Заповніть інформацію про компанію та створіть основні пропозиції, щоб клієнти могли замовляти послуги онлайн"
+                />
+              </Steps>
             </div>
-            <Steps
-              className={b('businessPoints')}
-              direction="vertical"
-            >
-              <Step
-                status="process"
-                icon={<PointBullet />}
-                title="Актуальні дані бізнесу завжди під рукою"
-                description="Статистика та аналітика замовлень, клієнтів, виручки, ефективності співробітників. Більше не потрібно витрачати час на нудні адміністративні процеси збору та перевірки інформації. Відтепер точні й правдиві дані про стан вашого бізнесу доступні 24/7 з будь-якого девайсу"
-              />
-              <Step
-                status="process"
-                icon={<PointBullet />}
-                title="Можливість управління мережею бізнесів"
-                description="Облік та аналіз даних, що оновлюються у режимі реального часу, для одного або мережі бізнесів. Короткі наочні звіти з графіками та діаграмами"
-              />
-              <Step
-                status="process"
-                icon={<PointBullet />}
-                title="Керування послугами, пакетами послуг, цінами, акціями та програмами лояльності"
-                description="Заповніть інформацію про компанію та створіть основні пропозиції, щоб клієнти могли замовляти послуги онлайн"
-              />
-            </Steps>
-          </Col>
-        </Row>
+          </div>
+        </div>
         <Row>
           <Col
             xs={24}
