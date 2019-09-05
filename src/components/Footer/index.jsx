@@ -6,6 +6,12 @@ import {
   Select,
 } from 'antd';
 
+import {
+  Facebook,
+  Telegram,
+  YouTube,
+} from '../../assets/iconComponents';
+
 const b = bem('footer');
 const { Option } = Select;
 
@@ -18,6 +24,32 @@ const Footer = ({
   <footer
     className={b()}
   >
+    <div className={b('networks')}>
+      <h1 className={b('networks-title')}>Стежте за нами у соцмережах:</h1>
+      <div className={b('networks-icons')}>
+        <a
+          href="https://t.me/coupler_public"
+          className={b('networks-icon')}
+          target="_blank"
+        >
+          <Telegram />
+        </a>
+        <a
+          href="https://www.facebook.com/coupler.platform"
+          className={b('networks-icon')}
+          target="_blank"
+        >
+          <Facebook />
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCOvMGeaG-MmcvAbrrn56ekQ"
+          className={b('networks-icon')}
+          target="_blank"
+        >
+          <YouTube />
+        </a>
+      </div>
+    </div>
     <div className={b('links')}>
       <a target="_blank" href="https://coupler.app/terms">
         {phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}

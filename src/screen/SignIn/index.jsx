@@ -15,12 +15,7 @@ import {
 import { SignInForm } from '../../components/Forms';
 import Footer from '../../components/Footer';
 
-import {
-  Telegram,
-  Facebook,
-  YouTube,
-  PointBullet,
-} from '../../assets/iconComponents';
+import { PointBullet } from '../../assets/iconComponents';
 
 import { asyncRequest, cookieStorage } from '../../utils';
 import { actions } from '../../state';
@@ -108,6 +103,7 @@ class SignIn extends Component {
           <Col
             className={b('main-formBlock')}
             xs={24}
+            sm={24}
           >
             <div className={b('logo')} />
             <div className={b('titleBlock')}>
@@ -133,7 +129,10 @@ class SignIn extends Component {
               <a href="mailto:support@gliesereum.com">Написати листа</a>
             </div>
           </Col>
-          <Col xs={24}>
+          <Col
+            xs={24}
+            sm={24}
+          >
             <div className={b('description')}>
               <h1 className={b('description-title')}>Повна керованість бізнесу</h1>
               <p className={b('description-text')}>
@@ -168,40 +167,19 @@ class SignIn extends Component {
                 description="Заповніть інформацію про компанію та створіть основні пропозиції, щоб клієнти могли замовляти послуги онлайн"
               />
             </Steps>
-            <div className={b('networks')}>
-              <h1 className={b('networks-title')}>Стежте за нами у соцмережах:</h1>
-              <div className={b('networks-icons')}>
-                <a
-                  href="https://t.me/coupler_public"
-                  className={b('networks-icon')}
-                  target="_blank"
-                >
-                  <Telegram />
-                </a>
-                <a
-                  href="https://www.facebook.com/coupler.platform"
-                  className={b('networks-icon')}
-                  target="_blank"
-                >
-                  <Facebook />
-                </a>
-                <a
-                  href="https://www.youtube.com/channel/UCOvMGeaG-MmcvAbrrn56ekQ"
-                  className={b('networks-icon')}
-                  target="_blank"
-                >
-                  <YouTube />
-                </a>
-              </div>
-            </div>
+          </Col>
+          <Col
+            xs={24}
+            sm={24}
+          >
+            <Footer
+              langPack={langPack}
+              setLanguage={this.props.$setLanguage}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
+            />
           </Col>
         </Row>
-        <Footer
-          langPack={langPack}
-          setLanguage={this.props.$setLanguage}
-          defaultLanguage={defaultLanguage}
-          phrases={phrases}
-        />
       </div>
     );
   }

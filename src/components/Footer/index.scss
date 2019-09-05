@@ -1,14 +1,38 @@
 @import '../../styles/theme';
 
 .footer {
-  padding: 16px 16px 8px;
+  padding: 16px 0 8px;
   text-align: center;
   width: 100%;
-  border-top: 1px solid #EFEFEF;
   background-color: #FCFCFC;
 
   & .ant-divider-vertical {
     background-color: $coupler-blue;
+  }
+
+  &__networks {
+    background-color: #FCFCFC;
+    text-align: center;
+    padding-bottom: 24px;
+
+    &-title {
+      font-size: 10px;
+      font-weight: normal;
+      line-height: 16px;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #B5BBC0;
+      margin: 0;
+      padding-bottom: 16px;
+    }
+
+    &-icon {
+      margin-right: 16px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 
   &__lang_box {
@@ -47,6 +71,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-top: 1px solid #EFEFEF;
+    padding: 16px 0 8px;
 
     a {
       color: $coupler-blue;
@@ -54,8 +80,6 @@
   }
 
   &__copyright {
-    padding-top: 8px;
-
     &-text {
       font-size: 10px;
       line-height: 16px;
