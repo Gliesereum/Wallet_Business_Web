@@ -5,20 +5,6 @@
   animation: fadein 0.8s ease;
   width: 100vw;
 
-  &__badge {
-    background: #FF7A00;
-    color: #ffffff;
-    width: 180px;
-    text-align: center;
-    padding: 14px;
-    font-weight: bold;
-    font-size: 18px;
-    top: 30px;
-    right: -18px;
-    position: absolute;
-    border-radius: 10px;
-  }
-
   &__main {
     position: relative;
     animation: fadeInUp 0.6s ease;
@@ -73,8 +59,8 @@
     text-align: center;
     padding-bottom: 24px;
 
-    & span {
-      font-family: $Roboto;
+    & span,
+    & a {
       font-size: 12px;
       line-height: 24px;
       color: rgba(255, 255, 255, 0.64);
@@ -88,12 +74,11 @@
 
   &__description {
     text-align: center;
-    font-family: $Roboto;
-    font-weight: 500;
-    padding: 56px 0 40px;
+    padding: 40px 0 24px;
 
     &-title {
       font-size: 18px;
+      font-weight: bold;
       color: #30373E;
       text-transform: uppercase;
       letter-spacing: 0.01em;
@@ -104,30 +89,45 @@
 
     &-text {
       font-size: 13px;
+      font-weight: 500;
       line-height: 21px;
       color: #737C85;
     }
   }
 
+  &__deviceImage {
+    margin: 0 -8px;
+
+    &-container {
+      background: no-repeat $signIn_mcbook;
+      background-size: 344px 248px;
+      width: 344px;
+      height: 248px;
+    }
+  }
+
+  &__businessPoints {
+    padding: 24px 0 8px;
+  }
+
   &__networks {
     background-color: #FCFCFC;
     text-align: center;
-    padding: 16px 0;
+    padding: 16px 0 24px;
 
     &-title {
-      font-size: 14px;
+      font-size: 10px;
+      font-weight: normal;
       line-height: 16px;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      font-variant: small-caps;
+      letter-spacing: 0.01em;
       font-feature-settings: 'pnum' on, 'lnum' on;
-      color: #737C85;
+      color: #B5BBC0;
       margin: 0;
       padding-bottom: 16px;
     }
 
     &-icon {
-      margin-right: 40px;
+      margin-right: 16px;
 
       &:last-child {
         margin-right: 0;

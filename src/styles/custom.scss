@@ -110,7 +110,6 @@
 
   //---- Inputs ----
   &-input {
-    font-family: $Roboto;
     font-size: 14px;
     letter-spacing: 0.02em;
     height: 48px;
@@ -383,6 +382,14 @@
   //---- Steps ----
   &-steps {
     &-item {
+      &-tail {
+        display: none;
+      }
+
+      &-content {
+        padding-bottom: 40px;
+      }
+
       &-title {
         text-transform: uppercase;
         color: #30373E;

@@ -129,16 +129,21 @@ class SignIn extends Component {
               gotCodeHandler={this.gotCodeHandler}
             />
             <div className={b('support')}>
-              <span>Виникли труднощі?</span>
-              <span>{' Зв\'язатись'}</span>
+              <span>Виникли труднощі?&nbsp;</span>
+              <a href="mailto:support@gliesereum.com">Написати листа</a>
             </div>
           </Col>
           <Col xs={24}>
             <div className={b('description')}>
-              <h1 className={b('description-title')}>Головне про Coupler Business Web за 30 секунд</h1>
+              <h1 className={b('description-title')}>Повна керованість бізнесу</h1>
               <p className={b('description-text')}>
-                Повна керованість бізнесу та віддалений контроль працівників. Ідеальна система автоматизації для сфери послуг.Особистий помічник у смартфоні
+                <span>Ідеальна система автоматизації для сфери послуг</span>
+                <br />
+                <span>Особистий помічник у смартфоні </span>
               </p>
+            </div>
+            <div className={b('deviceImage')}>
+              <div className={b('deviceImage-container')} />
             </div>
             <Steps
               className={b('businessPoints')}
@@ -162,21 +167,9 @@ class SignIn extends Component {
                 title="Керування послугами, пакетами послуг, цінами, акціями та програмами лояльності"
                 description="Заповніть інформацію про компанію та створіть основні пропозиції, щоб клієнти могли замовляти послуги онлайн"
               />
-              <Step
-                status="process"
-                icon={<PointBullet />}
-                title="Контроль виконання замовлень та виручки"
-                description="Завантажте Coupler Worker для працівника, щоб стежити за робочим процесом навіть коли ви не в офісі"
-              />
-              <Step
-                status="process"
-                icon={<PointBullet />}
-                title="Зручний сервіс онлайн-запису для клієнтів вашого бізнесу"
-                description="Встановіть на сайт кнопку Coupler Widget та/або порекомендуйте клієнтам додаток Coupler, щоб отримувати замовлення онлайн, спростити процес бронювання послуг та роботу адміністраторів"
-              />
             </Steps>
             <div className={b('networks')}>
-              <h1 className={b('networks-title')}>Стежте за нами у соцмережах</h1>
+              <h1 className={b('networks-title')}>Стежте за нами у соцмережах:</h1>
               <div className={b('networks-icons')}>
                 <a
                   href="https://t.me/coupler_public"

@@ -65,8 +65,10 @@
   to   { opacity: 1; }
 }
 
-body {
-  p {
+body#contentBody {
+  font-family: $Roboto;
+
+  p, h1 {
     margin: 0;
   }
 }

@@ -10,13 +10,13 @@ const b = bem('footer');
 const { Option } = Select;
 
 const Footer = ({
-  background, defaultLanguage, phrases, langPack, setLanguage,
+  defaultLanguage,
+  phrases,
+  langPack,
+  setLanguage,
 }) => (
   <footer
     className={b()}
-    style={{
-      backgroundColor: background || 'transparent',
-    }}
   >
     <div className={b('links')}>
       <a target="_blank" href="https://coupler.app/terms">
@@ -32,6 +32,7 @@ const Footer = ({
           defaultValue={JSON.stringify(defaultLanguage)}
           className={b('lang_box-selector')}
           onChange={setLanguage}
+          showArrow={false}
         >
           {langPack.map(lang => (
             <Option
