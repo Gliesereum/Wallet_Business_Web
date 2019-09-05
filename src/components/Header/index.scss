@@ -39,7 +39,7 @@
 
       & > .text {
         color: #758498;
-        font-family: $sans;
+        font-family: $Roboto;
         font-weight: 500;
         font-size: 12px;
         letter-spacing: 0.02em;
@@ -58,7 +58,7 @@
       padding: 0 24px;
       display: flex;
       color: $middle-gray;
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 14px;
       letter-spacing: 0.01em;
       text-transform: lowercase;
@@ -88,7 +88,7 @@
       padding: 0 16px;
 
       & h1 {
-        font-family: $sans;
+        font-family: $Roboto;
         color: #758498;
         font-weight: 500;
         font-size: 12px;
@@ -100,7 +100,7 @@
       }
 
       & p {
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 10px;
         color: $gray;
         letter-spacing: 0.02em;
@@ -127,7 +127,7 @@
   & #menu {
     & .header__menu {
       &-item {
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 12px;
         line-height: 24px;
         font-feature-settings: 'pnum' on, 'lnum' on;

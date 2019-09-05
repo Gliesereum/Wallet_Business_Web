@@ -6,18 +6,50 @@ import {
   Select,
 } from 'antd';
 
+import {
+  Facebook,
+  Telegram,
+  YouTube,
+} from '../../assets/iconComponents';
+
 const b = bem('footer');
 const { Option } = Select;
 
 const Footer = ({
-  background, defaultLanguage, phrases, langPack, setLanguage,
+  defaultLanguage,
+  phrases,
+  langPack,
+  setLanguage,
 }) => (
-  <div
+  <footer
     className={b()}
-    style={{
-      backgroundColor: background || 'transparent',
-    }}
   >
+    <div className={b('networks')}>
+      <h1 className={b('networks-title')}>Стежте за нами у соцмережах:</h1>
+      <div className={b('networks-icons')}>
+        <a
+          href="https://t.me/coupler_public"
+          className={b('networks-icon')}
+          target="_blank"
+        >
+          <Telegram />
+        </a>
+        <a
+          href="https://www.facebook.com/coupler.platform"
+          className={b('networks-icon')}
+          target="_blank"
+        >
+          <Facebook />
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCOvMGeaG-MmcvAbrrn56ekQ"
+          className={b('networks-icon')}
+          target="_blank"
+        >
+          <YouTube />
+        </a>
+      </div>
+    </div>
     <div className={b('links')}>
       <a target="_blank" href="https://coupler.app/terms">
         {phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}
@@ -32,6 +64,7 @@ const Footer = ({
           defaultValue={JSON.stringify(defaultLanguage)}
           className={b('lang_box-selector')}
           onChange={setLanguage}
+          showArrow={false}
         >
           {langPack.map(lang => (
             <Option
@@ -44,17 +77,17 @@ const Footer = ({
         </Select>
       </div>
     </div>
-    <div>
-      <span className={b('text')}>{phrases['footer.copyright'][defaultLanguage.isoKey]}</span>
+    <div className={b('copyright')}>
+      <div className={b('copyright-text')}>{phrases['footer.copyright'][defaultLanguage.isoKey]}</div>
       <a
-        className={b('text')}
+        className={b('copyright-text')}
         href="https://www.gliesereum.com/"
         target="_blank"
       >
         {phrases['footer.copyright.company'][defaultLanguage.isoKey]}
       </a>
     </div>
-  </div>
+  </footer>
 );
 
 export default Footer;

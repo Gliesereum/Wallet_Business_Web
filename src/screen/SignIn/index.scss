@@ -3,56 +3,59 @@
 
 .signIn {
   animation: fadein 0.8s ease;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  overflow: auto;
-  //background: linear-gradient(-15deg, #30b43d, #e7a252, rgb(155, 200, 231), #107ed8);
-  //background-size: 400% 400%;
-  //animation: gradientBG 0.2s ease infinite;
-  //Експеримент восприятия
-  //background: #212631;
-
-  &__badge {
-    background: #FF7A00;
-    color: #ffffff;
-    width: 180px;
-    text-align: center;
-    padding: 14px;
-    font-weight: bold;
-    font-size: 18px;
-    top: 30px;
-    right: -18px;
-    position: absolute;
-    border-radius: 10px;
-  }
+  justify-content: space-between;
 
   &__main {
-    //Експеримент восприятия
-    //background: #1078e1;
-    background: linear-gradient(48.16deg, #0E4BF1 -17.43%, #1CACFE 124.93%);
-    box-shadow: 24px 24px 48px rgba(0, 0, 0, 0.24);
-    border-radius: 4px;
-    //width: 592px;
-    //height: 592px;
-    //padding: 32px 104px;
-    max-width: 590px;
-    width: 98%;
-    margin: auto;
     position: relative;
     animation: fadeInUp 0.6s ease;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: row;
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      flex-direction: column;
+      align-items: center;
+    }
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+      padding: 0 24px;
+    }
+    @media screen and (min-width: $min-large-desktop) {
+      padding: 0 32px;
+    }
 
-    .signInForm {
-      padding: 34px 12px 56px 12px;
-      max-width: 320px;
-      margin: auto;
+    &-formBlock {
+      background-color: $coupler-blue;
+      box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.16);
+      height: 680px;
+      width: 320px;
+      @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+        height: 617px;
+        width: 328px;
+      }
+      @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+        height: 808px;
+        width: 344px;
+      }
+      @media screen and (min-width: $min-large-desktop) {
+        height: 680px;
+        width: 384px;
+      }
+    }
+
+    &-contentBlock {
+      padding-left: 16px;
+      flex: 1;
+      @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+        padding-left: 0;
+      }
+      @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+        padding-left: 32px;
+      }
+      @media screen and (min-width: $min-large-desktop) {
+        padding-left: 32px;
+      }
     }
   }
 
@@ -62,47 +65,155 @@
     height: 64px;
     width: 64px;
     margin: 0 auto;
-    margin-top: 24px;
   }
 
   &__titleBlock {
     width: 100%;
-    padding: 24px 0 0;
     text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+    padding: 56px 0 23px;
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      padding: 32px 0 23px;
+    }
 
     &-title {
-      font-family: $sans;
-      font-size: 20px;
-      font-weight: 500;
+      font-family: $Montserrat;
+      font-size: 14px;
+      font-weight: 600;
       line-height: 24px;
       letter-spacing: 0.01em;
       text-transform: uppercase;
-      font-feature-settings: 'pnum' on, 'lnum' on;
       color: $white;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      padding-bottom: 8px;
+      @media screen and (min-width: $min-large-desktop) {
+        font-size: 16px;
+      }
     }
 
     &-subtitle {
-      font-family: $sans;
-      font-size: 16px;
+      font-family: $Montserrat;
+      font-size: 10px;
       line-height: 16px;
-      font-weight: 500;
+      font-weight: normal;
       color: $white;
-      text-transform: lowercase;
-      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       font-feature-settings: 'pnum' on, 'lnum' on;
+    }
+  }
+
+  &__support {
+    text-align: center;
+
+    & span,
+    & a {
+      font-size: 12px;
+      line-height: 24px;
+      color: rgba(255, 255, 255, 0.64);
+
+      &:last-child {
+        text-decoration: underline;
+        color: $white;
+      }
+    }
+  }
+
+  &__description {
+    text-align: center;
+    padding: 56px 0 65px;
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+      padding: 40px 0 24px;
+    }
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+      padding: 32px 0 16px;
+    }
+    @media screen and (min-width: $min-large-desktop) {
+      padding: 56px 0 75px;
+    }
+
+    &-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #30373E;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 16px;
+      margin: 0;
+      padding-bottom: 16px;
+      @media screen and (min-width: $min-desktop) and (max-width: $max-desktop) {
+        padding-bottom: 8px;
+      }
+    }
+
+    &-text {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 21px;
+      color: #737C85;
+    }
+  }
+
+  &__pointsDeviceContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+      flex-direction: column;
+    }
+
+    &-deviceImage {
+      margin-right: -16px;
+      @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+        margin: 0 -8px;
+      }
+      @media screen and (min-width: $min-large-desktop) {
+        margin-right: -32px;
+      }
+
+      &-container {
+        background: no-repeat $signIn_tablet;
+        background-size: 327px 419px;
+        width: 327px;
+        height: 419px;
+        @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+          background: no-repeat $signIn_mcbook;
+          background-size: 344px 248px;
+          width: 344px;
+          height: 248px;
+          margin: 0 auto;
+        }
+      }
+    }
+
+    &-businessPoints {
+      padding-right: 15px;
+      @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+        padding: 24px 0 8px;
+      }
+      @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
+        padding: 16px 0 0;
+      }
+      & .ant-steps-item {
+        &-content {
+          padding-bottom: 56px;
+          @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
+            padding-bottom: 40px;
+          }
+        }
+      }
     }
   }
 }
 
 @keyframes gradientBG {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 }
 

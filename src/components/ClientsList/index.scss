@@ -13,7 +13,7 @@
 
     &-title {
       color: $white;
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 18px;
       letter-spacing: 0.02em;
       font-feature-settings: 'pnum' on, 'lnum' on;
@@ -60,7 +60,7 @@
       & > label {
         cursor: pointer;
         color: $font-title-black;
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 14px;
         letter-spacing: 0.02em;
         font-feature-settings: 'pnum' on, 'lnum' on;
@@ -162,7 +162,7 @@
           white-space: nowrap;
           overflow: hidden;
           font-size: 14px;
-          font-family: $sans;
+          font-family: $Roboto;
           color: $coupler-blue;
         }
 

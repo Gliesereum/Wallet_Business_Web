@@ -6,7 +6,7 @@
     margin-bottom: 8px;
 
     & label {
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 14px;
       letter-spacing: 0.02em;
       color: $font-title-black;
@@ -17,7 +17,7 @@
     &-title {
       color: $font-title-black;
       font-size: 14px;
-      font-family: $sans;
+      font-family: $Roboto;
       letter-spacing: 0.02em;
       font-feature-settings: 'pnum' on, 'lnum' on;
       padding: 32px 8px 24px;
@@ -31,7 +31,7 @@
         &-name {
           display: flex;
           align-items: center;
-          font-family: $sans;
+          font-family: $Roboto;
           font-size: 14px;
           line-height: 24px;
           color: $coupler-blue;

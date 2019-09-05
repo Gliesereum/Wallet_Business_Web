@@ -5,7 +5,7 @@
     &-title {
       color: $font-title-black;
       font-size: 14px;
-      font-family: $sans;
+      font-family: $Roboto;
       letter-spacing: 0.02em;
       font-feature-settings: 'pnum' on, 'lnum' on;
       padding: 0 8px 24px;
@@ -45,7 +45,7 @@
               border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 
               & > h1 {
-                font-family: $sans;
+                font-family: $Roboto;
                 font-size: 12px;
                 letter-spacing: 0.02em;
                 color: #7B858C;
@@ -79,7 +79,7 @@
                     overflow: hidden;
                     white-space: nowrap;
                     width: 190px;
-                    font-family: $sans;
+                    font-family: $Roboto;
                     font-size: 12px;
                     color: $coupler-blue;
                     letter-spacing: 0.01em;
@@ -100,7 +100,7 @@
 
           &-title {
             color: $font-title-black;
-            font-family: $sans;
+            font-family: $Roboto;
             font-size: 14px;
             letter-spacing: 0.02em;
             font-feature-settings: 'pnum' on, 'lnum' on;

@@ -1,10 +1,74 @@
 @import '../../styles/theme';
 
 .footer {
-  padding: 16px 32px;
-  text-align: center;
-  position: sticky;
-  top: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #FCFCFC;
+  border-top: 1px solid #EFEFEF;
+  padding: 19px 16px;
+  align-items: center;
+  justify-content: space-between;
+  @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+    flex-direction: column;
+    align-items: unset;
+    border-top: none;
+    padding: 16px 0;
+  }
+  @media screen and (min-width: $min-large-desktop) {
+    padding: 19px 32px;
+  }
+
+  & .ant-divider-vertical {
+    background-color: $coupler-blue;
+  }
+
+  &__networks {
+    order: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #FCFCFC;
+    text-align: center;
+    padding: 0;
+    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+      order: 0;
+      padding-bottom: 24px;
+      flex-direction: column;
+    }
+
+    &-title {
+      font-size: 10px;
+      font-weight: normal;
+      line-height: 16px;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #B5BBC0;
+      margin: 0;
+      padding: 0 32px 0 0;
+      @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+        padding: 0 0 16px 0;
+      }
+    }
+
+    &-icons {
+      height: 26px;
+      @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+        height: unset;
+      }
+    }
+
+    &-icon {
+      margin-right: 16px;
+      @media screen and (min-width: $min-large-desktop) {
+        margin-right: 32px;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 
   &__lang_box {
     display: flex;
@@ -16,46 +80,60 @@
 
       & .ant-select {
         &-selection {
+          border: none;
+
           &--single {
-            height: 24px;
+            height: 16px;
           }
 
           &-selected-value {
-            line-height: 24px;
+            line-height: 16px;
+            padding: 0;
           }
-        }
-
-        &-arrow {
-          display: none;
         }
       }
     }
   }
 
   &__links {
-    font-family: $sans;
-    font-size: 12px;
+    order: 0;
+    font-size: 11px;
+    font-weight: 500;
     line-height: 16px;
     color: $coupler-blue;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
     font-feature-settings: 'pnum' on, 'lnum' on;
     display: flex;
     justify-content: center;
-    height: 24px;
     align-items: center;
+    border-top: none;
+    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+      order: 1;
+      border-top: 1px solid #EFEFEF;
+      padding: 16px 0 6px;
+    }
 
     a {
       color: $coupler-blue;
     }
   }
 
-  &__text {
-    font-size: 12px;
-    line-height: 16px;
-    text-align: center;
-    letter-spacing: 0.01em;
-    font-feature-settings: 'pnum' on, 'lnum' on;
-    color: #B3B3B3;
+  &__copyright {
+    display: flex;
+    flex-direction: row;
+    order: 1;
+    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+      order: 2;
+      flex-direction: column;
+    }
+    &-text {
+      font-size: 10px;
+      line-height: 16px;
+      text-align: center;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #B3B3B3;
+    }
   }
 }

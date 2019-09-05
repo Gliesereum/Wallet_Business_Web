@@ -13,7 +13,7 @@
 
     &-title {
       color: $white;
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 18px;
       letter-spacing: 0.02em;
       font-feature-settings: 'pnum' on, 'lnum' on;
@@ -60,7 +60,7 @@
       & > label {
         cursor: pointer;
         color: $font-title-black;
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 14px;
         letter-spacing: 0.02em;
         font-feature-settings: 'pnum' on, 'lnum' on;
@@ -160,7 +160,7 @@
           white-space: nowrap;
           overflow: hidden;
           font-size: 14px;
-          font-family: $sans;
+          font-family: $Roboto;
           color: $coupler-blue;
         }
 
@@ -189,7 +189,7 @@
 
     &-row {
       &-header {
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 14px;
         line-height: 24px;
         color: $font-title-black;
@@ -204,7 +204,7 @@
           margin-bottom: 9px;
 
           & .title {
-            font-family: $sans;
+            font-family: $Roboto;
             font-size: 10px;
             line-height: 12px;
             color: #7B858C;
@@ -214,7 +214,7 @@
           }
 
           & .data {
-            font-family: $sans;
+            font-family: $Roboto;
             font-weight: normal;
             font-size: 12px;
             line-height: 14px;

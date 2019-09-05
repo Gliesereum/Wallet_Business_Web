@@ -1,6 +1,6 @@
 @import "../../styles/theme";
 
-.karma-app-loading {
+.loading {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -10,7 +10,7 @@
   align-items: center;
   z-index: 9999;
 
-  &-data {
-    background-color: $loading-background-color;
+  &__indicator {
+    font-size: 24px;
   }
 }

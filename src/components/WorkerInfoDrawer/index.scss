@@ -8,7 +8,7 @@
   }
 
   & .ant-drawer-title {
-    font-family: $sans;
+    font-family: $Roboto;
     font-size: 16px;
     line-height: 16px;
     font-feature-settings: 'pnum' on, 'lnum' on;
@@ -18,7 +18,7 @@
 
   &__title {
     padding-bottom: 12px;
-    font-family: $sans;
+    font-family: $Roboto;
     font-size: 12px;
     line-height: 16px;
     color: $font-title-black;
@@ -32,7 +32,7 @@
     &-item {
       border-bottom: 1px solid rgba(0, 0, 0, 0.04);
       padding: 15px;
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 13px;
       line-height: 16px;
       letter-spacing: 0.01em;

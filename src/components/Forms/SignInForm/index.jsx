@@ -58,23 +58,16 @@ class SignInForm extends Component {
 
     return (
       <Form className={b()}>
-        <div className={b('title', { gotCode })}>
-          {
-            gotCode && (
-              <Timer
-                ref={node => this.timerRef = node}
-                timerFinishHandler={this.timerFinishHandler}
-                time={180000}
-              />
-            )
-          }
-        </div>
         <div className={b('infoBlock')}>
           {
             gotCode ? (
               <div>
-                <p>{phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]}</p>
-                <p>{phone}</p>
+                <Timer
+                  ref={node => this.timerRef = node}
+                  timerFinishHandler={this.timerFinishHandler}
+                  time={180000}
+                />
+                <p>{`${phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]} ${phone}`}</p>
               </div>
             ) : (
               <div>
@@ -85,10 +78,8 @@ class SignInForm extends Component {
         </div>
         <Form.Item
           colon={false}
-          label={gotCode ? phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey] : phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
-          hasFeedback
         >
           {gotCode
             ? form.getFieldDecorator('code', {
@@ -103,6 +94,7 @@ class SignInForm extends Component {
                 size="large"
                 className={b('number', { codeInput: true })}
                 maxLength={6}
+                placeholder={phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey]}
               />
             )
             : form.getFieldDecorator('phone', {
@@ -117,7 +109,7 @@ class SignInForm extends Component {
               <Input
                 autoFocus={false}
                 size="large"
-                placeholder={phrases['signIn.form.inputPhone.mask'][defaultLanguage.isoKey]}
+                placeholder={phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
                 className={b('number', { phoneInput: true })}
               />
             )
@@ -125,13 +117,15 @@ class SignInForm extends Component {
         </Form.Item>
         {
           gotCode ? (
-            <>
+            <div className="buttonGroup">
               <Button
                 className={b('button', { firstButton: true })}
                 onClick={timerIsFinished ? this.getFormCodeHandler(phone) : this.sendFormCodeHandler}
               >
                 {
-                  timerIsFinished ? phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey] : phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
+                  timerIsFinished
+                    ? phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]
+                    : phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
                 }
               </Button>
               <Button
@@ -139,16 +133,18 @@ class SignInForm extends Component {
                 className={b('button')}
                 onClick={gotCodeHandler}
               >
-                Отмена
+                {phrases['core.button.cancel'][defaultLanguage.isoKey]}
               </Button>
-            </>
+            </div>
           ) : (
-            <Button
-              className={b('button')}
-              onClick={this.getFormCodeHandler()}
-            >
-              {phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
-            </Button>
+            <div className="buttonGroup">
+              <Button
+                className={b('button')}
+                onClick={this.getFormCodeHandler()}
+              >
+                {phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
+              </Button>
+            </div>
           )
         }
       </Form>

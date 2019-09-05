@@ -1,10 +1,19 @@
 import React from 'react';
+import bem from 'bem-join';
+
 import { Icon, Spin } from 'antd';
 
-const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const b = bem('loading');
+const antIcon = (
+  <Icon
+    type="loading"
+    className={b('indicator')}
+    spin
+  />
+);
 
-const ScreenLoading = props => (
-  <div className={`karma-app-loading ${props.loading ? 'karma-app-loading-data' : ''}`}>
+const ScreenLoading = () => (
+  <div className={b()}>
     <Spin size="large" indicator={antIcon} />
   </div>
 );
