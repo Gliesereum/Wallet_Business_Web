@@ -4,8 +4,8 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  background-color: #FCFCFC;
-  border-top: 1px solid #EFEFEF;
+  //background-color: #FCFCFC;
+  //border-top: 1px solid #EFEFEF;
   padding: 19px 16px;
   align-items: center;
   justify-content: space-between;
@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #FCFCFC;
+    //background-color: #FCFCFC;
     text-align: center;
     padding: 0;
     @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {

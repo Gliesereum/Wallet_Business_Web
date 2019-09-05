@@ -90,7 +90,7 @@ class SignInForm extends Component {
               ],
             })(
               <Input
-                autoFocus
+                autoFocus={false}
                 size="large"
                 className={b('number', { codeInput: true })}
                 maxLength={6}
