@@ -5,13 +5,7 @@ const initState = {
   appStatus: 'loading',
   loading: false,
   // TODO Вот так пишем многоязычность!
-  defaultLanguage: {
-    isoKey: 'ua',
-    label: 'Українська',
-    icon: '',
-    direction: 'ltr',
-    module: 'coupler-web',
-  },
+  defaultLanguage: {},
   langPack: [],
   phrases: {},
   message: 'Start server connect!',
