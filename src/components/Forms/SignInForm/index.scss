@@ -1,14 +1,11 @@
-@import '../../../styles/theme';
+@import '../../../styles/theme',
+'../../../styles/mixins';
 
 .signInForm {
   min-height: 400px;
   padding: 40px 24px 32px;
-  @media screen and (min-width: $min-phone) and (max-width: $max-phone) {
-    padding: 24px 24px 32px;
-  }
-  @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
-    padding: 48px 24px 32px;
-  }
+  @include respond-to(phone) { padding: 24px 24px 32px; }
+  @include respond-to(tablet) { padding: 48px 24px 32px; }
 
   &__infoBlock {
     display: flex;
@@ -22,9 +19,7 @@
     letter-spacing: 0.04em;
     color: $white;
     margin-bottom: 40px;
-    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) {
-      margin-bottom: 56px;
-    }
+    @include respond-to(tablet) { margin-bottom: 56px; }
 
     & .timer {
       font-weight: 500;

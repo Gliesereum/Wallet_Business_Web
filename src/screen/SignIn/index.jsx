@@ -166,6 +166,7 @@ class SignIn extends Component {
         </div>
         <Row>
           <Col
+            className={b('footerCol')}
             xs={24}
             sm={24}
           >

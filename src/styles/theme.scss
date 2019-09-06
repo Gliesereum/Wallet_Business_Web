@@ -36,6 +36,8 @@ $max-tablet: 1023px;
 $min-desktop: 1024px;
 $max-desktop: 1279px;
 $min-large-desktop: 1280px;
+$max-large-desktop: 1599px;
+$min-extra-large-desktop: 1600px;
 
 $xs: 360px;
 $sm: 576px;
@@ -50,4 +52,5 @@ $logo-single-white: url('../assets/logo-single-white.svg');
 $logo-single-white-signIn: url('../assets/logo-signIn.svg');
 $coupler_logo_mobile: url('../assets/coupler_logo_mobile.svg');
 $signIn_mcbook: url('../assets/signIn_mcbook.png');
+$signIn_mcbookXL: url('../assets/signIn_mcbookXL.png');
 $signIn_tablet: url('../assets/signIn-tablet.svg');
