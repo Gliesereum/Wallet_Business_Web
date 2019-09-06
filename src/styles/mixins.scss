@@ -1,0 +1,17 @@
+@import '../styles/theme';
+
+@mixin respond-to($media) {
+  @if $media == phone {
+    @media screen and (min-width: $min-phone) and (max-width: $max-phone) { @content; }
+  } @else if $media == tablet {
+    @media screen and (min-width: $min-tablet) and (max-width: $max-tablet) { @content; }
+  } @else if $media == phoneAndTablet {
+    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) { @content; }
+  } @else if $media == desktop {
+    @media screen and (min-width: $min-desktop) and (max-width: $max-desktop) { @content; }
+  } @else if $media == largeDesktop {
+    @media screen and (min-width: $min-large-desktop) and (max-width: $max-large-desktop) { @content; }
+  } @else if $media == extraLargeDesktop {
+    @media screen and (min-width: $min-extra-large-desktop) { @content; }
+  }
+}

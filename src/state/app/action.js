@@ -84,8 +84,8 @@ const actions = {
 
       if (!lang) {
         const defaultLangPack = packages.find(packageItem => packageItem.isoKey === 'ua');
-
-        await cookieStorage.set('_lgCp', JSON.stringify(defaultLangPack));
+        console.log(defaultLangPack);
+        await dispatch({ type: actions.SET_LANGUAGE, payload: defaultLangPack });
       } else {
         await dispatch({ type: actions.SET_LANGUAGE, payload: JSON.parse(lang) });
       }
