@@ -25,7 +25,7 @@ const Footer = ({
     className={b()}
   >
     <div className={b('networks')}>
-      <h1 className={b('networks-title')}>Стежте за нами у соцмережах:</h1>
+      <h1 className={b('networks-title')}>{phrases['footer.followUs'][defaultLanguage.isoKey]}</h1>
       <div className={b('networks-icons')}>
         <a
           href="https://t.me/coupler_public"
