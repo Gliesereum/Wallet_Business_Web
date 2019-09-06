@@ -25,7 +25,7 @@ const Footer = ({
     className={b()}
   >
     <div className={b('networks')}>
-      <h1 className={b('networks-title')}>Стежте за нами у соцмережах:</h1>
+      <h1 className={b('networks-title')}>{phrases['footer.followUs'][defaultLanguage.isoKey]}</h1>
       <div className={b('networks-icons')}>
         <a
           href="https://t.me/coupler_public"
@@ -51,14 +51,6 @@ const Footer = ({
       </div>
     </div>
     <div className={b('links')}>
-      <a target="_blank" href="https://coupler.app/terms">
-        {phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}
-      </a>
-      <Divider type="vertical" />
-      <a target="_blank" href="https://coupler.app/policy">
-        {phrases['footer.copyright.link.policy'][defaultLanguage.isoKey]}
-      </a>
-      <Divider type="vertical" />
       <div className={b('lang_box')}>
         <Select
           defaultValue={JSON.stringify(defaultLanguage)}
@@ -76,6 +68,14 @@ const Footer = ({
           ))}
         </Select>
       </div>
+      <Divider type="vertical" />
+      <a target="_blank" href="https://coupler.app/terms">
+        {phrases['footer.copyright.link.terms'][defaultLanguage.isoKey]}
+      </a>
+      <Divider type="vertical" />
+      <a target="_blank" href="https://coupler.app/policy">
+        {phrases['footer.copyright.link.policy'][defaultLanguage.isoKey]}
+      </a>
     </div>
     <div className={b('copyright')}>
       <div className={b('copyright-text')}>{phrases['footer.copyright'][defaultLanguage.isoKey]}</div>

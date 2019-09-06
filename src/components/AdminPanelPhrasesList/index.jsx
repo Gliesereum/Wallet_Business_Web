@@ -39,16 +39,26 @@ class AdminPanelPhrasesList extends Component {
           renderItem={phrase => (
             <List.Item onClick={changeChosenPhrase(phrase)}>
               <Row style={{ width: '100%' }}>
-                <Col style={{ fontWeight: 'bold' }} lg={9}>
+                <Col
+                  style={{
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    borderBottom: '2px solid',
+                    borderBottomColor: '#93bbdc',
+                    paddingBottom: '5px',
+                    marginBottom: '5px',
+                  }}
+                  lg={24}
+                >
                   {phrase}
                 </Col>
-                <Col lg={5}>
+                <Col lg={8}>
                   {phrases[phrase].ua}
                 </Col>
-                <Col lg={5}>
+                <Col lg={8}>
                   {phrases[phrase].ru}
                 </Col>
-                <Col lg={5}>
+                <Col lg={8}>
                   {phrases[phrase].en}
                 </Col>
               </Row>

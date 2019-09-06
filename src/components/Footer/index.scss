@@ -1,22 +1,23 @@
-@import '../../styles/theme';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .footer {
   display: flex;
   flex-direction: row;
   width: 100%;
-  //background-color: #FCFCFC;
-  //border-top: 1px solid #EFEFEF;
   padding: 19px 16px;
   align-items: center;
   justify-content: space-between;
-  @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+  @include respond-to(phoneAndTablet) {
     flex-direction: column;
     align-items: unset;
     border-top: none;
     padding: 16px 0;
   }
-  @media screen and (min-width: $min-large-desktop) {
-    padding: 19px 32px;
+  @include respond-to(largeDesktop) { padding: 19px 32px; }
+  @include respond-to(extraLargeDesktop) {
+    max-width: $min-extra-large-desktop;
+    margin: 0 auto;
   }
 
   & .ant-divider-vertical {
@@ -28,10 +29,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    //background-color: #FCFCFC;
+    background-color: #FCFCFC;
     text-align: center;
     padding: 0;
-    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+    @include respond-to(phoneAndTablet) {
       order: 0;
       padding-bottom: 24px;
       flex-direction: column;
@@ -46,23 +47,18 @@
       color: #B5BBC0;
       margin: 0;
       padding: 0 32px 0 0;
-      @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
-        padding: 0 0 16px 0;
-      }
+      @include respond-to(phoneAndTablet) { padding: 0 0 16px 0; }
     }
 
     &-icons {
       height: 26px;
-      @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
-        height: unset;
-      }
+      @include respond-to(phoneAndTablet) { height: unset; }
     }
 
     &-icon {
       margin-right: 16px;
-      @media screen and (min-width: $min-large-desktop) {
-        margin-right: 32px;
-      }
+      @include respond-to(largeDesktop) { margin-right: 32px; }
+      @include respond-to(extraLargeDesktop) { margin-right: 32px; }
 
       &:last-child {
         margin-right: 0;
@@ -108,7 +104,7 @@
     justify-content: center;
     align-items: center;
     border-top: none;
-    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+    @include respond-to(phoneAndTablet) {
       order: 1;
       border-top: 1px solid #EFEFEF;
       padding: 16px 0 6px;
@@ -123,10 +119,11 @@
     display: flex;
     flex-direction: row;
     order: 1;
-    @media screen and (min-width: $min-phone) and (max-width: $max-tablet) {
+    @include respond-to(phoneAndTablet) {
       order: 2;
       flex-direction: column;
     }
+
     &-text {
       font-size: 10px;
       line-height: 16px;

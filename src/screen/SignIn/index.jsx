@@ -121,17 +121,21 @@ class SignIn extends Component {
               gotCodeHandler={this.gotCodeHandler}
             />
             <div className={b('support')}>
-              <span>Виникли труднощі?&nbsp;</span>
-              <a href="mailto:support@gliesereum.com">Написати листа</a>
+              <span>{phrases['signIn.havingTrouble'][defaultLanguage.isoKey]}</span>
+              <a href="mailto:support@gliesereum.com">
+                {phrases['signIn.writeUs'][defaultLanguage.isoKey]}
+              </a>
             </div>
           </div>
           <div className={b('main-contentBlock')}>
             <div className={b('description')}>
-              <h1 className={b('description-title')}>Повна керованість бізнесу</h1>
+              <h1 className={b('description-title')}>
+                {phrases['signIn.description.title'][defaultLanguage.isoKey]}
+              </h1>
               <p className={b('description-text')}>
-                <span>Ідеальна система автоматизації для сфери послуг</span>
+                <span>{phrases['signIn.description.firstTextPoint'][defaultLanguage.isoKey]}</span>
                 <br />
-                <span>Особистий помічник у смартфоні </span>
+                <span>{phrases['signIn.description.secondTextPoint'][defaultLanguage.isoKey]}</span>
               </p>
             </div>
             <div className={b('pointsDeviceContainer')}>
@@ -145,20 +149,20 @@ class SignIn extends Component {
                 <Step
                   status="process"
                   icon={<PointBullet />}
-                  title="Актуальні дані бізнесу завжди під рукою"
-                  description="Статистика та аналітика замовлень, клієнтів, виручки, ефективності співробітників. Більше не потрібно витрачати час на нудні адміністративні процеси збору та перевірки інформації. Відтепер точні й правдиві дані про стан вашого бізнесу доступні 24/7 з будь-якого девайсу"
+                  title={phrases['signIn.points.firstPoint.title'][defaultLanguage.isoKey]}
+                  description={phrases['signIn.points.firstPoint.description'][defaultLanguage.isoKey]}
                 />
                 <Step
                   status="process"
                   icon={<PointBullet />}
-                  title="Можливість управління мережею бізнесів"
-                  description="Облік та аналіз даних, що оновлюються у режимі реального часу, для одного або мережі бізнесів. Короткі наочні звіти з графіками та діаграмами"
+                  title={phrases['signIn.points.secondPoint.title'][defaultLanguage.isoKey]}
+                  description={phrases['signIn.points.secondPoint.description'][defaultLanguage.isoKey]}
                 />
                 <Step
                   status="process"
                   icon={<PointBullet />}
-                  title="Керування послугами, пакетами послуг, цінами, акціями та програмами лояльності"
-                  description="Заповніть інформацію про компанію та створіть основні пропозиції, щоб клієнти могли замовляти послуги онлайн"
+                  title={phrases['signIn.points.thirdPoint.title'][defaultLanguage.isoKey]}
+                  description={phrases['signIn.points.thirdPoint.description'][defaultLanguage.isoKey]}
                 />
               </Steps>
             </div>
@@ -166,6 +170,7 @@ class SignIn extends Component {
         </div>
         <Row>
           <Col
+            className={b('footerCol')}
             xs={24}
             sm={24}
           >

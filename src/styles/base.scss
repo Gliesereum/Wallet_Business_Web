@@ -7,6 +7,7 @@
 
 #contentBody {
   @import "theme",
+  "mixins",
   "../screen/Container/index.scss",
   "../components/ScreenLoading/index.scss",
   "../components/SideMenu/index.scss",
