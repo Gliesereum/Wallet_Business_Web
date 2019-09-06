@@ -3,6 +3,7 @@ import {
   Completed,
   Timer,
   Waiting,
+  Expired,
 } from '../assets/iconComponents';
 
 export const genders = {
@@ -115,7 +116,7 @@ export const recordTranslate = {
     WAITING: Waiting,
     IN_PROCESS: Timer,
     COMPLETED: Completed,
-    EXPIRED: Waiting, // TODO: add icon
+    EXPIRED: Expired,
   },
 };
 
