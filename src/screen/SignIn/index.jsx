@@ -145,7 +145,7 @@ class SignIn extends Component {
                 <Step
                   status="process"
                   icon={<PointBullet />}
-                  title="Актуальні дані бізнесу завжди під рукою"
+                  title={phrases['signIn.points.firstPoint.title'][defaultLanguage.isoKey]}
                   description="Статистика та аналітика замовлень, клієнтів, виручки, ефективності співробітників. Більше не потрібно витрачати час на нудні адміністративні процеси збору та перевірки інформації. Відтепер точні й правдиві дані про стан вашого бізнесу доступні 24/7 з будь-якого девайсу"
                 />
                 <Step

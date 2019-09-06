@@ -22,7 +22,6 @@
     }
     @include respond-to(tablet) { padding: 0 24px; }
     @include respond-to(largeDesktop) { padding: 0 32px; }
-    @include respond-to(extraLargeDesktop) { padding: 0; }
 
     &-formBlock {
       background-color: $coupler-blue;
@@ -191,6 +190,7 @@
         &-content {
           padding-bottom: 56px;
           @include respond-to(phone) { padding-bottom: 40px; }
+          @include respond-to(extraLargeDesktop) { padding-bottom: 0; }
         }
       }
     }
