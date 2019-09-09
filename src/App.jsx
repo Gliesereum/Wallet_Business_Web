@@ -9,17 +9,23 @@ import { ScreenLoading } from './components';
 
 class App extends Component {
   componentDidMount() {
-    const { $startApp } = this.props;
-    $startApp();
+    this.props.startApp();
   }
 
   render() {
-    const { authenticated, user, appStatus } = this.props;
-    if (appStatus === 'loading') {
-      return (
-        <ScreenLoading />
-      );
-    }
+    const {
+      user,
+      authenticated,
+      appStatus,
+      hasAdminRights,
+      showWelcomePage,
+      defaultLanguage,
+      phrases,
+      setShowPropWelcomePage,
+    } = this.props;
+
+    if (appStatus === 'loading') return <ScreenLoading />;
+
     if (appStatus === 'error') {
       return (
         <div className="CouplerErrorPageBeta">
@@ -38,20 +44,35 @@ class App extends Component {
       );
     }
     return (
-      <AppRouter user={user} isPrivateRoute={authenticated} {...this.props} />
+      <AppRouter
+        user={user}
+        isPrivateRoute={authenticated}
+        hasAdminRights={hasAdminRights}
+        showWelcomePage={showWelcomePage}
+        defaultLanguage={defaultLanguage}
+        phrases={phrases}
+        setShowPropWelcomePage={setShowPropWelcomePage}
+      />
     );
   }
 }
 const mapStateToProps = state => ({
   appStatus: state.app.appStatus,
   authenticated: state.auth.authenticated,
+  hasAdminRights: state.auth.hasAdminRights,
+  showWelcomePage: state.auth.showWelcomePage,
   user: state.auth.user,
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
 });
 
-const { $startApp } = actions.app;
+const mapDispatchToProps = dispatch => ({
+  startApp: () => dispatch(actions.app.$startApp()),
+  setShowPropWelcomePage: (show, wasShown) => dispatch(actions.auth.$setShowPropWelcomePage(show, wasShown)),
+});
 
 
 export default compose(
-  connect(mapStateToProps, { $startApp }),
+  connect(mapStateToProps, mapDispatchToProps),
   withRouter,
 )(App);

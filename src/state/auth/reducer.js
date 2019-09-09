@@ -38,6 +38,11 @@ const initReducers = {
     hasAdminRights: payload,
   }),
 
+  [actions.SHOW_WELCOME_PAGE]: (state, payload) => ({
+    ...state,
+    showWelcomePage: payload,
+  }),
+
   [actions.SIGNOUT_USER]: state => ({
     ...state,
     user: initState,
