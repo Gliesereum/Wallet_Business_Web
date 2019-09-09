@@ -37,16 +37,65 @@ class WelcomePage extends Component {
 
   renderStep = () => {
     const { step } = this.state;
+    const { phrases, defaultLanguage } = this.props;
 
     switch (step) {
       case 0:
-        return <div className={b('step')}>first</div>;
+        return (
+          <div className={b('step')}>
+            <div className={b(`step-image imageStep${step}`)} />
+            <div className={b('step-content')}>
+              <div className={b('step-content-title')}>
+                {phrases['welcomePage.steps.first.title'][defaultLanguage.isoKey]}
+              </div>
+              <div className={b('step-content-text')}>
+                {phrases['welcomePage.steps.first.text'][defaultLanguage.isoKey]}
+              </div>
+            </div>
+          </div>
+        );
       case 1:
-        return <div className={b('step')}>second</div>;
+        return (
+          <div className={b('step')}>
+            <div className={b(`step-image imageStep${step}`)} />
+            <div className={b('step-content')}>
+              <div className={b('step-content-title')}>
+                {phrases['welcomePage.steps.second.title'][defaultLanguage.isoKey]}
+              </div>
+              <div className={b('step-content-text')}>
+                {phrases['welcomePage.steps.second.text'][defaultLanguage.isoKey]}
+              </div>
+            </div>
+          </div>
+        );
       case 2:
-        return <div className={b('step')}>third</div>;
+        return (
+          <div className={b('step')}>
+            <div className={b(`step-image imageStep${step}`)} />
+            <div className={b('step-content')}>
+              <div className={b('step-content-title')}>
+                {phrases['welcomePage.steps.third.title'][defaultLanguage.isoKey]}
+              </div>
+              <div className={b('step-content-text')}>
+                {phrases['welcomePage.steps.third.text'][defaultLanguage.isoKey]}
+              </div>
+            </div>
+          </div>
+        );
       default:
-        return <div className={b('step')}>default</div>;
+        return (
+          <div className={b('step')}>
+            <div className={b('step-image imageStep0')} />
+            <div className={b('step-content')}>
+              <div className={b('step-content-title')}>
+                {phrases['welcomePage.steps.first.title'][defaultLanguage.isoKey]}
+              </div>
+              <div className={b('step-content-text')}>
+                {phrases['welcomePage.steps.first.text'][defaultLanguage.isoKey]}
+              </div>
+            </div>
+          </div>
+        );
     }
   };
 

@@ -2,7 +2,7 @@ import {
   asyncRequest,
   withToken,
   cookieStorage,
-  // isUserDataFull,
+  isUserDataFull,
 } from '../../utils';
 
 import authActions from '../auth/action';
@@ -125,8 +125,8 @@ const actions = {
       await dispatch(businessActions.$getBusiness(business));
       await dispatch(corporationsActions.$getCorporations(corporations));
 
-      // const showWelcomePage = !!(isUserDataFull(user) && !(corporations.length) && !isWelcomePageWasShown);
-      await dispatch(authActions.$setShowPropWelcomePage(JSON.stringify(!isWelcomePageWasShown), isWelcomePageWasShown));
+      const showWelcomePage = !!(isUserDataFull(user) && !(corporations.length) && !JSON.parse(isWelcomePageWasShown || false));
+      await dispatch(authActions.$setShowPropWelcomePage(showWelcomePage, isWelcomePageWasShown));
 
       await dispatch(actions.$appStatus('success'));
     } catch (e) {
