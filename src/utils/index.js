@@ -4,7 +4,12 @@ import Cookies from 'js-cookie';
 import {
   withToken, asyncRequest, asyncUploadFile,
 } from './request';
-import { getFirstLetterName, getDate, checkInputHandler } from './helperFunc';
+import {
+  getFirstLetterName,
+  getDate,
+  checkInputHandler,
+  isUserDataFull,
+} from './helperFunc';
 import fetchDecorator from './fetch';
 
 const cookieStorage = Cookies;
@@ -29,4 +34,5 @@ export {
   getDate,
   fetchDecorator,
   checkInputHandler,
+  isUserDataFull,
 };

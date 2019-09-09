@@ -25,6 +25,7 @@ import HelpDrawer from './HelpDrawer';
 import PeriodSelector from './PeriodSelector';
 import AdminPanelPhrases from './AdminPanelPhrases';
 import AdminPanelPhrasesList from './AdminPanelPhrasesList';
+import WelcomePage from './WelcomePage';
 
 export {
   Header,
@@ -54,4 +55,5 @@ export {
   PeriodSelector,
   AdminPanelPhrases,
   AdminPanelPhrasesList,
+  WelcomePage,
 };
