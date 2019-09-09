@@ -22,7 +22,10 @@ import { isUserDataFull } from '../utils';
 
 class PrivateRouter extends PureComponent {
   render() {
-    const { user, hasAdminRights } = this.props;
+    const {
+      user,
+      hasAdminRights,
+    } = this.props;
 
     return (
       <Router>

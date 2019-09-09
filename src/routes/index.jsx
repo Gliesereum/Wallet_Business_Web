@@ -3,22 +3,6 @@ import React from 'react';
 import PublicRouter from './public';
 import PrivateRouter from './private';
 
-const Routes = ({
-  isPrivateRoute,
-  user,
-  // corporations,
-  hasAdminRights,
-}) => (
-  isPrivateRoute
-    ? (
-      <PrivateRouter
-        // corporations={corporations}
-        user={user}
-        hasAdminRights={hasAdminRights}
-      />
-    ) : (
-      <PublicRouter />
-    )
-);
+const Routes = ({ isPrivateRoute, ...props }) => (isPrivateRoute ? <PrivateRouter {...props} /> : <PublicRouter />);
 
 export default Routes;

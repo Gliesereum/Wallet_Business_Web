@@ -18,7 +18,10 @@ class App extends Component {
       authenticated,
       appStatus,
       hasAdminRights,
-      corporations,
+      showWelcomePage,
+      defaultLanguage,
+      phrases,
+      setShowPropWelcomePage,
     } = this.props;
 
     if (appStatus === 'loading') return <ScreenLoading />;
@@ -45,7 +48,10 @@ class App extends Component {
         user={user}
         isPrivateRoute={authenticated}
         hasAdminRights={hasAdminRights}
-        corporations={corporations}
+        showWelcomePage={showWelcomePage}
+        defaultLanguage={defaultLanguage}
+        phrases={phrases}
+        setShowPropWelcomePage={setShowPropWelcomePage}
       />
     );
   }
@@ -54,12 +60,15 @@ const mapStateToProps = state => ({
   appStatus: state.app.appStatus,
   authenticated: state.auth.authenticated,
   hasAdminRights: state.auth.hasAdminRights,
+  showWelcomePage: state.auth.showWelcomePage,
   user: state.auth.user,
-  corporations: state.corporations.corporations,
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
 });
 
 const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
+  setShowPropWelcomePage: (show, wasShown) => dispatch(actions.auth.$setShowPropWelcomePage(show, wasShown)),
 });
 
 

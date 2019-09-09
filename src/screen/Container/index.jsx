@@ -14,11 +14,22 @@ const b = bem('container');
 const Container = ({
   user = {},
   children,
-  corporations = [],
+  showWelcomePage,
+  defaultLanguage,
+  phrases,
+  setShowPropWelcomePage,
 }) => (
   <div className={b()}>
     {isUserDataFull(user) && <SideMenu />}
-    {isUserDataFull(user) && !(corporations.length) && <WelcomePage />}
+    {
+      showWelcomePage && (
+        <WelcomePage
+          setShowPropWelcomePage={setShowPropWelcomePage}
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
+        />
+      )
+    }
 
     <div className={b('wrapper')}>
       {isUserDataFull(user) && <Header user={user} />}

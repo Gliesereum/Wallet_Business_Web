@@ -9,6 +9,7 @@ const actions = {
   VERIFY_EMAIL: 'VERIFY_EMAIL',
 
   CHECK_ADMIN_RIGHTS: 'CHECK_ADMIN_RIGHTS',
+  SHOW_WELCOME_PAGE: 'SHOW_WELCOME_PAGE',
 
   $checkAuthenticate: isAuth => ({
     type: actions.CHECK_AUTHENTICATE,
@@ -34,6 +35,14 @@ const actions = {
     type: actions.CHECK_ADMIN_RIGHTS,
     payload: hasAdminRights,
   }),
+
+  $setShowPropWelcomePage: (showWelcomePage, isWelcomePageWasShown = false) => {
+    cookieStorage.set('isWelcomePageWasShown', isWelcomePageWasShown);
+    return ({
+      type: actions.SHOW_WELCOME_PAGE,
+      payload: JSON.parse(showWelcomePage),
+    });
+  },
 
   $signOut: () => async (dispatch) => {
     cookieStorage.remove('access_token');

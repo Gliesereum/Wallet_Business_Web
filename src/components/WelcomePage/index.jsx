@@ -10,7 +10,29 @@ const b = bem('welcomePage');
 
 class WelcomePage extends Component {
   state = {
+    visible: true,
     step: 0,
+  };
+
+  destroyWelcomeModal = () => {
+    const { setShowPropWelcomePage } = this.props;
+
+    this.setState({ visible: false });
+    setShowPropWelcomePage(false, true);
+  };
+
+  goToNextSlide = () => {
+    const { step } = this.state;
+
+    if (step === 2) {
+      this.destroyWelcomeModal();
+      return;
+    }
+
+    this.setState(prevState => ({
+      ...prevState,
+      step: prevState.step + 1,
+    }));
   };
 
   renderStep = () => {
@@ -29,16 +51,32 @@ class WelcomePage extends Component {
   };
 
   render() {
+    const { visible, step } = this.state;
+    const {
+      defaultLanguage,
+      phrases,
+    } = this.props;
+
     return (
       <Modal
         className={b()}
-        visible
+        visible={visible}
         maskClosable={false}
         footer={null}
+        onCancel={this.destroyWelcomeModal}
       >
         <div className={b('stepsContainer')}>
           {this.renderStep()}
-          <Button />
+          <Button
+            type="primary"
+            onClick={this.goToNextSlide}
+          >
+            {
+              step === 2
+                ? phrases['core.button.start'][defaultLanguage.isoKey]
+                : phrases['core.button.goForward'][defaultLanguage.isoKey]
+            }
+          </Button>
         </div>
       </Modal>
     );
