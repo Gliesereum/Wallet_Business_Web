@@ -13,6 +13,7 @@ import {
   BusinessPackages,
   BusinessServices,
   BusinessWorkingSpaces,
+  ContentHeader,
 } from '../../components';
 
 import { actions } from '../../state';
@@ -162,13 +163,14 @@ class BusinessPage extends Component {
 
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <p className={b('header-title')}>
-            {isAddBusinessMode
+        <ContentHeader
+          title={
+            isAddBusinessMode
               ? phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]
-              : `${phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${chosenBusiness && chosenBusiness.name}\u00BB`}
-          </p>
-        </div>
+              : `${phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${chosenBusiness && chosenBusiness.name}\u00BB`
+          }
+          titleCentered
+        />
         <Tabs
           className={b('tabsContainer')}
           activeKey={activeTab || 'mainInfo'}

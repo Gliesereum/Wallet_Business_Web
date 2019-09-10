@@ -14,6 +14,7 @@ import {
 
 import EmptyState from '../EmptyState';
 import ScreenLoading from '../ScreenLoading';
+import ContentHeader from '../ContentHeader';
 
 import { fetchAction } from '../../fetches';
 
@@ -252,51 +253,53 @@ class ClientsList extends Component {
 
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр клиентов</p>
-          <div className={b('header-selectorBox')}>
-            <Select
-              disabled={loader}
-              onChange={this.handleCorpChange}
-              style={{ width: '280px' }}
-              value={chosenCorporation}
-              placeholder="Выберите компанию"
-            >
-              {
-                corporations.map(item => (
-                  <Option
-                    key={item.id}
-                    value={item.id}
-                  >
-                    {item.name}
-                  </Option>
-                ))
-              }
-            </Select>
-            <Icon
-              type="right"
-              className={b('header-selectorBox-rightArrow')}
-            />
-            <Select
-              disabled={loader}
-              onChange={this.handleBusinessChange}
-              style={{ width: '280px' }}
-              value={chosenBusiness}
-              placeholder="Выберите бизнес"
-            >
-              {
-                businesses.length && businesses.map(item => (
-                  <Option
-                    key={item.id}
-                    value={item.id}
-                  >
-                    {item.name}
-                  </Option>
-                ))
-              }
-            </Select>
-          </div>
-        </div>
+        <ContentHeader
+          title="Просмотр клиентов"
+          content={(
+            <div className={b('selectorBox')}>
+              <Select
+                disabled={loader}
+                onChange={this.handleCorpChange}
+                style={{ width: '280px' }}
+                value={chosenCorporation}
+                placeholder="Выберите компанию"
+              >
+                {
+                  corporations.map(item => (
+                    <Option
+                      key={item.id}
+                      value={item.id}
+                    >
+                      {item.name}
+                    </Option>
+                  ))
+                }
+              </Select>
+              <Icon
+                type="right"
+                className={b('selectorBox-rightArrow')}
+              />
+              <Select
+                disabled={loader}
+                onChange={this.handleBusinessChange}
+                style={{ width: '280px' }}
+                value={chosenBusiness}
+                placeholder="Выберите бизнес"
+              >
+                {
+                  businesses.length && businesses.map(item => (
+                    <Option
+                      key={item.id}
+                      value={item.id}
+                    >
+                      {item.name}
+                    </Option>
+                  ))
+                }
+              </Select>
+            </div>
+          )}
+        />
         <div className={b('content', { isClientsExist })}>
           {
             loader ? (

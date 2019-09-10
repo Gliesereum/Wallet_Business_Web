@@ -14,7 +14,12 @@ import {
   Col,
 } from 'antd';
 
-import { EmptyState, PeriodSelector, ScreenLoading } from '../../components';
+import {
+  EmptyState,
+  PeriodSelector,
+  ScreenLoading,
+  ContentHeader,
+} from '../../components';
 
 import { fetchDecorator, getDate } from '../../utils';
 import { fetchAction } from '../../fetches';
@@ -335,51 +340,53 @@ class OrdersPage extends Component {
     return (
       <div className={b()}>
         <div className={b('wrapper')}>
-          <div className={b('header')}>
-            <p className={b('header-title')}>Заказы</p>
-            <div className={b('header-selectorBox')}>
-              <Select
-                disabled={loader}
-                onChange={this.handleCorpChange}
-                style={{ width: '280px' }}
-                value={chosenCorporation}
-                placeholder="Выберите компанию"
-              >
-                {
-                  corporations.map(item => (
-                    <Option
-                      key={item.id}
-                      value={item.id}
-                    >
-                      {item.name}
-                    </Option>
-                  ))
-                }
-              </Select>
-              <Icon
-                type="right"
-                className={b('header-selectorBox-rightArrow')}
-              />
-              <Select
-                disabled={loader}
-                onChange={this.handleBusinessChange}
-                style={{ width: '280px' }}
-                value={chosenBusiness}
-                placeholder="Выберите бизнес"
-              >
-                {
-                  businesses.length && businesses.map(item => (
-                    <Option
-                      key={item.id}
-                      value={item.id}
-                    >
-                      {item.name}
-                    </Option>
-                  ))
-                }
-              </Select>
-            </div>
-          </div>
+          <ContentHeader
+            title="Заказы"
+            content={(
+              <div className={b('selectorBox')}>
+                <Select
+                  disabled={loader}
+                  onChange={this.handleCorpChange}
+                  style={{ width: '280px' }}
+                  value={chosenCorporation}
+                  placeholder="Выберите компанию"
+                >
+                  {
+                    corporations.map(item => (
+                      <Option
+                        key={item.id}
+                        value={item.id}
+                      >
+                        {item.name}
+                      </Option>
+                    ))
+                  }
+                </Select>
+                <Icon
+                  type="right"
+                  className={b('selectorBox-rightArrow')}
+                />
+                <Select
+                  disabled={loader}
+                  onChange={this.handleBusinessChange}
+                  style={{ width: '280px' }}
+                  value={chosenBusiness}
+                  placeholder="Выберите бизнес"
+                >
+                  {
+                    businesses.length && businesses.map(item => (
+                      <Option
+                        key={item.id}
+                        value={item.id}
+                      >
+                        {item.name}
+                      </Option>
+                    ))
+                  }
+                </Select>
+              </div>
+            )}
+          />
           <div className={b('content')}>
             {
               isOrdersExist ? (

@@ -6,9 +6,12 @@ import bem from 'bem-join';
 import {
   Row,
   Col,
-  Button, notification, Icon,
+  Button,
+  notification,
+  Icon,
 } from 'antd';
 
+import { ContentHeader } from '../../components';
 import { ProfileForm } from '../../components/Forms';
 
 import { asyncRequest, asyncUploadFile, withToken } from '../../utils';
@@ -105,11 +108,10 @@ class ProfileInfo extends Component {
     return (
       <div className={b()}>
         <div>
-          <div className={b('header')}>
-            <h1 className={b('header-title')}>
-              Мой профиль
-            </h1>
-          </div>
+          <ContentHeader
+            title="Мой профиль"
+            titleCentered
+          />
           <ProfileForm
             wrappedComponentRef={form => this.profileForm = form}
             user={user}

@@ -12,6 +12,7 @@ import {
 
 import { WorkerForm } from '../Forms';
 import DeleteModal from '../DeleteModal';
+import ContentHeader from '../ContentHeader';
 
 import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
@@ -225,41 +226,45 @@ class WorkerInfo extends Component {
 
     if (readOnlyMode) {
       return (
-        <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр профиля сотрудника</p>
-        </div>
+        <ContentHeader
+          title="Просмотр профиля сотрудника"
+          titleCentered
+        />
       );
     } if (isAddMode) {
       return (
-        <div className={b('header', { isAddMode })}>
-          <p className={b('header-title')}>Создание профайла сотрудника</p>
-          <div className={b('header-searchBlock')}>
-            <span className={b('header-searchBlock-text')}>Поиск по номеру</span>
-            <Input
-              className={b('header-searchBlock-searchInput')}
-              placeholder="+380507595188"
-              onChange={this.handleSearchUserByNumber}
-            />
-            <Button
-              type="primary"
-              disabled={!foundUser}
-              className={b('header-searchBlock-searchResultBlock')}
-              onClick={changeActiveWorker({ user: foundUser }, true)}
-            >
-              {
-                foundUser
-                  ? `${foundUser.phone} | ${foundUser.lastName} ${foundUser.firstName} ${foundUser.middleName}`
-                  : 'Результат поиска...'
-              }
-            </Button>
-          </div>
-        </div>
+        <ContentHeader
+          title="Создание профайла сотрудника"
+          content={(
+            <div className={b('searchBlock')}>
+              <span className={b('searchBlock-text')}>Поиск по номеру</span>
+              <Input
+                className={b('searchBlock-searchInput')}
+                placeholder="+380507595188"
+                onChange={this.handleSearchUserByNumber}
+              />
+              <Button
+                type="primary"
+                disabled={!foundUser}
+                className={b('searchBlock-searchResultBlock')}
+                onClick={changeActiveWorker({ user: foundUser }, true)}
+              >
+                {
+                  foundUser
+                    ? `${foundUser.phone} | ${foundUser.lastName} ${foundUser.firstName} ${foundUser.middleName}`
+                    : 'Результат поиска...'
+                }
+              </Button>
+            </div>
+          )}
+        />
       );
     }
     return (
-      <div className={b('header')}>
-        <p className={b('header-title')}>Редактирование профиля сотрудника</p>
-      </div>
+      <ContentHeader
+        title="Редактирование профиля сотрудника"
+        titleCentered
+      />
     );
   };
 

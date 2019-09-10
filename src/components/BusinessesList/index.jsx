@@ -7,6 +7,7 @@ import bem from 'bem-join';
 import { List, Card } from 'antd';
 
 import EmptyState from '../EmptyState';
+import ContentHeader from '../ContentHeader';
 
 import AddIcon from '../../assets/AddIcon.svg';
 
@@ -126,9 +127,10 @@ class BusinessesList extends PureComponent {
 
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <p className={b('header-title')}>{viewCorp.name}</p>
-        </div>
+        <ContentHeader
+          title={viewCorp.name}
+          titleCentered
+        />
         {
           business && business.length ? (
             this.renderBusinessesList()
