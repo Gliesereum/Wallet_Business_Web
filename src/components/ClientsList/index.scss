@@ -3,23 +3,7 @@
 .clientsList {
   flex: 1;
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 32px;
-    height: 72px;
-    background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
-
-    &-title {
-      color: $white;
-      font-family: $Roboto;
-      font-size: 18px;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
-    }
-
-    &-selectorBox {
+  &__selectorBox {
       display: flex;
       align-items: center;
 
@@ -42,7 +26,6 @@
         padding: 0 12px;
       }
     }
-  }
 
   &__content {
     padding: 46px 32px 0;

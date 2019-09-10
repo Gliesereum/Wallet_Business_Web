@@ -7,11 +7,13 @@ import {
   Col,
   Icon,
   Avatar as CorpAvatar,
-  notification, Button,
-} from 'antd/lib/index';
+  notification,
+  Button,
+} from 'antd';
 
 import EmptyState from '../EmptyState';
 import DeleteModal from '../DeleteModal';
+import ContentHeader from '../ContentHeader';
 import { CorporationForm } from '../Forms';
 
 import { asyncRequest, asyncUploadFile, withToken } from '../../utils';
@@ -140,7 +142,10 @@ class CorporationInfo extends Component {
     return (
       <div className={b()}>
         <div className={b('formBox')}>
-          <h1 className={b('formBox-header')}>{headerTitle}</h1>
+          <ContentHeader
+            title={headerTitle}
+            titleCentered
+          />
           <CorporationForm
             defaultLanguage={defaultLanguage}
             phrases={phrases}

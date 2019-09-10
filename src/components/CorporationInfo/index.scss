@@ -10,22 +10,9 @@
 
   &__formBox {
     flex: 1;
-    padding: 0 32px;
-
-    &-header {
-      padding: 46px 0 14px;
-      margin-bottom: 32px;
-      color: $font-title-black;
-      font-family: $Roboto;
-      font-size: 16px;
-      line-height: 24px;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-    }
 
     &-controlBtns {
-      margin-top: 16px;
+      padding: 0 32px;
 
       &-btn {
         width: 100%;
