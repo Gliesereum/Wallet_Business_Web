@@ -40,9 +40,9 @@ class CorporationsList extends PureComponent {
               <Panel
                 showArrow={false}
                 header={(
-                  <div>
+                  <div className={b('panel-header')}>
                     <CorpAvatar className={b('panel-logo')} src={corp.logoUrl} />
-                    <span>{corp.name}</span>
+                    <div>{corp.name}</div>
                   </div>
                 )}
                 key={corp.id}

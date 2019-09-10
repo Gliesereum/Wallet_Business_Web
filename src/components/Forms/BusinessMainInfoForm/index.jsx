@@ -165,6 +165,8 @@ class BusinessMainInfoForm extends Component {
               logo={chosenBusiness ? chosenBusiness.logoUrl : null}
               onLoadCover={onLoadCover}
               onLoadLogo={onLoadLogo}
+              withCoverUploader
+              maxSize={2}
             />
             <Row gutter={32}>
               <Col lg={12}>

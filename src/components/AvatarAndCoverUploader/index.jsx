@@ -17,7 +17,7 @@ import {
 const { Dragger: UploadDragger } = Upload;
 const b = bem('avatarAndCoverUploader');
 
-const sizeChecker = size => size && (size / 1024 / 1024) < 2; // image should be equal or less than 2MB;
+const sizeChecker = (size, maxSize) => size && (size / 1024 / 1024) < maxSize; // image should be equal or less than 2MB;
 const typeChecker = fileType => fileType && (fileType === 'image/png' || fileType === 'image/jpeg' || fileType === 'image/jpg'); // img should be one of next types: 'jpeg', 'jpg', 'png'
 
 class AvatarAndCoverUploader extends Component {
@@ -29,14 +29,15 @@ class AvatarAndCoverUploader extends Component {
   };
 
   uploadCover = uploadType => async ({ file, onSuccess }) => {
+    const { onLoadCover, onLoadLogo, maxSize = 2 } = this.props;
+
     this.setState({ loading: true, error: false });
 
-    if (!sizeChecker(file.size) || !typeChecker(file.type)) {
+    if (!sizeChecker(file.size, maxSize) || !typeChecker(file.type)) {
       this.setState({ loading: false, error: true });
       return;
     }
 
-    const { onLoadCover, onLoadLogo } = this.props;
     const body = new FormData();
     await body.append('file', file);
     await body.append('open', true);
@@ -65,7 +66,7 @@ class AvatarAndCoverUploader extends Component {
   finishImgLoading = () => this.setState({ loading: false });
 
   render() {
-    const { cover, logo } = this.props;
+    const { cover, logo, withCoverUploader = false } = this.props;
     const {
       loading,
       error,
@@ -108,29 +109,33 @@ class AvatarAndCoverUploader extends Component {
             </div>
           )
         }
-        <UploadDragger
-          className={b('cover')}
-          name="file"
-          listType="picture-card"
-          showUploadList={false}
-          customRequest={this.uploadCover('cover')}
-        >
-          <div className={b('cover-container')}>
-            <div className={b('cover-uploadBtn')}>
-              <UploadBtn />
-            </div>
-            {
-              coverUrl && (
-                <img
-                  onLoad={this.finishImgLoading}
-                  className={b('cover-image')}
-                  src={coverUrl}
-                  alt="cover_image"
-                />
-              )
-            }
-          </div>
-        </UploadDragger>
+        {
+          withCoverUploader && (
+            <UploadDragger
+              className={b('cover')}
+              name="file"
+              listType="picture-card"
+              showUploadList={false}
+              customRequest={this.uploadCover('cover')}
+            >
+              <div className={b('cover-container')}>
+                <div className={b('cover-uploadBtn')}>
+                  <UploadBtn />
+                </div>
+                {
+                  coverUrl && (
+                    <img
+                      onLoad={this.finishImgLoading}
+                      className={b('cover-image')}
+                      src={coverUrl}
+                      alt="cover_image"
+                    />
+                  )
+                }
+              </div>
+            </UploadDragger>
+          )
+        }
         <UploadDragger
           className={b('logo')}
           name="file"

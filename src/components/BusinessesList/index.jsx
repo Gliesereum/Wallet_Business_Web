@@ -39,6 +39,7 @@ class BusinessesList extends PureComponent {
 
     return (
       <List
+        className={b('list')}
         grid={{
           gutter: 32,
           xl: 3,
@@ -50,7 +51,7 @@ class BusinessesList extends PureComponent {
         renderItem={({
           name, category, logoUrl, id, addCard,
         }) => (
-          <List.Item className={b('item')}>
+          <List.Item className={b('list-item')}>
             {
               addCard ? (
                 <Link to={{
@@ -100,8 +101,8 @@ class BusinessesList extends PureComponent {
 
     return (
       <div className={b()}>
-        <div className={b('corpName')}>
-          <p>{viewCorp.name}</p>
+        <div className={b('header')}>
+          <p className={b('header-title')}>{viewCorp.name}</p>
         </div>
         {
           business && business.length ? (

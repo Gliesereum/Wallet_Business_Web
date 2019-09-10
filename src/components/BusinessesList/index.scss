@@ -2,21 +2,32 @@
 
 .businessesList {
   position: absolute;
-  left: 264px;
+  left: 312px;
   bottom: 0;
   right: 0;
   top: 0;
   overflow-y: scroll;
-  padding: 43px 24px 43px 16px;
 
-  &__corpName {
-    text-align: center;
-    padding-bottom: 37px;
-    color: $font-title-black;
-    line-height: 24px;
-    font-family: $Roboto;
-    font-size: 18px;
-    font-feature-settings: 'pnum' on, 'lnum' on;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    height: 72px;
+    background: $coupler-blue;
+
+    &-title {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 48px;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: $white;
+    }
+  }
+
+  &__list {
+    padding: 24px;
   }
 
   &__card {
@@ -37,10 +48,8 @@
     &-text {
       padding: 16px 0;
       text-align: center;
-      font-family: $Roboto;
       font-weight: 500;
       font-size: 16px;
-      line-height: 24px;
       letter-spacing: 0.01em;
     }
 
@@ -56,7 +65,6 @@
 
       &-addText {
         text-transform: uppercase;
-        font-family: $Roboto;
         font-size: 12px;
         line-height: 16px;
         letter-spacing: 0.04em;
