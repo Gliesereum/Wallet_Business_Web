@@ -38,7 +38,6 @@
     &-container {
       position: relative;
       width: 100%;
-      background-color: $coupler-blue;
       border-radius: 4px;
     }
 
@@ -75,10 +74,14 @@
 
     & .ant-upload.ant-upload-drag {
       border-radius: 50%;
+      background: rgba(255, 255, 255, 0.48);
     }
 
     &-container {
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     &-uploadBtn {
@@ -96,8 +99,8 @@
     }
 
     &-image {
-      width: 100%;
-      height: 100%;
+      width: 104px;
+      height: 104px;
       object-fit: cover;
       border-radius: 50%;
     }
