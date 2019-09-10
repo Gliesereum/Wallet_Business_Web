@@ -1,0 +1,108 @@
+@import '../../styles/theme';
+
+.avatarAndCoverUploader {
+  position: relative;
+
+  &__spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+  }
+
+  &__errorBox {
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    background: rgba(0, 0, 0, 0.48);
+    border-radius: 0 0 4px 4px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.04em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+  }
+
+  &__cover {
+    display: flex;
+    height: 264px;
+    margin-bottom: 24px;
+
+    &-container {
+      position: relative;
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    &-uploadBtn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 0, 0, 0.48);
+      border-radius: 25px;
+    }
+
+    &-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  }
+
+  &__logo {
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+
+    & .ant-upload.ant-upload-drag {
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.48);
+    }
+
+    &-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-uploadBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 0, 0, 0.48);
+      border-radius: 25px;
+    }
+
+    &-image {
+      width: 104px;
+      height: 104px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+}

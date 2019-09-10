@@ -1,17 +1,8 @@
 .businessMainForm {
-  &__content {
-    overflow-y: scroll;
-    height: 452px;
-  }
-
-  &__outerRow {
-    margin: 0 !important; // need to disable antd inline margins;
-  }
-
   &__uploader {
     display: flex;
-    height: 152px;
-    margin-top: 24px;
+    height: 264px;
+    margin-bottom: 24px;
 
     &-container {
       width: 100%;
@@ -56,6 +47,21 @@
         font-feature-settings: 'pnum' on, 'lnum' on;
         color: rgba(72, 84, 101, 0.64);
       }
+    }
+  }
+
+  &__map {
+    &-containerElement {
+      height: 160px;
+      margin-bottom: 24px;
+    }
+
+    &-mapElement {
+      height: 100%;
+    }
+
+    &-loadingElement {
+      height: 100%;
     }
   }
 }

@@ -33,24 +33,31 @@ class BusinessesList extends PureComponent {
       name: item.name,
       category: item.businessCategory.name,
       logoUrl: item.logoUrl,
+      coverUrl: item.coverUrl,
       id: item.id,
     }));
     data.push({ addCard: true });
 
     return (
       <List
+        className={b('list')}
         grid={{
           gutter: 32,
-          xl: 3,
-          lg: 3,
-          md: 2,
+          xl: 2,
+          lg: 2,
+          md: 1,
           sm: 1,
         }}
         dataSource={data}
         renderItem={({
-          name, category, logoUrl, id, addCard,
+          name,
+          category,
+          logoUrl,
+          id,
+          addCard,
+          coverUrl,
         }) => (
-          <List.Item className={b('item')}>
+          <List.Item className={b('list-item')}>
             {
               addCard ? (
                 <Link to={{
@@ -60,26 +67,45 @@ class BusinessesList extends PureComponent {
                   },
                 }}
                 >
-                  <Card className={b('card', { addCard: true })}>
-                    <img src={AddIcon} alt="addBusiness" />
-                    <div className={b('card--addCard-addText')}>
-                      {phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
+                  <Card className={b('card')} id="addCard">
+                    <div className={b('card-cover')}>
+                      <div className={b('card-logo')}>
+                        <img
+                          className={b('card-logo-img')}
+                          src={AddIcon}
+                          alt="add_image"
+                        />
+                      </div>
+                    </div>
+                    <div className={b('card-text')}>
+                      <div className="name">
+                        {phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]}
+                      </div>
                     </div>
                   </Card>
                 </Link>
               ) : (
-                <Card className={b('card')}>
-                  <div
-                    onClick={this.goToBusiness(id)}
-                  >
-                    <div
-                      style={{ backgroundImage: `url(${logoUrl})` }}
-                      className={b('card-img')}
+                <Card
+                  className={b('card')}
+                  onClick={this.goToBusiness(id)}
+                >
+                  <div className={b('card-cover')}>
+                    <img
+                      className={b('card-cover-img')}
+                      src={coverUrl}
+                      alt="cover_image"
                     />
-                    <div className={b('card-text')}>
-                      <p>{name}</p>
-                      <p>{category}</p>
+                    <div className={b('card-logo')}>
+                      <img
+                        className={b('card-logo-img')}
+                        src={logoUrl}
+                        alt="logo_image"
+                      />
                     </div>
+                  </div>
+                  <div className={b('card-text')}>
+                    <p className="name">{name}</p>
+                    <p className="category">{category}</p>
                   </div>
                 </Card>
               )
@@ -100,8 +126,8 @@ class BusinessesList extends PureComponent {
 
     return (
       <div className={b()}>
-        <div className={b('corpName')}>
-          <p>{viewCorp.name}</p>
+        <div className={b('header')}>
+          <p className={b('header-title')}>{viewCorp.name}</p>
         </div>
         {
           business && business.length ? (

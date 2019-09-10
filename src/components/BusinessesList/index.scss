@@ -2,66 +2,115 @@
 
 .businessesList {
   position: absolute;
-  left: 264px;
+  left: 312px;
   bottom: 0;
   right: 0;
   top: 0;
   overflow-y: scroll;
-  padding: 43px 24px 43px 16px;
 
-  &__corpName {
-    text-align: center;
-    padding-bottom: 37px;
-    color: $font-title-black;
-    line-height: 24px;
-    font-family: $Roboto;
-    font-size: 18px;
-    font-feature-settings: 'pnum' on, 'lnum' on;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    height: 72px;
+    background: $coupler-blue;
+
+    &-title {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 48px;
+      letter-spacing: 0.02em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: $white;
+    }
+  }
+
+  &__list {
+    padding: 24px;
   }
 
   &__card {
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.16);
     border-radius: 4px;
     cursor: pointer;
+    position: relative;
 
     & .ant-card-body {
       padding: 0;
     }
 
-    &-img {
-      background: center/cover no-repeat;
-      width: 100%;
+    &-cover {
+      position: relative;
       height: 144px;
+
+      &-img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 72px;
+      height: 72px;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.48);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &-img {
+        width: 63px;
+        height: 63px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
     }
 
     &-text {
-      padding: 16px 0;
+      height: 64px;
+      padding: 16px 8px 13px;
       text-align: center;
-      font-family: $Roboto;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      letter-spacing: 0.01em;
+      color: $coupler-blue;
+      line-height: 16px;
+      letter-spacing: 0.04em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+
+      & .name {
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        padding-bottom: 3px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      & .category {
+        font-size: 12px;
+      }
     }
 
-    &--addCard {
+    &#addCard {
       border: 1px dashed rgba(164, 174, 184, 0.4);
       background-color: $dirty-white;
       text-align: center;
-      padding: 16px;
 
-      & img {
-        padding: 66px 0 24px;
-      }
+      .businessesList__card {
+        &-coverImg {
+          padding: 35px 0;
+        }
 
-      &-addText {
-        text-transform: uppercase;
-        font-family: $Roboto;
-        font-size: 12px;
-        line-height: 16px;
-        letter-spacing: 0.04em;
-        color: rgba(164, 174, 184, 0.88);
-        height: 40px;
+        &-text {
+          .name {
+            color: rgba(164, 174, 184, 0.88);
+          }
+        }
       }
     }
   }
