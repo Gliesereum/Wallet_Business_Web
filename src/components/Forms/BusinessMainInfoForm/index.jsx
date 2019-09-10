@@ -8,20 +8,17 @@ import {
   Input,
   AutoComplete,
   Select,
-  Upload,
-  Spin,
 } from 'antd';
 
 import Map from '../../Map';
 import PhoneInput from '../../PhoneInput';
-import { AddIcon } from '../../../assets/iconComponents';
+import AvatarAndCoverUploader from '../../AvatarAndCoverUploader';
 
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
 import { translateBusinessType } from '../../../mocks';
 
 const FormItem = Form.Item;
-const { Dragger: UploadDragger } = Upload;
 const b = bem('businessMainForm');
 
 const initialFieldValues = chosenCorpId => ({
@@ -128,14 +125,11 @@ class BusinessMainInfoForm extends Component {
       corporations = [],
       isAddBusinessMode,
       chosenCorpId,
-      logoUrl,
-      loading,
-      isError,
-      onChange,
-      uploadBusinessImage,
       changeBusinessType,
       defaultLanguage,
       phrases,
+      onLoadCover,
+      onLoadLogo,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
@@ -166,57 +160,12 @@ class BusinessMainInfoForm extends Component {
       <Form className={b()}>
         <Row gutter={32}>
           <Col lg={16}>
-            <UploadDragger
-              className={b('uploader')}
-              name="file"
-              listType="picture-card"
-              showUploadList={false}
-              onChange={onChange}
-              customRequest={uploadBusinessImage}
-            >
-              <div className={b('uploader-container')}>
-                {
-                  loading ? (
-                    <Spin size="large" />
-                  ) : (
-                    <>
-                      {
-                        logoUrl && (
-                          <img
-                            className={b('uploader-image')}
-                            src={logoUrl}
-                            alt="uploaded_image"
-                          />
-                        )
-                      }
-                      <div className={b('uploader-inside')}>
-                        <AddIcon
-                          className={b('uploader-inside-icon', { errorView: isError })}
-                          size={{
-                            x: isError ? 32 : 48,
-                            y: isError ? 32 : 48,
-                          }}
-                        />
-                        <h1 className={b('uploader-inside-header')}>
-                          {
-                            chosenBusiness && chosenBusiness.logoUrl
-                              ? phrases['company.pageCreate.form.uploadFileNew.label'][defaultLanguage.isoKey]
-                              : phrases['company.pageCreate.form.uploadFileAdd.label'][defaultLanguage.isoKey]
-                          }
-                        </h1>
-                        {
-                          isError && (
-                            <p className={b('uploader-inside-error')}>
-                              Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                            </p>
-                          )
-                        }
-                      </div>
-                    </>
-                  )
-                }
-              </div>
-            </UploadDragger>
+            <AvatarAndCoverUploader
+              cover={chosenBusiness ? chosenBusiness.coverUrl : null}
+              logo={chosenBusiness ? chosenBusiness.logoUrl : null}
+              onLoadCover={onLoadCover}
+              onLoadLogo={onLoadLogo}
+            />
             <Row gutter={32}>
               <Col lg={12}>
                 <FormItem label="Компания">

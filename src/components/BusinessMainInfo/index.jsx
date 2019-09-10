@@ -17,7 +17,6 @@ import DeleteModal from '../DeleteModal';
 
 import {
   asyncRequest,
-  asyncUploadFile,
   withToken,
 } from '../../utils';
 import { fetchAction } from '../../fetches';
@@ -30,37 +29,13 @@ class BusinessMainInfo extends Component {
     businessCategories: [],
     deleteModalVisible: false,
     currentLocation: null,
-    logoUrl: this.props.chosenBusiness ? this.props.chosenBusiness.logoUrl : null,
-    isError: false,
-    fileLoader: false,
+    uploadedCoverUrl: null,
+    uploadedLogoUrl: null,
   };
 
-  onUploaderChange = ({ file }) => {
-    switch (file.status) {
-      case 'uploading':
-        this.setState({ fileLoader: true });
-        break;
-      case 'done':
-        this.setState({ fileLoader: false });
-        break;
+  onLoadCover = uploadedCoverUrl => this.setState({ uploadedCoverUrl });
 
-      default:
-        console.error('Error');
-    }
-  };
-
-  uploadBusinessImage = async ({ file, onSuccess }) => {
-    if ((file.size / 1024 / 1024) > 2) {
-      this.setState({ isError: true });
-      return;
-    }
-    const url = 'upload';
-    const body = new FormData();
-    await body.append('file', file);
-    await body.append('open', true);
-    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body, onSuccess });
-    this.setState({ logoUrl: imageUrl, isError: false });
-  };
+  onLoadLogo = uploadedLogoUrl => this.setState({ uploadedLogoUrl });
 
   handleSubmit = async () => {
     const {
@@ -71,7 +46,12 @@ class BusinessMainInfo extends Component {
       changeActiveTab,
       changeTabDisable,
     } = this.props;
-    const { currentLocation, timeZone, logoUrl } = this.state;
+    const {
+      currentLocation,
+      timeZone,
+      uploadedCoverUrl,
+      uploadedLogoUrl,
+    } = this.state;
 
     this.mainInfoForm.props.form.validateFields(async (error, values) => {
       if (!error) {
@@ -82,7 +62,8 @@ class BusinessMainInfo extends Component {
         const body = {
           ...chosenBusiness,
           ...values,
-          logoUrl,
+          coverUrl: uploadedCoverUrl || (chosenBusiness ? chosenBusiness.coverUrl : null),
+          logoUrl: uploadedLogoUrl || (chosenBusiness ? chosenBusiness.logoUrl : null),
           latitude: currentLocation ? currentLocation.lat : chosenBusiness.latitude,
           longitude: currentLocation ? currentLocation.lng : chosenBusiness.longitude,
           timeZone: timeZone || ((chosenBusiness && chosenBusiness.timeZone) ? chosenBusiness.timeZone : 0),
@@ -164,9 +145,6 @@ class BusinessMainInfo extends Component {
     const {
       businessCategories,
       deleteModalVisible,
-      logoUrl,
-      isError,
-      fileLoader,
     } = this.state;
 
     return (
@@ -179,14 +157,11 @@ class BusinessMainInfo extends Component {
           businessTypes={businessTypes}
           chosenCorpId={chosenCorpId}
           chosenBusiness={chosenBusiness}
-          isError={isError}
-          loading={fileLoader}
-          onChange={this.onUploaderChange}
-          uploadBusinessImage={this.uploadBusinessImage}
           changeBusinessType={this.handleChangeBusinessType}
-          logoUrl={logoUrl}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}
+          onLoadCover={this.onLoadCover}
+          onLoadLogo={this.onLoadLogo}
           defaultLanguage={defaultLanguage}
           phrases={phrases}
         />
