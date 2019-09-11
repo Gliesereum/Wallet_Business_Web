@@ -38,3 +38,11 @@ export const checkInputHandler = (inputField, form) => (e) => {
 
   return value;
 };
+
+export const isUserDataFull = ({
+  firstName,
+  lastName,
+  middleName,
+  country,
+  city,
+}) => !!(firstName && lastName && middleName && country && city);

@@ -1,4 +1,9 @@
-import { asyncRequest, withToken, cookieStorage } from '../../utils';
+import {
+  asyncRequest,
+  withToken,
+  cookieStorage,
+  isUserDataFull,
+} from '../../utils';
 
 import authActions from '../auth/action';
 import corporationsActions from '../corporations/action';
@@ -93,6 +98,7 @@ const actions = {
 
       const access_token = cookieStorage.get('access_token');
       const refresh_token = cookieStorage.get('refresh_token');
+      const isWelcomePageWasShown = cookieStorage.get('isWelcomePageWasShown');
 
       const user = await getTokenAndUser(dispatch, access_token, refresh_token);
 
@@ -118,6 +124,9 @@ const actions = {
 
       await dispatch(businessActions.$getBusiness(business));
       await dispatch(corporationsActions.$getCorporations(corporations));
+
+      const showWelcomePage = !!(isUserDataFull(user) && !(corporations.length) && !JSON.parse(isWelcomePageWasShown || false));
+      await dispatch(authActions.$setShowPropWelcomePage(showWelcomePage, isWelcomePageWasShown));
 
       await dispatch(actions.$appStatus('success'));
     } catch (e) {

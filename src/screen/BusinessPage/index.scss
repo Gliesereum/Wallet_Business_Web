@@ -5,24 +5,7 @@
   flex: 1;
   animation: fadein 0.8s ease;
 
-  &__header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
-    height: 56px;
-
-    &-title {
-      color: $white;
-      font-family: $Roboto;
-      font-size: 18px;
-      line-height: 24px;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
-    }
-  }
-
   &__tabsContainer {
-    padding: 0 24px 20px 16px;
+    padding: 0 32px;
   }
 }

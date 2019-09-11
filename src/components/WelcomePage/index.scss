@@ -1,0 +1,93 @@
+@import '../../styles/theme',
+'../../styles/mixins';
+
+.welcomePage {
+  width: 800px !important;
+  @include respond-to(phone) {
+    width: 328px !important;
+  }
+  @include respond-to(tablet) {
+    width: 725px !important;
+  }
+
+  & .ant-modal-body {
+    padding: 0;
+  }
+
+  &__stepsContainer {
+    padding-bottom: 56px;
+    @include respond-to(phone) {
+      padding-bottom: 48px;
+    }
+  }
+
+  &__step {
+    &-image {
+      width: 800px;
+      height: 280px;
+      background-size: 800px 280px;
+      background-repeat: no-repeat;
+      @include respond-to(phone) {
+        width: 328px;
+        height: 168px;
+        background-size: 328px 168px;
+      }
+      @include respond-to(tablet) {
+        width: 725px;
+        height: 260px;
+        background-size: 725px 260px;
+      }
+
+      &.imageStep0 {
+        background-image: url($welcomePage_step1);
+        @include respond-to(phone) {
+          background-image: url($welcomePage_mobile_step1);
+        }
+      }
+
+      &.imageStep1 {
+        background-image: url($welcomePage_step2);
+        @include respond-to(phone) {
+          background-image: url($welcomePage_mobile_step2);
+        }
+      }
+
+      &.imageStep2 {
+        background-image: url($welcomePage_step3);
+        @include respond-to(phone) {
+          background-image: url($welcomePage_mobile_step3);
+        }
+      }
+    }
+
+    &-content {
+      text-align: center;
+      padding: 56px 32px 40px;
+      height: 180px;
+      @include respond-to(phone) {
+        padding: 16px;
+        height: 170px;
+      }
+      @include respond-to(tablet) {
+        padding: 32px 24px 24px;
+      }
+
+      &-title {
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+        color: #333333;
+        padding-bottom: 16px;
+      }
+
+      &-text {
+        font-size: 16px;
+        line-height: 24px;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+    }
+  }
+}

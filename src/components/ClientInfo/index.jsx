@@ -11,6 +11,7 @@ import {
 } from 'antd';
 
 import PeriodSelector from '../PeriodSelector';
+import ContentHeader from '../ContentHeader';
 
 import { fetchDecorator, getDate } from '../../utils';
 import { fetchAction } from '../../fetches';
@@ -226,9 +227,10 @@ class ClientInfo extends Component {
 
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр информации о клиенте</p>
-        </div>
+        <ContentHeader
+          title="Просмотр информации о клиенте"
+          titleCentered
+        />
         <div className={b('infoWrapper')}>
           <div className={b('ordersInfo')}>
             <PeriodSelector
