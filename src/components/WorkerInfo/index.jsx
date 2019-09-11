@@ -234,7 +234,7 @@ class WorkerInfo extends Component {
     } if (isAddMode) {
       return (
         <ContentHeader
-          title="Создание профайла сотрудника"
+          title="Создание сотрудника"
           content={(
             <div className={b('searchBlock')}>
               <span className={b('searchBlock-text')}>Поиск по номеру</span>

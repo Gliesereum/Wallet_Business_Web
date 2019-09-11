@@ -1,6 +1,7 @@
 @import "../../styles/theme";
 
 .corporationInfo {
+  height: 100%;
   display: flex;
   flex: 1;
 
@@ -8,8 +9,15 @@
     padding: 0 24px 0 16px;
   }
 
+  &__content {
+    flex: 1 1 auto;
+  }
+
   &__formBox {
+    height: 100%;
+    display: flex;
     flex: 1;
+    flex-flow: column;
 
     &-controlBtns {
       padding: 0 32px;

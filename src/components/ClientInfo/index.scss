@@ -1,18 +1,17 @@
 @import '../../styles/theme.scss';
 
 .clientInfo {
+  height: 100%;
   display: flex;
-  flex: 1;
-  flex-direction: column;
+  flex-flow: column;
 
   &__infoWrapper {
     display: flex;
-    flex-direction: row;
-    height: 100%;
+    flex: 1 1 auto;
   }
 
   &__ordersInfo {
-    padding: 0 32px 0;
+    padding: 0 32px 40px;
     flex: 1;
 
     &-recordsTable {

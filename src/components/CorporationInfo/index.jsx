@@ -146,82 +146,84 @@ class CorporationInfo extends Component {
             title={headerTitle}
             titleCentered
           />
-          <CorporationForm
-            defaultLanguage={defaultLanguage}
-            phrases={phrases}
-            wrappedComponentRef={form => this.corporationForm = form}
-            readOnlyMode={readOnlyMode}
-            chosenCorporation={chosenCorporation}
-            isError={isError}
-            loading={fileLoader}
-            onChange={this.onUploaderChange}
-            uploadCorporationImage={this.uploadCorporationImage}
-            logoUrl={logoUrl}
-          />
-          <Row
-            className={b('formBox-controlBtns')}
-            gutter={20}
-          >
-            <Col lg={8}>
-              {
-                readOnlyMode ? (
-                  <Button
-                    className={b('formBox-controlBtns-btn backBtn')}
-                    onClick={changeActiveCorporation(null, false)}
-                  >
-                    <Icon type="left" />
-                    {phrases['core.button.back'][defaultLanguage.isoKey]}
-                  </Button>
-                ) : (
-                  <Button
-                    className={b('formBox-controlBtns-btn backBtn')}
-                    onClick={chosenCorporation
-                      ? this.handleToggleReadOnlyMode(true)
-                      : changeActiveCorporation(null, false)
-                    }
-                  >
-                    <Icon type="left" />
-                    {phrases['core.button.back'][defaultLanguage.isoKey]}
-                  </Button>
-                )
-              }
-            </Col>
-            <Col lg={8}>
-              {
-                readOnlyMode ? (
-                  <Button
-                    className={b('formBox-controlBtns-btn deleteBtn')}
-                    onClick={this.toggleDeleteModal}
-                  >
-                    {phrases['core.button.remove'][defaultLanguage.isoKey]}
-                  </Button>
-                ) : (
-                  <div />
-                )
-              }
-            </Col>
-            <Col lg={8}>
-              {
-                readOnlyMode ? (
-                  <Button
-                    className={b('formBox-controlBtns-btn')}
-                    type="primary"
-                    onClick={this.handleToggleReadOnlyMode(false)}
-                  >
-                    {phrases['core.button.edit'][defaultLanguage.isoKey]}
-                  </Button>
-                ) : (
-                  <Button
-                    className={b('formBox-controlBtns-btn')}
-                    type="primary"
-                    onClick={this.handleUpdateCorporation}
-                  >
-                    {phrases['core.button.save'][defaultLanguage.isoKey]}
-                  </Button>
-                )
-              }
-            </Col>
-          </Row>
+          <div className={b('content')}>
+            <CorporationForm
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
+              wrappedComponentRef={form => this.corporationForm = form}
+              readOnlyMode={readOnlyMode}
+              chosenCorporation={chosenCorporation}
+              isError={isError}
+              loading={fileLoader}
+              onChange={this.onUploaderChange}
+              uploadCorporationImage={this.uploadCorporationImage}
+              logoUrl={logoUrl}
+            />
+            <Row
+              className={b('formBox-controlBtns')}
+              gutter={20}
+            >
+              <Col lg={8}>
+                {
+                  readOnlyMode ? (
+                    <Button
+                      className={b('formBox-controlBtns-btn backBtn')}
+                      onClick={changeActiveCorporation(null, false)}
+                    >
+                      <Icon type="left" />
+                      {phrases['core.button.back'][defaultLanguage.isoKey]}
+                    </Button>
+                  ) : (
+                    <Button
+                      className={b('formBox-controlBtns-btn backBtn')}
+                      onClick={chosenCorporation
+                        ? this.handleToggleReadOnlyMode(true)
+                        : changeActiveCorporation(null, false)
+                      }
+                    >
+                      <Icon type="left" />
+                      {phrases['core.button.back'][defaultLanguage.isoKey]}
+                    </Button>
+                  )
+                }
+              </Col>
+              <Col lg={8}>
+                {
+                  readOnlyMode ? (
+                    <Button
+                      className={b('formBox-controlBtns-btn deleteBtn')}
+                      onClick={this.toggleDeleteModal}
+                    >
+                      {phrases['core.button.remove'][defaultLanguage.isoKey]}
+                    </Button>
+                  ) : (
+                    <div />
+                  )
+                }
+              </Col>
+              <Col lg={8}>
+                {
+                  readOnlyMode ? (
+                    <Button
+                      className={b('formBox-controlBtns-btn')}
+                      type="primary"
+                      onClick={this.handleToggleReadOnlyMode(false)}
+                    >
+                      {phrases['core.button.edit'][defaultLanguage.isoKey]}
+                    </Button>
+                  ) : (
+                    <Button
+                      className={b('formBox-controlBtns-btn')}
+                      type="primary"
+                      onClick={this.handleUpdateCorporation}
+                    >
+                      {phrases['core.button.save'][defaultLanguage.isoKey]}
+                    </Button>
+                  )
+                }
+              </Col>
+            </Row>
+          </div>
           {
             deleteModalVisible && (
               <DeleteModal
@@ -241,27 +243,29 @@ class CorporationInfo extends Component {
           <h1 className={b('otherCorpBox-header')}>
             {phrases['company.pageCreate.rightBar.header.title'][defaultLanguage.isoKey]}
           </h1>
-          {
-            corporations.length ? (
-              corporations.map(corp => (
-                <div
-                  onClick={changeActiveCorporation(corp, false)}
-                  key={corp.id}
-                  className={b('otherCorpBox-list-item')}
-                >
-                  <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={corp.logoUrl} />
-                  <span>{corp.name}</span>
-                </div>
-              ))) : (
-                <div className={b('emptyState-wrapper')}>
-                  <EmptyState
-                    title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
-                    descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
-                    withoutBtn
-                  />
-                </div>
-            )
-          }
+          <div className={b('otherCorpBox-list')}>
+            {
+              corporations.length ? (
+                corporations.map(corp => (
+                  <div
+                    onClick={changeActiveCorporation(corp, false)}
+                    key={corp.id}
+                    className={b('otherCorpBox-list-item')}
+                  >
+                    <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={corp.logoUrl} />
+                    <span>{corp.name}</span>
+                  </div>
+                ))) : (
+                  <div className={b('emptyState-wrapper')}>
+                    <EmptyState
+                      title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
+                      descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
+                      withoutBtn
+                    />
+                  </div>
+              )
+            }
+          </div>
         </div>
       </div>
     );

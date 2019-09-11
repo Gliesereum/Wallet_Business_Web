@@ -1,7 +1,9 @@
 @import '../../styles/theme.scss';
 
 .workersList {
-  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 
   &__selectorBox {
     display: flex;
@@ -29,9 +31,11 @@
 
   &__content {
     padding: 46px 32px 0;
+    flex: 1 1 auto;
+
 
     &--isWorkersExist {
-      padding: 0 32px;
+      padding: 0 32px 40px;
     }
 
     &-searchBox {
@@ -43,7 +47,6 @@
       & > label {
         cursor: pointer;
         color: $font-title-black;
-        font-family: $Roboto;
         font-size: 14px;
         letter-spacing: 0.02em;
         font-feature-settings: 'pnum' on, 'lnum' on;
@@ -143,7 +146,6 @@
           white-space: nowrap;
           overflow: hidden;
           font-size: 14px;
-          font-family: $Roboto;
           color: $coupler-blue;
         }
 
@@ -172,7 +174,6 @@
 
     &-row {
       &-header {
-        font-family: $Roboto;
         font-size: 14px;
         line-height: 24px;
         color: $font-title-black;
@@ -187,7 +188,6 @@
           margin-bottom: 9px;
 
           & .title {
-            font-family: $Roboto;
             font-size: 10px;
             line-height: 12px;
             color: #7B858C;
@@ -197,7 +197,6 @@
           }
 
           & .data {
-            font-family: $Roboto;
             font-weight: normal;
             font-size: 12px;
             line-height: 14px;

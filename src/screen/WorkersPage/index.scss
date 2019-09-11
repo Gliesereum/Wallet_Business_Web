@@ -1,7 +1,6 @@
 @import '../../styles/theme.scss';
 
 .workersPage {
-  display: flex;
-  flex: 1;
   animation: fadein 0.8s ease;
+  height: 100%;
 }

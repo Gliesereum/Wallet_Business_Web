@@ -1,11 +1,14 @@
 @import '../../styles/theme.scss';
 
 .businessPage {
-  overflow-y: scroll;
-  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
   animation: fadein 0.8s ease;
 
   &__tabsContainer {
-    padding: 0 32px;
+    padding: 0 32px 40px;
+    overflow-y: scroll;
+    flex: 1 1 auto;
   }
 }

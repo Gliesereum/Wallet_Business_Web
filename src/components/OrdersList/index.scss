@@ -1,0 +1,106 @@
+@import '../../styles/theme.scss';
+
+.ordersList {
+  &__content {
+    &-table {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+
+      & .ant-table {
+        &-body {
+          min-height: 383px;
+        }
+
+        &-thead {
+          & > tr {
+            height: 48px;
+            font-size: 12px;
+            line-height: 24px;
+
+            & > th {
+              padding: 0 16px;
+            }
+
+            & > th.status-column {
+              max-width: 70px;
+            }
+
+            & > th .ant-table-header-column {
+              width: 100%;
+            }
+          }
+        }
+
+        &-tbody {
+          & > tr {
+            height: 48px;
+
+            & > td {
+              padding: 0 16px;
+            }
+
+            &.ant-table-expanded-row > td {
+              padding: 0;
+            }
+          }
+        }
+      }
+
+      &--isEmpty {
+        & .ant-table-body {
+          min-height: unset;
+        }
+      }
+
+      &-pagination {
+
+      }
+    }
+  }
+
+  &__expandTable {
+    padding: 24px 18px 15px;
+
+    &-infoBox {
+      border-bottom: 1px solid #DEE9F4;
+      margin-bottom: 18px;
+
+      & .title {
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 12px;
+        color: #1078E1;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+
+      & .data {
+        font-family: $Roboto;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        color: $font-title-black;
+        padding: 6px 0 12px;
+      }
+
+      & .listMode {
+        padding: 6px 16px 12px;
+        margin: 0;
+
+        & > li {
+          padding-bottom: 6px;
+        }
+      }
+
+      &:last-child {
+        border: none;
+      }
+    }
+
+    &-editBtn {
+      width: 100%;
+    }
+  }
+}
