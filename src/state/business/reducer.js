@@ -7,7 +7,8 @@ const initState = {
   servicePrices: {},
   businessPackages: {},
   workingSpaces: [],
-  businessOrders: {},
+  ordersPage: {},
+  orders: [],
 };
 
 const initReducers = {
@@ -234,6 +235,26 @@ const initReducers = {
       ...state.workingSpaces.filter(item => item.id !== payload),
     ],
   }),
+
+  [actions.GET_ORDERS]: (state, { content = [], ...rest }) => ({
+    ...state,
+    orders: content,
+    ordersPage: rest,
+  }),
+
+  [actions.UPDATE_ORDER_STATUS]: (state, payload) => {
+    const updatedOrderIndex = state.orders.findIndex(item => item.id === payload.id);
+    const newOrdersArray = [
+      ...state.orders.slice(0, updatedOrderIndex),
+      payload,
+      ...state.orders.slice(updatedOrderIndex + 1),
+    ];
+
+    return {
+      ...state,
+      orders: newOrdersArray,
+    };
+  },
 };
 
 export default createReducer(initState, initReducers);

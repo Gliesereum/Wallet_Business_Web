@@ -60,7 +60,16 @@
   }
 
   &__expandTable {
-    padding: 24px 18px 15px;
+    display: flex;
+
+    & .ant-col {
+      padding: 24px 16px;
+      border-right: 1px solid #EAEAEA;
+
+      &:last-child {
+        border-right: 0;
+      }
+    }
 
     &-infoBox {
       border-bottom: 1px solid #DEE9F4;
@@ -96,6 +105,20 @@
 
       &:last-child {
         border: none;
+        margin-bottom: 0;
+      }
+    }
+
+    &-editBox {
+      margin-bottom: 16px;
+      width: 100%;
+
+      & .ant-select {
+        width: 100%;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
       }
     }
 

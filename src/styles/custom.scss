@@ -184,6 +184,21 @@
         border-color: #d9d9d9;
       }
     }
+
+    &-dropdown {
+      &-menu {
+        &-item {
+          &-disabled {
+            background-color: #F5F5F5;
+
+            &:hover {
+              background-color: #F5F5F5;
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
   }
 
   &-checkbox {

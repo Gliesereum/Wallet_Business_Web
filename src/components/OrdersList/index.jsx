@@ -7,19 +7,107 @@ import {
   Row,
   Col,
   Button,
+  Input,
+  Select,
+  notification,
 } from 'antd';
 
 import EmptyState from '../EmptyState';
 import ScreenLoading from '../ScreenLoading';
 
 import { getDate } from '../../utils';
+import { fetchAction } from '../../fetches';
 import { recordTranslate } from '../../mocks';
 
 const b = bem('ordersList');
+const { Option } = Select;
+
+const statusesArray = (() => {
+  const array = [];
+
+  for (const key in recordTranslate.statusProcess) {
+    if (Object.prototype.hasOwnProperty.call(recordTranslate.statusProcess, key)) {
+      if (key === 'STARTED' || key === 'EXPIRED' || key === 'WAITING') continue;
+      array.push({
+        value: key,
+        textValue: recordTranslate.statusProcess[key],
+      });
+    }
+  }
+
+  return array;
+})();
 
 class OrdersList extends Component {
   state = {
     expandedRowKeys: [], // for Icon type regulation
+    editedOrderId: null,
+    editedCanceledDescription: null,
+    editedStatusProcess: null,
+  };
+
+  toggleStatusEditMode = (
+    id = null,
+    editedCanceledDescription = null,
+    editedStatusProcess = null,
+  ) => () => this.setState({
+    editedOrderId: id,
+    editedCanceledDescription,
+    editedStatusProcess,
+  });
+
+  statusChange = editedStatusProcess => this.setState(prevState => ({
+    editedStatusProcess,
+    editedCanceledDescription: editedStatusProcess === 'CANCELED' ? prevState.editedCanceledDescription : null,
+  }));
+
+  descriptionChange = e => this.setState({ editedCanceledDescription: e.target.value });
+
+  saveStatus = order => async () => {
+    const {
+      editedStatusProcess,
+      editedCanceledDescription,
+      editedOrderId,
+    } = this.state;
+    const { updateOrderStatus } = this.props;
+
+    try {
+      if (editedCanceledDescription) {
+        const updatedOrder = {
+          ...order,
+          statusProcess: editedStatusProcess,
+          canceledDescription: editedCanceledDescription,
+        };
+        await fetchAction({
+          url: `record/canceled-record?idRecord=${editedOrderId}&message=${editedCanceledDescription}`,
+          fieldName: 'newOrder',
+          fieldType: {},
+          method: 'PUT',
+          reduxAction: updateOrderStatus(updatedOrder),
+        })();
+      } else {
+        const updatedOrder = {
+          ...order,
+          statusProcess: editedStatusProcess,
+          canceledDescription: null,
+        };
+
+        await fetchAction({
+          url: `record/update-status-process?idRecord=${editedOrderId}&status=${editedStatusProcess}`,
+          fieldName: 'newOrder',
+          fieldType: {},
+          method: 'PUT',
+          reduxAction: updateOrderStatus(updatedOrder),
+        })();
+      }
+      this.toggleStatusEditMode()();
+    } catch (err) {
+      notification.error({
+        duration: 5,
+        message: err.message || 'Ошибка',
+        description: 'Ошибка',
+      });
+    }
   };
 
   handleExpandRow = worker => ({
@@ -38,36 +126,28 @@ class OrdersList extends Component {
     }),
   });
 
-  renderExpandedRow = ({
-    packageDto,
-    services,
-    business,
-    statusPay,
-    price,
-    statusProcess,
-    canceledDescription,
-  }) => {
-    const isPackageExist = !!packageDto;
+  renderExpandedRow = (record) => {
+    const isPackageExist = !!record.packageDto;
     const { statusPay: statusPayLocalize } = recordTranslate;
+    const { editedOrderId, editedCanceledDescription, editedStatusProcess } = this.state;
 
     return (
-      <Row
-        className={b('expandTable')}
-        gutter={56}
-      >
+      <Row className={b('expandTable')}>
         <Col lg={8}>
           {
             isPackageExist && (
               <>
                 <div className={b('expandTable-infoBox')}>
                   <div className="title">Пакет услуг:</div>
-                  <div className="data">{packageDto.name}</div>
+                  <div className="data">{record.packageDto.name}</div>
                 </div>
                 <div className={b('expandTable-infoBox')}>
                   <div className="title">Список услуг, которые входят в пакет:</div>
                   <ul className="data listMode">
                     {
-                      packageDto.services.map(packageService => <li key={packageService.id}>{packageService.name}</li>)
+                      record.packageDto.services.map(packageService => (
+                        <li key={packageService.id}>{packageService.name}</li>
+                      ))
                     }
                   </ul>
                 </div>
@@ -75,12 +155,12 @@ class OrdersList extends Component {
             )
           }
           {
-            (services && services.length > 0) && (
+            (record.services && record.services.length > 0) && (
               <div className={b('expandTable-infoBox')}>
                 <div className="title">{isPackageExist ? 'Дополнительные услуги' : 'Список услуг:'}</div>
                 <ul className="data listMode">
                   {
-                    services.map(service => <li key={service.id}>{service.name}</li>)
+                    record.services.map(service => <li key={service.id}>{service.name}</li>)
                   }
                 </ul>
               </div>
@@ -90,36 +170,101 @@ class OrdersList extends Component {
         <Col lg={8}>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Филиал компании:</div>
-            <div className="data">{business.name}</div>
+            <div className="data">{record.business.name}</div>
           </div>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Статус платежа:</div>
-            <div className="data">{statusPayLocalize[statusPay]}</div>
+            <div className="data">{statusPayLocalize[record.statusPay]}</div>
           </div>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Сумма платежа:</div>
-            <div className="data">{`${price} грн`}</div>
+            <div className="data">{`${record.price} грн`}</div>
           </div>
         </Col>
         <Col lg={8}>
-          <div className={b('expandTable-infoBox')}>
-            <div className="title">Статус заказа:</div>
-            <div className="data">{recordTranslate.statusProcess[statusProcess]}</div>
-          </div>
           {
-            canceledDescription && (
-              <div className={b('expandTable-infoBox')}>
-                <div className="title">Причина отмены:</div>
-                <div className="data">{canceledDescription}</div>
-              </div>
+            (editedOrderId === record.id) ? (
+              <>
+                <div className={b('expandTable-editBox')}>
+                  {
+                    record.statusProcess === 'CANCELED' ? (
+                      <div className={b('expandTable-infoBox')}>
+                        <div className="title">Статус заказа:</div>
+                        <div className="data">{recordTranslate.statusProcess[record.statusProcess]}</div>
+                      </div>
+                    ) : (
+                      <Select
+                        onChange={this.statusChange}
+                        defaultValue={editedStatusProcess}
+                      >
+                        {
+                          statusesArray.map(({ value, textValue }) => (
+                            <Option
+                              key={value}
+                              value={value}
+                              disabled={record.statusProcess === 'EXPIRED' && value === 'IN_PROCESS'}
+                            >
+                              {textValue}
+                            </Option>
+                          ))
+                        }
+                      </Select>
+                    )
+                  }
+                </div>
+                {
+                  ((record.canceledDescription && !editedStatusProcess === 'CANCELED') || editedStatusProcess === 'CANCELED') && (
+                    <div className={b('expandTable-editBox')}>
+                      <Input
+                        onChange={this.descriptionChange}
+                        value={editedCanceledDescription}
+                      />
+                    </div>
+                  )
+                }
+                <Button
+                  className={b('expandTable-editBox')}
+                  type="primary"
+                  onClick={this.saveStatus(record)}
+                >
+                  Сохранить
+                </Button>
+                <Button
+                  className={b('expandTable-editBox backBtn')}
+                  onClick={this.toggleStatusEditMode()}
+                >
+                  Отмена
+                </Button>
+              </>
+            ) : (
+              <>
+                <div className={b('expandTable-infoBox')}>
+                  <div className="title">Статус заказа:</div>
+                  <div className="data">{recordTranslate.statusProcess[record.statusProcess]}</div>
+                </div>
+                {
+                  record.canceledDescription && (
+                    <div className={b('expandTable-infoBox')}>
+                      <div className="title">Причина отмены:</div>
+                      <div className="data">{record.canceledDescription}</div>
+                    </div>
+                  )
+                }
+                <Button
+                  className={b('expandTable-editBtn')}
+                  type="primary"
+                  disabled={record.statusProcess === 'STARTED' && record.statusProcess !== 'COMPLETED'}
+                  onClick={this.toggleStatusEditMode(
+                    record.id,
+                    record.canceledDescription,
+                    record.statusProcess
+                  )}
+                >
+                  Редактировать
+                </Button>
+              </>
             )
           }
-          <Button
-            className={b('expandTable-editBtn')}
-            type="primary"
-          >
-            Loc
-          </Button>
         </Col>
       </Row>
     );
@@ -208,7 +353,8 @@ class OrdersList extends Component {
                     dataSource={orders}
                     pagination={pagination.totalPages > 1
                       ? {
-                        ...pagination,
+                        total: pagination.totalElements,
+                        current: pagination.number,
                         pageSize: 7,
                         className: b('content-table-pagination'),
                       }
@@ -219,7 +365,7 @@ class OrdersList extends Component {
                     expandedRowRender={record => this.renderExpandedRow(record)}
                     onRow={this.handleExpandRow}
                     onChange={paginationChange}
-                    scroll={{ y: 336, x: 950 }}
+                    scroll={{ y: 336, x: 900 }}
                   />
                 )
               }

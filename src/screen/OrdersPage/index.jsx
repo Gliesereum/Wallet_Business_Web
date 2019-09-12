@@ -17,6 +17,7 @@ import {
 
 import { fetchDecorator } from '../../utils';
 import { fetchAction } from '../../fetches';
+import { actions } from '../../state';
 
 const b = bem('ordersPage');
 const { Option } = Select;
@@ -26,12 +27,11 @@ class OrdersPage extends Component {
     loader: false,
     chosenCorporation: undefined,
     chosenBusiness: undefined,
-    orders: [],
     businesses: [],
-    pagination: {
-      current: 0,
+    pagination: this.props.ordersPage ? this.props.ordersPage : {
+      number: 0,
       totalPages: 0,
-      total: 0,
+      totalElements: 0,
     },
     from: null,
     to: null,
@@ -47,7 +47,7 @@ class OrdersPage extends Component {
 
   handleCorpChange = async (corporationId) => {
     this.setState({ loader: true });
-    const businesses = await this.handleGetBusinessByCorporationId(corporationId, true);
+    const businesses = await this.handleGetBusinessByCorporationId(corporationId);
 
     this.setState({
       chosenCorporation: corporationId,
@@ -64,14 +64,13 @@ class OrdersPage extends Component {
     await this.handleGetOrdersById({ businessId });
   };
 
-  handleGetBusinessByCorporationId = async (corporationId, getOrders = false) => {
+  handleGetBusinessByCorporationId = async (corporationId) => {
     let businesses = [];
     try {
       const { data = [] } = await fetchAction({
         url: `business/by-corporation-id?id=${corporationId}`,
         fieldName: 'business',
       })();
-      getOrders && await this.handleGetOrdersById({ corporationId });
 
       businesses = data;
     } catch (err) {
@@ -80,6 +79,8 @@ class OrdersPage extends Component {
         message: err.message || 'Ошибка',
         description: 'Ошибка',
       });
+    } finally {
+      this.setState({ loader: false });
     }
 
     return businesses;
@@ -106,16 +107,16 @@ class OrdersPage extends Component {
           from,
           to,
         },
+        reduxAction: this.props.getOrders,
       })();
 
       this.setState(prevState => ({
         ...prevState,
-        orders: ordersPage.content,
         pagination: {
           ...prevState.pagination,
-          current: ordersPage.number + 1,
+          number: ordersPage.number + 1,
           totalPages: ordersPage.totalPages,
-          total: ordersPage.totalElements,
+          totalElements: ordersPage.totalElements,
         },
       }));
     } catch (err) {
@@ -145,18 +146,18 @@ class OrdersPage extends Component {
         from,
         to,
       },
+      reduxAction: this.props.getOrders,
     })();
 
     this.setState(prevState => ({
       ...prevState,
-      orders: data.content || [],
       from,
       to,
       pagination: {
         ...prevState.pagination,
-        current: 0,
+        number: 0,
         totalPages: data.totalPages,
-        total: data.totalElements,
+        totalElements: data.totalElements,
       },
     }));
   };
@@ -184,10 +185,13 @@ class OrdersPage extends Component {
       chosenCorporation,
       chosenBusiness,
       businesses,
-      orders,
       pagination,
     } = this.state;
-    const { corporations } = this.props;
+    const {
+      orders,
+      corporations,
+      updateOrderStatus,
+    } = this.props;
 
     return (
       <div className={b()}>
@@ -249,6 +253,7 @@ class OrdersPage extends Component {
             loader={loader}
             pagination={pagination}
             paginationChange={this.handlePaginationChange}
+            updateOrderStatus={updateOrderStatus}
           />
         </div>
       </div>
@@ -258,13 +263,20 @@ class OrdersPage extends Component {
 
 const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
+  ordersPage: state.business.ordersPage,
+  orders: state.business.orders,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getOrders: orders => dispatch(actions.business.$getOrders(orders)),
+  updateOrderStatus: order => dispatch(actions.business.$updateOrderStatus(order)),
 });
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchDecorator({
     actions: [
-      ({ corporations }) => corporations.length && fetchAction({
+      ({ corporations, getOrders }) => corporations.length && fetchAction({
         url: 'record/by-params-for-business',
         fieldName: 'ordersPage',
         fieldType: {},
@@ -277,6 +289,7 @@ export default compose(
           from: null,
           to: null,
         },
+        reduxAction: getOrders,
       })(),
     ],
     config: { loader: true },
