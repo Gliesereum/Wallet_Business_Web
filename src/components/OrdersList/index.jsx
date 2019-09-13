@@ -196,7 +196,7 @@ class OrdersList extends Component {
                     ) : (
                       <Select
                         onChange={this.statusChange}
-                        defaultValue={editedStatusProcess}
+                        defaultValue={editedStatusProcess !== 'EXPIRED' ? editedStatusProcess : undefined}
                       >
                         {
                           statusesArray.map(({ value, textValue }) => (
@@ -254,7 +254,7 @@ class OrdersList extends Component {
                 <Button
                   className={b('expandTable-editBtn')}
                   type="primary"
-                  disabled={record.statusProcess === 'STARTED' && record.statusProcess !== 'COMPLETED'}
+                  disabled={record.statusProcess === 'STARTED' || record.statusProcess === 'COMPLETED'}
                   onClick={this.toggleStatusEditMode(
                     record.id,
                     record.canceledDescription,

@@ -178,7 +178,12 @@ class ClientInfo extends Component {
       expandedRowKeys,
       columnSortOrder: { date, status },
     } = this.state;
-    const { changeActiveClient, chosenClient } = this.props;
+    const {
+      defaultLanguage,
+      phrases,
+      changeActiveClient,
+      chosenClient,
+    } = this.props;
 
     const columns = [
       {
@@ -235,6 +240,9 @@ class ClientInfo extends Component {
         <div className={b('infoWrapper')}>
           <div className={b('ordersInfo')}>
             <PeriodSelector
+              title={phrases['orders.list.title'][defaultLanguage.isoKey]}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               getFromToData={this.handleRefreshRecordsByFromTo}
             />
             <Table
