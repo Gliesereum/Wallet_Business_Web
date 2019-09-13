@@ -40,6 +40,8 @@ class BusinessScheduleForm extends Component {
       dayTranslate,
       scheduleList,
       readOnlyMode,
+      defaultLanguage,
+      phrases,
     } = this.props;
 
     const formItemLayout = {
@@ -76,7 +78,7 @@ class BusinessScheduleForm extends Component {
                         value={isWork}
                         disabled={readOnlyMode}
                       >
-                        {dayTranslate[dayOfWeek]}
+                        {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
                       </Checkbox>
                     )}
                   </Form.Item>
@@ -118,7 +120,7 @@ class BusinessScheduleForm extends Component {
                         disabled={readOnlyMode}
                         value={isWork}
                       >
-                        {dayTranslate[dayOfWeek]}
+                        {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
                       </Checkbox>
                     )}
                   </Form.Item>

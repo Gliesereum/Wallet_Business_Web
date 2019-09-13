@@ -190,13 +190,15 @@ class OrdersPage extends Component {
     const {
       orders,
       corporations,
+      defaultLanguage,
+      phrases,
       updateOrderStatus,
     } = this.props;
 
     return (
       <div className={b()}>
         <ContentHeader
-          title="Заказы"
+          title={phrases['orders.page.title'][defaultLanguage.isoKey]}
           content={(
             <div className={b('selectorBox')}>
               <Select
@@ -204,7 +206,7 @@ class OrdersPage extends Component {
                 onChange={this.handleCorpChange}
                 style={{ width: '280px' }}
                 value={chosenCorporation}
-                placeholder="Выберите компанию"
+                placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
               >
                 {
                   corporations.map(item => (
@@ -226,7 +228,7 @@ class OrdersPage extends Component {
                 onChange={this.handleBusinessChange}
                 style={{ width: '280px' }}
                 value={chosenBusiness}
-                placeholder="Выберите бизнес"
+                placeholder={phrases['core.selector.placeholder.choseBranch'][defaultLanguage.isoKey]}
               >
                 {
                   businesses.length && businesses.map(item => (
@@ -245,6 +247,9 @@ class OrdersPage extends Component {
         <div className={b('content')}>
           <div className={b('content-options')}>
             <PeriodSelector
+              title={phrases['orders.list.title'][defaultLanguage.isoKey]}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               getFromToData={this.handleRefreshOrdersByFromTo}
             />
           </div>
@@ -252,6 +257,8 @@ class OrdersPage extends Component {
             orders={orders}
             loader={loader}
             pagination={pagination}
+            defaultLanguage={defaultLanguage}
+            phrases={phrases}
             paginationChange={this.handlePaginationChange}
             updateOrderStatus={updateOrderStatus}
           />
@@ -265,6 +272,8 @@ const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
   ordersPage: state.business.ordersPage,
   orders: state.business.orders,
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
 });
 
 const mapDispatchToProps = dispatch => ({

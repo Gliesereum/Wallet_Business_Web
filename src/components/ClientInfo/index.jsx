@@ -105,6 +105,7 @@ class ClientInfo extends Component {
   }) => {
     const isPackageExist = !!packageDto;
     const { statusPay: statusPayLocalize } = recordTranslate;
+    const { defaultLanguage, phrases } = this.props;
 
     return (
       <Row
@@ -130,7 +131,7 @@ class ClientInfo extends Component {
             isPackageExist && (
               <>
                 <div className={b('expandTable-infoBox')}>
-                  <div className="title">Пакет услуг:</div>
+                  <div className="title">{`${phrases['clients.list.packages'][defaultLanguage.isoKey]}:`}</div>
                   <div className="data">{packageDto.name}</div>
                 </div>
                 <div className={b('expandTable-infoBox')}>
@@ -164,7 +165,7 @@ class ClientInfo extends Component {
           </div>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Сумма платежа:</div>
-            <div className="data">{`${price} грн`}</div>
+            <div className="data">{`${price} ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}</div>
           </div>
         </Col>
       </Row>

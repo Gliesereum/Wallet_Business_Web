@@ -273,6 +273,8 @@ class WorkerInfo extends Component {
       isAddMode,
       chosenWorker,
       corporations,
+      defaultLanguage,
+      phrases,
       changeActiveWorker,
     } = this.props;
     const {
@@ -302,6 +304,8 @@ class WorkerInfo extends Component {
             readOnlyMode={readOnlyMode}
             isAddMode={isAddMode}
             isAdmin={isAdmin}
+            defaultLanguage={defaultLanguage}
+            phrases={phrases}
             getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
             getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
             onCorpChange={this.handleCorpChange}

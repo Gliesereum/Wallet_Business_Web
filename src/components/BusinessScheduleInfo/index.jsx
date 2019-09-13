@@ -97,7 +97,11 @@ class BusinessScheduleInfo extends PureComponent {
 
   render() {
     const { scheduleList, readOnlyMode } = this.state;
-    const { isAddBusinessMode, defaultLanguage, phrases } = this.props;
+    const {
+      isAddBusinessMode,
+      defaultLanguage,
+      phrases,
+    } = this.props;
 
     return (
       <div className={b()}>
@@ -107,6 +111,8 @@ class BusinessScheduleInfo extends PureComponent {
           dayTranslate={dayTranslate}
           scheduleList={scheduleList}
           readOnlyMode={readOnlyMode}
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
         />
 
         <Row

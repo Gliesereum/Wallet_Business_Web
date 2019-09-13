@@ -130,6 +130,7 @@ class OrdersList extends Component {
     const isPackageExist = !!record.packageDto;
     const { statusPay: statusPayLocalize } = recordTranslate;
     const { editedOrderId, editedCanceledDescription, editedStatusProcess } = this.state;
+    const { defaultLanguage, phrases } = this.props;
 
     return (
       <Row className={b('expandTable')}>
@@ -138,7 +139,7 @@ class OrdersList extends Component {
             isPackageExist && (
               <>
                 <div className={b('expandTable-infoBox')}>
-                  <div className="title">Пакет услуг:</div>
+                  <div className="title">{`${phrases['orders.list.packages'][defaultLanguage.isoKey]}:`}</div>
                   <div className="data">{record.packageDto.name}</div>
                 </div>
                 <div className={b('expandTable-infoBox')}>
@@ -157,7 +158,7 @@ class OrdersList extends Component {
           {
             (record.services && record.services.length > 0) && (
               <div className={b('expandTable-infoBox')}>
-                <div className="title">{isPackageExist ? 'Дополнительные услуги' : 'Список услуг:'}</div>
+                <div className="title">{isPackageExist ? 'Дополнительные услуги' : phrases['business.services.list'][defaultLanguage.isoKey]}</div>
                 <ul className="data listMode">
                   {
                     record.services.map(service => <li key={service.id}>{service.name}</li>)
@@ -169,7 +170,7 @@ class OrdersList extends Component {
         </Col>
         <Col lg={8}>
           <div className={b('expandTable-infoBox')}>
-            <div className="title">Филиал компании:</div>
+            <div className="title">{`${phrases['core.branch'][defaultLanguage.isoKey]}:`}</div>
             <div className="data">{record.business.name}</div>
           </div>
           <div className={b('expandTable-infoBox')}>
@@ -178,7 +179,7 @@ class OrdersList extends Component {
           </div>
           <div className={b('expandTable-infoBox')}>
             <div className="title">Сумма платежа:</div>
-            <div className="data">{`${record.price} грн`}</div>
+            <div className="data">{`${record.price} ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}</div>
           </div>
         </Col>
         <Col lg={8}>
@@ -227,13 +228,13 @@ class OrdersList extends Component {
                   type="primary"
                   onClick={this.saveStatus(record)}
                 >
-                  Сохранить
+                  {phrases['core.button.save'][defaultLanguage.isoKey]}
                 </Button>
                 <Button
                   className={b('expandTable-editBox backBtn')}
                   onClick={this.toggleStatusEditMode()}
                 >
-                  Отмена
+                  {phrases['core.button.cancel'][defaultLanguage.isoKey]}
                 </Button>
               </>
             ) : (
@@ -260,7 +261,7 @@ class OrdersList extends Component {
                     record.statusProcess
                   )}
                 >
-                  Редактировать
+                  {phrases['core.button.edit'][defaultLanguage.isoKey]}
                 </Button>
               </>
             )
@@ -276,6 +277,8 @@ class OrdersList extends Component {
       loader,
       pagination,
       paginationChange,
+      defaultLanguage,
+      phrases,
     } = this.props;
     const {
       expandedRowKeys,
@@ -285,32 +288,32 @@ class OrdersList extends Component {
     const columns = [
       {
         key: 'orderNumber',
-        title: 'Заказ',
+        title: phrases['orders.list.table.header.order'][defaultLanguage.isoKey],
         render: (text, { recordNumber }) => <span>{recordNumber}</span>,
-        width: 70,
+        width: 105,
       },
       {
         key: 'businessName',
-        title: 'Бизнес',
+        title: phrases['core.branch'][defaultLanguage.isoKey],
         render: (text, { business }) => <span>{business.name}</span>,
         width: 240,
       },
       {
         key: 'date',
-        title: 'Дата',
+        title: phrases['orders.list.table.header.date'][defaultLanguage.isoKey],
         render: (text, { begin }) => <span>{getDate(begin)}</span>,
         width: 100,
       },
       {
         key: 'time',
-        title: 'Время',
+        title: phrases['orders.list.table.header.time'][defaultLanguage.isoKey],
         render: (text, { begin }) => <span>{getDate(begin, true)}</span>,
         width: 70,
       },
       {
         key: 'status',
         className: 'status-column',
-        title: 'Статус',
+        title: phrases['orders.list.table.header.condition'][defaultLanguage.isoKey],
         render: (text, { statusProcess }) => (
           <div>
             {recordTranslate.statusIcon[statusProcess]()}
@@ -320,13 +323,13 @@ class OrdersList extends Component {
       },
       {
         key: 'client',
-        title: 'Клиент',
+        title: phrases['orders.list.table.header.client'][defaultLanguage.isoKey],
         render: (text, { client }) => <span>{client ? `${client.firstName} ${client.middleName}` : ''}</span>,
       },
       {
         key: 'price',
-        title: 'Сумма',
-        render: (text, { price }) => <span>{`${price} грн`}</span>,
+        title: phrases['orders.list.table.header.sum'][defaultLanguage.isoKey],
+        render: (text, { price }) => <span>{`${price} ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}</span>,
         width: 150,
       },
       {
