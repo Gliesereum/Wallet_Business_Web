@@ -7,7 +7,11 @@ const initState = {
   servicePrices: {},
   businessPackages: {},
   workingSpaces: [],
-  ordersPage: {},
+  ordersPage: {
+    number: 0,
+    totalPages: 0,
+    totalElements: 0,
+  },
   orders: [],
 };
 
@@ -236,10 +240,19 @@ const initReducers = {
     ],
   }),
 
-  [actions.GET_ORDERS]: (state, { content = [], ...rest }) => ({
+  [actions.GET_ORDERS]: (state, {
+    content = [],
+    totalElements,
+    totalPages,
+    number,
+  }) => ({
     ...state,
     orders: content,
-    ordersPage: rest,
+    ordersPage: {
+      totalElements,
+      totalPages,
+      number: number + 1,
+    },
   }),
 
   [actions.UPDATE_ORDER_STATUS]: (state, payload) => {

@@ -28,11 +28,6 @@ class OrdersPage extends Component {
     chosenCorporation: undefined,
     chosenBusiness: undefined,
     businesses: [],
-    pagination: this.props.ordersPage ? this.props.ordersPage : {
-      number: 0,
-      totalPages: 0,
-      totalElements: 0,
-    },
     from: null,
     to: null,
   };
@@ -94,7 +89,7 @@ class OrdersPage extends Component {
     page,
   }) => {
     try {
-      const { data: ordersPage = { content: [] } } = await fetchAction({
+      await fetchAction({
         url: 'record/by-params-for-business',
         fieldName: 'ordersPage',
         fieldType: {},
@@ -109,16 +104,6 @@ class OrdersPage extends Component {
         },
         reduxAction: this.props.getOrders,
       })();
-
-      this.setState(prevState => ({
-        ...prevState,
-        pagination: {
-          ...prevState.pagination,
-          number: ordersPage.number + 1,
-          totalPages: ordersPage.totalPages,
-          totalElements: ordersPage.totalElements,
-        },
-      }));
     } catch (err) {
       notification.error({
         duration: 5,
@@ -133,7 +118,7 @@ class OrdersPage extends Component {
   handleRefreshOrdersByFromTo = async ({ from, to }) => {
     const { chosenCorporation, chosenBusiness } = this.state;
 
-    const { data } = await fetchAction({
+    await fetchAction({
       url: 'record/by-params-for-business',
       fieldName: 'ordersPage',
       fieldType: {},
@@ -149,17 +134,7 @@ class OrdersPage extends Component {
       reduxAction: this.props.getOrders,
     })();
 
-    this.setState(prevState => ({
-      ...prevState,
-      from,
-      to,
-      pagination: {
-        ...prevState.pagination,
-        number: 0,
-        totalPages: data.totalPages,
-        totalElements: data.totalElements,
-      },
-    }));
+    this.setState({ from, to });
   };
 
   handlePaginationChange = (pagination) => {
@@ -185,10 +160,10 @@ class OrdersPage extends Component {
       chosenCorporation,
       chosenBusiness,
       businesses,
-      pagination,
     } = this.state;
     const {
       orders,
+      ordersPage,
       corporations,
       defaultLanguage,
       phrases,
@@ -256,7 +231,7 @@ class OrdersPage extends Component {
           <OrdersList
             orders={orders}
             loader={loader}
-            pagination={pagination}
+            pagination={ordersPage}
             defaultLanguage={defaultLanguage}
             phrases={phrases}
             paginationChange={this.handlePaginationChange}
