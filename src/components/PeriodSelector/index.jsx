@@ -43,12 +43,13 @@ class PeriodSelector extends Component {
 
   render() {
     const { periodSelect } = this.state;
+    const { title, defaultLanguage, phrases } = this.props;
 
     return (
       <div className={b()}>
         <Row gutter={24}>
           <Col lg={6}>
-            <div className={b('title')}>Список заказов</div>
+            <div className={b('title')}>{title}</div>
           </Col>
           <Col lg={periodSelect === 'custom' ? 9 : 18}>
             <Select
@@ -56,9 +57,9 @@ class PeriodSelector extends Component {
               onChange={this.handlePeriodChange}
               className={b('selector')}
             >
-              <Option value="month">За последние 30 дней</Option>
-              <Option value="week">За последние 7 дней</Option>
-              <Option value="custom">За период</Option>
+              <Option value="month">{phrases['core.period.custom'][defaultLanguage.isoKey]}</Option>
+              <Option value="week">{phrases['core.period.days.seven'][defaultLanguage.isoKey]}</Option>
+              <Option value="custom">{phrases['core.period.days.thirty'][defaultLanguage.isoKey]}</Option>
             </Select>
           </Col>
           {

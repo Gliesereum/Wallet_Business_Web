@@ -89,7 +89,7 @@ class WorkersPage extends Component {
   };
 
   render() {
-    const { corporations } = this.props;
+    const { corporations, defaultLanguage, phrases } = this.props;
     const {
       chosenWorker,
       isAddWorkerMode,
@@ -106,6 +106,8 @@ class WorkersPage extends Component {
               chosenWorker={chosenWorker}
               isAddMode={isAddWorkerMode}
               corporations={corporations}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               changeActiveWorker={this.changeActiveWorker}
               admins={admins}
@@ -115,6 +117,8 @@ class WorkersPage extends Component {
               workers={workers}
               pagination={pagination}
               corporations={corporations}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               getWorkers={this.handleGetWorkers}
               changeActiveWorker={this.changeActiveWorker}
@@ -128,6 +132,8 @@ class WorkersPage extends Component {
 
 const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
 });
 
 export default connect(mapStateToProps)(WorkersPage);

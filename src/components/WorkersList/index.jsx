@@ -184,6 +184,7 @@ class WorkersList extends Component {
       acc.push({ ...day, ...dayOfWeek });
       return acc;
     }, []);
+    const { defaultLanguage, phrases } = this.props;
 
     return (
       <Row
@@ -254,7 +255,9 @@ class WorkersList extends Component {
                     key={day.dayOfWeek}
                     className={b('expandTable-row-userInfo-box')}
                   >
-                    <div className="title">{`${dayTranslate[day.dayOfWeek]}:`}</div>
+                    <div className="title">
+                      {`${phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}:`}
+                    </div>
                     <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
                   </div>
                 ))
@@ -267,7 +270,9 @@ class WorkersList extends Component {
                     key={day.dayOfWeek}
                     className={b('expandTable-row-userInfo-box')}
                   >
-                    <div className="title">{`${dayTranslate[day.dayOfWeek]}:`}</div>
+                    <div className="title">
+                      {`${phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}:`}
+                    </div>
                     <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
                   </div>
                 ))
@@ -285,6 +290,8 @@ class WorkersList extends Component {
       corporations,
       workers,
       pagination,
+      defaultLanguage,
+      phrases,
     } = this.props;
     const {
       chosenCorporation,
@@ -374,7 +381,7 @@ class WorkersList extends Component {
                 onChange={this.handleCorpChange}
                 style={{ width: '280px' }}
                 value={chosenCorporation}
-                placeholder="Выберите компанию"
+                placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
               >
                 {
                   corporations.map(item => (
@@ -396,7 +403,7 @@ class WorkersList extends Component {
                 onChange={this.handleBusinessChange}
                 style={{ width: '280px' }}
                 value={chosenBusiness}
-                placeholder="Выберите бизнес"
+                placeholder={phrases['core.selector.placeholder.choseBranch'][defaultLanguage.isoKey]}
               >
                 {
                   businesses.length && businesses.map(item => (

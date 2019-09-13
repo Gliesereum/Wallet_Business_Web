@@ -234,7 +234,7 @@ class WorkerInfo extends Component {
     } if (isAddMode) {
       return (
         <ContentHeader
-          title="Создание профайла сотрудника"
+          title="Создание сотрудника"
           content={(
             <div className={b('searchBlock')}>
               <span className={b('searchBlock-text')}>Поиск по номеру</span>
@@ -273,6 +273,8 @@ class WorkerInfo extends Component {
       isAddMode,
       chosenWorker,
       corporations,
+      defaultLanguage,
+      phrases,
       changeActiveWorker,
     } = this.props;
     const {
@@ -302,6 +304,8 @@ class WorkerInfo extends Component {
             readOnlyMode={readOnlyMode}
             isAddMode={isAddMode}
             isAdmin={isAdmin}
+            defaultLanguage={defaultLanguage}
+            phrases={phrases}
             getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
             getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
             onCorpChange={this.handleCorpChange}

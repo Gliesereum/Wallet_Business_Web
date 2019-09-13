@@ -26,7 +26,13 @@ class BusinessWorkingSpaces extends Component {
   }));
 
   render() {
-    const { workingSpaces, changeActiveTab, chosenBusiness } = this.props;
+    const {
+      workingSpaces,
+      chosenBusiness,
+      defaultLanguage,
+      phrases,
+      changeActiveTab,
+    } = this.props;
     const {
       chosenSpace,
       isAddWorkingSpaceMode,
@@ -59,6 +65,8 @@ class BusinessWorkingSpaces extends Component {
             <WorkerInfoDrawer
               visible={workerInfoDrawerVisible}
               worker={workerInfo}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               onClose={this.toggleWorkerInfoDrawer()}
             />
           )

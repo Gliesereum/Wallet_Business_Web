@@ -193,7 +193,12 @@ class ClientsList extends Component {
       pagination,
       loader,
     } = this.state;
-    const { corporations, changeActiveClient } = this.props;
+    const {
+      corporations,
+      defaultLanguage,
+      phrases,
+      changeActiveClient,
+    } = this.props;
     const isClientsExist = (clients && clients.length) || searchProcess;
 
     const columns = [
@@ -262,7 +267,7 @@ class ClientsList extends Component {
                 onChange={this.handleCorpChange}
                 style={{ width: '280px' }}
                 value={chosenCorporation}
-                placeholder="Выберите компанию"
+                placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
               >
                 {
                   corporations.map(item => (
@@ -284,7 +289,7 @@ class ClientsList extends Component {
                 onChange={this.handleBusinessChange}
                 style={{ width: '280px' }}
                 value={chosenBusiness}
-                placeholder="Выберите бизнес"
+                placeholder={phrases['core.selector.placeholder.choseBranch'][defaultLanguage.isoKey]}
               >
                 {
                   businesses.length && businesses.map(item => (

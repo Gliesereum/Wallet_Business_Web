@@ -89,13 +89,13 @@ export const scheduleListDefault = [
 ];
 
 export const dayTranslate = {
-  MONDAY: 'Понедельник',
-  TUESDAY: 'Вторник',
-  WEDNESDAY: 'Среда',
-  THURSDAY: 'Четверг',
-  FRIDAY: 'Пятница',
-  SATURDAY: 'Суббота',
-  SUNDAY: 'Воскресенье',
+  MONDAY: 'monday',
+  TUESDAY: 'tuesday',
+  WEDNESDAY: 'wednesday',
+  THURSDAY: 'thursday',
+  FRIDAY: 'friday',
+  SATURDAY: 'saturday',
+  SUNDAY: 'sunday',
 };
 
 export const recordTranslate = {

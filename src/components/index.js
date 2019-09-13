@@ -28,6 +28,7 @@ import AdminPanelPhrasesList from './AdminPanelPhrasesList';
 import WelcomePage from './WelcomePage';
 import AvatarAndCoverUploader from './AvatarAndCoverUploader';
 import ContentHeader from './ContentHeader';
+import OrdersList from './OrdersList';
 
 export {
   Header,
@@ -60,4 +61,5 @@ export {
   WelcomePage,
   AvatarAndCoverUploader,
   ContentHeader,
+  OrdersList,
 };
