@@ -1,8 +1,8 @@
 @import '../../styles/theme.scss';
 
 .corporationsPage {
+  height: 100%;
   display: flex;
-  flex: 1;
   animation: fadein 0.8s ease;
 
   &__empty {

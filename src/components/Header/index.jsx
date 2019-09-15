@@ -117,11 +117,11 @@ class Header extends Component {
               <div className={b('content-box-price-number')}>
                 <div>
                   {loading ? <ScreenLoading /> : todayTotalPrice.sum}
-                  {` ${phrases['core.currency'][defaultLanguage.isoKey]}`}
+                  {` ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}
                 </div>
                 <div>
                   {loading ? <ScreenLoading /> : yesterdayTotalPrice.sum}
-                  {` ${phrases['core.currency'][defaultLanguage.isoKey]}`}
+                  {` ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}
                 </div>
               </div>
             </div>

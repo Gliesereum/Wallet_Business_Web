@@ -84,6 +84,8 @@ class WorkerForm extends PureComponent {
       readOnlyMode,
       isAddMode,
       isAdmin,
+      defaultLanguage,
+      phrases,
     } = this.props;
 
     return (
@@ -333,7 +335,7 @@ class WorkerForm extends PureComponent {
                           value={isWork}
                           disabled={readOnlyMode}
                         >
-                          {dayTranslate[dayOfWeek]}
+                          {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
                         </Checkbox>
                       )
                     }

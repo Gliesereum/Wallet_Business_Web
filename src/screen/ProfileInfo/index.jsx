@@ -107,11 +107,11 @@ class ProfileInfo extends Component {
 
     return (
       <div className={b()}>
-        <div>
-          <ContentHeader
-            title="Мой профиль"
-            titleCentered
-          />
+        <ContentHeader
+          title="Мой профиль"
+          titleCentered
+        />
+        <div className={b('content')}>
           <ProfileForm
             wrappedComponentRef={form => this.profileForm = form}
             user={user}
@@ -124,59 +124,59 @@ class ProfileInfo extends Component {
             email={email}
             verifyUserEmail={verifyUserEmail}
           />
-        </div>
 
-        <Row
-          gutter={40}
-          className={b('controlBtns')}
-        >
-          <Col lg={12}>
-            {
-              readOnlyMode ? (
-                <Link to="/corporations">
+          <Row
+            gutter={40}
+            className={b('controlBtns')}
+          >
+            <Col lg={12}>
+              {
+                readOnlyMode ? (
+                  <Link to="/corporations">
+                    <Button
+                      className={b('controlBtns-btn backBtn')}
+                    >
+                      <Icon type="left" />
+                      {phrases['profile.page.navigation.goToCompanies'][defaultLanguage.isoKey]}
+                    </Button>
+                  </Link>
+                ) : (
                   <Button
                     className={b('controlBtns-btn backBtn')}
+                    onClick={(user && user.firstName)
+                      ? this.handleToggleReadOnlyMode(true)
+                      : this.handleGoBack
+                    }
                   >
                     <Icon type="left" />
-                    {phrases['profile.page.navigation.goToCompanies'][defaultLanguage.isoKey]}
+                    {phrases['core.button.back'][defaultLanguage.isoKey]}
                   </Button>
-                </Link>
-              ) : (
-                <Button
-                  className={b('controlBtns-btn backBtn')}
-                  onClick={(user && user.firstName)
-                    ? this.handleToggleReadOnlyMode(true)
-                    : this.handleGoBack
-                  }
-                >
-                  <Icon type="left" />
-                  {phrases['core.button.back'][defaultLanguage.isoKey]}
-                </Button>
-              )
-            }
-          </Col>
-          <Col lg={12}>
-            {
-              readOnlyMode ? (
-                <Button
-                  className={b('controlBtns-btn')}
-                  type="primary"
-                  onClick={this.handleToggleReadOnlyMode(false)}
-                >
-                  {phrases['core.button.edit'][defaultLanguage.isoKey]}
-                </Button>
-              ) : (
-                <Button
-                  className={b('controlBtns-btn')}
-                  type="primary"
-                  onClick={this.handleUpdateUserData}
-                >
-                  {phrases['core.button.save'][defaultLanguage.isoKey]}
-                </Button>
-              )
-            }
-          </Col>
-        </Row>
+                )
+              }
+            </Col>
+            <Col lg={12}>
+              {
+                readOnlyMode ? (
+                  <Button
+                    className={b('controlBtns-btn')}
+                    type="primary"
+                    onClick={this.handleToggleReadOnlyMode(false)}
+                  >
+                    {phrases['core.button.edit'][defaultLanguage.isoKey]}
+                  </Button>
+                ) : (
+                  <Button
+                    className={b('controlBtns-btn')}
+                    type="primary"
+                    onClick={this.handleUpdateUserData}
+                  >
+                    {phrases['core.button.save'][defaultLanguage.isoKey]}
+                  </Button>
+                )
+              }
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

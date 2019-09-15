@@ -1,7 +1,9 @@
 @import '../../styles/theme.scss';
 
 .clientsList {
-  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 
   &__selectorBox {
       display: flex;
@@ -29,9 +31,10 @@
 
   &__content {
     padding: 46px 32px 0;
+    flex: 1 1 auto;
 
     &--isClientsExist {
-      padding: 0 32px;
+      padding: 0 32px 40px;
     }
 
     &-searchBox {

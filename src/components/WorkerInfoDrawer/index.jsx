@@ -47,6 +47,8 @@ const renderMainPart = worker => [
 const WorkerInfoDrawer = ({
   visible,
   worker,
+  defaultLanguage,
+  phrases,
   onClose,
 }) => {
   const [scheduleList, setScheduleList] = useState([]);
@@ -106,7 +108,7 @@ const WorkerInfoDrawer = ({
             key={day.dayOfWeek}
           >
             <Col lg={10}>
-              <div>{dayTranslate[day.dayOfWeek]}</div>
+              <div>{phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}</div>
             </Col>
             <Col
               lg={14}

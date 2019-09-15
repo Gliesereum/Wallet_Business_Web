@@ -215,7 +215,7 @@ class TotalPriceInfoDrawer extends Component {
                 </div>
                 <div className={b('totalPriceBlock-sum-number')}>
                   {totalPrice}
-                  {` ${phrases['core.currency'][defaultLanguage.isoKey]}`}
+                  {` ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}
                 </div>
               </div>
             )

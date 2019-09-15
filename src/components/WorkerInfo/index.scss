@@ -1,7 +1,9 @@
 @import '../../styles/theme.scss';
 
 .workerInfo {
-  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 
   &__searchBlock {
       display: flex;
@@ -36,7 +38,8 @@
     }
 
   &__content {
-    padding: 40px 32px 0;
+    padding: 40px 32px 40px;
+    flex: 1 1 auto;
 
     &-controlBtns {
       margin-top: 16px;

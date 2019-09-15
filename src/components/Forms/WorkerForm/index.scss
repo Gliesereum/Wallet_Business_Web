@@ -1,14 +1,8 @@
 @import '../../../styles/theme.scss';
 
 .workerForm {
-  height: 495px;
-  width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
   &__col {
     &-header {
-      font-family: $Roboto;
       font-size: 14px;
       line-height: 16px;
       color: $font-title-black;

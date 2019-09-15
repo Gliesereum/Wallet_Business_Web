@@ -24,6 +24,9 @@ const actions = {
   REMOVE_WORKER_FROM_OLD_WORKING_SPACE: 'REMOVE_WORKER_FROM_OLD_WORKING_SPACE',
   DELETE_WORKING_SPACE: 'DELETE_WORKING_SPACE',
 
+  GET_ORDERS: 'GET_ORDERS',
+  UPDATE_ORDER_STATUS: 'UPDATE_ORDER_STATUS',
+
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
     payload: business,
@@ -117,6 +120,16 @@ const actions = {
   $deleteWorkingSpace: workingSpaceId => ({
     type: actions.DELETE_WORKING_SPACE,
     payload: workingSpaceId,
+  }),
+
+  $getOrders: orders => ({
+    type: actions.GET_ORDERS,
+    payload: orders,
+  }),
+
+  $updateOrderStatus: order => ({
+    type: actions.UPDATE_ORDER_STATUS,
+    payload: order,
   }),
 };
 

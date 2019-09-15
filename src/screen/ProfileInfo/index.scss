@@ -1,16 +1,17 @@
 @import '../../styles/theme.scss';
 
 .profileInfo {
+  height: 100%;
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-bottom: 40px;
+  flex-flow: column;
   animation: fadein 0.8s ease;
 
-  &__controlBtns {
-    padding: 0 56px 0 48px;
+  &__content {
+    padding: 40px 56px 40px 48px;
+    flex: 1 1 auto;
+  }
 
+  &__controlBtns {
     &-btn {
       width: 100%;
     }

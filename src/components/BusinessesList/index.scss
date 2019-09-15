@@ -7,9 +7,13 @@
   right: 0;
   top: 0;
   overflow-y: scroll;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 
   &__list {
     padding: 24px;
+    flex: 1 1 auto;
   }
 
   &__card {
