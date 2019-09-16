@@ -23,4 +23,8 @@
   &--titleCentered {
     justify-content: center;
   }
+
+  &--reverseDirection {
+    flex-direction: row-reverse;
+  }
 }

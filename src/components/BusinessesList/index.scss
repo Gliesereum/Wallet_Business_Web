@@ -1,19 +1,13 @@
 @import "../../styles/theme.scss";
 
 .businessesList {
-  position: absolute;
-  left: 312px;
-  bottom: 0;
-  right: 0;
-  top: 0;
-  overflow-y: scroll;
   height: 100%;
   display: flex;
   flex-flow: column;
+  flex: 1 1 auto;
 
   &__list {
     padding: 24px;
-    flex: 1 1 auto;
   }
 
   &__card {

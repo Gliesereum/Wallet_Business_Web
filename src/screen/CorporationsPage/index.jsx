@@ -4,9 +4,9 @@ import bem from 'bem-join';
 
 import {
   CorporationsList,
-  BusinessesList,
+  CorporationContent,
   EmptyState,
-  CorporationInfo,
+  ContentHeader,
 } from '../../components';
 
 const b = bem('corporationsPage');
@@ -15,19 +15,12 @@ class CorporationsPage extends Component {
   state = {
     chosenCorporation: null,
     isAddCorporationMode: false,
-    viewCorp: null,
   };
 
-  changeActiveCorporation = (corporation, isAddCorporationMode) => () => this.setState({
-    chosenCorporation: corporation,
-    isAddCorporationMode,
-  });
-
-  chooseCorporationForView = (corpId) => {
-    if (!corpId) return;
-
-    const [viewCorp] = this.props.corporations.filter(item => item.id === corpId);
-    this.setState({ viewCorp });
+  handleChangeCorporation = (corporationId, isAddCorporationMode = false) => () => {
+    const { corporations } = this.props;
+    const [chosenCorporation] = corporations.filter(item => item.id === corporationId);
+    this.setState({ chosenCorporation, isAddCorporationMode });
   };
 
   render() {
@@ -37,67 +30,47 @@ class CorporationsPage extends Component {
       defaultLanguage,
       phrases,
     } = this.props;
-    const { chosenCorporation, isAddCorporationMode, viewCorp } = this.state;
+    const { chosenCorporation, isAddCorporationMode } = this.state;
 
     return (
       <div className={b()}>
-        {
-          isAddCorporationMode || (chosenCorporation && chosenCorporation.id) ? (
-            <CorporationInfo
+        <ContentHeader
+          content={(
+            <CorporationsList
               defaultLanguage={defaultLanguage}
               phrases={phrases}
-              isAddMode={isAddCorporationMode}
               corporations={corporations}
-              chosenCorporation={chosenCorporation}
-              changeActiveCorporation={this.changeActiveCorporation}
+              changeCorporation={this.handleChangeCorporation}
             />
-          ) : (
+          )}
+          reverseDirection
+        />
+        {
+          corporations && corporations.length ? (
             <>
-              {
-                corporations && corporations.length ? (
-                  <>
-                    <CorporationsList
-                      defaultLanguage={defaultLanguage}
-                      phrases={phrases}
-                      viewCorp={viewCorp}
-                      corporations={corporations}
-                      changeActiveCorporation={this.changeActiveCorporation}
-                      chooseCorporationForView={this.chooseCorporationForView}
-                    />
-                    {
-                      viewCorp ? (
-                        <BusinessesList
-                          defaultLanguage={defaultLanguage}
-                          phrases={phrases}
-                          viewCorp={viewCorp}
-                          business={allBusiness.filter(item => item.corporationId === viewCorp.id)}
-                        />
-                      ) : (
-                        <EmptyState
-                          title={phrases['company.page.emptyState.title'][defaultLanguage.isoKey]}
-                          descrText={phrases['company.page.emptyState.description'][defaultLanguage.isoKey]}
-                          withoutBtn
-                        />
-                      )
-                    }
-                  </>
-                ) : (
-                  <div className={b('empty')}>
-                    <div className={b('header')}>
-                      <h1 className={b('header-title')}>
-                        {phrases['company.page.emptyState.information'][defaultLanguage.isoKey]}
-                      </h1>
-                    </div>
-                    <EmptyState
-                      title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
-                      descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
-                      addItemText={phrases['company.button.addNewCompany'][defaultLanguage.isoKey]}
-                      addItemHandler={this.changeActiveCorporation}
-                    />
-                  </div>
-                )
-              }
+              {chosenCorporation ? (
+                <CorporationContent
+                  chosenCorporation={chosenCorporation}
+                  businesses={allBusiness.filter(item => item.corporationId === chosenCorporation.id)}
+                  isAddCorporationMode={isAddCorporationMode}
+                  defaultLanguage={defaultLanguage}
+                  phrases={phrases}
+                />
+              ) : (
+                <EmptyState
+                  title={phrases['company.page.emptyState.title'][defaultLanguage.isoKey]}
+                  descrText={phrases['company.page.emptyState.description'][defaultLanguage.isoKey]}
+                  withoutBtn
+                />
+              )}
             </>
+          ) : (
+            <EmptyState
+              title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
+              descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
+              addItemText={phrases['company.button.addNewCompany'][defaultLanguage.isoKey]}
+              addItemHandler={this.handleChangeCorporation(null, true)}
+            />
           )
         }
       </div>

@@ -29,6 +29,7 @@ import WelcomePage from './WelcomePage';
 import AvatarAndCoverUploader from './AvatarAndCoverUploader';
 import ContentHeader from './ContentHeader';
 import OrdersList from './OrdersList';
+import CorporationContent from './CorporationContent';
 
 export {
   Header,
@@ -62,4 +63,5 @@ export {
   AvatarAndCoverUploader,
   ContentHeader,
   OrdersList,
+  CorporationContent,
 };

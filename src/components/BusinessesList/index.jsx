@@ -7,7 +7,6 @@ import bem from 'bem-join';
 import { List, Card } from 'antd';
 
 import EmptyState from '../EmptyState';
-import ContentHeader from '../ContentHeader';
 
 import AddIcon from '../../assets/AddIcon.svg';
 
@@ -26,11 +25,11 @@ class BusinessesList extends PureComponent {
   renderBusinessesList = () => {
     const {
       viewCorp,
-      business,
+      businesses,
       defaultLanguage,
       phrases,
     } = this.props;
-    const data = business.map(item => ({
+    const data = businesses.map(item => ({
       name: item.name,
       category: item.businessCategory.name,
       logoUrl: item.logoUrl,
@@ -120,7 +119,7 @@ class BusinessesList extends PureComponent {
 
   render() {
     const {
-      business,
+      businesses,
       viewCorp,
       defaultLanguage,
       phrases,
@@ -128,12 +127,8 @@ class BusinessesList extends PureComponent {
 
     return (
       <div className={b()}>
-        <ContentHeader
-          title={viewCorp.name}
-          titleCentered
-        />
         {
-          business && business.length ? (
+          businesses && businesses.length ? (
             this.renderBusinessesList()
           ) : (
             <EmptyState
