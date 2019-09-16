@@ -23,7 +23,7 @@ class BusinessServices extends Component {
       updateBusinessService,
     } = this.props;
     const { chosenService, isAddServiceMode } = this.state;
-    const services = servicePrices[chosenBusiness.id] || [];
+    const services = chosenBusiness ? servicePrices[chosenBusiness.id] : [];
 
     return (
       <div className={b()}>
@@ -40,7 +40,7 @@ class BusinessServices extends Component {
             />
           ) : (
             <BusinessServicesList
-              services={services}
+              services={services || []}
               changeTabDisable={changeTabDisable}
               changeActiveService={this.changeActiveService}
               changeActiveTab={changeActiveTab}
