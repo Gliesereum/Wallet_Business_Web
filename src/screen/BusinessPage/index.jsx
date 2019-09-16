@@ -25,45 +25,34 @@ const b = bem('businessPage');
 class BusinessPage extends Component {
   state = {
     disabledTab: {
-      servicesDisable: null,
-      packagesDisable: null,
-      workingSpaceDisable: null,
+      servicesDisable: true,
+      packagesDisable: true,
+      workingSpaceDisable: true,
     },
   };
-
-  componentWillMount() {
-    const {
-      match,
-      business,
-      chosenBusiness,
-      changeChosenBusiness,
-    } = this.props;
-
-    if (!chosenBusiness) {
-      business.forEach(async (item) => {
-        if (match.params && match.params.id && (match.params.id === item.id)) {
-          await changeChosenBusiness(match.params.id);
-        }
-      });
-    }
-  }
 
   componentDidMount() {
     const {
       location,
       servicePrices,
       chosenBusiness,
+      match,
+      changeChosenBusiness,
     } = this.props;
     const initialTabDisabled = Boolean(
       location.pathname.match('/add')
       && !chosenBusiness
     );
 
+    if (!chosenBusiness && match.params && match.params.id) {
+      changeChosenBusiness(match.params.id);
+    }
+
     this.setState({
       disabledTab: {
         servicesDisable: initialTabDisabled,
-        packagesDisable: !chosenBusiness || (chosenBusiness && servicePrices && !servicePrices[chosenBusiness.id]),
-        workingSpaceDisable: !chosenBusiness,
+        packagesDisable: initialTabDisabled || (chosenBusiness && servicePrices && !servicePrices[chosenBusiness.id]),
+        workingSpaceDisable: initialTabDisabled,
       },
     });
   }
@@ -233,21 +222,30 @@ export default compose(
         url: 'business-category/business-type',
         fieldName: 'businessTypes',
       }),
-      ({ chosenBusiness, getPriceService }) => chosenBusiness && fetchAction({
-        url: `price/by-business/${chosenBusiness.id}`,
-        fieldName: 'servicePrices',
-        reduxAction: getPriceService,
-      })(),
-      ({ chosenBusiness, getBusinessPackages }) => chosenBusiness && fetchAction({
-        url: `package/by-business/${chosenBusiness.id}`,
-        fieldName: 'businessPackages',
-        reduxAction: getBusinessPackages,
-      })(),
-      ({ chosenBusiness, getWorkingSpaces }) => chosenBusiness && fetchAction({
-        url: `working-space/${chosenBusiness.id}`,
-        fieldName: 'workingSpaces',
-        reduxAction: getWorkingSpaces,
-      })(),
+      ({ chosenBusiness, getPriceService, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        fetchAction({
+          url: `price/by-business/${id}`,
+          fieldName: 'servicePrices',
+          reduxAction: getPriceService,
+        })();
+      },
+      ({ chosenBusiness, getBusinessPackages, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        fetchAction({
+          url: `package/by-business/${id}`,
+          fieldName: 'businessPackages',
+          reduxAction: getBusinessPackages,
+        })();
+      },
+      ({ chosenBusiness, getWorkingSpaces, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        fetchAction({
+          url: `working-space/${id}`,
+          fieldName: 'workingSpaces',
+          reduxAction: getWorkingSpaces,
+        })();
+      },
     ],
     config: { loader: true },
   }),
