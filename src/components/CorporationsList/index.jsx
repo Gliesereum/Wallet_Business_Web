@@ -36,7 +36,6 @@ class CorporationsList extends PureComponent {
       <div className={b()}>
         <Select
           className={b('selector')}
-          dropdownClassName={b('selector-listContainer')}
           value={chosenCorporationId}
           placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
           optionLabelProp="label"

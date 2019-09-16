@@ -21,11 +21,11 @@
     }
 
     &-corporation {
-      background-color: unset;
       color: $white;
       letter-spacing: 0.01em;
       padding: 16px 32px;
       display: flex;
+      border-bottom: 1px solid #EFEFEF;
 
       &-logo {
         width: 40px;
@@ -41,23 +41,20 @@
       }
 
       &-name {
-        font-weight: 500;
+        color: #30373E;
         font-size: 14px;
         line-height: 24px;
       }
 
       &-descr {
-        font-size: 12px;
-        line-height: 18px;
+        color: #737C85;
+        font-size: 14px;
+        line-height: 16px;
       }
 
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.08);
+      &:last-child {
+        border-bottom: none;
       }
-    }
-
-    &-listContainer {
-      background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
     }
   }
 }

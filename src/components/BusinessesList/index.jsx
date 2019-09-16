@@ -43,8 +43,8 @@ class BusinessesList extends PureComponent {
         className={b('list')}
         grid={{
           gutter: 32,
-          xxl: 3,
-          xl: 2,
+          xxl: 4,
+          xl: 3,
           lg: 2,
           md: 1,
           sm: 1,

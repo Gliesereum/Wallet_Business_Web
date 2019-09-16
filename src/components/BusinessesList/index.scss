@@ -77,8 +77,9 @@
     }
 
     &#addCard {
+      box-shadow: none;
       border: 1px dashed rgba(164, 174, 184, 0.4);
-      background-color: $dirty-white;
+      background-color: $white;
       text-align: center;
 
       .businessesList__card {
