@@ -106,7 +106,7 @@ class CorporationForm extends PureComponent {
               })(<Input placeholder="Название города..." readOnly={readOnlyMode} />)}
             </Form.Item>
           </Col>
-          <Col lg={6}>
+          <Col lg={5}>
             <Form.Item label={phrases['company.pageCreate.form.inputStreet.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('street', {
                 initialValue: chosenCorporation ? chosenCorporation.street : '',
@@ -117,7 +117,7 @@ class CorporationForm extends PureComponent {
               })(<Input placeholder="Название улицы..." readOnly={readOnlyMode} />)}
             </Form.Item>
           </Col>
-          <Col lg={2}>
+          <Col lg={3}>
             <Form.Item label={phrases['company.pageCreate.form.inputHome.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('buildingNumber', {
                 initialValue: chosenCorporation ? chosenCorporation.buildingNumber : '',

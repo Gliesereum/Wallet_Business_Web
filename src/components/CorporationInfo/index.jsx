@@ -120,78 +120,74 @@ class CorporationInfo extends Component {
 
     return (
       <div className={b()}>
-        <div className={b('formBox')}>
-          <div className={b('content')}>
-            <CorporationForm
-              defaultLanguage={defaultLanguage}
-              phrases={phrases}
-              wrappedComponentRef={form => this.corporationForm = form}
-              readOnlyMode={readOnlyMode}
-              chosenCorporation={chosenCorporation}
-              onLoadCover={this.onLoadCover}
-              onLoadLogo={this.onLoadLogo}
+        <CorporationForm
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
+          wrappedComponentRef={form => this.corporationForm = form}
+          readOnlyMode={readOnlyMode}
+          chosenCorporation={chosenCorporation}
+          onLoadCover={this.onLoadCover}
+          onLoadLogo={this.onLoadLogo}
+        />
+        <Row
+          className={b('controlBtns')}
+          gutter={32}
+        >
+          <Col lg={8}>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn deleteBtn')}
+                  onClick={this.toggleDeleteModal}
+                >
+                  {phrases['core.button.remove'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn backBtn')}
+                  onClick={this.handleCancel}
+                >
+                  {phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
+          </Col>
+          <Col lg={8} />
+          <Col lg={8}>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn')}
+                  type="primary"
+                  onClick={this.handleToggleReadOnlyMode(false)}
+                >
+                  {phrases['core.button.edit'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn')}
+                  type="primary"
+                  onClick={this.handleUpdateCorporation}
+                >
+                  {phrases['core.button.save'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
+          </Col>
+        </Row>
+        {
+          deleteModalVisible && (
+            <DeleteModal
+              visible={deleteModalVisible}
+              okText={phrases['core.button.remove'][defaultLanguage.isoKey]}
+              cancelText={phrases['core.button.cancel'][defaultLanguage.isoKey]}
+              onOk={this.handleRemoveCorporation}
+              onCancel={this.toggleDeleteModal}
+              deletedName={chosenCorporation.name}
+              deletedItem="компанию"
             />
-            <Row
-              className={b('formBox-controlBtns')}
-              gutter={20}
-            >
-              <Col lg={8}>
-                {
-                  readOnlyMode ? (
-                    <Button
-                      className={b('formBox-controlBtns-btn deleteBtn')}
-                      onClick={this.toggleDeleteModal}
-                    >
-                      {phrases['core.button.remove'][defaultLanguage.isoKey]}
-                    </Button>
-                  ) : (
-                    <Button
-                      className={b('formBox-controlBtns-btn backBtn')}
-                      onClick={this.handleCancel}
-                    >
-                      {phrases['core.button.cancel'][defaultLanguage.isoKey]}
-                    </Button>
-                  )
-                }
-              </Col>
-              <Col lg={8} />
-              <Col lg={8}>
-                {
-                  readOnlyMode ? (
-                    <Button
-                      className={b('formBox-controlBtns-btn')}
-                      type="primary"
-                      onClick={this.handleToggleReadOnlyMode(false)}
-                    >
-                      {phrases['core.button.edit'][defaultLanguage.isoKey]}
-                    </Button>
-                  ) : (
-                    <Button
-                      className={b('formBox-controlBtns-btn')}
-                      type="primary"
-                      onClick={this.handleUpdateCorporation}
-                    >
-                      {phrases['core.button.save'][defaultLanguage.isoKey]}
-                    </Button>
-                  )
-                }
-              </Col>
-            </Row>
-          </div>
-          {
-            deleteModalVisible && (
-              <DeleteModal
-                visible={deleteModalVisible}
-                okText={phrases['core.button.remove'][defaultLanguage.isoKey]}
-                cancelText={phrases['core.button.cancel'][defaultLanguage.isoKey]}
-                onOk={this.handleRemoveCorporation}
-                onCancel={this.toggleDeleteModal}
-                deletedName={chosenCorporation.name}
-                deletedItem="компанию"
-              />
-            )
-          }
-        </div>
+          )
+        }
       </div>
     );
   }
