@@ -120,7 +120,7 @@ class BusinessesList extends PureComponent {
   render() {
     const {
       businesses,
-      viewCorp,
+      chosenCorporation,
       defaultLanguage,
       phrases,
     } = this.props;
@@ -138,7 +138,7 @@ class BusinessesList extends PureComponent {
               linkToData={{
                 pathname: '/business/add',
                 state: {
-                  chosenCorp: viewCorp,
+                  chosenCorp: chosenCorporation,
                 },
               }}
             />
@@ -149,11 +149,20 @@ class BusinessesList extends PureComponent {
   }
 }
 
+const mapStateToProps = (state, { chosenCorporation }) => {
+  if (!chosenCorporation) return { businesses: [] };
+  const businesses = state.business.business.filter(item => item.corporationId === chosenCorporation.id);
+
+  return {
+    businesses,
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
   changeChosenBusiness: businessId => dispatch(actions.business.$changeChosenBusiness(businessId)),
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withRouter,
 )(BusinessesList);

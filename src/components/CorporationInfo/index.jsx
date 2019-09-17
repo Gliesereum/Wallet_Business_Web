@@ -5,15 +5,11 @@ import bem from 'bem-join/dist/index';
 import {
   Row,
   Col,
-  Icon,
-  Avatar as CorpAvatar,
   notification,
   Button,
 } from 'antd';
 
-import EmptyState from '../EmptyState';
 import DeleteModal from '../DeleteModal';
-import ContentHeader from '../ContentHeader';
 import { CorporationForm } from '../Forms';
 
 import { asyncRequest, asyncUploadFile, withToken } from '../../utils';
@@ -23,12 +19,18 @@ const b = bem('corporationInfo');
 
 class CorporationInfo extends Component {
   state = {
-    readOnlyMode: !this.props.isAddMode,
+    readOnlyMode: !this.props.isAddCorporationMode,
     deleteModalVisible: false,
     logoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
     isError: false,
     fileLoader: false,
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAddCorporationMode !== this.props.isAddCorporationMode) {
+      this.setState({ readOnlyMode: !nextProps.isAddCorporationMode });
+    }
+  }
 
   toggleDeleteModal = () => {
     this.setState(prevState => ({
@@ -65,6 +67,17 @@ class CorporationInfo extends Component {
     this.setState({ logoUrl: imageUrl, isError: false });
   };
 
+  resetFields = () => {
+    this.corporationForm.props.form.resetFields();
+  };
+
+  handleCancel = () => {
+    const { chosenCorporation } = this.props;
+
+    if (chosenCorporation) this.handleToggleReadOnlyMode(true)();
+    this.resetFields();
+  };
+
   handleUpdateCorporation = async () => {
     await this.corporationForm.props.form.validateFields(async (error, values) => {
       if (!error) {
@@ -72,8 +85,7 @@ class CorporationInfo extends Component {
           chosenCorporation,
           updateCorporation,
           addCorporation,
-          isAddMode,
-          changeActiveCorporation,
+          isAddCorporationMode,
         } = this.props;
 
         const url = 'corporation';
@@ -82,11 +94,10 @@ class CorporationInfo extends Component {
           ...values,
           logoUrl: this.state.logoUrl,
         };
-        const method = isAddMode ? 'POST' : 'PUT';
+        const method = isAddCorporationMode ? 'POST' : 'PUT';
         try {
           const corporation = await withToken(asyncRequest)({ url, method, body });
-          await isAddMode ? await addCorporation(corporation) : updateCorporation(corporation);
-          changeActiveCorporation(null, false)();
+          await isAddCorporationMode ? await addCorporation(corporation) : updateCorporation(corporation);
         } catch (err) {
           notification.error({
             duration: 5,
@@ -124,28 +135,14 @@ class CorporationInfo extends Component {
       fileLoader,
     } = this.state;
     const {
-      corporations,
       chosenCorporation,
-      isAddMode,
-      changeActiveCorporation,
       defaultLanguage,
       phrases,
     } = this.props;
 
-    let headerTitle = phrases['company.pageCreate.headerEdit.title'][defaultLanguage.isoKey];
-    if (readOnlyMode) {
-      headerTitle = phrases['company.pageCreate.headerInfo.title'][defaultLanguage.isoKey];
-    } else if (isAddMode) {
-      headerTitle = phrases['company.pageCreate.headerCreate.title'][defaultLanguage.isoKey];
-    }
-
     return (
       <div className={b()}>
         <div className={b('formBox')}>
-          <ContentHeader
-            title={headerTitle}
-            titleCentered
-          />
           <div className={b('content')}>
             <CorporationForm
               defaultLanguage={defaultLanguage}
@@ -167,40 +164,22 @@ class CorporationInfo extends Component {
                 {
                   readOnlyMode ? (
                     <Button
-                      className={b('formBox-controlBtns-btn backBtn')}
-                      onClick={changeActiveCorporation(null, false)}
-                    >
-                      <Icon type="left" />
-                      {phrases['core.button.back'][defaultLanguage.isoKey]}
-                    </Button>
-                  ) : (
-                    <Button
-                      className={b('formBox-controlBtns-btn backBtn')}
-                      onClick={chosenCorporation
-                        ? this.handleToggleReadOnlyMode(true)
-                        : changeActiveCorporation(null, false)
-                      }
-                    >
-                      <Icon type="left" />
-                      {phrases['core.button.back'][defaultLanguage.isoKey]}
-                    </Button>
-                  )
-                }
-              </Col>
-              <Col lg={8}>
-                {
-                  readOnlyMode ? (
-                    <Button
                       className={b('formBox-controlBtns-btn deleteBtn')}
                       onClick={this.toggleDeleteModal}
                     >
                       {phrases['core.button.remove'][defaultLanguage.isoKey]}
                     </Button>
                   ) : (
-                    <div />
+                    <Button
+                      className={b('formBox-controlBtns-btn backBtn')}
+                      onClick={this.handleCancel}
+                    >
+                      {phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                    </Button>
                   )
                 }
               </Col>
+              <Col lg={8} />
               <Col lg={8}>
                 {
                   readOnlyMode ? (
@@ -237,35 +216,6 @@ class CorporationInfo extends Component {
               />
             )
           }
-        </div>
-
-        <div className={b('otherCorpBox')}>
-          <h1 className={b('otherCorpBox-header')}>
-            {phrases['company.pageCreate.rightBar.header.title'][defaultLanguage.isoKey]}
-          </h1>
-          <div className={b('otherCorpBox-list')}>
-            {
-              corporations.length ? (
-                corporations.map(corp => (
-                  <div
-                    onClick={changeActiveCorporation(corp, false)}
-                    key={corp.id}
-                    className={b('otherCorpBox-list-item')}
-                  >
-                    <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={corp.logoUrl} />
-                    <span>{corp.name}</span>
-                  </div>
-                ))) : (
-                  <div className={b('emptyState-wrapper')}>
-                    <EmptyState
-                      title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
-                      descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
-                      withoutBtn
-                    />
-                  </div>
-              )
-            }
-          </div>
         </div>
       </div>
     );

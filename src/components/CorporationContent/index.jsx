@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import bem from 'bem-join';
 
 import BusinessesList from '../BusinessesList';
+import CorporationInfo from '../CorporationInfo';
 
 const b = bem('corporationsContent');
 const TAB_LIST = {
@@ -30,19 +31,38 @@ class CorporationContent extends Component {
   renderTabSwitcher = () => {
     const { activeTab } = this.state;
     const {
-      businesses,
       chosenCorporation,
       defaultLanguage,
       phrases,
+      isAddCorporationMode,
     } = this.props;
     let content;
 
+    if (isAddCorporationMode) {
+      return (
+        <CorporationInfo
+          isAddCorporationMode
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
+        />
+      );
+    }
+
     switch (activeTab) {
+      case TAB_LIST.corporationInfo:
+        content = (
+          <CorporationInfo
+            isAddCorporationMode={isAddCorporationMode}
+            chosenCorporation={chosenCorporation}
+            defaultLanguage={defaultLanguage}
+            phrases={phrases}
+          />
+        );
+        break;
       case TAB_LIST.businesses:
       default:
         content = (
           <BusinessesList
-            businesses={businesses}
             chosenCorporation={chosenCorporation}
             defaultLanguage={defaultLanguage}
             phrases={phrases}
@@ -56,14 +76,15 @@ class CorporationContent extends Component {
 
   render() {
     const { activeTab } = this.state;
-    const tabs = getTabHeaders();
+    const { isAddCorporationMode } = this.props;
+    const tabs = isAddCorporationMode ? [TAB_LIST.corporationInfo] : getTabHeaders();
 
     return (
       <div className={b()}>
         <div className={b('tabHeader')}>
           {tabs.map(tab => (
             <div
-              className={b('tabHeader-tab', { active: activeTab === tab })}
+              className={b('tabHeader-tab', { active: (activeTab === tab) || isAddCorporationMode })}
               style={{ width: `${100 / tabs.length}%` }}
               key={tab}
               onClick={this.handleChangeTab(tab)}

@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import bem from 'bem-join';
 
+import { Button } from 'antd';
+
 import {
   CorporationsList,
   CorporationContent,
   EmptyState,
   ContentHeader,
 } from '../../components';
+
+import { AddIconSmall } from '../../assets/iconComponents';
+
 
 const b = bem('corporationsPage');
 
@@ -26,7 +31,6 @@ class CorporationsPage extends Component {
   render() {
     const {
       corporations,
-      business: allBusiness,
       defaultLanguage,
       phrases,
     } = this.props;
@@ -37,21 +41,31 @@ class CorporationsPage extends Component {
         <ContentHeader
           content={(
             <CorporationsList
+              isAddCorporationMode={isAddCorporationMode}
               defaultLanguage={defaultLanguage}
               phrases={phrases}
               corporations={corporations}
               changeCorporation={this.handleChangeCorporation}
             />
           )}
+          controlBtn={(
+            <Button
+              className={b('addBtn')}
+              type="primary"
+              onClick={this.handleChangeCorporation(undefined, true)}
+            >
+              <AddIconSmall />
+              Додати компанію
+            </Button>
+          )}
           reverseDirection
         />
         {
           corporations && corporations.length ? (
             <>
-              {chosenCorporation ? (
+              {(chosenCorporation || isAddCorporationMode) ? (
                 <CorporationContent
                   chosenCorporation={chosenCorporation}
-                  businesses={allBusiness.filter(item => item.corporationId === chosenCorporation.id)}
                   isAddCorporationMode={isAddCorporationMode}
                   defaultLanguage={defaultLanguage}
                   phrases={phrases}
@@ -82,7 +96,6 @@ const mapStateToProps = state => ({
   defaultLanguage: state.app.defaultLanguage,
   phrases: state.app.phrases,
   corporations: state.corporations.corporations,
-  business: state.business.business,
 });
 
 export default connect(mapStateToProps)(CorporationsPage);

@@ -28,6 +28,7 @@ class CorporationsList extends PureComponent {
     } = this.state;
     const {
       corporations,
+      isAddCorporationMode,
       defaultLanguage,
       phrases,
     } = this.props;
@@ -36,7 +37,7 @@ class CorporationsList extends PureComponent {
       <div className={b()}>
         <Select
           className={b('selector')}
-          value={chosenCorporationId}
+          value={isAddCorporationMode ? undefined : chosenCorporationId}
           placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
           optionLabelProp="label"
           onChange={this.handleChooseCorporation}

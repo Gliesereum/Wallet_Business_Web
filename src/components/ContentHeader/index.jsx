@@ -7,10 +7,12 @@ const ContentHeader = ({
   title,
   titleCentered = false,
   content = null,
+  controlBtn = null,
   reverseDirection = false,
 }) => (
   <div className={b({ withContent: content, titleCentered, reverseDirection })}>
-    <h1 className={b('title')}>{title}</h1>
+    {title && <h1 className={b('title')}>{title}</h1>}
+    {controlBtn && <div>{controlBtn}</div>}
     {content}
   </div>
 );
