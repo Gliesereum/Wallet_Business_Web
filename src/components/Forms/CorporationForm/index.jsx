@@ -7,14 +7,12 @@ import {
   Input,
   Form,
   Select,
-  Upload,
-  Spin,
 } from 'antd';
 
-import { checkInputHandler } from '../../../utils';
-import { AddIcon } from '../../../assets/iconComponents';
+import AvatarAndCoverUploader from '../../AvatarAndCoverUploader';
 
-const { Dragger: UploadDragger } = Upload;
+import { checkInputHandler } from '../../../utils';
+
 const b = bem('corporationForm');
 
 class CorporationForm extends PureComponent {
@@ -23,13 +21,10 @@ class CorporationForm extends PureComponent {
       form,
       chosenCorporation,
       readOnlyMode,
-      logoUrl,
-      isError,
-      loading,
-      onChange,
-      uploadCorporationImage,
       defaultLanguage,
       phrases,
+      onLoadCover,
+      onLoadLogo,
     } = this.props;
 
     return (
@@ -69,60 +64,15 @@ class CorporationForm extends PureComponent {
             </Form.Item>
           </Col>
           <Col lg={16}>
-            <UploadDragger
-              disabled={readOnlyMode}
-              className={b('uploader')}
-              name="file"
-              listType="picture-card"
-              showUploadList={false}
-              onChange={onChange}
-              customRequest={uploadCorporationImage}
-            >
-              <div className={b('uploader-container')}>
-                {loading ? (
-                  <Spin size="large" />
-                ) : (
-                  <>
-                    {
-                      logoUrl && (
-                        <img
-                          className={b('uploader-image')}
-                          src={logoUrl}
-                          alt="uploaded_image"
-                        />
-                      )
-                    }
-                    {
-                      !readOnlyMode && (
-                        <div className={b('uploader-inside')}>
-                          <AddIcon
-                            className={b('uploader-inside-icon', { errorView: isError })}
-                            size={{
-                              x: isError ? 32 : 48,
-                              y: isError ? 32 : 48,
-                            }}
-                          />
-                          <h1 className={b('uploader-inside-header')}>
-                            {
-                              chosenCorporation && chosenCorporation.logoUrl
-                                ? phrases['company.pageCreate.form.uploadFileNew.label'][defaultLanguage.isoKey]
-                                : phrases['company.pageCreate.form.uploadFileAdd.label'][defaultLanguage.isoKey]
-                            }
-                          </h1>
-                          {
-                            isError && (
-                              <p className={b('uploader-inside-error')}>
-                                Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                              </p>
-                            )
-                          }
-                        </div>
-                      )
-                    }
-                  </>
-                )}
-              </div>
-            </UploadDragger>
+            <AvatarAndCoverUploader
+              cover={chosenCorporation ? chosenCorporation.coverUrl : null}
+              logo={chosenCorporation ? chosenCorporation.logoUrl : null}
+              onLoadCover={onLoadCover}
+              onLoadLogo={onLoadLogo}
+              withCoverUploader
+              maxSize={2}
+              readOnlyMode={readOnlyMode}
+            />
           </Col>
         </Row>
 
