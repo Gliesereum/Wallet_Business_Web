@@ -24,7 +24,7 @@ class BusinessesList extends PureComponent {
 
   renderBusinessesList = () => {
     const {
-      viewCorp,
+      chosenCorporation,
       businesses,
       defaultLanguage,
       phrases,
@@ -45,8 +45,8 @@ class BusinessesList extends PureComponent {
           gutter: 32,
           xxl: 4,
           xl: 3,
-          lg: 2,
-          md: 1,
+          lg: 3,
+          md: 2,
           sm: 1,
         }}
         dataSource={data}
@@ -64,7 +64,7 @@ class BusinessesList extends PureComponent {
                 <Link to={{
                   pathname: '/business/add',
                   state: {
-                    chosenCorp: viewCorp,
+                    chosenCorp: chosenCorporation,
                   },
                 }}
                 >

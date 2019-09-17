@@ -1,11 +1,16 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .contentHeader {
   display: flex;
   flex: 0 0 72px;
   align-items: center;
   padding: 0 32px;
-  background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
+  background: $coupler-blue;
+  @include respond-to(phone) {
+    flex: 0 0 144px;
+    padding: 16px;
+  }
 
   &__title {
     font-weight: 500;
@@ -26,5 +31,8 @@
 
   &--reverseDirection {
     flex-direction: row-reverse;
+    @include respond-to(phone) {
+      flex-direction: column-reverse;
+    }
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import bem from 'bem-join';
+import { Helmet } from 'react-helmet';
 
 import {
   Header,
@@ -20,6 +21,10 @@ const Container = ({
   setShowPropWelcomePage,
 }) => (
   <div className={b()}>
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>Coupler Business</title>
+    </Helmet>
     {isUserDataFull(user) && <SideMenu />}
     {
       showWelcomePage && (
