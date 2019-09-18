@@ -55,6 +55,7 @@ class SignInForm extends Component {
       gotCodeHandler,
       phrases,
       defaultLanguage,
+      loader,
     } = this.props;
 
     return (
@@ -108,6 +109,7 @@ class SignInForm extends Component {
           gotCode ? (
             <div className="buttonGroup">
               <Button
+                loading={loader}
                 type="primary"
                 disabled={timerIsFinished}
                 className={b('button', { firstButton: true })}
@@ -116,11 +118,12 @@ class SignInForm extends Component {
                 {phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]}
               </Button>
               <Button
+                loading={loader}
                 type="primary"
                 className={b('button backBtn black')}
                 onClick={gotCodeHandler}
               >
-                <Icon type="left" />
+                {!loader && <Icon type="left" />}
                 {phrases['core.button.back'][defaultLanguage.isoKey]}
               </Button>
               <div className={b('button', { sendOneMore: true })}>
@@ -128,14 +131,19 @@ class SignInForm extends Component {
                   {phrases['signIn.form.didntGetCode'][defaultLanguage.isoKey]}
                   &nbsp;
                 </span>
-                <span onClick={this.getFormCodeHandler(phone)}>
-                  {phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]}
-                </span>
+                {
+                  !loader && (
+                    <span onClick={this.getFormCodeHandler(phone)}>
+                      {phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]}
+                    </span>
+                  )
+                }
               </div>
             </div>
           ) : (
             <div className="buttonGroup">
               <Button
+                loading={loader}
                 type="primary"
                 className={b('button')}
                 onClick={this.getFormCodeHandler()}

@@ -36,12 +36,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: unset;
+    line-height: 48px;
     margin: auto;
 
     &[disabled] {
-      color: rgba(164, 174, 184, 0.4);
-      background: #F6F6F6;
+      background: #F7F7F7;
+      color: rgba(72, 84, 101, 0.32);
     }
 
     & > span,

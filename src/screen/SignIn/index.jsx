@@ -27,7 +27,7 @@ class SignIn extends Component {
   state = {
     phone: null,
     gotCode: false,
-    validateStatus: '',
+    loader: false,
   };
 
   gotCodeHandler = () => this.setState(prevState => ({
@@ -39,7 +39,7 @@ class SignIn extends Component {
     const url = `phone/code?phone=${value}`;
 
     try {
-      this.setState({ validateStatus: 'validating' });
+      this.setState({ loader: true });
       await asyncRequest({ url });
     } catch (err) {
       notification.error({
@@ -48,7 +48,7 @@ class SignIn extends Component {
         description: 'Ошибка',
       });
     } finally {
-      this.setState({ gotCode: true, phone: value, validateStatus: '' });
+      this.setState({ gotCode: true, phone: value, loader: false });
     }
   };
 
@@ -60,6 +60,7 @@ class SignIn extends Component {
       const userDataUrl = 'auth/signin';
 
       try {
+        this.setState({ loader: true });
         const { tokenInfo } = await asyncRequest({ url: userDataUrl, body, method: 'POST' });
         if (tokenInfo) {
           const {
@@ -76,6 +77,8 @@ class SignIn extends Component {
           message: err.message || 'Ошибка',
           description: 'Ошибка',
         });
+      } finally {
+        this.setState({ loader: false });
       }
     }
   };
@@ -84,7 +87,7 @@ class SignIn extends Component {
     const {
       gotCode,
       phone,
-      validateStatus,
+      loader,
     } = this.state;
 
     const {
@@ -111,11 +114,11 @@ class SignIn extends Component {
               </div>
             </div>
             <SignInForm
+              loader={loader}
               defaultLanguage={defaultLanguage}
               phrases={phrases}
               gotCode={gotCode}
               phone={phone}
-              validateStatus={validateStatus}
               getCodeHandler={this.getCodeHandler}
               sendCodeHandler={this.sendCodeHandler}
               gotCodeHandler={this.gotCodeHandler}
