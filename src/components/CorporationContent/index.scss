@@ -1,4 +1,5 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .corporationsContent {
   flex: 1 1 auto;
@@ -19,6 +20,19 @@
       color: $font-title-black;
       cursor: pointer;
 
+      &-fullPhrase {
+        display: initial;
+        @include respond-to(phone) {
+          display: none;
+        }
+      }
+
+      &-lilPhrase {
+        display: none;
+        @include respond-to(phone) {
+          display: initial;
+        }
+      }
 
       &--active {
         color: $coupler-blue;

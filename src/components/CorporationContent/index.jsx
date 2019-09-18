@@ -6,8 +6,9 @@ import CorporationInfo from '../CorporationInfo';
 
 const b = bem('corporationsContent');
 const TAB_LIST = {
-  businesses: 'businesses',
-  corporationInfo: 'corporationInfo',
+  branches: 'branches',
+  companyInformation: 'companyInformation',
+  widgetSettings: 'widgetSettings',
 };
 
 const getTabHeaders = () => {
@@ -49,10 +50,19 @@ class CorporationContent extends Component {
     }
 
     switch (activeTab) {
-      case TAB_LIST.corporationInfo:
+      case TAB_LIST.companyInformation:
         content = (
           <CorporationInfo
             isAddCorporationMode={isAddCorporationMode}
+            chosenCorporation={chosenCorporation}
+            defaultLanguage={defaultLanguage}
+            phrases={phrases}
+          />
+        );
+        break;
+      case TAB_LIST.widgetSettings:
+        content = (
+          <CorporationInfo
             chosenCorporation={chosenCorporation}
             defaultLanguage={defaultLanguage}
             phrases={phrases}
@@ -76,8 +86,8 @@ class CorporationContent extends Component {
 
   render() {
     const { activeTab } = this.state;
-    const { isAddCorporationMode } = this.props;
-    const tabs = isAddCorporationMode ? [TAB_LIST.corporationInfo] : getTabHeaders();
+    const { isAddCorporationMode, defaultLanguage, phrases } = this.props;
+    const tabs = isAddCorporationMode ? [TAB_LIST.companyInformation] : getTabHeaders();
 
     return (
       <div className={b()}>
@@ -89,7 +99,12 @@ class CorporationContent extends Component {
               key={tab}
               onClick={this.handleChangeTab(tab)}
             >
-              <span>{tab}</span>
+              <span className={b('tabHeader-tab-fullPhrase')}>
+                {phrases[`company.page.tabs.${tab}.fullPhrase`][defaultLanguage.isoKey]}
+              </span>
+              <span className={b('tabHeader-tab-lilPhrase')}>
+                {phrases[`company.page.tabs.${tab}.lilPhrase`][defaultLanguage.isoKey]}
+              </span>
             </div>
           ))}
         </div>
