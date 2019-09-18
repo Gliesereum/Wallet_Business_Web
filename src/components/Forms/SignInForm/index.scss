@@ -102,7 +102,7 @@
 
       & span {
         &:last-child {
-          text-decoration: underline;
+          border-bottom: 1px solid $white;
         }
       }
     }

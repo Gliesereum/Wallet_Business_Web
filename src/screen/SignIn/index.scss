@@ -110,13 +110,13 @@
 
     & span,
     & a {
-      font-size: 12px;
-      line-height: 24px;
-      color: rgba(255, 255, 255, 0.64);
+      font-weight: 300;
+      font-size: 11px;
+      line-height: 16px;
+      color: $white;
 
       &:last-child {
-        text-decoration: underline;
-        color: $white;
+        border-bottom: 1px solid $white;
       }
     }
   }
