@@ -24,7 +24,8 @@
     @include respond-to(largeDesktop) { padding: 0 32px; }
 
     &-formBlock {
-      background-color: $coupler-blue;
+      position: relative;
+      background-color: #2C333B;
       box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.16);
       height: 680px;
       width: 320px;
@@ -37,7 +38,7 @@
         width: 344px;
       }
       @include respond-to(largeDesktop) {
-        height: 645px;
+        height: 680px;
         width: 384px;
       }
       @include respond-to(extraLargeDesktop) {
@@ -74,8 +75,8 @@
     &-title {
       font-family: $Montserrat;
       font-size: 14px;
-      font-weight: 600;
-      line-height: 24px;
+      font-weight: 500;
+      line-height: 16px;
       letter-spacing: 0.01em;
       text-transform: uppercase;
       color: $white;
@@ -98,17 +99,24 @@
   }
 
   &__support {
-    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
 
     & span,
     & a {
-      font-size: 12px;
-      line-height: 24px;
-      color: rgba(255, 255, 255, 0.64);
+      font-weight: 300;
+      font-size: 11px;
+      line-height: 16px;
+      color: $white;
 
       &:last-child {
-        text-decoration: underline;
-        color: $white;
+        border-bottom: 1px solid $white;
       }
     }
   }

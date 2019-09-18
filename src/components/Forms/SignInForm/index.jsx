@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import bem from 'bem-join';
+import ReactCodeInput from 'react-verification-code-input';
 
 import {
-  Input,
   Form,
   Button,
+  Icon,
 } from 'antd';
 
-import { checkInputHandler } from '../../../utils';
 import Timer from '../../Timer';
+import PhoneInput from '../../PhoneInput';
 
 const b = bem('signInForm');
 
@@ -54,6 +55,7 @@ class SignInForm extends Component {
       gotCodeHandler,
       phrases,
       defaultLanguage,
+      loader,
     } = this.props;
 
     return (
@@ -67,51 +69,39 @@ class SignInForm extends Component {
                   timerFinishHandler={this.timerFinishHandler}
                   time={180000}
                 />
-                <p>{`${phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]} ${phone}`}</p>
+                <p>{`${phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]} +${phone}`}</p>
               </div>
             ) : (
               <div>
-                <p>{phrases['signIn.form.welcome'][defaultLanguage.isoKey]}</p>
+                <p className="loginText">{phrases['signIn.form.welcome'][defaultLanguage.isoKey]}</p>
               </div>
             )
           }
         </div>
         <Form.Item
           colon={false}
+          label={gotCode
+            ? phrases['core.form.inputCode.label'][defaultLanguage.isoKey]
+            : phrases['core.form.inputPhone.label'][defaultLanguage.isoKey]
+          }
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
         >
           {gotCode
             ? form.getFieldDecorator('code', {
-              getValueFromEvent: checkInputHandler('code', form),
-              rules: [
-                { required: true, message: phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
-                { pattern: new RegExp(/^[\d ]{6}$/), message: phrases['signIn.form.inputCode.label.validation'][defaultLanguage.isoKey] },
-              ],
-            })(
-              <Input
-                autoFocus
-                size="large"
-                className={b('number', { codeInput: true })}
-                maxLength={6}
-                placeholder={phrases['signIn.form.inputCode.label'][defaultLanguage.isoKey]}
-              />
-            )
-            : form.getFieldDecorator('phone', {
               initialValue: '',
-              getValueFromEvent: checkInputHandler('phone', form),
-              rules: [
-                { required: true, message: phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
-                { pattern: new RegExp(/^[\d ]{12}$/), message: phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey] },
-              ],
-              validateTrigger: 'onBlur',
             })(
-              <Input
-                autoFocus={false}
-                size="large"
-                placeholder={phrases['signIn.form.inputPhone.label'][defaultLanguage.isoKey]}
-                className={b('number', { phoneInput: true })}
+              <ReactCodeInput
+                fields={6}
+                fieldWidth={32}
+                fieldHeight={48}
+                autoFocus
+                className="codeInput"
               />
+            ) : form.getFieldDecorator('phone', {
+              initialValue: '',
+            })(
+              <PhoneInput />
             )
           }
         </Form.Item>
@@ -119,26 +109,42 @@ class SignInForm extends Component {
           gotCode ? (
             <div className="buttonGroup">
               <Button
+                loading={loader}
+                type="primary"
+                disabled={timerIsFinished}
                 className={b('button', { firstButton: true })}
-                onClick={timerIsFinished ? this.getFormCodeHandler(phone) : this.sendFormCodeHandler}
+                onClick={this.sendFormCodeHandler}
               >
-                {
-                  timerIsFinished
-                    ? phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]
-                    : phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]
-                }
+                {phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]}
               </Button>
               <Button
+                loading={loader}
                 type="primary"
-                className={b('button')}
+                className={b('button backBtn black')}
                 onClick={gotCodeHandler}
               >
-                {phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                {!loader && <Icon type="left" />}
+                {phrases['core.button.back'][defaultLanguage.isoKey]}
               </Button>
+              <div className={b('button', { sendOneMore: true })}>
+                <span>
+                  {phrases['signIn.form.didntGetCode'][defaultLanguage.isoKey]}
+                  &nbsp;
+                </span>
+                {
+                  !loader && (
+                    <span onClick={this.getFormCodeHandler(phone)}>
+                      {phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]}
+                    </span>
+                  )
+                }
+              </div>
             </div>
           ) : (
             <div className="buttonGroup">
               <Button
+                loading={loader}
+                type="primary"
                 className={b('button')}
                 onClick={this.getFormCodeHandler()}
               >
