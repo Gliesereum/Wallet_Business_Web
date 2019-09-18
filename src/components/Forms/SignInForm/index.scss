@@ -99,9 +99,11 @@
       font-weight: 300;
       font-size: 11px;
       line-height: 16px;
+      cursor: default;
 
       & span {
-        &:last-child {
+        &:nth-child(2) {
+          cursor: pointer;
           border-bottom: 1px solid $white;
         }
       }
