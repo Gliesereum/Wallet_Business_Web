@@ -121,7 +121,10 @@ class SignIn extends Component {
               gotCodeHandler={this.gotCodeHandler}
             />
             <div className={b('support')}>
-              <span>{phrases['signIn.havingTrouble'][defaultLanguage.isoKey]}</span>
+              <span>
+                {phrases['signIn.havingTrouble'][defaultLanguage.isoKey]}
+                &nbsp;
+              </span>
               <a href="mailto:support@gliesereum.com">
                 {phrases['signIn.writeUs'][defaultLanguage.isoKey]}
               </a>

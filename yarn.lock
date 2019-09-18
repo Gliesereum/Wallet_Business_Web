@@ -10176,6 +10176,11 @@ react-slick@~0.24.0:
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
 
+react-verification-code-input@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-verification-code-input/-/react-verification-code-input-1.2.1.tgz#3c56ca19394b674b1eb46123200b548d0de34fa7"
+  integrity sha512-kgbIrbucI6epuio1Up20OeDtHDzcyI0XRltF24EQ2ZA7BIu1HGyGMBbhjX+dY5nj3ypvUSJ5RNBNqkv77ulzbQ==
+
 react@^16.7.0:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
