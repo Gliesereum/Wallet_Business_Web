@@ -2,24 +2,24 @@
 '../../../styles/mixins';
 
 .signInForm {
-  min-height: 400px;
-  padding: 40px 24px 32px;
-  @include respond-to(phone) { padding: 24px 24px 32px; }
-  @include respond-to(tablet) { padding: 48px 24px 32px; }
+  width: 240px;
+  margin: 0 auto;
+  padding: 32px 0;
 
   &__infoBlock {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 72px;
-    border: 1px dashed rgba(255, 255, 255, 0.4);
-    border-radius: 4px;
-    font-size: 13px;
-    line-height: 22px;
-    letter-spacing: 0.04em;
+    height: 48px;
+    font-size: 10px;
+    line-height: 18px;
     color: $white;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
     @include respond-to(tablet) { margin-bottom: 56px; }
+
+    & .loginText {
+      font-size: 18px;
+    }
 
     & .timer {
       font-weight: 500;
@@ -39,74 +39,75 @@
       }
     }
 
-    &--phoneInput,
-    &--codeInput {
-      font-size: 16px;
-      font-weight: 400;
-      border: none;
-      background-color: rgba(255, 255, 255, 0.08);
-      color: white;
-      text-align: left;
-      transition: all 0.4s ease;
-      box-shadow: 0 0 0 1px $white;
+    & .phoneInput {
+      & .react-tel-input {
+        & .form-control {
+          background-color: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.32);
+          color: $white;
 
-      ::-webkit-input-placeholder {
-        font-size: 14px;
-        font-weight: normal;
-        color: $white;
-        opacity: 0.4;
-        text-align: left;
-        line-height: 24px;
-      }
-
-      :-ms-input-placeholder {
-        font-size: 14px;
-        font-weight: normal;
-        color: $white;
-        opacity: 0.4;
-        text-align: left;
-        line-height: 24px;
-      }
-
-      &::placeholder {
-        font-size: 14px;
-        font-weight: normal;
-        opacity: 0.4;
-        color: $white;
-        text-align: left;
-        line-height: 24px;
-      }
-
-      &:hover{
-        box-shadow: 0 0 0 1px $white;
-      }
-
-      &:focus{
-        box-shadow: 0 0 0 1px $white;
-      }
-
-      &:active{
-        box-shadow: 0 0 0 1px $white;
+          &:hover,
+          &:focus {
+            border: 1px solid $white;
+          }
+        }
       }
     }
 
-    &--codeInput {
-      text-align: center;
+    & .codeInput {
+      width: auto !important;
+      & .styles_react-code-input__CRulA > input {
+        margin-right: 9px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        border-radius: 4px;
+        color: $white;
+        font-size: 14px;
+        line-height: 24px;
+        font-family: $Roboto;
 
-      &::placeholder {
-        text-align: center;
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &:focus {
+          caret-color: $white;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid $white;
+        }
       }
     }
   }
 
   .buttonGroup {
-    padding-top: 64px;
+    padding-top: 32px;
   }
 
   &__button {
     width: 100%;
     cursor: pointer;
 
+    &.black {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: none;
+    }
+
+    &--sendOneMore {
+      padding-top: 24px;
+      text-align: center;
+      color: $white;
+      font-weight: 300;
+      font-size: 11px;
+      line-height: 16px;
+      cursor: default;
+
+      & span {
+        &:nth-child(2) {
+          cursor: pointer;
+          border-bottom: 1px solid $white;
+        }
+      }
+    }
 
     &--firstButton {
       margin-bottom: 24px;

@@ -24,7 +24,6 @@ class Timer extends Component {
   restartTimer = () => {
     this.setState({ time: this.props.time });
     this.props.timerFinishHandler(false);
-    this.startTimer();
   };
 
   tick = () => {
