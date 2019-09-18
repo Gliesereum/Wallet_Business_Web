@@ -85,7 +85,7 @@ class CorporationsPage extends Component {
                   <div className={b('empty')}>
                     <div className={b('header')}>
                       <h1 className={b('header-title')}>
-                        {phrases['company.page.emptyState.information'][defaultLanguage.isoKey]}
+                        {phrases['company.page.tabs.companyInformation.fullPhrase'][defaultLanguage.isoKey]}
                       </h1>
                     </div>
                     <EmptyState
