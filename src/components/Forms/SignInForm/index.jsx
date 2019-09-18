@@ -124,7 +124,10 @@ class SignInForm extends Component {
                 {phrases['core.button.back'][defaultLanguage.isoKey]}
               </Button>
               <div className={b('button', { sendOneMore: true })}>
-                <span>{phrases['signIn.form.didntGetCode'][defaultLanguage.isoKey]}</span>
+                <span>
+                  {phrases['signIn.form.didntGetCode'][defaultLanguage.isoKey]}
+                  &nbsp;
+                </span>
                 <span onClick={this.getFormCodeHandler(phone)}>
                   {phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]}
                 </span>
