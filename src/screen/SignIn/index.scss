@@ -31,6 +31,7 @@
       @include respond-to(phone) {
         height: 617px;
         width: 328px;
+        margin: 0 auto;
       }
       @include respond-to(tablet) {
         height: 808px;
