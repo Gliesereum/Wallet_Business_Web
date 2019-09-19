@@ -17,8 +17,7 @@
     display: flex;
     flex-direction: row;
     @include respond-to(phone) {
-      flex-direction: column;
-      align-items: center;
+      display: block;
     }
     @include respond-to(tablet) { padding: 0 24px; }
     @include respond-to(largeDesktop) { padding: 0 32px; }
@@ -32,6 +31,7 @@
       @include respond-to(phone) {
         height: 617px;
         width: 328px;
+        margin: 0 auto;
       }
       @include respond-to(tablet) {
         height: 808px;

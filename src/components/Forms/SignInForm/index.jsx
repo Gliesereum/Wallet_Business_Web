@@ -39,6 +39,8 @@ class SignInForm extends Component {
         } else {
           await getCodeHandler(values.phone);
         }
+      } else {
+        // notification TODO: add
       }
     });
   };
@@ -100,6 +102,12 @@ class SignInForm extends Component {
               />
             ) : form.getFieldDecorator('phone', {
               initialValue: '',
+              rules: [
+                {
+                  pattern: new RegExp(/[0-9]{6,15}$/),
+                  message: phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey],
+                },
+              ],
             })(
               <PhoneInput />
             )

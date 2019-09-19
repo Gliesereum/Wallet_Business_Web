@@ -72,7 +72,7 @@ class CorporationsPage extends Component {
                 />
               ) : (
                 <EmptyState
-                  title={phrases['company.page.emptyState.title'][defaultLanguage.isoKey]}
+                  title={phrases['company.page.tabs.companyInformation.fullPhrase'][defaultLanguage.isoKey]}
                   descrText={phrases['company.page.emptyState.description'][defaultLanguage.isoKey]}
                   withoutBtn
                 />
