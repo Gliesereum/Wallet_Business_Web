@@ -6,28 +6,30 @@
   flex-flow: column;
 
   &__selectorBox {
-      display: flex;
-      align-items: center;
+    width: 50%;
+    display: flex;
+    align-items: center;
 
-      & .ant-select-selection {
-        background-color: rgba(255, 255, 255, 0.08);
-        color: $white;
+    & .ant-select-selection {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: $white;
 
-        &__placeholder {
-          color: rgba(255, 255, 255, 0.32);
-        }
-
-        & .ant-select-arrow {
-          color: $white;
-        }
+      &__placeholder {
+        color: rgba(255, 255, 255, 0.32);
       }
 
-      &-rightArrow {
-        color: rgba(255, 255, 255, 0.64);
-        font-size: 20px;
-        padding: 0 12px;
+      & .ant-select-arrow {
+        color: $white;
       }
     }
+
+    &-rightArrow {
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 20px;
+      padding: 0 12px;
+      display: none; // TODO remove display: none
+    }
+  }
 
   &__content {
     padding: 46px 32px 0;

@@ -37,7 +37,8 @@ class PrivateRouter extends PureComponent {
             isUserDataFull(user)
               ? (
                 <Switch>
-                  <Route path="/corporations" exact component={CorporationsPage} />
+                  {/* <Route path="/corporations" exact component={CorporationsPage} /> */}
+                  <Route path="/businesses" exact component={CorporationsPage} />
                   <Route path="/orders" exact component={OrdersPage} />
                   <Route path="/workers" exact component={WorkersPage} />
                   <Route path="/clients" exact component={ClientsPage} />
@@ -50,7 +51,8 @@ class PrivateRouter extends PureComponent {
 
                   <Route path={['/business/add', '/business/:id']} exact component={BusinessPage} />
 
-                  <Redirect from="*" to="/corporations" />
+                  {/* <Redirect from="*" to="/corporations" /> */}
+                  <Redirect from="*" to="/businesses" />
                 </Switch>
               ) : (
                 <Switch>

@@ -45,43 +45,30 @@ class SideMenu extends Component {
     const mainMenuItems = [
       {
         icon: MyCorporations,
-        text: phrases['sideBar.menu.company.label'][defaultLanguage.isoKey],
-        linkTo: '/corporations',
+        // text: phrases['sideBar.menu.company.label'][defaultLanguage.isoKey],
+        text: phrases['sideBar.menu.businesses.label'][defaultLanguage.isoKey],
+        // linkTo: '/corporations',
+        linkTo: '/businesses',
         canDisabled: true,
       },
       {
         icon: Orders,
         text: phrases['sideBar.menu.orders.label'][defaultLanguage.isoKey],
         linkTo: '/orders',
-        // canDisabled: true,
       },
-      // { // TODO: add in the next release
-      //   icon: Analytics,
-      //   text: 'Аналитика',
-      //   linkTo: '/analytics',
-      //   canDisabled: true,
-      // },
       {
         icon: Workers,
         text: phrases['sideBar.menu.employees.label'][defaultLanguage.isoKey],
         linkTo: '/workers',
-        // canDisabled: true,
       },
       {
         icon: Clients,
         text: phrases['sideBar.menu.clients.label'][defaultLanguage.isoKey],
         linkTo: '/clients',
-        // canDisabled: true,
       },
     ];
 
     const supportMenuItems = [
-      // { // TODO: add in the next release
-      // icon: Settings,
-      // text: 'Настройки',
-      // linkTo: '/settings',
-      // canDisabled: true,
-      // },
       {
         icon: Help,
         text: phrases['sideBar.menu.help.label'][defaultLanguage.isoKey],
