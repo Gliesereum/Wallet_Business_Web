@@ -145,8 +145,32 @@ class SignIn extends Component {
               </p>
             </div>
             <div className={b('pointsDeviceContainer')}>
-              <div className={b('pointsDeviceContainer-deviceImage')}>
+              {/* <div className={b('pointsDeviceContainer-deviceImage')}>
                 <div className={b('pointsDeviceContainer-deviceImage-container')} />
+              </div> */}
+              <div className="CouplerAction">
+                <div>
+                  <div className={b('pointsDeviceContainer-deviceImage')}>
+                    <div
+                      className={b('pointsDeviceContainer-deviceImage-container')}
+                      style={{
+                        height: '100%',
+                        width: '100%',
+                        background: `no-repeat url(${phrases['signInPage.actionBlock.image.url'][defaultLanguage.isoKey]}) center center`,
+                        backgroundSize: 'contain',
+                        overflow: 'hidden',
+                      }}
+                    />
+                  </div>
+                  {/* <img
+                    height="380px"
+                    src={phrases['signInPage.actionBlock.image.url'][defaultLanguage.isoKey]}
+                    alt="Coupler"
+                  /> */}
+                </div>
+                <div className="BadgeAction">
+                  <span>{phrases['signInPage.actionBlock.title'][defaultLanguage.isoKey]}</span>
+                </div>
               </div>
               <Steps
                 className={b('pointsDeviceContainer-businessPoints')}
