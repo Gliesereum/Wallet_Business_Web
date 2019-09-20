@@ -16,7 +16,13 @@ const b = bem('signInForm');
 class SignInForm extends Component {
   state = {
     timerIsFinished: false,
+    dialCodeLength: '',
   };
+
+  handleSetDialCode = dialCodeLength => this.setState(prevState => ({
+    ...prevState,
+    dialCodeLength: prevState.dialCodeLength !== dialCodeLength ? dialCodeLength : prevState.dialCodeLength,
+  }));
 
   sendFormCodeHandler = () => {
     const { sendCodeHandler, form } = this.props;
@@ -32,7 +38,8 @@ class SignInForm extends Component {
     const { getCodeHandler, form } = this.props;
 
     await form.validateFields(async (error, values) => {
-      if (!error) {
+      const isPhoneValid = /[0-9]{6,15}$/.test(values.phone.slice(this.state.dialCodeLength));
+      if (!error && values.phone && isPhoneValid) {
         if (phoneRepeat) {
           await getCodeHandler(phoneRepeat);
           this.timerRef.restartTimer();
@@ -102,14 +109,8 @@ class SignInForm extends Component {
               />
             ) : form.getFieldDecorator('phone', {
               initialValue: '',
-              rules: [
-                {
-                  pattern: new RegExp(/[0-9]{6,15}$/),
-                  message: phrases['signIn.form.inputPhone.label.validation'][defaultLanguage.isoKey],
-                },
-              ],
             })(
-              <PhoneInput />
+              <PhoneInput setDialCode={this.handleSetDialCode} />
             )
           }
         </Form.Item>

@@ -6,12 +6,13 @@ import 'react-phone-input-2/dist/style.css';
 const b = bem('phoneInput');
 
 class PhoneInput extends Component {
-  handleChangeInput = (value) => {
-    const { onChange } = this.props;
+  handleChangeInput = (value, data) => {
+    const { onChange, setDialCode } = this.props;
     const phone = value.replace(/[()\s+]/g, '');
 
     if (onChange) {
       onChange(phone);
+      setDialCode && setDialCode(data.dialCode.length);
     }
   };
 
