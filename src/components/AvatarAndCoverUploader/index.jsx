@@ -66,7 +66,12 @@ class AvatarAndCoverUploader extends Component {
   finishImgLoading = () => this.setState({ loading: false });
 
   render() {
-    const { cover, logo, withCoverUploader = false } = this.props;
+    const {
+      cover,
+      logo,
+      withCoverUploader = false,
+      readOnlyMode,
+    } = this.props;
     const {
       loading,
       error,
@@ -112,6 +117,7 @@ class AvatarAndCoverUploader extends Component {
         {
           withCoverUploader && (
             <UploadDragger
+              disabled={readOnlyMode}
               className={b('cover')}
               name="file"
               listType="picture-card"
@@ -119,9 +125,13 @@ class AvatarAndCoverUploader extends Component {
               customRequest={this.uploadCover('cover')}
             >
               <div className={b('cover-container')}>
-                <div className={b('cover-uploadBtn')}>
-                  <UploadBtn />
-                </div>
+                {
+                  !readOnlyMode && (
+                    <div className={b('cover-uploadBtn')}>
+                      <UploadBtn />
+                    </div>
+                  )
+                }
                 {
                   coverUrl && (
                     <img
@@ -137,6 +147,7 @@ class AvatarAndCoverUploader extends Component {
           )
         }
         <UploadDragger
+          disabled={readOnlyMode}
           className={b('logo')}
           name="file"
           listType="picture-card"
@@ -144,9 +155,13 @@ class AvatarAndCoverUploader extends Component {
           customRequest={this.uploadCover('logo')}
         >
           <div className={b('logo-container')}>
-            <div className={b('logo-uploadBtn')}>
-              <UploadBtn />
-            </div>
+            {
+              !readOnlyMode && (
+                <div className={b('logo-uploadBtn')}>
+                  <UploadBtn />
+                </div>
+              )
+            }
             {
               logoUrl && (
                 <img

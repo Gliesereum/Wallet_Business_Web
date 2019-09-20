@@ -1,81 +1,60 @@
 @import "../../styles/theme.scss";
 
 .corporationsList {
-  box-shadow: $shadow-right;
-  background: #1078e1;
-  width: 312px;
-  overflow-y: scroll;
-  z-index: 1;
+  background: $coupler-blue;
+  width: 100%;
 
-  & .ant-collapse {
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-  }
+  &__selector {
+    width: 100%;
 
-  &__panel {
-    border: none;
-    border-radius: 0;
+    & .ant-select-selection {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: $white;
 
-    &-header {
-      display: flex;
-      align-items: center;
+      &__placeholder {
+        color: rgba(255, 255, 255, 0.32);
+      }
+
+      & .ant-select-arrow {
+        color: $white;
+      }
     }
 
-    &.ant-collapse-item {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    &-corporation {
+      color: $white;
+      letter-spacing: 0.01em;
+      padding: 16px 32px;
+      display: flex;
+      border-bottom: 1px solid #EFEFEF;
 
-      & .ant-collapse-header {
-        padding: 16px 16px 15px 32px;
-        color: $white;
-        letter-spacing: 0.01em;
-        font-weight: 500;
+      &-logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 16px;
+      }
+
+      &-textContent {
+        width: 450px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+      }
+
+      &-name {
+        color: #30373E;
         font-size: 14px;
         line-height: 24px;
       }
 
-      &-active {
-        & .ant-collapse-header {
-          background: rgba(255, 255, 255, 0.16);
-        }
+      &-descr {
+        color: #737C85;
+        font-size: 14px;
+        line-height: 16px;
       }
 
-      & .ant-collapse-content {
-        background: rgba(255, 255, 255, 0.08);
-        border-top: 1px solid rgba(255, 255, 255, 0.16);
-
-        &-box {
-          padding: 24px;
-          color: rgba(255, 255, 255, 0.8);
-          letter-spacing: 0.01em;
-          font-size: 12px;
-        }
+      &:last-child {
+        border-bottom: none;
       }
     }
-
-    &-name {
-      line-height: 16px;
-      margin-bottom: 8px;
-    }
-
-    &-descr {
-      line-height: 18px;
-    }
-
-    &-logo {
-      min-width: 40px;
-      height: 40px;
-      margin-right: 16px;
-    }
-
-    &-editBtn {
-      margin-top: 16px;
-      width: 100%;
-    }
-  }
-
-  &__addBtn {
-    padding: 60px 0 40px;
-    text-align: center;
   }
 }

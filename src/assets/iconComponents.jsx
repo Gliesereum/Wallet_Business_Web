@@ -157,6 +157,12 @@ const UploadBtn = () => (
   </svg>
 );
 
+const AddIconSmall = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 7H12V11H8V13H12V17H14V13H18V11H14V7ZM13 2C7.48 2 3 6.48 3 12C3 17.52 7.48 22 13 22C18.52 22 23 17.52 23 12C23 6.48 18.52 2 13 2ZM13 20C8.59 20 5 16.41 5 12C5 7.59 8.59 4 13 4C17.41 4 21 7.59 21 12C21 16.41 17.41 20 13 20Z" fill="white" />
+  </svg>
+);
+
 export {
   MyCorporations,
   Orders,
@@ -183,4 +189,5 @@ export {
   YouTube,
   PointBullet,
   UploadBtn,
+  AddIconSmall,
 };

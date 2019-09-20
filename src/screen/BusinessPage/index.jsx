@@ -33,28 +33,14 @@ class BusinessPage extends Component {
 
   componentDidMount() {
     const {
-      location,
-      servicePrices,
       chosenBusiness,
       match,
       changeChosenBusiness,
     } = this.props;
-    const initialTabDisabled = Boolean(
-      location.pathname.match('/add')
-      && !chosenBusiness
-    );
 
     if (!chosenBusiness && match.params && match.params.id) {
       changeChosenBusiness(match.params.id);
     }
-
-    this.setState({
-      disabledTab: {
-        servicesDisable: initialTabDisabled,
-        packagesDisable: initialTabDisabled || (chosenBusiness && servicePrices && !servicePrices[chosenBusiness.id]),
-        workingSpaceDisable: initialTabDisabled,
-      },
-    });
   }
 
   componentWillUnmount() {
@@ -122,7 +108,7 @@ class BusinessPage extends Component {
       {
         tabName: phrases['core.button.services'][defaultLanguage.isoKey],
         keyName: 'services',
-        disabled: disabledTab.servicesDisable,
+        disabled: disabledTab.servicesDisable && !chosenBusiness,
         ContentComponent: BusinessServices,
         props: {
           servicePrices,
@@ -132,7 +118,7 @@ class BusinessPage extends Component {
       {
         tabName: phrases['core.button.package'][defaultLanguage.isoKey],
         keyName: 'packages',
-        disabled: disabledTab.packagesDisable,
+        disabled: disabledTab.packagesDisable && !(chosenBusiness && servicePrices && servicePrices[chosenBusiness.id]),
         ContentComponent: BusinessPackages,
         props: {
           packages: businessPackages,
@@ -142,7 +128,7 @@ class BusinessPage extends Component {
       {
         tabName: phrases['core.button.workingSpaces'][defaultLanguage.isoKey],
         keyName: 'workingSpace',
-        disabled: disabledTab.workingSpaceDisable,
+        disabled: disabledTab.workingSpaceDisable && !chosenBusiness,
         ContentComponent: BusinessWorkingSpaces,
         props: {
           workingSpaces,
@@ -224,6 +210,7 @@ export default compose(
       }),
       ({ chosenBusiness, getPriceService, match }) => {
         const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
         fetchAction({
           url: `price/by-business/${id}`,
           fieldName: 'servicePrices',
@@ -232,6 +219,7 @@ export default compose(
       },
       ({ chosenBusiness, getBusinessPackages, match }) => {
         const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
         fetchAction({
           url: `package/by-business/${id}`,
           fieldName: 'businessPackages',
@@ -240,6 +228,7 @@ export default compose(
       },
       ({ chosenBusiness, getWorkingSpaces, match }) => {
         const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
         fetchAction({
           url: `working-space/${id}`,
           fieldName: 'workingSpaces',

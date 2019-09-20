@@ -1,0 +1,47 @@
+@import '../../styles/theme',
+'../../styles/mixins';
+
+.corporationsContent {
+  flex: 1 1 auto;
+
+  &__tabHeader {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    border-bottom: 1px solid #EAEAEA;
+
+    &-tab {
+      font-weight: 500;
+      font-size: 10px;
+      text-align: center;
+      line-height: 46px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: $font-title-black;
+      cursor: pointer;
+
+      &-fullPhrase {
+        display: initial;
+        @include respond-to(phone) {
+          display: none;
+        }
+      }
+
+      &-lilPhrase {
+        display: none;
+        @include respond-to(phone) {
+          display: initial;
+        }
+      }
+
+      &--active {
+        color: $coupler-blue;
+        border-bottom: 2px solid $coupler-blue;
+      }
+
+      &:hover {
+        color: $coupler-blue;
+      }
+    }
+  }
+}
