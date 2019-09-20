@@ -1,6 +1,16 @@
 @import '../../styles/theme',
 '../../styles/mixins';
 
+.CouplerAction {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  text-align: center;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .signIn {
   animation: fadein 0.8s ease;
   width: 100vw;
@@ -158,31 +168,80 @@
     @include respond-to(phoneAndTablet) { flex-direction: column; }
     @include respond-to(extraLargeDesktop) { flex-direction: column; }
 
+    .BadgeAction {
+      position: absolute;
+      background: #fe7900;
+      font-size: 18px;
+      font-weight: 600;
+      padding-right: 30px;
+      padding-left: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      color: #ffffff;
+      border-radius: 40px;
+
+      @include respond-to(phone) {
+        margin: auto;
+      }
+      @include respond-to(tablet) {
+        margin: auto;
+      }
+
+      @include respond-to(extraLargeDesktop) {
+        margin: auto;
+      }
+      @include respond-to(largeDesktop) {
+        margin: auto;
+      }
+
+      @include respond-to(phoneAndTablet) {
+        margin: auto;
+      }
+    }
+
     &-deviceImage {
       margin-right: -16px;
       @include respond-to(phoneAndTablet) { margin: 0 -8px; }
       @include respond-to(largeDesktop) { margin-right: -32px; }
       @include respond-to(extraLargeDesktop) { margin: 0; }
 
+      //background-size: 327px 419px;
+      width: 380px;
+      height: 320px;
+      @include respond-to(phoneAndTablet) {
+        //background: no-repeat $signIn_mcbook;
+        //background-size: 344px 248px;
+        width: 344px;
+        height: 248px;
+        margin: 0 auto;
+      }
+      @include respond-to(extraLargeDesktop) {
+        //background: no-repeat $signIn_mcbookXL;
+        //background-size: 670px 391px;
+        width: 670px;
+        height: 320px;
+        margin: 0 auto;
+      }
+
       &-container {
-        background: no-repeat $signIn_tablet;
-        background-size: 327px 419px;
-        width: 327px;
-        height: 419px;
-        @include respond-to(phoneAndTablet) {
-          background: no-repeat $signIn_mcbook;
-          background-size: 344px 248px;
-          width: 344px;
-          height: 248px;
-          margin: 0 auto;
-        }
-        @include respond-to(extraLargeDesktop) {
-          background: no-repeat $signIn_mcbookXL;
-          background-size: 670px 391px;
-          width: 670px;
-          height: 391px;
-          margin: 0 auto;
-        }
+        //background: no-repeat $signIn_tablet;
+        //background-size: 327px 419px;
+        //width: 327px;
+        //height: 419px;
+        //@include respond-to(phoneAndTablet) {
+        //  //background: no-repeat $signIn_mcbook;
+        //  background-size: 344px 248px;
+        //  width: 344px;
+        //  height: 248px;
+        //  margin: 0 auto;
+        //}
+        //@include respond-to(extraLargeDesktop) {
+        //  //background: no-repeat $signIn_mcbookXL;
+        //  background-size: 670px 391px;
+        //  width: 670px;
+        //  height: 391px;
+        //  margin: 0 auto;
+        //}
       }
     }
 
