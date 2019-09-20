@@ -23,6 +23,7 @@ const Container = ({
   <div className={b()}>
     <Helmet>
       <meta charSet="utf-8" />
+      <meta name="viewport" content="width=1024, initial-scale=1.0, shrink-to-fit=no" />
       <title>Coupler Business</title>
     </Helmet>
     {isUserDataFull(user) && <SideMenu />}

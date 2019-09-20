@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import bem from 'bem-join';
 
-import { Button } from 'antd';
+// import { Button } from 'antd';
 
 import {
-  CorporationsList,
+  // CorporationsList,
   CorporationContent,
   EmptyState,
   ContentHeader,
 } from '../../components';
 
-import { AddIconSmall } from '../../assets/iconComponents';
+// import { AddIconSmall } from '../../assets/iconComponents';
 
 
 const b = bem('corporationsPage');
@@ -21,6 +21,14 @@ class CorporationsPage extends Component {
     chosenCorporation: null,
     isAddCorporationMode: false,
   };
+
+  componentDidMount() {
+    const { corporations } = this.props;
+
+    if (corporations && corporations.length) {
+      this.handleChangeCorporation(corporations[0].id, false)();
+    }
+  }
 
   handleChangeCorporation = (corporationId, isAddCorporationMode = false) => () => {
     const { corporations } = this.props;
@@ -39,25 +47,27 @@ class CorporationsPage extends Component {
     return (
       <div className={b()}>
         <ContentHeader
-          content={(
-            <CorporationsList
-              isAddCorporationMode={isAddCorporationMode}
-              defaultLanguage={defaultLanguage}
-              phrases={phrases}
-              corporations={corporations}
-              changeCorporation={this.handleChangeCorporation}
-            />
-          )}
-          controlBtn={(
-            <Button
-              className={b('addBtn')}
-              type="primary"
-              onClick={this.handleChangeCorporation(undefined, true)}
-            >
-              <AddIconSmall />
-              Додати компанію
-            </Button>
-          )}
+          title={phrases['sideBar.menu.businesses.label'][defaultLanguage.isoKey]}
+          titleCentered
+          // content={(
+          // <CorporationsList
+          // isAddCorporationMode={isAddCorporationMode}
+          // defaultLanguage={defaultLanguage}
+          // phrases={phrases}
+          // corporations={corporations}
+          // changeCorporation={this.handleChangeCorporation}
+          // />
+          // )}
+          // controlBtn={(
+          // <Button
+          // className={b('addBtn')}
+          // type="primary"
+          // onClick={this.handleChangeCorporation(undefined, true)}
+          // >
+          // <AddIconSmall />
+          // Додати компанію
+          // </Button>
+          // )}
           reverseDirection
         />
         {
@@ -83,7 +93,7 @@ class CorporationsPage extends Component {
               title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
               descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
               addItemText={phrases['company.button.addNewCompany'][defaultLanguage.isoKey]}
-              addItemHandler={this.handleChangeCorporation(null, true)}
+              addItemHandler={this.handleChangeCorporation}
             />
           )
         }

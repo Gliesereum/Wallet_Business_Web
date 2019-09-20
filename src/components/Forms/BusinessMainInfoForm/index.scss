@@ -1,12 +1,13 @@
 .businessMainForm {
   &__map {
     &-containerElement {
-      height: 168px;
+      height: 264px;
       margin-bottom: 24px;
     }
 
     &-mapElement {
       height: 100%;
+      border-radius: 4px;
     }
 
     &-loadingElement {

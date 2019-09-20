@@ -3,11 +3,13 @@
 
 .corporationsContent {
   flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 
   &__tabHeader {
     display: flex;
     align-items: center;
-    height: 48px;
+    flex: 0 0 48px;
     border-bottom: 1px solid #EAEAEA;
 
     &-tab {

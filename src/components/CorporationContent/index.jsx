@@ -8,8 +8,8 @@ import WidgetSettings from '../WidgetSettings';
 const b = bem('corporationsContent');
 const TAB_LIST = {
   branches: 'branches',
-  companyInformation: 'companyInformation',
-  widgetSettings: 'widgetSettings',
+  // companyInformation: 'companyInformation',
+  // widgetSettings: 'widgetSettings',
 };
 
 const getTabHeaders = () => {
@@ -23,7 +23,7 @@ const getTabHeaders = () => {
 
 class CorporationContent extends Component {
   state = {
-    activeTab: TAB_LIST.businesses,
+    activeTab: TAB_LIST.branches,
   };
 
   handleChangeTab = tabName => () => {
