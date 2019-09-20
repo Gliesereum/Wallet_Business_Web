@@ -3,6 +3,7 @@ import bem from 'bem-join';
 
 import BusinessesList from '../BusinessesList';
 import CorporationInfo from '../CorporationInfo';
+import WidgetSettings from '../WidgetSettings';
 
 const b = bem('corporationsContent');
 const TAB_LIST = {
@@ -62,7 +63,7 @@ class CorporationContent extends Component {
         break;
       case TAB_LIST.widgetSettings:
         content = (
-          <CorporationInfo
+          <WidgetSettings
             chosenCorporation={chosenCorporation}
             defaultLanguage={defaultLanguage}
             phrases={phrases}

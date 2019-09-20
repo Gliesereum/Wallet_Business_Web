@@ -30,6 +30,7 @@ import AvatarAndCoverUploader from './AvatarAndCoverUploader';
 import ContentHeader from './ContentHeader';
 import OrdersList from './OrdersList';
 import CorporationContent from './CorporationContent';
+import WidgetSettings from './WidgetSettings';
 
 export {
   Header,
@@ -64,4 +65,5 @@ export {
   ContentHeader,
   OrdersList,
   CorporationContent,
+  WidgetSettings,
 };
