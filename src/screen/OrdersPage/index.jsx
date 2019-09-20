@@ -179,7 +179,7 @@ class OrdersPage extends Component {
               <Select
                 disabled={loader}
                 onChange={this.handleCorpChange}
-                style={{ width: '280px' }}
+                style={{ display: 'none' }}
                 value={chosenCorporation}
                 placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
               >
@@ -201,7 +201,7 @@ class OrdersPage extends Component {
               <Select
                 disabled={loader}
                 onChange={this.handleBusinessChange}
-                style={{ width: '280px' }}
+                style={{ width: '100%' }}
                 value={chosenBusiness}
                 placeholder={phrases['core.selector.placeholder.choseBranch'][defaultLanguage.isoKey]}
               >

@@ -121,25 +121,6 @@ class WorkerForm extends PureComponent {
                 </FormItem>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Имя"
-                >
-                  {
-                    form.getFieldDecorator('firstName', {
-                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.firstName : '',
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                      ],
-                    })(
-                      <Input
-                        placeholder="Ввод..."
-                        readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)}
-                      />
-                    )
-                  }
-                </FormItem>
-                <FormItem
-                  className={b('col-inputFormItem')}
                   label="Отчество"
                 >
                   {
@@ -175,15 +156,55 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Должность"
+                >
+                  {
+                    form.getFieldDecorator('position', {
+                      initialValue: (chosenWorker && chosenWorker.position) ? chosenWorker.position : '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="Ввод..."
+                        readOnly={readOnlyMode}
+                      />
+                    )
+                  }
+                </FormItem>
               </Col>
               <Col lg={12}>
                 <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Имя"
+                >
+                  {
+                    form.getFieldDecorator('firstName', {
+                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.firstName : '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="Ввод..."
+                        readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)}
+                      />
+                    )
+                  }
+                </FormItem>
+                <FormItem
+                  style={{ display: 'none' }}
                   className={b('col-inputFormItem')}
                   label="Компания"
                 >
                   {
                     form.getFieldDecorator('corporationId', {
-                      initialValue: chosenWorker ? chosenWorker.corporationId : undefined,
+                      initialValue: (chosenWorker && chosenWorker.corporationId)
+                        || (corporations && corporations.length) ? corporations[0].id : undefined,
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                       ],
@@ -260,25 +281,6 @@ class WorkerForm extends PureComponent {
                           ))
                         }
                       </Select>
-                    )
-                  }
-                </FormItem>
-                <FormItem
-                  className={b('col-inputFormItem')}
-                  label="Должность"
-                >
-                  {
-                    form.getFieldDecorator('position', {
-                      initialValue: (chosenWorker && chosenWorker.position) ? chosenWorker.position : '',
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                      ],
-                    })(
-                      <Input
-                        placeholder="Ввод..."
-                        readOnly={readOnlyMode}
-                      />
                     )
                   }
                 </FormItem>

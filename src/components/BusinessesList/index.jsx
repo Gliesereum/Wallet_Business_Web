@@ -7,7 +7,6 @@ import bem from 'bem-join';
 import { List, Card } from 'antd';
 
 import EmptyState from '../EmptyState';
-import ContentHeader from '../ContentHeader';
 
 import AddIcon from '../../assets/AddIcon.svg';
 
@@ -25,12 +24,12 @@ class BusinessesList extends PureComponent {
 
   renderBusinessesList = () => {
     const {
-      viewCorp,
-      business,
+      chosenCorporation,
+      businesses,
       defaultLanguage,
       phrases,
     } = this.props;
-    const data = business.map(item => ({
+    const data = businesses.map(item => ({
       name: item.name,
       category: item.businessCategory.name,
       logoUrl: item.logoUrl,
@@ -44,10 +43,10 @@ class BusinessesList extends PureComponent {
         className={b('list')}
         grid={{
           gutter: 32,
-          xxl: 3,
-          xl: 2,
-          lg: 2,
-          md: 1,
+          xxl: 4,
+          xl: 3,
+          lg: 3,
+          md: 2,
           sm: 1,
         }}
         dataSource={data}
@@ -65,7 +64,7 @@ class BusinessesList extends PureComponent {
                 <Link to={{
                   pathname: '/business/add',
                   state: {
-                    chosenCorp: viewCorp,
+                    chosenCorp: chosenCorporation,
                   },
                 }}
                 >
@@ -120,20 +119,16 @@ class BusinessesList extends PureComponent {
 
   render() {
     const {
-      business,
-      viewCorp,
+      businesses,
+      chosenCorporation,
       defaultLanguage,
       phrases,
     } = this.props;
 
     return (
       <div className={b()}>
-        <ContentHeader
-          title={viewCorp.name}
-          titleCentered
-        />
         {
-          business && business.length ? (
+          businesses && businesses.length ? (
             this.renderBusinessesList()
           ) : (
             <EmptyState
@@ -143,7 +138,7 @@ class BusinessesList extends PureComponent {
               linkToData={{
                 pathname: '/business/add',
                 state: {
-                  chosenCorp: viewCorp,
+                  chosenCorp: chosenCorporation,
                 },
               }}
             />
@@ -154,11 +149,20 @@ class BusinessesList extends PureComponent {
   }
 }
 
+const mapStateToProps = (state, { chosenCorporation }) => {
+  if (!chosenCorporation) return { businesses: [] };
+  const businesses = state.business.business.filter(item => item.corporationId === chosenCorporation.id);
+
+  return {
+    businesses,
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
   changeChosenBusiness: businessId => dispatch(actions.business.$changeChosenBusiness(businessId)),
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withRouter,
 )(BusinessesList);

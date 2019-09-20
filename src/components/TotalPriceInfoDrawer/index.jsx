@@ -173,7 +173,7 @@ class TotalPriceInfoDrawer extends Component {
         <Select
           onChange={this.handleCorpChange}
           value={chosenCorporation}
-          style={{ paddingBottom: '24px' }}
+          style={{ paddingBottom: '24px', display: 'none' }} // TODO: remove display: none
           className={b('selector')}
         >
           {

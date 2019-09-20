@@ -25,8 +25,8 @@ class BusinessPackages extends Component {
       changeActiveTab,
     } = this.props;
     const { chosenPackage, isAddPackageMode } = this.state;
-    const packagesList = packages[chosenBusiness.id] || [];
-    const servicePricesList = servicePrices[chosenBusiness.id] || [];
+    const packagesList = chosenBusiness ? packages[chosenBusiness.id] : [];
+    const servicePricesList = chosenBusiness ? servicePrices[chosenBusiness.id] : [];
 
     return (
       <div className={b()}>
@@ -41,7 +41,7 @@ class BusinessPackages extends Component {
             />
           ) : (
             <BusinessPackagesList
-              packages={packagesList}
+              packages={packagesList || []}
               changeActiveTab={changeActiveTab}
               changeActivePackage={this.changeActivePackage}
             />
