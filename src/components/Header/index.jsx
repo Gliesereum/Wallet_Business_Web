@@ -64,8 +64,8 @@ class Header extends Component {
   render() {
     const {
       user,
-      todayTotalPrice = { sum: '' },
-      yesterdayTotalPrice = { sum: '' },
+      todayTotalPrice = { sum: 0 },
+      yesterdayTotalPrice = { sum: 0 },
       corporations,
       defaultLanguage,
       phrases,
@@ -167,8 +167,7 @@ export default compose(
   connect(mapStateToProps),
   fetchDecorator({
     actions: [
-      // today
-      ({ corporations }) => fetchAction({
+      ({ corporations }) => (corporations && corporations.length) && fetchAction({
         url: 'record/by-params-for-business/payment-info',
         fieldName: 'todayTotalPrice',
         fieldType: {},
@@ -179,8 +178,7 @@ export default compose(
           to: new Date().setUTCHours(23, 59, 59, 999),
         },
       })(),
-      // yesterday
-      ({ corporations }) => fetchAction({
+      ({ corporations }) => (corporations && corporations.length) && fetchAction({
         url: 'record/by-params-for-business/payment-info',
         fieldName: 'yesterdayTotalPrice',
         fieldType: {},

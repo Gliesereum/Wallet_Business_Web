@@ -47,7 +47,7 @@ class CorporationsPage extends Component {
     return (
       <div className={b()}>
         <ContentHeader
-          title={chosenCorporation ? chosenCorporation.name : ''}
+          title={phrases['sideBar.menu.businesses.label'][defaultLanguage.isoKey]}
           titleCentered
           // content={(
           // <CorporationsList
@@ -93,7 +93,7 @@ class CorporationsPage extends Component {
               title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
               descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
               addItemText={phrases['company.button.addNewCompany'][defaultLanguage.isoKey]}
-              addItemHandler={this.handleChangeCorporation(null, true)}
+              addItemHandler={this.handleChangeCorporation}
             />
           )
         }

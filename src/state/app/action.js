@@ -49,6 +49,19 @@ const getTokenAndUser = async (dispatch, access_token, refresh_token) => {
   }
 };
 
+const addFirstCompany = async () => {
+  const url = 'corporation';
+  const method = 'POST';
+  const body = { name: 'My first Company' };
+
+  try {
+    const corporation = await withToken(asyncRequest)({ url, method, body });
+    return [corporation];
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 const actions = {
   APP_STATUS: 'APP_STATUS',
 
@@ -120,7 +133,11 @@ const actions = {
       const corporationsUrl = 'corporation/by-user';
 
       const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
-      const corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
+      let corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
+
+      if (!corporations.length) {
+        corporations = await addFirstCompany();
+      }
 
       await dispatch(businessActions.$getBusiness(business));
       await dispatch(corporationsActions.$getCorporations(corporations));
