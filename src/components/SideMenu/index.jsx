@@ -99,7 +99,7 @@ class SideMenu extends Component {
                 key={text}
                 to={linkTo}
               >
-                <Icon style={{ color: !isUserExist && canDisabled ? '#485465' : 'white' }} component={icon} />
+                <Icon className={b('menu-item-icon', { active: location.pathname.match(linkTo), disabled: !isUserExist && canDisabled })} style={{ color: !isUserExist && canDisabled ? '#485465' : 'white' }} component={icon} />
                 <span>{text}</span>
               </Link>
             ))
