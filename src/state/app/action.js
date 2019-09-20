@@ -142,7 +142,7 @@ const actions = {
       await dispatch(businessActions.$getBusiness(business));
       await dispatch(corporationsActions.$getCorporations(corporations));
 
-      const showWelcomePage = !!(isUserDataFull(user) && !(corporations.length) && !JSON.parse(isWelcomePageWasShown || false));
+      const showWelcomePage = !!(isUserDataFull(user) && !(business.length) && !JSON.parse(isWelcomePageWasShown || false));
       await dispatch(authActions.$setShowPropWelcomePage(showWelcomePage, isWelcomePageWasShown));
 
       await dispatch(actions.$appStatus('success'));
