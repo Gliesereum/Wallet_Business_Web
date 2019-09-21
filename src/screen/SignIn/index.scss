@@ -13,60 +13,98 @@
 
 .signIn {
   animation: fadein 0.8s ease;
-  width: 100vw;
+  display: flex;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  //background: #FF9800;
+  justify-content: center;
+  //animation: fadein 0.8s ease;
+  //width: 100vw;
   //max-width: 1280px;
   //margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  //display: flex;
+  //flex-direction: column;
+  //justify-content: space-between;
   //box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.10196078431372549);
 
   &__main {
-    max-width: $min-extra-large-desktop;
-    margin: 0 auto;
+    //max-width: $min-extra-large-desktop;
+    //margin: 0 auto;
+    //position: relative;
+    //animation: fadeInUp 0.6s ease;
+    //padding: 0 16px;
+    //display: flex;
+    //flex-direction: row;
+    //max-width: $min-extra-large-desktop;
     position: relative;
     animation: fadeInUp 0.6s ease;
-    padding: 0 16px;
     display: flex;
     flex-direction: row;
+    background: #fcfcfc;
+    box-shadow: 0 0 0 1px #efefef;
+    flex-grow: 1;
+
+
     @include respond-to(phone) {
-      display: block;
+      flex-wrap: wrap;
+      overflow-y: auto;
     }
-    @include respond-to(tablet) { padding: 0 24px; }
-    @include respond-to(largeDesktop) { padding: 0 32px; }
+    @include respond-to(tablet) {
+      //flex-wrap: wrap;
+    }
+    //@include respond-to(largeDesktop) { padding: 0 32px; }
 
     &-formBlock {
       position: relative;
       background-color: #2C333B;
       box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.16);
-      height: 680px;
+      display: flex;
+      flex-direction: column;
+      //height: 680px;
       width: 320px;
+      //overflow-y: auto;
       @include respond-to(phone) {
-        height: 617px;
+        //height: 617px;
         width: 328px;
         margin: 0 auto;
       }
       @include respond-to(tablet) {
-        height: 808px;
+        //height: 808px;
         width: 344px;
       }
       @include respond-to(largeDesktop) {
-        height: 680px;
+        //height: 680px;
         width: 384px;
       }
       @include respond-to(extraLargeDesktop) {
-        height: 816px;
+        //height: 816px;
         width: 424px;
       }
     }
 
     &-contentBlock {
-      padding-left: 16px;
+      //padding: 16px;
       flex: 1;
-      @include respond-to(phone) { padding-left: 0; }
-      @include respond-to(tablet) { padding-left: 32px; }
-      @include respond-to(largeDesktop) { padding-left: 32px; }
-      @include respond-to(extraLargeDesktop) { padding-left: 32px; }
+      display: flex;
+      flex-direction: column;
+      //overflow-y: auto;
+      //@include respond-to(phone) { padding-left: 0; }
+      //@include respond-to(tablet) { padding-left: 32px; }
+      //@include respond-to(largeDesktop) { padding-left: 32px; }
+      //@include respond-to(extraLargeDesktop) { padding-left: 32px; }
+    }
+
+    &-contentBlock-content {
+      padding: 16px;
+      flex: 1;
+      overflow-y: scroll;
     }
   }
 
@@ -112,10 +150,10 @@
   }
 
   &__support {
-    position: absolute;
-    bottom: 0;
+    //position: absolute;
+    //bottom: 0;
     width: 100%;
-    height: 75px;
+    height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
