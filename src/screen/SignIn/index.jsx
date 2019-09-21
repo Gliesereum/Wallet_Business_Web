@@ -30,6 +30,12 @@ class SignIn extends Component {
     loader: false,
   };
 
+  componentDidMount() {
+    const { $getAppStatistic } = this.props;
+
+    $getAppStatistic();
+  }
+
   gotCodeHandler = () => this.setState(prevState => ({
     ...prevState,
     gotCode: !prevState.gotCode,
@@ -218,9 +224,9 @@ class SignIn extends Component {
   }
 }
 
-const { $setLanguage, $startApp } = actions.app;
+const { $setLanguage, $startApp, $getAppStatistic } = actions.app;
 
 export default compose(
-  connect(state => state, { $startApp, $setLanguage }),
+  connect(state => state, { $startApp, $setLanguage, $getAppStatistic }),
   withRouter,
 )(SignIn);

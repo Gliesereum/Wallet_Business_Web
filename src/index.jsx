@@ -6,6 +6,7 @@ import { Router } from 'react-router-dom';
 import { store } from './state';
 import { history } from './utils';
 import App from './App';
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -15,3 +16,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+serviceWorker.unregister();

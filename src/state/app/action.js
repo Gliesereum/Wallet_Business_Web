@@ -86,6 +86,17 @@ const actions = {
     payload: phrases,
   }),
 
+  $getAppStatistic: () => async () => {
+    try {
+      const st = await asyncRequest({
+        fullUrl: 'karma/v1/statistic/public',
+      });
+      console.log(st);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
   $startApp: () => async (dispatch) => {
     await dispatch(actions.$appStatus('loading'));
 
