@@ -2,6 +2,12 @@
 
 #contentBody {
   display: flex;
+  animation: fadein 0.8s ease;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 #root {
@@ -10,7 +16,7 @@
 }
 
 .ant-form-explain {
-  color: #e11010;
+  color: #e16e71;
   font-size: 12px;
   padding: 4px;
 }
@@ -23,23 +29,24 @@
     background-color: $white;
     color: $coupler-blue;
     font-size: 12px;
-    font-family: $sans;
+    font-family: $Roboto;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: unset;
+    line-height: 48px;
     margin: auto;
 
     &[disabled] {
-      color: rgba(164, 174, 184, 0.4);
-      background: #F6F6F6;
+      background: #F7F7F7;
+      color: rgba(72, 84, 101, 0.32);
     }
 
-    & > span {
-      font-family: $sans;
+    & > span,
+    & > a {
+      font-family: $Roboto;
       text-overflow: ellipsis;
       overflow: hidden;
       width: 100%;
@@ -52,6 +59,13 @@
 
     &.backBtn {
       border: 2px solid $coupler-blue;
+
+      & i.anticon.anticon-left {
+        position: absolute;
+        top: 50%;
+        left: 28px;
+        transform: translateY(-50%);
+      }
 
       &[disabled] {
         border: 2px solid rgba(164, 174, 184, 0.4);
@@ -67,14 +81,14 @@
 
   //---- Forms ----
   &-form-item {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 
     &-label {
       line-height: 16px;
       padding-bottom: 8px;
 
       & > label {
-        font-family: $sans;
+        font-family: $Roboto;
         letter-spacing: 0.02em;
         color: $font-title-black;
       }
@@ -103,7 +117,6 @@
 
   //---- Inputs ----
   &-input {
-    font-family: $sans;
     font-size: 14px;
     letter-spacing: 0.02em;
     height: 48px;
@@ -155,7 +168,7 @@
 
       &__placeholder {
         font-size: 14px;
-        font-family: $sans;
+        font-family: $Roboto;
         letter-spacing: 0.02em;
         color: rgba(72, 84, 101, 0.32);
         padding-left: 16px;
@@ -168,7 +181,7 @@
           padding: 0 16px;
           line-height: 48px;
           letter-spacing: 0.02em;
-          font-family: $sans;
+          font-family: $Roboto;
         }
       }
 
@@ -176,6 +189,21 @@
       &:focus {
         box-shadow: none;
         border-color: #d9d9d9;
+      }
+    }
+
+    &-dropdown {
+      &-menu {
+        &-item {
+          &-disabled {
+            background-color: #F5F5F5;
+
+            &:hover {
+              background-color: #F5F5F5;
+              cursor: not-allowed;
+            }
+          }
+        }
       }
     }
   }
@@ -199,7 +227,7 @@
 
     & + span {
       font-size: 14px;
-      font-family: $sans;
+      font-family: $Roboto;
       line-height: 16px;
       color: $font-title-black;
       padding: 0 16px;
@@ -318,7 +346,7 @@
         line-height: 31px;
 
         & th {
-          font-family: $sans;
+          font-family: $Roboto;
           font-weight: bold;
           color: $font-title-black;
           letter-spacing: 0.02em;
@@ -346,12 +374,57 @@
         background-color: $dirty-white;
       }
     }
+
+    &-pagination {
+      float: unset;
+      text-align: center;
+
+      & .ant-pagination {
+        &-prev,
+        &-next,
+        &-item {
+          width: 48px;
+          height: 48px;
+          line-height: 48px;
+          font-family: $Roboto;
+          font-size: 14px;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+        }
+      }
+    }
   }
 
   //---- Avatar ----
   &-avatar {
     & > img {
       object-fit: cover;
+    }
+  }
+
+  //---- Steps ----
+  &-steps {
+    &-item {
+      &-tail {
+        display: none;
+      }
+
+      &-title {
+        text-transform: uppercase;
+        color: #30373E;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.01em;
+        padding-bottom: 16px;
+      }
+
+      &-description {
+        font-size: 12px;
+        line-height: 18px;
+        color: #737C85;
+        padding-bottom: 0;
+      }
     }
   }
 }
@@ -370,9 +443,11 @@
 .ant {
   &-select {
     &-dropdown {
+      min-width: 110px;
+
       &-menu {
         li.ant-select-dropdown-menu-item {
-          font-family: $sans;
+          font-family: $Roboto;
           font-size: 14px;
           letter-spacing: 0.02em;
           color: $font-title-black;

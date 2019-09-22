@@ -8,23 +8,18 @@ import {
   Input,
   AutoComplete,
   Select,
-  Upload,
 } from 'antd';
 
 import Map from '../../Map';
-import ProneInput from '../../ProneInput';
-import { AddIcon } from '../../../assets/iconComponents';
+import PhoneInput from '../../PhoneInput';
+import AvatarAndCoverUploader from '../../AvatarAndCoverUploader';
 
 import config from '../../../config';
 import { defaultGeoPosition } from '../../Map/mapConfig';
+import { translateBusinessType } from '../../../mocks';
 
 const FormItem = Form.Item;
-const { Dragger: UploadDragger } = Upload;
 const b = bem('businessMainForm');
-
-const translateBusinessType = {
-  CAR: 'Машины',
-};
 
 const initialFieldValues = chosenCorpId => ({
   corporationId: chosenCorpId,
@@ -42,7 +37,7 @@ class BusinessMainInfoForm extends Component {
     disabled: false,
     addressNodes: [],
     currentAddress: null,
-    currentLocation: defaultGeoPosition,
+    currentLocation: null,
   };
 
   searchAddressHandler = (value) => {
@@ -123,231 +118,194 @@ class BusinessMainInfoForm extends Component {
 
   render() {
     const {
-      singleBusiness,
-      businessTypes,
-      businessCategories,
+      chosenBusiness,
+      businessTypes = [],
+      businessCategories = [],
       form,
       corporations = [],
       isAddBusinessMode,
       chosenCorpId,
-      businessLogoUrl,
-      isError,
-      uploadBusinessImage,
+      changeBusinessType,
+      defaultLanguage,
+      phrases,
+      onLoadCover,
+      onLoadLogo,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
     } = this.state;
 
-    const formInitValues = singleBusiness ? {
-      corporationId: corporations.filter(corp => corp.id === singleBusiness.corporationId)[0].id,
-      name: singleBusiness.name,
-      description: singleBusiness.description,
-      phone: singleBusiness.phone.replace(/[()\s+]/g, ''),
-      businessType: singleBusiness.businessCategory.businessType,
-      businessCategory: singleBusiness.businessCategory.id,
-      currentAddressValue: singleBusiness.address,
+    const formInitValues = chosenBusiness ? {
+      corporationId: corporations.filter(corp => corp.id === chosenBusiness.corporationId)[0].id,
+      name: chosenBusiness.name,
+      description: chosenBusiness.description,
+      phone: chosenBusiness.phone.replace(/[()\s+]/g, ''),
+      businessType: chosenBusiness.businessCategory.businessType,
+      businessCategory: chosenBusiness.businessCategory.id,
+      currentAddressValue: chosenBusiness.address,
       currentLocationValue: {
-        lat: singleBusiness.latitude,
-        lng: singleBusiness.longitude,
+        lat: chosenBusiness.latitude,
+        lng: chosenBusiness.longitude,
       },
     } : initialFieldValues(chosenCorpId);
 
+    let businessCategoriesList = [];
+    if (chosenBusiness && chosenBusiness.id) {
+      businessCategoriesList = [chosenBusiness.businessCategory];
+    } else if (businessCategories && businessCategories.length) {
+      businessCategoriesList = businessCategories;
+    }
+
     return (
-      <Form
-        className={b()}
-      >
-        <div className={b('content')}>
-          <Row gutter={31}>
-            <Col lg={16}>
-              <Row gutter={31}>
-                <Col lg={12}>
-                  <UploadDragger
-                    className={b('uploader')}
-                    name="file"
-                    listType="picture-card"
-                    showUploadList={false}
-                    customRequest={uploadBusinessImage}
-                  >
-                    <div className={b('uploader-container')}>
-                      {
-                        businessLogoUrl && (
-                          <img
-                            className={b('uploader-image')}
-                            src={businessLogoUrl}
-                            alt="uploaded_image"
-                          />
-                        )
-                      }
-                      <div className={b('uploader-inside')}>
-                        <AddIcon
-                          className={b('uploader-inside-icon', { errorView: isError })}
-                          size={{
-                            x: isError ? 32 : 48,
-                            y: isError ? 32 : 48,
-                          }}
-                        />
-                        <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                        {
-                          isError && (
-                            <p className={b('uploader-inside-error')}>
-                              Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                            </p>
-                          )
-                        }
-                      </div>
-                    </div>
-                  </UploadDragger>
-                </Col>
-                <Col lg={12}>
-                  <FormItem
-                    label="Компания"
-                  >
-                    {form.getFieldDecorator('corporationId', {
-                      initialValue: formInitValues.corporationId,
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                      ],
-                    })(
-                      <Select placeholder="Выбрать компанию...">
-                        {corporations.length && corporations.map(corporation => (
-                          <Select.Option
-                            key={corporation.id}
-                            value={corporation.id}
-                          >
-                            {corporation.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
-                  <FormItem
-                    label="Название бизнеса"
-                  >
-                    {form.getFieldDecorator('name', {
-                      initialValue: formInitValues.name,
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                      ],
-                    })(<Input placeholder="Название бизнесса" />)}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={31}>
-                <Col lg={12}>
-                  <FormItem
-                    label="Категория бизнесса"
-                  >
-                    {form.getFieldDecorator('businessCategoryId', {
-                      initialValue: formInitValues.businessCategory,
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                      ],
-                    })(
-                      <Select
-                        placeholder="Выбрать..."
-                        className={!isAddBusinessMode ? 'readOnly' : ''}
-                      >
-                        {businessCategories && businessCategories.map(corporation => (
-                          <Select.Option
-                            key={corporation.name}
-                            value={corporation.id}
-                          >
-                            {corporation.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col lg={12}>
-                  <FormItem
-                    label="Номер телефона"
-                  >
-                    {form.getFieldDecorator('phone', {
-                      initialValue: formInitValues.phone,
-                      rules: [
-                        { required: true, message: 'Please enter your phone number!' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Invalid phone number!' },
-                      ],
-                    })(
-                      <ProneInput />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={31}>
-                <Col lg={12}>
-                  <FormItem
-                    label="Оприделение бизнеса (описание)"
-                  >
-                    {form.getFieldDecorator('description', {
-                      initialValue: formInitValues.description,
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                      ],
-                    })(<Input placeholder="Описание бизнесса" />)}
-                  </FormItem>
-                </Col>
-                <Col lg={12}>
-                  <FormItem
-                    label="Деловая активность"
-                  >
-                    {form.getFieldDecorator('serviceType', {
-                      initialValue: formInitValues.businessType,
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                      ],
-                    })(
-                      <Select
-                        placeholder="Выбрать..."
-                        className={!isAddBusinessMode ? 'readOnly' : ''}
-                      >
-                        {businessTypes && businessTypes.map(businessType => (
-                          <Select.Option
-                            key={businessType}
-                            value={businessType}
-                          >
-                            {translateBusinessType[businessType]}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-            </Col>
-            <Col lg={8}>
-              <FormItem
-                label="Адрес"
-              >
-                {form.getFieldDecorator('address', {
-                  initialValue: currentAddress || formInitValues.currentAddressValue,
-                  rules: [
-                    { required: true, message: 'Поле обязательное для заполнения' },
-                  ],
-                })(
-                  <AutoComplete
-                    placeholder="Адрес"
-                    onSearch={this.searchAddressHandler}
-                    dataSource={addressNodes}
-                    onSelect={this.selectAddressByInputHandler}
-                  />
-                )}
-              </FormItem>
-              <Map
-                containerElement={<div style={{ height: '272px', marginTop: '24px' }} />}
-                mapElement={<div style={{ height: '100%' }} />}
-                loadingElement={<div style={{ height: '100%' }} />}
-                googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleAPIKey}&libraries=geometry,drawing,places`}
-                currentLocation={currentLocation || formInitValues.currentLocationValue}
-                onSelect={this.selectAddressByMarkerHandler}
-                singlePin
-              />
-            </Col>
-          </Row>
-        </div>
+      <Form className={b()}>
+        <Row gutter={32}>
+          <Col lg={8}>
+            <FormItem style={{ display: 'none' }} label="Компания">
+              {form.getFieldDecorator('corporationId', {
+                initialValue: formInitValues.corporationId,
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                ],
+              })(
+                <Select placeholder="Выбрать компанию...">
+                  {corporations.length && corporations.map(corporation => (
+                    <Select.Option
+                      key={corporation.id}
+                      value={corporation.id}
+                    >
+                      {corporation.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+            <FormItem label="Название филиала">
+              {form.getFieldDecorator('name', {
+                initialValue: formInitValues.name,
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                  { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                ],
+              })(<Input placeholder="Название филиала" />)}
+            </FormItem>
+          </Col>
+          <Col lg={8}>
+            <FormItem label={phrases['core.form.inputPhone.label'][defaultLanguage.isoKey]}>
+              {form.getFieldDecorator('phone', {
+                initialValue: formInitValues.phone,
+                rules: [
+                  { required: true, message: 'Пожалуйста, введите ваш номер телефона' },
+                  { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
+                ],
+              })(
+                <PhoneInput />
+              )}
+            </FormItem>
+          </Col>
+          <Col lg={8}>
+            <FormItem label="Адрес">
+              {form.getFieldDecorator('address', {
+                initialValue: currentAddress || formInitValues.currentAddressValue,
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                ],
+              })(
+                <AutoComplete
+                  placeholder="Адрес"
+                  onSearch={this.searchAddressHandler}
+                  dataSource={addressNodes}
+                  onSelect={this.selectAddressByInputHandler}
+                />
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={32}>
+          <Col lg={16}>
+            <AvatarAndCoverUploader
+              cover={chosenBusiness ? chosenBusiness.coverUrl : null}
+              logo={chosenBusiness ? chosenBusiness.logoUrl : null}
+              onLoadCover={onLoadCover}
+              onLoadLogo={onLoadLogo}
+              withCoverUploader
+              maxSize={2}
+            />
+          </Col>
+          <Col lg={8}>
+            <Map
+              containerElement={<div className={b('map-containerElement')} />}
+              mapElement={<div className={b('map-mapElement')} />}
+              loadingElement={<div className={b('map-loadingElement')} />}
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleAPIKey}&libraries=geometry,drawing,places`}
+              currentLocation={currentLocation || formInitValues.currentLocationValue}
+              onSelect={this.selectAddressByMarkerHandler}
+              singlePin
+              draggable
+            />
+          </Col>
+        </Row>
+        <Row gutter={32}>
+          <Col lg={8}>
+            <FormItem label="Сфера деятельности компании">
+              {form.getFieldDecorator('serviceType', {
+                initialValue: formInitValues.businessType,
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                ],
+                onChange: changeBusinessType,
+              })(
+                <Select
+                  placeholder="Выбрать..."
+                  className={!isAddBusinessMode ? 'readOnly' : ''}
+                >
+                  {businessTypes.length && businessTypes.map(businessType => (
+                    <Select.Option
+                      key={businessType}
+                      value={businessType}
+                    >
+                      {translateBusinessType[businessType]}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col lg={8}>
+            <FormItem label="Категория">
+              {form.getFieldDecorator('businessCategoryId', {
+                initialValue: formInitValues.businessCategory,
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                ],
+              })(
+                <Select
+                  placeholder="Выбрать..."
+                  className={!isAddBusinessMode ? 'readOnly' : ''}
+                >
+                  {businessCategoriesList.map(corporation => (
+                    <Select.Option
+                      key={corporation.name}
+                      value={corporation.id}
+                    >
+                      {corporation.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col lg={8}>
+            <FormItem label={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]}>
+              {form.getFieldDecorator('description', {
+                initialValue: formInitValues.description,
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                  { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                ],
+              })(<Input placeholder={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]} />)}
+            </FormItem>
+          </Col>
+        </Row>
       </Form>
     );
   }

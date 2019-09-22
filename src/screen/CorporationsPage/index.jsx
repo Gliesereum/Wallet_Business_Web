@@ -2,116 +2,110 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import bem from 'bem-join';
 
-import {
-  Row,
-  Col,
-} from 'antd';
+// import { Button } from 'antd';
 
 import {
-  CorporationsList,
-  BusinessesList,
+  // CorporationsList,
+  CorporationContent,
   EmptyState,
-  CorporationInfo,
+  ContentHeader,
 } from '../../components';
 
-const b = bem('corporationsContainer');
+// import { AddIconSmall } from '../../assets/iconComponents';
+
+
+const b = bem('corporationsPage');
 
 class CorporationsPage extends Component {
   state = {
     chosenCorporation: null,
     isAddCorporationMode: false,
-    viewCorp: null,
   };
 
-  changeActiveCorporation = (corporation, isAddCorporationMode) => () => this.setState({
-    chosenCorporation: corporation,
-    isAddCorporationMode,
-  });
+  componentDidMount() {
+    const { corporations } = this.props;
 
-  chooseCorporationForView = (corpId) => {
-    if (!corpId) return;
+    if (corporations && corporations.length) {
+      this.handleChangeCorporation(corporations[0].id, false)();
+    }
+  }
 
-    const [viewCorp] = this.props.corporations.filter(item => item.id === corpId);
-    this.setState({ viewCorp });
+  handleChangeCorporation = (corporationId, isAddCorporationMode = false) => () => {
+    const { corporations } = this.props;
+    const [chosenCorporation] = corporations.filter(item => item.id === corporationId);
+    this.setState({ chosenCorporation, isAddCorporationMode });
   };
 
   render() {
-    const { corporations, business: allBusiness } = this.props;
-    const { chosenCorporation, isAddCorporationMode, viewCorp } = this.state;
+    const {
+      corporations,
+      defaultLanguage,
+      phrases,
+    } = this.props;
+    const { chosenCorporation, isAddCorporationMode } = this.state;
 
     return (
       <div className={b()}>
-        <Row className="__testContainerFlex">
-          {
-            isAddCorporationMode || (chosenCorporation && chosenCorporation.id) ? (
-              <Col lg={24}>
-                <CorporationInfo
-                  isAddMode={isAddCorporationMode}
-                  corporations={corporations}
+        <ContentHeader
+          title={phrases['sideBar.menu.businesses.label'][defaultLanguage.isoKey]}
+          titleCentered
+          // content={(
+          // <CorporationsList
+          // isAddCorporationMode={isAddCorporationMode}
+          // defaultLanguage={defaultLanguage}
+          // phrases={phrases}
+          // corporations={corporations}
+          // changeCorporation={this.handleChangeCorporation}
+          // />
+          // )}
+          // controlBtn={(
+          // <Button
+          // className={b('addBtn')}
+          // type="primary"
+          // onClick={this.handleChangeCorporation(undefined, true)}
+          // >
+          // <AddIconSmall />
+          // Додати компанію
+          // </Button>
+          // )}
+          reverseDirection
+        />
+        {
+          corporations && corporations.length ? (
+            <>
+              {(chosenCorporation || isAddCorporationMode) ? (
+                <CorporationContent
                   chosenCorporation={chosenCorporation}
-                  changeActiveCorporation={this.changeActiveCorporation}
+                  isAddCorporationMode={isAddCorporationMode}
+                  defaultLanguage={defaultLanguage}
+                  phrases={phrases}
                 />
-              </Col>
-            ) : (
-              <>
-                {
-                  corporations && corporations.length ? (
-                    <>
-                      <Col lg={8} className={b('col')}>
-                        <CorporationsList
-                          viewCorp={viewCorp}
-                          corporations={corporations}
-                          changeActiveCorporation={this.changeActiveCorporation}
-                          chooseCorporationForView={this.chooseCorporationForView}
-                        />
-                      </Col>
-                      <Col lg={16} className={b('col')}>
-                        {
-                          viewCorp ? (
-                            <BusinessesList
-                              viewCorp={viewCorp}
-                              business={allBusiness.filter(item => item.corporationId === viewCorp.id)}
-                            />
-                          ) : (
-                            <EmptyState
-                              title="Компания не выбрана"
-                              descrText="Выберите компанию, чтобы увидеть список бизнесов"
-                              withoutBtn
-                            />
-                          )
-                        }
-                      </Col>
-                    </>
-                  ) : (
-                    <Col lg={24}>
-                      <div className={b('header')}>
-                        <h1 className={b('header-title')}>
-                          Информация о компании
-                        </h1>
-                      </div>
-                      <div className={b('emptyState-wrapper')}>
-                        <EmptyState
-                          title="У вас нету компаний"
-                          descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
-                          addItemText="Создать компанию"
-                          addItemHandler={this.changeActiveCorporation}
-                        />
-                      </div>
-                    </Col>
-                  )
-                }
-              </>
-            )
-          }
-        </Row>
+              ) : (
+                <EmptyState
+                  title={phrases['company.page.tabs.companyInformation.fullPhrase'][defaultLanguage.isoKey]}
+                  descrText={phrases['company.page.emptyState.description'][defaultLanguage.isoKey]}
+                  withoutBtn
+                />
+              )}
+            </>
+          ) : (
+            <EmptyState
+              title={phrases['company.page.emptyState.createNewCompany.title'][defaultLanguage.isoKey]}
+              descrText={phrases['company.page.emptyState.createNewCompany.description'][defaultLanguage.isoKey]}
+              addItemText={phrases['company.button.addNewCompany'][defaultLanguage.isoKey]}
+              addItemHandler={this.handleChangeCorporation}
+            />
+          )
+        }
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
   corporations: state.corporations.corporations,
-  business: state.business.business,
 });
 
 export default connect(mapStateToProps)(CorporationsPage);

@@ -5,7 +5,7 @@
     border-bottom: 1px solid #DCE2E9;
     padding-bottom: 13px;
     color: $font-title-black;
-    font-family: $sans;
+    font-family: $Roboto;
     font-size: 16px;
     letter-spacing: 0.02em;
     font-feature-settings: 'pnum' on, 'lnum' on;
@@ -13,13 +13,13 @@
   }
 
   &__infoBlock {
-    background: indianred; // TODO: change to coupler colors
+    background: linear-gradient(200deg, #1897FB -8%, $coupler-blue 100%);
     border-radius: 4px;
     padding: 24px 50px;
     text-align: center;
 
     &-text {
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 14px;
       line-height: 24px;
       color: $white;

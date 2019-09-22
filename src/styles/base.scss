@@ -1,10 +1,13 @@
 @import
   "custom.scss",
   "../components/Header/index.scss",
+  "../components/TotalPriceInfoDrawer/index.scss",
+  "../components/HelpDrawer/index.scss",
   "../components/DeleteModal/index.scss";
 
 #contentBody {
   @import "theme",
+  "mixins",
   "../screen/Container/index.scss",
   "../components/ScreenLoading/index.scss",
   "../components/SideMenu/index.scss",
@@ -31,8 +34,9 @@
   "../components/BusinessMainInfo/index.scss",
   "../components/BusinessesList/index.scss",
   "../components/FromToInput/index.scss",
-  "../components/ProneInput/index.scss",
+  "../components/PhoneInput/index.scss",
   "../components/Timer/index.scss",
+  "../components/Footer/index.scss",
   "../components/Forms/ProfileEmail/index.scss",
   "../components/Forms/ProfileForm/index.scss",
   "../components/Forms/BusinessMainInfoForm/index.scss",
@@ -46,16 +50,32 @@
   "../components/Forms/WorkerForm/index.scss",
   "../components/Forms/WorkingSpaceForm/index.scss",
   "../components/CorporationInfo/index.scss",
+  "../components/PeriodSelector/index.scss",
+  "../components/WelcomePage/index.scss",
+  "../components/AvatarAndCoverUploader/index.scss",
+  "../components/ContentHeader/index.scss",
+  "../components/OrdersList/index.scss",
+  "../components/CorporationContent/index.scss",
+  "../components/WidgetSettings/index.scss",
   "../screen/BusinessPage/index.scss",
   "../screen/CorporationsPage/index.scss",
   "../screen/ProfileInfo/index.scss",
   "../screen/SignIn/index.scss",
   "../screen/WorkersPage/index.scss",
-  "../screen/ClientsPage/index.scss";
+  "../screen/ClientsPage/index.scss",
+  "../screen/OrdersPage/index.scss",
+  "../screen/AdminPanel/index.scss";
 }
 
-body {
-  p {
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+body#contentBody {
+  font-family: $Roboto;
+
+  p, h1 {
     margin: 0;
   }
 }
@@ -64,4 +84,50 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.ant-form-explain {
+  position: absolute !important;
+  bottom: -20px !important;
+  font-size: 10px !important;
+  color: #FFC107 !important;
+  display: none !important;
+}
+
+.CouplerErrorPageBeta {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  flex: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.CouplerErrorPageBeta_Title {
+  h1 {
+    font-size: 110px;
+    color: $coupler-blue;
+  }
+}
+
+.CouplerErrorPageBeta_Message {
+  color: $coupler-blue;
+  font-size: 38px;
+  margin-bottom: 1em;
+}
+
+.CouplerErrorPageBeta_Button {
+  button {
+    width: 200px;
+    background: $coupler-blue;
+    color: $white;
+    height: 48px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+  }
 }

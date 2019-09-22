@@ -8,10 +8,13 @@ import {
   Input,
   Select,
   Upload,
-  Icon,
+  Spin,
 } from 'antd';
 
 import ProfileEmail from '../ProfileEmail';
+import { AddIcon } from '../../../assets/iconComponents';
+import { genders } from '../../../mocks';
+
 
 const { Dragger: UploadDragger } = Upload;
 const b = bem('profileForm');
@@ -21,11 +24,14 @@ class ProfileForm extends PureComponent {
     const {
       form,
       user,
-      uploadAvatarImage,
-      avatarImageUrl,
+      readOnlyMode,
+      logoUrl,
       isError,
+      loading,
       email,
       verifyUserEmail,
+      onChange,
+      uploadAvatarImage,
     } = this.props;
 
     return (
@@ -36,29 +42,57 @@ class ProfileForm extends PureComponent {
         <Row gutter={32}>
           <Col lg={8}>
             <UploadDragger
+              disabled={readOnlyMode}
               className={b('uploader')}
               name="file"
               listType="picture-card"
               showUploadList={false}
+              onChange={onChange}
               customRequest={uploadAvatarImage}
             >
               <div className={b('uploader-container')}>
                 {
-                  avatarImageUrl && (
-                    <img
-                      className={b('uploader-image')}
-                      src={avatarImageUrl}
-                      alt="uploaded_image"
-                    />
+                  loading ? (
+                    <Spin size="large" />
+                  ) : (
+                    <>
+                      {
+                        logoUrl && (
+                          <img
+                            className={b('uploader-image')}
+                            src={logoUrl}
+                            alt="uploaded_image"
+                          />
+                        )
+                      }
+                      {
+                        !readOnlyMode && (
+                          <div className={b('uploader-inside')}>
+                            <AddIcon
+                              className={b('uploader-inside-icon', { errorView: isError })}
+                              size={{
+                                x: isError ? 32 : 48,
+                                y: isError ? 32 : 48,
+                              }}
+                            />
+                            <h1 className={b('uploader-inside-header')}>
+                              {
+                                user.avatarUrl ? 'загрузить новое изображение' : 'добавить изображение'
+                              }
+                            </h1>
+                            {
+                              isError && (
+                                <p className={b('uploader-inside-error')}>
+                                  Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
+                                </p>
+                              )
+                            }
+                          </div>
+                        )
+                      }
+                    </>
                   )
                 }
-                <div className={b('uploader-inside')}>
-                  <Icon className={b('uploader-inside-icon')} type="plus-circle" />
-                  <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                  <p className={b('uploader-inside-text', { isError })}>
-                    Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                  </p>
-                </div>
               </div>
             </UploadDragger>
           </Col>
@@ -76,7 +110,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -92,7 +130,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -110,7 +152,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -126,7 +172,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -144,7 +194,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -160,7 +214,11 @@ class ProfileForm extends PureComponent {
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
                   })(
-                    <Input size="large" placeholder="Ввод..." />
+                    <Input
+                      size="large"
+                      placeholder="Ввод..."
+                      readOnly={readOnlyMode}
+                    />
                   )}
                 </Form.Item>
               </Col>
@@ -172,6 +230,7 @@ class ProfileForm extends PureComponent {
             <ProfileEmail
               email={email}
               verifyUserEmail={verifyUserEmail}
+              readOnly={readOnlyMode}
             />
           </Col>
           <Col lg={8}>
@@ -179,13 +238,18 @@ class ProfileForm extends PureComponent {
               label="Пол"
             >
               {form.getFieldDecorator('gender', {
-                initialValue: user.gender || 'UNKNOWN',
+                initialValue: (!readOnlyMode ? user.gender : genders[user.gender])
+                  || (!readOnlyMode ? 'UNKNOWN' : genders.UNKNOWN),
               })(
-                <Select size="large">
-                  <Select.Option value="UNKNOWN" key="UNKNOWN">Не указано</Select.Option>
-                  <Select.Option value="MALE" key="MALE">Мужской</Select.Option>
-                  <Select.Option value="FEMALE" key="FEMALE">Женский</Select.Option>
-                </Select>
+                !readOnlyMode ? (
+                  <Select size="large">
+                    <Select.Option value="UNKNOWN" key="UNKNOWN">{genders.UNKNOWN}</Select.Option>
+                    <Select.Option value="MALE" key="MALE">{genders.MALE}</Select.Option>
+                    <Select.Option value="FEMALE" key="FEMALE">{genders.FEMALE}</Select.Option>
+                  </Select>
+                ) : (
+                  <Input readOnly={readOnlyMode} />
+                )
               )}
             </Form.Item>
           </Col>

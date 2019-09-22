@@ -24,7 +24,6 @@ class Timer extends Component {
   restartTimer = () => {
     this.setState({ time: this.props.time });
     this.props.timerFinishHandler(false);
-    this.startTimer();
   };
 
   tick = () => {
@@ -51,7 +50,7 @@ class Timer extends Component {
     const { mask } = this.state;
 
     return (
-      <span>
+      <span className="timer">
         {moment(date).format(mask)}
       </span>
     );

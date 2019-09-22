@@ -1,27 +1,14 @@
 @import '../../styles/theme.scss';
 
-.business {
-  overflow-y: scroll;
-  height: calc(100% - 54px);
-
-  &__header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: indianred; // TODO: change to coupler colors
-    height: 56px;
-
-    &-title {
-      color: $white;
-      font-family: $sans;
-      font-size: 18px;
-      line-height: 24px;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
-    }
-  }
+.businessPage {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  animation: fadein 0.8s ease;
 
   &__tabsContainer {
-    padding: 0 24px 20px 16px;
+    padding: 0 32px 40px;
+    overflow-y: scroll;
+    flex: 1 1 auto;
   }
 }

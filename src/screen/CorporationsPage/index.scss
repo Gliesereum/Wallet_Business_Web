@@ -1,38 +1,28 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme',
+'../../styles/mixins';
 
-.corporationsContainer {
-  background: $white;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 56px;
+.corporationsPage {
+  height: 100%;
   display: flex;
+  flex-flow: column;
+  animation: fadein 0.8s ease;
 
-  &__emptyState-wrapper {
-    padding: 0 24px 0 16px;
+  &__content {
+    flex: 1 1 auto;
   }
 
-  &__header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: indianred; // TODO: change to coupler colors
-    height: 72px;
-
-    &-title {
-      color: $white;
-      font-family: $sans;
-      font-size: 18px;
-      line-height: 24px;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
+  &__addBtn.ant-btn-primary {
+    width: 30%;
+    margin-left: 10px;
+    background-color: rgba(255, 255, 255, 0.12);
+    @include respond-to(phone) {
+      width: 100%;
+      margin: 0;
     }
-  }
 
-  &__col {
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
+    & span {
+      width: auto;
+      margin-left: 5px;
+    }
   }
 }

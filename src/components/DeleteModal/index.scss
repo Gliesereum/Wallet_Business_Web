@@ -6,7 +6,7 @@
     padding: 16px 0;
 
     & p {
-      font-family: $sans;
+      font-family: $Roboto;
       font-size: 14px;
       letter-spacing: 0.01em;
       color: $font-title-black;
@@ -20,7 +20,7 @@
       color: $font-title-black;
       line-height: 16px;
       font-size: 16px;
-      font-family: $sans;
+      font-family: $Roboto;
       font-feature-settings: 'pnum' on, 'lnum' on;
     }
 
@@ -30,6 +30,7 @@
     }
 
     &-footer {
+      display: flex;
       text-align: center;
       border-top: none;
       padding: 30px 16px 42px;
@@ -40,7 +41,7 @@
         color: $coupler-blue;
         line-height: 16px;
         font-size: 12px;
-        font-family: $sans;
+        font-family: $Roboto;
         text-transform: uppercase;
         letter-spacing: 0.04em;
         border: 2px solid $coupler-blue;

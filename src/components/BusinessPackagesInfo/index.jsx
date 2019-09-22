@@ -31,7 +31,7 @@ class BusinessPackagesInfo extends PureComponent {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   };
@@ -45,7 +45,7 @@ class BusinessPackagesInfo extends PureComponent {
             isAddMode,
             createPackage,
             updatePackage,
-            singleBusiness,
+            chosenBusiness,
             changeActivePackage,
           } = this.props;
           const url = 'package';
@@ -54,7 +54,7 @@ class BusinessPackagesInfo extends PureComponent {
           const data = {
             ...chosenPackage,
             ...values,
-            businessId: singleBusiness.id,
+            businessId: chosenBusiness.id,
           };
 
           try {
@@ -67,7 +67,7 @@ class BusinessPackagesInfo extends PureComponent {
             notification.error({
               duration: 5,
               message: err.message || 'Ошибка',
-              description: 'Возникла ошибка',
+              description: 'Ошибка',
             });
           }
         }

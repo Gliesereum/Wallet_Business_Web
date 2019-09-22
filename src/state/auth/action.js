@@ -8,19 +8,13 @@ const actions = {
   ADD_EMAIL: 'ADD_EMAIL',
   VERIFY_EMAIL: 'VERIFY_EMAIL',
 
-  $checkAuthenticate: (tokenInfo) => {
-    if (tokenInfo) {
-      const {
-        accessExpirationDate, accessToken, refreshToken, refreshExpirationDate,
-      } = tokenInfo;
-      cookieStorage.set('access_token', accessToken, { expires: new Date(accessExpirationDate), path: '/' });
-      cookieStorage.set('refresh_token', refreshToken, { expires: new Date(refreshExpirationDate), path: '/' });
-    }
+  CHECK_ADMIN_RIGHTS: 'CHECK_ADMIN_RIGHTS',
+  SHOW_WELCOME_PAGE: 'SHOW_WELCOME_PAGE',
 
-    return ({
-      type: actions.CHECK_AUTHENTICATE,
-    });
-  },
+  $checkAuthenticate: isAuth => ({
+    type: actions.CHECK_AUTHENTICATE,
+    payload: isAuth,
+  }),
 
   $updateUserData: user => ({
     type: actions.UPDATE_USER_DATA,
@@ -36,6 +30,19 @@ const actions = {
     type: actions.VERIFY_EMAIL,
     payload: email,
   }),
+
+  $checkAdminRights: hasAdminRights => ({
+    type: actions.CHECK_ADMIN_RIGHTS,
+    payload: hasAdminRights,
+  }),
+
+  $setShowPropWelcomePage: (showWelcomePage, isWelcomePageWasShown = false) => {
+    cookieStorage.set('isWelcomePageWasShown', isWelcomePageWasShown);
+    return ({
+      type: actions.SHOW_WELCOME_PAGE,
+      payload: JSON.parse(showWelcomePage),
+    });
+  },
 
   $signOut: () => async (dispatch) => {
     cookieStorage.remove('access_token');

@@ -2,41 +2,105 @@
 
 .header {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 34px;
   width: 100%;
   height: 56px;
   box-shadow: $shadow-bottom;
-  padding: 0 48px;
   z-index: 2;
-  position: relative;
+  position: sticky;
+  top: 0;
+  background-color: $white;
+
+  &__leftSection {
+    display: flex;
+    align-items: center;
+  }
+
+  &__rightSection {
+    display: flex;
+  }
 
   &__content-box {
-    height: 100%;
-    border-left: 1px solid $border-gray;
-    padding: 13px 15px;
+    padding: 0 15px;
     display: flex;
     flex-direction: row;
-    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+
+    &--profileSection {
+      cursor: pointer;
+      border-right: 1px solid $border-gray;
+    }
+
+    &--helpSection {
+      cursor: pointer;
+
+      & > .text {
+        color: #758498;
+        font-family: $Roboto;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        font-variant: small-caps;
+        padding-left: 16px;
+      }
+    }
 
     &-avatar.ant-avatar-circle {
       background-color: $coupler-light-blue;
       color: $coupler-blue;
     }
 
+    &-price {
+      padding: 0 24px;
+      display: flex;
+      color: $middle-gray;
+      font-family: $Roboto;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      text-transform: lowercase;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+
+
+      &-day {
+        padding-right: 24px;
+
+        & > div:first-child {
+          color: $font-title-black;
+        }
+      }
+
+      &-number {
+        position: relative;
+        text-align: right;
+
+        & > div:first-child {
+          color: #30373E;
+          font-weight: 500;
+        }
+      }
+    }
+
     &-naming {
-      padding: 0 24px 0 16px;
+      padding: 0 16px;
 
       & h1 {
-        font-family: $sans;
-        font-size: 14px;
-        color: $gray;
-        letter-spacing: 0.01em;
-        line-height: 16px;
+        font-family: $Roboto;
+        color: #758498;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        font-variant: small-caps;
+        line-height: 30px;
+        margin: 0;
       }
 
       & p {
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 10px;
         color: $gray;
         letter-spacing: 0.02em;
@@ -47,12 +111,23 @@
         line-height: 30px;
       }
     }
+
+    &-more {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      background-color: #F8F8F8;
+      border-radius: 25px;
+      cursor: pointer;
+    }
   }
 
   & #menu {
     & .header__menu {
       &-item {
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 12px;
         line-height: 24px;
         font-feature-settings: 'pnum' on, 'lnum' on;

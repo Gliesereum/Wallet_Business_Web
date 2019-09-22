@@ -1,38 +1,75 @@
 @import '../../styles/theme.scss';
 
 .clientInfo {
-  flex: 1;
-
-  &__header {
-    padding: 0 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 72px;
-    background: indianred; // TODO: change to coupler colors
-
-    &-title {
-      color: $white;
-      font-family: $sans;
-      font-size: 18px;
-      line-height: 24px;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
-    }
-  }
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 
   &__infoWrapper {
     display: flex;
-    flex-direction: row;
-    height: 100%;
+    flex: 1 1 auto;
   }
 
   &__ordersInfo {
-    padding: 0 32px 0;
+    padding: 0 32px 40px;
     flex: 1;
 
+    &-recordsTable {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+
+      &-columnHeaderText {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      & .ant-table {
+        &-body {
+          min-height: 336px;
+        }
+
+        &-thead {
+          & > tr {
+            height: 48px;
+            font-size: 12px;
+            line-height: 24px;
+
+            & > th {
+              padding: 0 16px;
+            }
+
+            & > th .ant-table-header-column {
+              width: 100%;
+            }
+          }
+        }
+
+        &-tbody {
+          & > tr {
+            height: 48px;
+
+            & > td {
+              padding: 0 16px;
+            }
+
+            &.ant-table-expanded-row > td {
+              padding: 0;
+            }
+          }
+        }
+      }
+
+      &--isEmpty {
+        & .ant-table-body {
+          min-height: unset;
+        }
+      }
+    }
+
     &-controlBtns {
-      margin-top: 16px;
+      margin-top: 40px;
 
       &-btn {
         width: 100%;
@@ -43,8 +80,7 @@
   &__clientInfo {
     width: 312px;
     border-left: 1px solid #DEE9F4;
-    padding: 16px 0;
-    margin-bottom: 32px;
+    padding-top: 16px;
 
     &-avatar {
       display: block;
@@ -59,7 +95,7 @@
         margin-bottom: 8px;
 
         & .title {
-          font-family: $sans;
+          font-family: $Roboto;
           font-size: 10px;
           line-height: 16px;
           color: $coupler-blue;
@@ -68,7 +104,7 @@
         }
 
         & .data {
-          font-family: $sans;
+          font-family: $Roboto;
           font-size: 14px;
           line-height: 16px;
           color: $font-title-black;
@@ -86,6 +122,45 @@
     &-privateInfo {
       padding: 0 32px;
       border-top: 1px solid #DEE9F4;
+    }
+  }
+
+  &__expandTable {
+    padding: 24px 18px;
+
+    &-infoBox {
+      border-bottom: 1px solid #DEE9F4;
+      margin-bottom: 9px;
+
+      & .title {
+        font-family: $Roboto;
+        font-size: 10px;
+        line-height: 12px;
+        color: #1078E1;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+      }
+
+      & .data {
+        font-family: $Roboto;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        color: $font-title-black;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'pnum' on, 'lnum' on;
+        padding: 6px 0 12px;
+      }
+
+      & .listMode {
+        padding: 6px 16px 12px;
+        margin: 0;
+
+        & > li {
+          padding-bottom: 6px;
+        }
+      }
     }
   }
 }

@@ -7,18 +7,16 @@ import {
   Form,
   Input,
   Select,
-  Radio,
   Checkbox,
+  notification,
 } from 'antd';
 
-import ProneInput from '../../ProneInput';
+import PhoneInput from '../../PhoneInput';
 import FromToInput from '../../FromToInput';
-import { genders } from '../../../mocks';
 
 const b = bem('workerForm');
 const { Item: FormItem } = Form;
 const { Option } = Select;
-const { Group: RadioGroup } = Radio;
 
 class WorkerForm extends PureComponent {
   getInitialBusinessValue = () => {
@@ -55,18 +53,21 @@ class WorkerForm extends PureComponent {
     form.resetFields('workingSpaceId');
   };
 
-  renderRadios = () => {
-    const radios = [];
-    for (const key in genders) {
-      const radio = <Radio key={key} value={key}>{genders[key]}</Radio>;
-      radios.push(radio);
-    }
-    return radios;
-  };
-
   checkHours = (rule, value, callback) => {
-    if (value.from <= 0) callback('Время начала работы должно быть больше 0');
-    if (value.to <= 0) callback('Время конца работы должно быть больше 0');
+    let errText = null;
+    if (value.from <= 0) errText = 'Время начала работы должно быть больше 0';
+    if (value.to <= 0) errText = 'Время конца работы должно быть больше 0';
+
+    if (errText) {
+      notification.error({
+        duration: 5,
+        message: errText || 'Ошибка расписания',
+        description: 'Ошибка',
+      });
+      callback(true);
+      return undefined;
+    }
+
     callback();
     return undefined;
   };
@@ -82,6 +83,9 @@ class WorkerForm extends PureComponent {
       dayTranslate,
       readOnlyMode,
       isAddMode,
+      isAdmin,
+      defaultLanguage,
+      phrases,
     } = this.props;
 
     return (
@@ -103,25 +107,6 @@ class WorkerForm extends PureComponent {
                   {
                     form.getFieldDecorator('lastName', {
                       initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.lastName : '',
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                      ],
-                    })(
-                      <Input
-                        placeholder="Ввод..."
-                        readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)}
-                      />
-                    )
-                  }
-                </FormItem>
-                <FormItem
-                  className={b('col-inputFormItem')}
-                  label="Имя"
-                >
-                  {
-                    form.getFieldDecorator('firstName', {
-                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.firstName : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                         { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
@@ -164,10 +149,29 @@ class WorkerForm extends PureComponent {
                         : '',
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
-                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Не верный номер телефона' },
+                        { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
                       ],
                     })(
-                      <ProneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
+                      <PhoneInput readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)} />
+                    )
+                  }
+                </FormItem>
+                <FormItem
+                  className={b('col-inputFormItem')}
+                  label="Должность"
+                >
+                  {
+                    form.getFieldDecorator('position', {
+                      initialValue: (chosenWorker && chosenWorker.position) ? chosenWorker.position : '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="Ввод..."
+                        readOnly={readOnlyMode}
+                      />
                     )
                   }
                 </FormItem>
@@ -175,11 +179,32 @@ class WorkerForm extends PureComponent {
               <Col lg={12}>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Компания в которой работает сотрудник"
+                  label="Имя"
+                >
+                  {
+                    form.getFieldDecorator('firstName', {
+                      initialValue: (chosenWorker && chosenWorker.user) ? chosenWorker.user.firstName : '',
+                      rules: [
+                        { required: true, message: 'Поле обязательное для заполнения' },
+                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                      ],
+                    })(
+                      <Input
+                        placeholder="Ввод..."
+                        readOnly={!isAddMode || (isAddMode && chosenWorker && chosenWorker.user)}
+                      />
+                    )
+                  }
+                </FormItem>
+                <FormItem
+                  style={{ display: 'none' }}
+                  className={b('col-inputFormItem')}
+                  label="Компания"
                 >
                   {
                     form.getFieldDecorator('corporationId', {
-                      initialValue: chosenWorker ? chosenWorker.corporationId : undefined,
+                      initialValue: (chosenWorker && chosenWorker.corporationId)
+                        || (corporations && corporations.length) ? corporations[0].id : undefined,
                       rules: [
                         { required: true, message: 'Поле обязательное для заполнения' },
                       ],
@@ -205,7 +230,7 @@ class WorkerForm extends PureComponent {
                 </FormItem>
                 <FormItem
                   className={b('col-inputFormItem')}
-                  label="Бизнесс в которой работает сотрудник"
+                  label="Филиал компании"
                 >
                   {
                     form.getFieldDecorator('businessId', {
@@ -259,43 +284,29 @@ class WorkerForm extends PureComponent {
                     )
                   }
                 </FormItem>
-                <FormItem
-                  className={b('col-inputFormItem')}
-                  label="Должность"
-                >
-                  {
-                    form.getFieldDecorator('position', {
-                      initialValue: (chosenWorker && chosenWorker.position) ? chosenWorker.position : '',
-                      rules: [
-                        { required: true, message: 'Поле обязательное для заполнения' },
-                        { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                      ],
-                    })(
-                      <Input
-                        placeholder="Ввод..."
-                        readOnly={readOnlyMode}
-                      />
-                    )
-                  }
-                </FormItem>
               </Col>
             </Row>
             <Row>
               <Col lg={24}>
-                <FormItem
-                  className={b('formItem')}
-                  label="Пол"
-                >
-                  {
-                    form.getFieldDecorator('gender', {
-                      initialValue: (chosenWorker && chosenWorker.user && chosenWorker.user.gender)
-                        ? chosenWorker.user.gender
-                        : 'UNKNOWN',
-                    })(
-                      <RadioGroup className={`${b('formItem-radioGroup')} readOnly`}>{this.renderRadios()}</RadioGroup>
-                    )
-                  }
-                </FormItem>
+                <div className={b('col-isAdminBlock')}>
+                  <FormItem
+                    className={b('col-isAdminBlock-formItem')}
+                    label="Права администратора"
+                  >
+                    {
+                      form.getFieldDecorator('isAdmin', {
+                        initialValue: isAdmin,
+                        valuePropName: 'checked',
+                      })(
+                        <Checkbox
+                          disabled={readOnlyMode}
+                        >
+                          Предоставить сотруднику права администратора в этом филиале компании
+                        </Checkbox>
+                      )
+                    }
+                  </FormItem>
+                </div>
               </Col>
             </Row>
           </Col>
@@ -326,7 +337,7 @@ class WorkerForm extends PureComponent {
                           value={isWork}
                           disabled={readOnlyMode}
                         >
-                          {dayTranslate[dayOfWeek]}
+                          {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
                         </Checkbox>
                       )
                     }
@@ -335,7 +346,7 @@ class WorkerForm extends PureComponent {
                     {
                       form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                         initialValue: { from, to },
-                        rules: [{ validator: this.checkHours }],
+                        // rules: [{ validator: this.checkHours }],
                       })(
                         <FromToInput readOnly={readOnlyMode} />
                       )

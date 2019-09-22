@@ -67,7 +67,7 @@ class BusinessServicesList extends Component {
           <Col lg={12}>
             <Button
               className={b('grid-controlBtns-btn backBtn')}
-              onClick={this.handleChangeActiveTab('mainInfo')}
+              onClick={this.handleChangeActiveTab('schedule')}
             >
               <Icon type="left" />
               Назад
@@ -104,8 +104,8 @@ class BusinessServicesList extends Component {
             this.renderServicesList(servicesList)
           ) : (
             <EmptyState
-              title="У вас нету услуг"
-              descrText="Создайте услугу, которую сможете полностью подобрать под свой бизнес и создать на базе этой услуги пакет услуг с акциями или скидками"
+              title="В этом филиале пока нет услуг"
+              descrText="Создайте услуги, чтобы их смогли заказывать ваши клиенты через Coupler и Coupler Widget. Также вы сможете формировать пакеты услуг и устанавливать скидки"
               addItemText="Создать услугу"
               addItemHandler={changeActiveService}
             />

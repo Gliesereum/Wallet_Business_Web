@@ -21,10 +21,14 @@
           padding-bottom: 0;
 
           & label {
-            font-family: $sans;
+            font-family: $Roboto;
             color: #888888;
             letter-spacing: 0.02em;
           }
+        }
+
+        & .ant-form-explain {
+          display: none;
         }
       }
     }

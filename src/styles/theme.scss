@@ -6,6 +6,7 @@ $white: #fff;
 $dirty-white: #FAFAFA;
 $black: #000;
 $coupler-blue: #1078e1;
+$coupler-input-blue: #4dbffa;
 $coupler-light-blue: #E0EBF3;
 $coupler-red: #E0000D;
 $border-gray: #f0f2f4;
@@ -24,13 +25,21 @@ $shadow-right: 4px 4px 8px rgba(0, 0, 0, 0.16);
 $shadow-left: -2px 2px 4px rgba(0, 0, 0, 0.08);
 
 // -------- Fonts -----------
-$sans: 'M PLUS Rounded 1c', sans-serif;
+$Roboto: 'Roboto', sans-serif;
+$Montserrat: 'Montserrat', sans-serif;
 
 // -------- Media Sizes -----------
-$max-desktop: 1279px;
-$max-tablet: 991px;
+$min-phone: 320px;
 $max-phone: 767px;
+$min-tablet: 768px;
+$max-tablet: 1023px;
+$min-desktop: 1024px;
+$max-desktop: 1279px;
+$min-large-desktop: 1280px;
+$max-large-desktop: 1599px;
+$min-extra-large-desktop: 1600px;
 
+$xs: 360px;
 $sm: 576px;
 $max-sm: 767px;
 $max-md: 991px;
@@ -40,4 +49,14 @@ $max-xl: 1599px;
 // -------- Image URL -----------
 $coupler_logo_beta: url('../assets/coupler_logo_beta.svg');
 $logo-single-white: url('../assets/logo-single-white.svg');
+$logo-single-white-signIn: url('../assets/logo-signIn.svg');
 $coupler_logo_mobile: url('../assets/coupler_logo_mobile.svg');
+$signIn_mcbook: url('../assets/signIn_mcbook.png');
+$signIn_mcbookXL: url('../assets/signIn_mcbookXL.png');
+$signIn_tablet: url('../assets/signIn-tablet.svg');
+$welcomePage_step1: '../assets/welcomeImage-step1.png';
+$welcomePage_step2: '../assets/welcomeImage-step2.png';
+$welcomePage_step3: '../assets/welcomeImage-step3.png';
+$welcomePage_mobile_step1: '../assets/welcomeImage-mobile-step1.png';
+$welcomePage_mobile_step2: '../assets/welcomeImage-mobile-step2.png';
+$welcomePage_mobile_step3: '../assets/welcomeImage-mobile-step3.png';

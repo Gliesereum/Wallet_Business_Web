@@ -31,7 +31,7 @@ const renderMainPart = worker => [
     lineContent: worker.user.phone,
   },
   {
-    lineTitle: 'Профайл создано:',
+    lineTitle: 'Профайл создан:',
     lineContent: worker.user.createDate || 'Неизвестно',
   },
   {
@@ -47,6 +47,8 @@ const renderMainPart = worker => [
 const WorkerInfoDrawer = ({
   visible,
   worker,
+  defaultLanguage,
+  phrases,
   onClose,
 }) => {
   const [scheduleList, setScheduleList] = useState([]);
@@ -66,7 +68,8 @@ const WorkerInfoDrawer = ({
       visible={visible}
       className={b()}
       width={448}
-      closable={false}
+      mask
+      maskClosable={false}
       onClose={onClose}
       placement="right"
       title="Профайл работника"
@@ -105,7 +108,7 @@ const WorkerInfoDrawer = ({
             key={day.dayOfWeek}
           >
             <Col lg={10}>
-              <div>{dayTranslate[day.dayOfWeek]}</div>
+              <div>{phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}</div>
             </Col>
             <Col
               lg={14}

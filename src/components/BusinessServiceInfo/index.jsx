@@ -18,11 +18,7 @@ import {
 } from '../Forms';
 
 import { asyncRequest, withToken, fetchDecorator } from '../../utils';
-import {
-  fetchGetServiceTypes,
-  fetchGetFilters,
-  fetchGetClasses,
-} from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('businessServiceInfo');
@@ -50,12 +46,13 @@ class BusinessServiceInfo extends Component {
 
     const {
       chosenService,
-      singleBusiness,
+      chosenBusiness,
       changeActiveService,
       changeTabDisable,
       isAddMode,
       addServicePrice,
       updateServicePrice,
+      filters,
     } = this.props;
     const {
       mainInfo,
@@ -72,7 +69,7 @@ class BusinessServiceInfo extends Component {
       const body = {
         ...(chosenService || {}),
         ...mainInfo,
-        businessId: singleBusiness.id,
+        businessId: chosenBusiness.id,
       };
 
       try {
@@ -94,7 +91,7 @@ class BusinessServiceInfo extends Component {
         notification.error({
           duration: 5,
           message: err.message || 'Ошибка',
-          description: 'Возникла ошибка',
+          description: 'Ошибка',
         });
       }
     }
@@ -116,32 +113,35 @@ class BusinessServiceInfo extends Component {
         notification.error({
           duration: 5,
           message: err.message || 'Ошибка',
-          description: 'Возникла ошибка',
+          description: 'Ошибка',
         });
       }
     }
 
-    additionalInfoVisible && changeActiveService(null, false)();
+    (
+      (chosenBusiness.businessCategory.businessType !== 'CAR' && filters.length < 1)
+      || additionalInfoVisible)
+    && changeActiveService(null, false)();
   };
 
   handleRemoveServicePrice = async () => {
     const {
       removeServicePrice,
       chosenService,
-      singleBusiness,
+      chosenBusiness,
       changeActiveService,
     } = this.props;
     const removeServicePriceUrl = `price/${chosenService.id}`;
     try {
       await withToken(asyncRequest)({ url: removeServicePriceUrl, method: 'DELETE', moduleUrl: 'karma' });
-      await removeServicePrice({ servicePriceId: chosenService.id, businessId: singleBusiness.id });
+      await removeServicePrice({ servicePriceId: chosenService.id, businessId: chosenBusiness.id });
 
       changeActiveService(null, false)();
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   };
@@ -155,6 +155,7 @@ class BusinessServiceInfo extends Component {
       chosenService,
       changeActiveService,
       isAddMode,
+      chosenBusiness,
     } = this.props;
 
     return (
@@ -169,30 +170,47 @@ class BusinessServiceInfo extends Component {
         {
           additionalInfoVisible ? (
             <div>
-              <h1 className={b('header')}>Дополнительная информация</h1>
-              <ServiceAdditional
-                filters={filters}
-                servicePrice={chosenService}
-                updateFormData={this.updateFormData}
-              />
-              <h1 className={b('header')}>Класс обслуживания</h1>
-              <ServiceClasses
-                classes={classes}
-                servicePrice={chosenService}
-                updateFormData={this.updateFormData}
-              />
+              {
+                (filters.length > 0) && (
+                  <>
+                    <h1 className={b('header')}>Дополнительная информация</h1>
+                    <ServiceAdditional
+                      filters={filters}
+                      servicePrice={chosenService}
+                      updateFormData={this.updateFormData}
+                    />
+                  </>
+                )
+              }
+              {
+                chosenBusiness.businessCategory.businessType === 'CAR' && (
+                  <>
+                    <h1 className={b('header')}>Класс обслуживания</h1>
+                    <ServiceClasses
+                      classes={classes}
+                      servicePrice={chosenService}
+                      updateFormData={this.updateFormData}
+                    />
+                  </>
+                )
+              }
             </div>
           ) : (
-            <div className={b('infoBlock')}>
-              <p className={b('infoBlock-text')}>
-                <span className={b('infoBlock-text', { firstParagraph: true })}>Внимание!</span>
-                <br />
-                <span>
-                  Введите и сохраните основную информацию услуги для доступа к редакции дополнительной информации
-                  Вы не можете создать пакет услуг пока не создадите услугу.
-                </span>
-              </p>
-            </div>
+            <>
+              {
+                filters.length > 0 && chosenBusiness.businessCategory.businessType === 'CAR' && (
+                  <div className={b('infoBlock')}>
+                    <p className={b('infoBlock-text')}>
+                      <span className={b('infoBlock-text', { firstParagraph: true })}>Внимание!</span>
+                      <br />
+                      <span>
+                        Введите и сохраните основную информацию услуги, чтобы получить доступ к дополнительным атрибутам.
+                      </span>
+                    </p>
+                  </div>
+                )
+              }
+            </>
           )
         }
         <Row
@@ -215,7 +233,7 @@ class BusinessServiceInfo extends Component {
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.handleRemoveServicePrice}
                 >
-                  Удалить сервис
+                  Удалить услугу
                 </Button>
               </Col>
             )
@@ -227,7 +245,9 @@ class BusinessServiceInfo extends Component {
               type="primary"
             >
               {
-                !additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'
+                (filters.length < 1 && chosenBusiness.businessCategory.businessType !== 'CAR')
+                  ? 'Сохранить'
+                  : `${!additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'}`
               }
             </Button>
           </Col>
@@ -246,7 +266,20 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(null, mapDispatchToProps),
   fetchDecorator({
-    actions: [fetchGetServiceTypes, fetchGetFilters, fetchGetClasses],
+    actions: [
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: `service/by-business-category?businessCategoryId=${chosenBusiness.businessCategoryId}`,
+        fieldName: 'serviceTypes',
+      })(),
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: `filter/by-business-category?businessCategoryId=${chosenBusiness.businessCategoryId}`,
+        fieldName: 'filters',
+      })(),
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: 'class',
+        fieldName: 'classes',
+      })(),
+    ],
     config: { loader: true },
   }),
 )(BusinessServiceInfo);

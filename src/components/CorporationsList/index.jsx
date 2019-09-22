@@ -1,68 +1,67 @@
 import React, { PureComponent } from 'react';
 import bem from 'bem-join';
 
-import { Collapse, Button, Avatar as CorpAvatar } from 'antd';
+import {
+  Select,
+  // Button,
+  Avatar as CorpAvatar,
+} from 'antd';
 
-const { Panel } = Collapse;
+const { Option } = Select;
 const b = bem('corporationsList');
 
 class CorporationsList extends PureComponent {
   state = {
-    activeKey: this.props.viewCorp ? this.props.viewCorp.id : undefined,
+    chosenCorporationId: undefined,
   };
 
-  chooseCorporationForView = (corpId) => {
-    const { chooseCorporationForView } = this.props;
+  handleChooseCorporation = (chosenCorporationId) => {
+    const { changeCorporation } = this.props;
 
-    if (!corpId || this.state.activeKey === corpId) return;
-
-    this.setState({ activeKey: corpId });
-    chooseCorporationForView(corpId);
+    changeCorporation(chosenCorporationId, false)();
+    this.setState({ chosenCorporationId });
   };
 
   render() {
-    const { corporations, changeActiveCorporation } = this.props;
+    const {
+      chosenCorporationId,
+    } = this.state;
+    const {
+      corporations,
+      isAddCorporationMode,
+      defaultLanguage,
+      phrases,
+    } = this.props;
 
     return (
       <div className={b()}>
-        <Collapse
-          activeKey={this.state.activeKey}
-          accordion
-          onChange={this.chooseCorporationForView}
+        <Select
+          className={b('selector')}
+          value={isAddCorporationMode ? undefined : chosenCorporationId}
+          placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
+          optionLabelProp="label"
+          onChange={this.handleChooseCorporation}
         >
           {
-            corporations.map(corp => (
-              <Panel
-                showArrow={false}
-                header={(
-                  <div>
-                    <CorpAvatar className={b('panel-logo')} src={corp.logoUrl} />
-                    <span>{corp.name}</span>
-                  </div>
-                )}
-                key={corp.id}
-                className={b('panel')}
+            corporations.map(corporation => (
+              <Option
+                label={corporation.name}
+                value={corporation.id}
+                key={corporation.id}
+                className={b('selector-corporation')}
               >
-                <p className={b('panel-name')}>{corp.name}</p>
-                <p className={b('panel-descr')}>{corp.description}</p>
-                <Button
-                  className={b('panel-editBtn')}
-                  onClick={changeActiveCorporation(corp, false)}
-                >
-                  Редактировать информацию
-                </Button>
-              </Panel>
+                <CorpAvatar
+                  className={b('selector-corporation-logo')}
+                  src={corporation.logoUrl}
+                />
+                <div className={b('selector-corporation-textContent')}>
+                  <div className={b('selector-corporation-name')}>{corporation.name}</div>
+                  <div className={b('selector-corporation-descr')}>{corporation.description}</div>
+                </div>
+              </Option>
             ))
           }
-        </Collapse>
-        <div className={b('addBtn')}>
-          <Button
-            type="primary"
-            onClick={changeActiveCorporation(null, true)}
-          >
-            Добавить новую компанию
-          </Button>
-        </div>
+        </Select>
       </div>
     );
   }

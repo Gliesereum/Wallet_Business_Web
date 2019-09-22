@@ -1,0 +1,45 @@
+@import '../../styles/theme',
+'../../styles/mixins';
+
+.widgetSettings {
+  @include respond-to(phone) {
+    padding: 16px 16px 32px 16px;
+  }
+
+  &__settingsBox {
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    margin-bottom: 16px;
+
+    &-controls {
+      padding: 16px 16px 24px;
+
+      &-colorBox {
+        width: 136px;
+        height: 48px;
+        padding: 10px;
+        border: 1px solid #EAEAEA;
+        cursor: pointer;
+
+        & > div {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    &-previewer {
+      padding: 24px 16px;
+      background-color: #FAFAFA;
+    }
+  }
+
+  & .label {
+    display: block;
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 8px;
+    font-feature-settings: 'pnum' on, 'lnum' on, 'liga' off, 'kern' off;
+    color: $font-title-black;
+  }
+}

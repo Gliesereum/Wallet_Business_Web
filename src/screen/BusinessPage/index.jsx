@@ -13,51 +13,48 @@ import {
   BusinessPackages,
   BusinessServices,
   BusinessWorkingSpaces,
+  ContentHeader,
 } from '../../components';
 
 import { actions } from '../../state';
 import { fetchDecorator } from '../../utils';
-import {
-  fetchGetPriceServices,
-  fetchGetBusinessPackages,
-  fetchGetWorkingSpaces,
-} from '../../fetches';
+import { fetchAction } from '../../fetches';
 
-const b = bem('business');
+const b = bem('businessPage');
 
 class BusinessPage extends Component {
   state = {
     disabledTab: {
-      servicesDisable: null,
-      packagesDisable: null,
+      servicesDisable: true,
+      packagesDisable: true,
+      workingSpaceDisable: true,
     },
   };
 
   componentDidMount() {
-    const { location, servicePrices, singleBusiness } = this.props;
-    const initialTabDisabled = Boolean(
-      location.pathname.match('/add')
-      && !(
-        location.search
-      && qs.parse(location.search, { ignoreQueryPrefix: true })
-        .newBusiness)
-    );
+    const {
+      chosenBusiness,
+      match,
+      changeChosenBusiness,
+    } = this.props;
 
-    this.setState({
-      disabledTab: {
-        servicesDisable: initialTabDisabled,
-        packagesDisable: !singleBusiness || (singleBusiness && servicePrices && !servicePrices[singleBusiness.id]),
-      },
-    });
+    if (!chosenBusiness && match.params && match.params.id) {
+      changeChosenBusiness(match.params.id);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.changeChosenBusiness(null);
   }
 
   changeActiveTab = (activeTab, id) => {
-    const { history, location } = this.props;
-    const { newBusiness } = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    const { history, location, changeChosenBusiness } = this.props;
+
+    id && changeChosenBusiness(id);
 
     history.replace({
       location: location.pathname,
-      search: qs.stringify({ activeTab, newBusiness: newBusiness || id }),
+      search: qs.stringify({ activeTab }),
     });
   };
 
@@ -70,7 +67,7 @@ class BusinessPage extends Component {
 
   render() {
     const {
-      singleBusiness,
+      chosenBusiness,
       location,
       businessCategories,
       businessTypes,
@@ -78,6 +75,8 @@ class BusinessPage extends Component {
       servicePrices,
       businessPackages,
       workingSpaces,
+      defaultLanguage,
+      phrases,
     } = this.props;
 
     const { disabledTab } = this.state;
@@ -86,7 +85,7 @@ class BusinessPage extends Component {
 
     const businessTabs = [
       {
-        tabName: 'Основная информация',
+        tabName: phrases['core.button.mainInfo'][defaultLanguage.isoKey],
         keyName: 'mainInfo',
         ContentComponent: BusinessMainInfo,
         props: {
@@ -99,9 +98,17 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Услуги',
+        tabName: phrases['core.button.schedule'][defaultLanguage.isoKey],
+        keyName: 'schedule',
+        ContentComponent: BusinessScheduleInfo,
+        props: {
+          changeActiveTab: this.changeActiveTab,
+        },
+      },
+      {
+        tabName: phrases['core.button.services'][defaultLanguage.isoKey],
         keyName: 'services',
-        disabled: disabledTab.servicesDisable,
+        disabled: disabledTab.servicesDisable && !chosenBusiness,
         ContentComponent: BusinessServices,
         props: {
           servicePrices,
@@ -109,9 +116,9 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Пакет Услуг',
+        tabName: phrases['core.button.package'][defaultLanguage.isoKey],
         keyName: 'packages',
-        disabled: disabledTab.packagesDisable,
+        disabled: disabledTab.packagesDisable && !(chosenBusiness && servicePrices && servicePrices[chosenBusiness.id]),
         ContentComponent: BusinessPackages,
         props: {
           packages: businessPackages,
@@ -119,17 +126,9 @@ class BusinessPage extends Component {
         },
       },
       {
-        tabName: 'Рассписание',
-        keyName: 'schedule',
-        ContentComponent: BusinessScheduleInfo,
-        props: {
-          changeActiveTab: this.changeActiveTab,
-          packagesDisable: disabledTab.packagesDisable,
-        },
-      },
-      {
-        tabName: 'Рабочие места',
+        tabName: phrases['core.button.workingSpaces'][defaultLanguage.isoKey],
         keyName: 'workingSpace',
+        disabled: disabledTab.workingSpaceDisable && !chosenBusiness,
         ContentComponent: BusinessWorkingSpaces,
         props: {
           workingSpaces,
@@ -139,11 +138,14 @@ class BusinessPage extends Component {
 
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <p className={b('header-title')}>
-            {isAddBusinessMode ? 'Добавить бизнес' : `Редактировать \u00AB${singleBusiness.name}\u00BB`}
-          </p>
-        </div>
+        <ContentHeader
+          title={
+            isAddBusinessMode
+              ? phrases['company.page.business.createNewBranch'][defaultLanguage.isoKey]
+              : `${phrases['core.button.edit'][defaultLanguage.isoKey]} \u00AB${chosenBusiness && chosenBusiness.name}\u00BB`
+          }
+          titleCentered
+        />
         <Tabs
           className={b('tabsContainer')}
           activeKey={activeTab || 'mainInfo'}
@@ -164,9 +166,11 @@ class BusinessPage extends Component {
                 disabled={disabled}
               >
                 <ContentComponent
-                  singleBusiness={singleBusiness}
+                  chosenBusiness={chosenBusiness}
                   isAddBusinessMode={isAddBusinessMode}
                   changeActiveTab={this.changeActiveTab}
+                  defaultLanguage={defaultLanguage}
+                  phrases={phrases}
                   {...props}
                 />
               </Tabs.TabPane>
@@ -178,35 +182,60 @@ class BusinessPage extends Component {
   }
 }
 
-const mapStateToProps = (state, { match, location }) => {
-  const [singleBusiness] = state.business.business.filter((item) => {
-    if (match.params && match.params.id) {
-      return item.id === match.params.id;
-    }
-    const { newBusiness: newBusinessId } = qs.parse(location.search, { ignoreQueryPrefix: true });
-    return item.id === newBusinessId;
-  });
-  return {
-    businessPackages: state.business.businessPackages,
-    corporations: state.corporations.corporations,
-    businessCategories: state.business.businessCategories,
-    businessTypes: state.business.businessTypes,
-    servicePrices: state.business.servicePrices,
-    workingSpaces: state.business.workingSpaces,
-    singleBusiness,
-  };
-};
+const mapStateToProps = state => ({
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
+  businessPackages: state.business.businessPackages,
+  corporations: state.corporations.corporations,
+  business: state.business.business,
+  servicePrices: state.business.servicePrices,
+  workingSpaces: state.business.workingSpaces,
+  chosenBusiness: state.business.chosenBusiness,
+});
 
 const mapDispatchToProps = dispatch => ({
   getPriceService: data => dispatch(actions.business.$getPriceService(data)),
   getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
   getWorkingSpaces: data => dispatch(actions.business.$getWorkingSpaces(data)),
+  changeChosenBusiness: businessId => dispatch(actions.business.$changeChosenBusiness(businessId)),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   fetchDecorator({
-    actions: [fetchGetPriceServices, fetchGetBusinessPackages, fetchGetWorkingSpaces],
+    actions: [
+      fetchAction({
+        url: 'business-category/business-type',
+        fieldName: 'businessTypes',
+      }),
+      ({ chosenBusiness, getPriceService, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
+        fetchAction({
+          url: `price/by-business/${id}`,
+          fieldName: 'servicePrices',
+          reduxAction: getPriceService,
+        })();
+      },
+      ({ chosenBusiness, getBusinessPackages, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
+        fetchAction({
+          url: `package/by-business/${id}`,
+          fieldName: 'businessPackages',
+          reduxAction: getBusinessPackages,
+        })();
+      },
+      ({ chosenBusiness, getWorkingSpaces, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
+        fetchAction({
+          url: `working-space/${id}`,
+          fieldName: 'workingSpaces',
+          reduxAction: getWorkingSpaces,
+        })();
+      },
+    ],
     config: { loader: true },
   }),
   withRouter

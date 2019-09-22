@@ -7,12 +7,12 @@ import {
   Input,
   Form,
   Select,
-  Upload,
 } from 'antd';
 
-import { AddIcon } from '../../../assets/iconComponents';
+import AvatarAndCoverUploader from '../../AvatarAndCoverUploader';
 
-const { Dragger: UploadDragger } = Upload;
+import { checkInputHandler } from '../../../utils';
+
 const b = bem('corporationForm');
 
 class CorporationForm extends PureComponent {
@@ -21,9 +21,10 @@ class CorporationForm extends PureComponent {
       form,
       chosenCorporation,
       readOnlyMode,
-      corporationLogoUrl,
-      isError,
-      uploadCorporationImage,
+      defaultLanguage,
+      phrases,
+      onLoadCover,
+      onLoadLogo,
     } = this.props;
 
     return (
@@ -31,9 +32,9 @@ class CorporationForm extends PureComponent {
         className={b()}
         colon={false}
       >
-        <Row gutter={31}>
-          <Col lg={12}>
-            <Form.Item label="Название компании">
+        <Row gutter={32}>
+          <Col lg={8}>
+            <Form.Item label={phrases['company.pageCreate.form.inputNameCompany.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('name', {
                 initialValue: chosenCorporation ? chosenCorporation.name : '',
                 rules: [
@@ -42,7 +43,42 @@ class CorporationForm extends PureComponent {
                 ],
               })(<Input placeholder="ТОВ “Автомийки карваш”" readOnly={readOnlyMode} />)}
             </Form.Item>
-            <Form.Item label="Страна">
+            <Form.Item label={phrases['core.form.inputPhone.label'][defaultLanguage.isoKey]}>
+              {form.getFieldDecorator('phone', {
+                initialValue: chosenCorporation ? chosenCorporation.phone : '',
+                getValueFromEvent: checkInputHandler('phone', form),
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                  { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                  { pattern: new RegExp(/^[\d ]{12}$/), message: 'Номер введен неверно. Повторите попытку' },
+                ],
+              })(<Input placeholder="380 99 888 88 88" readOnly={readOnlyMode} />)}
+            </Form.Item>
+            <Form.Item label={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]}>
+              {form.getFieldDecorator('description', {
+                initialValue: chosenCorporation ? chosenCorporation.description : '',
+                rules: [
+                  { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
+                ],
+              })(<Input placeholder="Текст..." readOnly={readOnlyMode} />)}
+            </Form.Item>
+          </Col>
+          <Col lg={16}>
+            <AvatarAndCoverUploader
+              cover={chosenCorporation ? chosenCorporation.coverUrl : null}
+              logo={chosenCorporation ? chosenCorporation.logoUrl : null}
+              onLoadCover={onLoadCover}
+              onLoadLogo={onLoadLogo}
+              withCoverUploader
+              maxSize={2}
+              readOnlyMode={readOnlyMode}
+            />
+          </Col>
+        </Row>
+
+        <Row gutter={32}>
+          <Col lg={8}>
+            <Form.Item label={phrases['company.pageCreate.form.inputCountry.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('country', {
                 initialValue: chosenCorporation ? chosenCorporation.country : undefined,
                 rules: [
@@ -59,65 +95,8 @@ class CorporationForm extends PureComponent {
               )}
             </Form.Item>
           </Col>
-          <Col lg={12}>
-            <UploadDragger
-              disabled={readOnlyMode}
-              className={b('uploader')}
-              name="file"
-              listType="picture-card"
-              showUploadList={false}
-              customRequest={uploadCorporationImage}
-            >
-              <div className={b('uploader-container')}>
-                {
-                  corporationLogoUrl && (
-                    <img
-                      className={b('uploader-image')}
-                      src={corporationLogoUrl}
-                      alt="uploaded_image"
-                    />
-                  )
-                }
-                {
-                  !readOnlyMode && (
-                    <div className={b('uploader-inside')}>
-                      <AddIcon
-                        className={b('uploader-inside-icon', { errorView: isError })}
-                        size={{
-                          x: isError ? 32 : 48,
-                          y: isError ? 32 : 48,
-                        }}
-                      />
-                      <h1 className={b('uploader-inside-header')}>добавить изображение</h1>
-                      {
-                        isError && (
-                          <p className={b('uploader-inside-error')}>
-                            Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG
-                          </p>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-            </UploadDragger>
-          </Col>
-        </Row>
-        <Row gutter={31}>
-          <Col lg={12}>
-            <Form.Item label="Телефонный номер">
-              {form.getFieldDecorator('phone', {
-                initialValue: chosenCorporation ? chosenCorporation.phone : '',
-                rules: [
-                  { required: true, message: 'Поле обязательное для заполнения' },
-                  { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                  { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Не верный номер телефона' },
-                ],
-              })(<Input placeholder="+380 99 888 88 88" readOnly={readOnlyMode} />)}
-            </Form.Item>
-          </Col>
-          <Col lg={12}>
-            <Form.Item label="Город">
+          <Col lg={8}>
+            <Form.Item label={phrases['company.pageCreate.form.inputCity.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('city', {
                 initialValue: chosenCorporation ? chosenCorporation.city : '',
                 rules: [
@@ -127,20 +106,8 @@ class CorporationForm extends PureComponent {
               })(<Input placeholder="Название города..." readOnly={readOnlyMode} />)}
             </Form.Item>
           </Col>
-        </Row>
-        <Row gutter={31}>
-          <Col lg={12}>
-            <Form.Item label="Описание">
-              {form.getFieldDecorator('description', {
-                initialValue: chosenCorporation ? chosenCorporation.description : '',
-                rules: [
-                  { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
-                ],
-              })(<Input placeholder="Текст..." readOnly={readOnlyMode} />)}
-            </Form.Item>
-          </Col>
-          <Col lg={8}>
-            <Form.Item label="Улица">
+          <Col lg={5}>
+            <Form.Item label={phrases['company.pageCreate.form.inputStreet.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('street', {
                 initialValue: chosenCorporation ? chosenCorporation.street : '',
                 rules: [
@@ -150,8 +117,8 @@ class CorporationForm extends PureComponent {
               })(<Input placeholder="Название улицы..." readOnly={readOnlyMode} />)}
             </Form.Item>
           </Col>
-          <Col lg={4}>
-            <Form.Item label="Дом">
+          <Col lg={3}>
+            <Form.Item label={phrases['company.pageCreate.form.inputHome.label'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('buildingNumber', {
                 initialValue: chosenCorporation ? chosenCorporation.buildingNumber : '',
                 rules: [

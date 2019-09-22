@@ -1,6 +1,11 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Coupler Web",
+  "short_name": "Coupler",
+  "description": "Coupler Web Application",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "# 1890ff",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,8 +13,5 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
   "background_color": "#ffffff"
 }

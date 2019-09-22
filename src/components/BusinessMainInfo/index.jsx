@@ -14,81 +14,78 @@ import {
 
 import { BusinessMainInfoForm } from '../Forms';
 import DeleteModal from '../DeleteModal';
-import { defaultGeoPosition } from '../Map/mapConfig';
 
 import {
   asyncRequest,
-  asyncUploadFile,
   withToken,
 } from '../../utils';
+import { fetchAction } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('businessMainInfo');
 
 class BusinessMainInfo extends Component {
   state = {
+    businessCategories: [],
     deleteModalVisible: false,
-    currentLocation: defaultGeoPosition,
-    businessLogoUrl: this.props.singleBusiness ? this.props.singleBusiness.logoUrl : null,
-    isError: false,
+    currentLocation: null,
+    uploadedCoverUrl: null,
+    uploadedLogoUrl: null,
   };
 
-  uploadBusinessImage = async (info) => {
-    if ((info.file.size / 1024 / 1024) > 2) {
-      this.setState({ isError: true });
-      return;
-    }
-    const url = 'upload';
-    const body = new FormData();
-    await body.append('file', info.file);
-    await body.append('open', true);
-    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
+  onLoadCover = uploadedCoverUrl => this.setState({ uploadedCoverUrl });
 
-    this.setState({ businessLogoUrl: imageUrl, isError: false });
-  };
+  onLoadLogo = uploadedLogoUrl => this.setState({ uploadedLogoUrl });
 
   handleSubmit = async () => {
     const {
       updateBusiness,
       isAddBusinessMode,
       addNewBusiness,
-      singleBusiness,
+      chosenBusiness,
       changeActiveTab,
       changeTabDisable,
     } = this.props;
-    const { currentLocation, timeZone, businessLogoUrl } = this.state;
+    const {
+      currentLocation,
+      timeZone,
+      uploadedCoverUrl,
+      uploadedLogoUrl,
+    } = this.state;
 
     this.mainInfoForm.props.form.validateFields(async (error, values) => {
       if (!error) {
         const businessUrl = 'business';
-        const method = isAddBusinessMode && !singleBusiness ? 'POST' : 'PUT';
+        const method = isAddBusinessMode && !chosenBusiness ? 'POST' : 'PUT';
         const moduleUrl = 'karma';
 
         const body = {
-          ...singleBusiness,
+          ...chosenBusiness,
           ...values,
-          logoUrl: businessLogoUrl,
-          latitude: currentLocation ? currentLocation.lat : singleBusiness.latitude,
-          longitude: currentLocation ? currentLocation.lng : singleBusiness.longitude,
-          timeZone: timeZone || ((singleBusiness && singleBusiness.timeZone) ? singleBusiness.timeZone : 0),
+          coverUrl: uploadedCoverUrl || (chosenBusiness ? chosenBusiness.coverUrl : null),
+          logoUrl: uploadedLogoUrl || (chosenBusiness ? chosenBusiness.logoUrl : null),
+          latitude: currentLocation ? currentLocation.lat : chosenBusiness.latitude,
+          longitude: currentLocation ? currentLocation.lng : chosenBusiness.longitude,
+          timeZone: timeZone || ((chosenBusiness && chosenBusiness.timeZone) ? chosenBusiness.timeZone : 0),
         };
 
         try {
           const newBusiness = await withToken(asyncRequest)({
             url: businessUrl, method, moduleUrl, body,
           });
-          if (isAddBusinessMode && !singleBusiness) {
+          if (isAddBusinessMode && !chosenBusiness) {
             await addNewBusiness(newBusiness);
             changeTabDisable('services');
+            changeTabDisable('workingSpace');
           } else {
             await updateBusiness(newBusiness);
           }
-          changeActiveTab('services', newBusiness.id);
+          changeActiveTab('schedule', newBusiness.id);
         } catch (err) {
           notification.error({
             duration: 5,
             message: err.message || 'Ошибка',
-            description: 'Возникла ошибка',
+            description: 'Ошибка',
           });
         }
       }
@@ -96,18 +93,18 @@ class BusinessMainInfo extends Component {
   };
 
   handleRemoveBusiness = async () => {
-    const { removeBusiness, singleBusiness, history } = this.props;
-    const removeBusinessUrl = `business/${singleBusiness.id}`;
+    const { removeBusiness, chosenBusiness, history } = this.props;
+    const removeBusinessUrl = `business/${chosenBusiness.id}`;
 
     try {
       await withToken(asyncRequest)({ url: removeBusinessUrl, method: 'DELETE', moduleUrl: 'karma' });
       history.replace('/corporations');
-      await removeBusiness(singleBusiness.id);
+      await removeBusiness(chosenBusiness.id);
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   };
@@ -120,6 +117,15 @@ class BusinessMainInfo extends Component {
 
   changeCurrentTimeZone = timeZone => this.setState({ timeZone });
 
+  handleChangeBusinessType = async (businessType) => {
+    const { data } = await fetchAction({
+      url: `business-category/by-business-type?businessType=${businessType}`,
+      fieldName: 'businessCategories',
+    })();
+    const businessCategories = data.filter(category => category.active);
+    this.setState({ businessCategories });
+  };
+
   toggleDeleteModal = () => {
     this.setState(prevState => ({
       deleteModalVisible: !prevState.deleteModalVisible,
@@ -130,15 +136,15 @@ class BusinessMainInfo extends Component {
     const {
       isAddBusinessMode,
       corporations,
-      businessCategories,
       businessTypes,
       chosenCorpId,
-      singleBusiness,
+      chosenBusiness,
+      defaultLanguage,
+      phrases,
     } = this.props;
     const {
+      businessCategories,
       deleteModalVisible,
-      businessLogoUrl,
-      isError,
     } = this.state;
 
     return (
@@ -150,12 +156,14 @@ class BusinessMainInfo extends Component {
           businessCategories={businessCategories}
           businessTypes={businessTypes}
           chosenCorpId={chosenCorpId}
-          singleBusiness={singleBusiness}
-          isError={isError}
-          uploadBusinessImage={this.uploadBusinessImage}
-          businessLogoUrl={businessLogoUrl}
+          chosenBusiness={chosenBusiness}
+          changeBusinessType={this.handleChangeBusinessType}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}
+          onLoadCover={this.onLoadCover}
+          onLoadLogo={this.onLoadLogo}
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
         />
 
         <Row
@@ -166,7 +174,7 @@ class BusinessMainInfo extends Component {
             <Button className={b('controlBtns-btn backBtn')}>
               <Link to="/corporations">
                 <Icon type="left" />
-                Назад к списку
+                {phrases['core.button.goToList'][defaultLanguage.isoKey]}
               </Link>
             </Button>
           </Col>
@@ -177,7 +185,7 @@ class BusinessMainInfo extends Component {
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.toggleDeleteModal}
                 >
-                  Удалить бизнес
+                  {phrases['businessPage.mainInfo.deleteBranch'][defaultLanguage.isoKey]}
                 </Button>
               </Col>
             )
@@ -188,7 +196,11 @@ class BusinessMainInfo extends Component {
               onClick={this.handleSubmit}
               type="primary"
             >
-              {isAddBusinessMode ? 'Сохранить' : 'Далее'}
+              {
+                isAddBusinessMode
+                  ? phrases['core.button.save'][defaultLanguage.isoKey]
+                  : phrases['core.button.goForward'][defaultLanguage.isoKey]
+              }
             </Button>
           </Col>
         </Row>
@@ -201,7 +213,7 @@ class BusinessMainInfo extends Component {
               cancelText="Отменить"
               onOk={this.handleRemoveBusiness}
               onCancel={this.toggleDeleteModal}
-              deletedName={singleBusiness.name}
+              deletedName={chosenBusiness.name}
               deletedItem="бизнес"
             />
           )

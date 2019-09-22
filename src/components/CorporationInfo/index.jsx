@@ -5,27 +5,35 @@ import bem from 'bem-join/dist/index';
 import {
   Row,
   Col,
-  Icon,
-  Avatar as CorpAvatar,
-  notification, Button,
-} from 'antd/lib/index';
+  notification,
+  Button,
+} from 'antd';
 
-import EmptyState from '../EmptyState';
 import DeleteModal from '../DeleteModal';
 import { CorporationForm } from '../Forms';
 
-import { asyncRequest, asyncUploadFile, withToken } from '../../utils';
+import { asyncRequest, withToken } from '../../utils';
 import { actions } from '../../state';
 
-const b = bem('corporation');
+const b = bem('corporationInfo');
 
 class CorporationInfo extends Component {
   state = {
-    readOnlyMode: !this.props.isAddMode,
+    readOnlyMode: !this.props.isAddCorporationMode,
     deleteModalVisible: false,
-    corporationLogoUrl: this.props.chosenCorporation ? this.props.chosenCorporation.logoUrl : null,
-    isError: false,
+    uploadedCoverUrl: null,
+    uploadedLogoUrl: null,
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAddCorporationMode !== this.props.isAddCorporationMode) {
+      this.setState({ readOnlyMode: !nextProps.isAddCorporationMode });
+    }
+  }
+
+  onLoadCover = uploadedCoverUrl => this.setState({ uploadedCoverUrl });
+
+  onLoadLogo = uploadedLogoUrl => this.setState({ uploadedLogoUrl });
 
   toggleDeleteModal = () => {
     this.setState(prevState => ({
@@ -35,19 +43,15 @@ class CorporationInfo extends Component {
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
+  resetFields = () => {
+    this.corporationForm.props.form.resetFields();
+  };
 
-  uploadCorporationImage = async (info) => {
-    if ((info.file.size / 1024 / 1024) > 2) {
-      this.setState({ isError: true });
-      return;
-    }
-    const url = 'upload';
-    const body = new FormData();
-    await body.append('file', info.file);
-    await body.append('open', true);
-    const { url: imageUrl } = await withToken(asyncUploadFile)({ url, body });
+  handleCancel = () => {
+    const { chosenCorporation } = this.props;
 
-    this.setState({ corporationLogoUrl: imageUrl, isError: false });
+    if (chosenCorporation) this.handleToggleReadOnlyMode(true)();
+    this.resetFields();
   };
 
   handleUpdateCorporation = async () => {
@@ -57,26 +61,29 @@ class CorporationInfo extends Component {
           chosenCorporation,
           updateCorporation,
           addCorporation,
-          isAddMode,
-          changeActiveCorporation,
+          isAddCorporationMode,
         } = this.props;
+        const {
+          uploadedCoverUrl,
+          uploadedLogoUrl,
+        } = this.state;
 
         const url = 'corporation';
         const body = {
           ...chosenCorporation,
           ...values,
-          logoUrl: this.state.corporationLogoUrl,
+          coverUrl: uploadedCoverUrl || (chosenCorporation ? chosenCorporation.coverUrl : null),
+          logoUrl: uploadedLogoUrl || (chosenCorporation ? chosenCorporation.logoUrl : null),
         };
-        const method = isAddMode ? 'POST' : 'PUT';
+        const method = isAddCorporationMode ? 'POST' : 'PUT';
         try {
           const corporation = await withToken(asyncRequest)({ url, method, body });
-          await isAddMode ? await addCorporation(corporation) : updateCorporation(corporation);
-          changeActiveCorporation(null, false)();
+          await isAddCorporationMode ? await addCorporation(corporation) : updateCorporation(corporation);
         } catch (err) {
           notification.error({
             duration: 5,
             message: err.message || 'Ошибка',
-            description: 'Возникла ошибка',
+            description: 'Ошибка',
           });
         }
       }
@@ -95,7 +102,7 @@ class CorporationInfo extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   };
@@ -104,142 +111,83 @@ class CorporationInfo extends Component {
     const {
       readOnlyMode,
       deleteModalVisible,
-      corporationLogoUrl,
-      isError,
     } = this.state;
     const {
-      corporations,
       chosenCorporation,
-      isAddMode,
-      changeActiveCorporation,
+      defaultLanguage,
+      phrases,
     } = this.props;
-
-    let headerTitle = 'Редактирование компании';
-    if (readOnlyMode) {
-      headerTitle = 'Информация о компании';
-    } else if (isAddMode) {
-      headerTitle = 'Создание компании';
-    }
 
     return (
       <div className={b()}>
-        <div className={b('formBox')}>
-          <h1 className={b('formBox-header')}>{headerTitle}</h1>
-          <CorporationForm
-            wrappedComponentRef={form => this.corporationForm = form}
-            readOnlyMode={readOnlyMode}
-            chosenCorporation={chosenCorporation}
-            isError={isError}
-            uploadCorporationImage={this.uploadCorporationImage}
-            corporationLogoUrl={corporationLogoUrl}
-          />
-          <Row
-            className={b('formBox-controlBtns')}
-            gutter={20}
-          >
-            <Col lg={8}>
-              {
-                readOnlyMode ? (
-                  <Button
-                    className={b('formBox-controlBtns-btn backBtn')}
-                    onClick={changeActiveCorporation(null, false)}
-                  >
-                    <Icon type="left" />
-                    К списку
-                  </Button>
-                ) : (
-                  <Button
-                    className={b('formBox-controlBtns-btn backBtn')}
-                    onClick={chosenCorporation
-                      ? this.handleToggleReadOnlyMode(true)
-                      : changeActiveCorporation(null, false)
-                    }
-                  >
-                    <Icon type="left" />
-                    Отмена
-                  </Button>
-                )
-              }
-            </Col>
-            <Col lg={8}>
-              {
-                readOnlyMode ? (
-                  <Button
-                    className={b('formBox-controlBtns-btn deleteBtn')}
-                    onClick={this.toggleDeleteModal}
-                  >
-                    Удалить
-                  </Button>
-                ) : (
-                  <Button
-                    className={b('formBox-controlBtns-btn deleteBtn')}
-                  >
-                    Інфо блок
-                  </Button>
-                )
-              }
-            </Col>
-            <Col lg={8}>
-              {
-                readOnlyMode ? (
-                  <Button
-                    className={b('formBox-controlBtns-btn')}
-                    type="primary"
-                    onClick={this.handleToggleReadOnlyMode(false)}
-                  >
-                    Редактировать сотрудника
-                  </Button>
-                ) : (
-                  <Button
-                    className={b('formBox-controlBtns-btn')}
-                    type="primary"
-                    onClick={this.handleUpdateCorporation}
-                  >
-                    Сохранить
-                  </Button>
-                )
-              }
-            </Col>
-          </Row>
-          {
-            deleteModalVisible && (
-              <DeleteModal
-                visible={deleteModalVisible}
-                okText="Удалить"
-                cancelText="Отменить"
-                onOk={this.handleRemoveCorporation}
-                onCancel={this.toggleDeleteModal}
-                deletedName={chosenCorporation.name}
-                deletedItem="компанию"
-              />
-            )
-          }
-        </div>
-
-        <div className={b('otherCorpBox')}>
-          <h1 className={b('otherCorpBox-header')}>Мои другие компании</h1>
-          {
-            corporations.length ? (
-              corporations.map(corp => (
-                <div
-                  onClick={changeActiveCorporation(corp, false)}
-                  key={corp.id}
-                  className={b('otherCorpBox-list-item')}
+        <CorporationForm
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
+          wrappedComponentRef={form => this.corporationForm = form}
+          readOnlyMode={readOnlyMode}
+          chosenCorporation={chosenCorporation}
+          onLoadCover={this.onLoadCover}
+          onLoadLogo={this.onLoadLogo}
+        />
+        <Row
+          className={b('controlBtns')}
+          gutter={32}
+        >
+          <Col lg={8}>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn deleteBtn')}
+                  onClick={this.toggleDeleteModal}
                 >
-                  <CorpAvatar className={b('otherCorpBox-list-item-logo')} src={corp.logoUrl} />
-                  <span>{corp.name}</span>
-                </div>
-              ))) : (
-                <div className={b('emptyState-wrapper')}>
-                  <EmptyState
-                    title="У вас нету компаний"
-                    descrText="Создайте компанию, чтобы начать создать Ваши бизнесы"
-                    withoutBtn
-                  />
-                </div>
-            )
-          }
-        </div>
+                  {phrases['core.button.remove'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn backBtn')}
+                  onClick={this.handleCancel}
+                >
+                  {phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
+          </Col>
+          <Col lg={8} />
+          <Col lg={8}>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn')}
+                  type="primary"
+                  onClick={this.handleToggleReadOnlyMode(false)}
+                >
+                  {phrases['core.button.edit'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn')}
+                  type="primary"
+                  onClick={this.handleUpdateCorporation}
+                >
+                  {phrases['core.button.save'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
+          </Col>
+        </Row>
+        {
+          deleteModalVisible && (
+            <DeleteModal
+              visible={deleteModalVisible}
+              okText={phrases['core.button.remove'][defaultLanguage.isoKey]}
+              cancelText={phrases['core.button.cancel'][defaultLanguage.isoKey]}
+              onOk={this.handleRemoveCorporation}
+              onCancel={this.toggleDeleteModal}
+              deletedName={chosenCorporation.name}
+              deletedItem="компанию"
+            />
+          )
+        }
       </div>
     );
   }

@@ -24,7 +24,7 @@
           border: 2px solid $white;
           border-radius: 4px;
           color: $white;
-          font-family: $sans;
+          font-family: $Roboto;
           font-size: 12px;
           display: flex;
           justify-content: center;
@@ -34,7 +34,7 @@
 
       &-text {
         color: $coupler-blue;
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 14px;
         line-height: 16px;
         letter-spacing: 0.02em;
@@ -49,7 +49,7 @@
         height: 90px;
 
         & h1 {
-          font-family: $sans;
+          font-family: $Roboto;
           color: #333333;
           letter-spacing: 0.02em;
           font-size: 12px;
@@ -59,7 +59,7 @@
 
         & p {
           display: -webkit-box;
-          font-family: $sans;
+          font-family: $Roboto;
           color: $font-title-black;
           letter-spacing: 0.01em;
           font-size: 12px;
@@ -80,7 +80,7 @@
           letter-spacing: 0.02em;
           line-height: 16px;
           font-size: 12px;
-          font-family: $sans;
+          font-family: $Roboto;
           padding-bottom: 12px;
         }
 
@@ -102,7 +102,7 @@
 
             & > div {
               font-size: 12px;
-              font-family: $sans;
+              font-family: $Roboto;
               color: $coupler-blue;
               letter-spacing: 0.01em;
             }
@@ -140,7 +140,7 @@
       & .ant-card-body  {
         display: flex;
         flex-direction: column;
-        font-family: $sans;
+        font-family: $Roboto;
         font-size: 14px;
         line-height: 20px;
         color: $font-title-black;
@@ -168,7 +168,7 @@
           }
 
           & span {
-            font-family: $sans;
+            font-family: $Roboto;
             line-height: 16px;
             font-size: 12px;
           }

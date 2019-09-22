@@ -13,8 +13,10 @@ import {
 } from 'antd';
 
 import EmptyState from '../EmptyState';
+import ScreenLoading from '../ScreenLoading';
+import ContentHeader from '../ContentHeader';
 
-import { fetchBusinessesByCorp, fetchClientsByIds } from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('clientsList');
 const { Option } = Select;
@@ -22,8 +24,9 @@ const { Search } = Input;
 
 class ClientsList extends Component {
   state = {
+    loader: false,
     clients: [],
-    chosenCorporation: '',
+    chosenCorporation: undefined,
     chosenBusiness: undefined,
     businesses: [],
     searchedClients: [],
@@ -32,17 +35,27 @@ class ClientsList extends Component {
       name: 'ascend',
       phone: 'ascend',
     },
+    pagination: {
+      current: 0,
+      totalPages: 0,
+      total: 0,
+    },
   };
 
   componentDidMount() {
-    const { corporations } = this.props;
+    const { corporations, changeChoseCorporationId } = this.props;
 
-    corporations.length && corporations[2] && this.handleCorpChange(corporations[2].id); // dfdfdf
+    if (corporations.length && corporations[0]) {
+      this.handleCorpChange(corporations[0].id);
+      changeChoseCorporationId(corporations[0].id);
+    }
   }
 
   handleCorpChange = async (corporationId) => {
+    this.setState({ loader: true });
     const businesses = await this.handleGetBusinessByCorporationId(corporationId, true);
 
+    this.props.changeChoseCorporationId(corporationId);
     this.setState({
       chosenCorporation: corporationId,
       chosenBusiness: undefined,
@@ -51,17 +64,18 @@ class ClientsList extends Component {
   };
 
   handleBusinessChange = async (businessId) => {
-    await this.handleGetClientsById({ businessId });
+    this.setState({ loader: true, chosenBusiness: businessId });
 
-    this.setState({
-      chosenBusiness: businessId,
-    });
+    await this.handleGetClientsById({ businessId });
   };
 
   handleGetBusinessByCorporationId = async (corporationId, getClients = false) => {
     let businesses = [];
     try {
-      const { data = [] } = await fetchBusinessesByCorp({ corporationId });
+      const { data = [] } = await fetchAction({
+        url: `business/by-corporation-id?id=${corporationId}`,
+        fieldName: 'business',
+      })();
       getClients && await this.handleGetClientsById({ corporationId });
 
       businesses = data;
@@ -69,27 +83,45 @@ class ClientsList extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
 
     return businesses;
   };
 
-  handleGetClientsById = async ({ corporationId, businessId, queryValue }) => {
+  handleGetClientsById = async ({
+    corporationId,
+    businessId,
+    queryValue,
+    page = 0,
+  }) => {
     try {
-      const { data: clients = [] } = await fetchClientsByIds({ corporationId, businessId, query: queryValue });
+      const { data: clientsPage = { content: [] } } = await fetchAction({
+        url: `business/customers?${corporationId ? 'corporationId' : 'businessIds'}=${corporationId || [businessId]}&page=${page}&size=7${queryValue ? `&query=${queryValue}` : ''}`,
+        fieldName: 'clientsPage',
+        fieldType: {},
+      })();
+
       this.setState(prevState => ({
         ...prevState,
-        clients: queryValue ? prevState.clients : clients,
-        searchedClients: clients,
+        clients: queryValue ? prevState.clients : clientsPage.content,
+        searchedClients: clientsPage.content,
+        pagination: {
+          ...prevState.pagination,
+          current: clientsPage.number + 1,
+          totalPages: clientsPage.totalPages,
+          total: clientsPage.totalElements,
+        },
       }));
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
+    } finally {
+      this.setState({ loader: false });
     }
   };
 
@@ -101,7 +133,7 @@ class ClientsList extends Component {
       newSearchedClients = prevOrder === 'ascend'
         ? searchedClients.sort((a, c) => a.phone - c.phone)
         : searchedClients.sort((a, c) => c.phone - a.phone);
-    } else if (columnName === 'name' || columnName === 'position') {
+    } else if (columnName === 'name') {
       newSearchedClients = prevOrder === 'ascend'
         ? searchedClients.sort((a, c) => a.lastName.localeCompare(c.lastName))
         : searchedClients.sort((a, c) => c.lastName.localeCompare(a.lastName));
@@ -135,6 +167,16 @@ class ClientsList extends Component {
     this.setState({ searchProcess: true });
   };
 
+  handleTableChange = (pagination) => {
+    const { chosenBusiness, chosenCorporation } = this.state;
+
+    this.handleGetClientsById({
+      corporationId: chosenCorporation,
+      businessId: chosenBusiness,
+      page: pagination.current - 1,
+    });
+  };
+
   createMailing = () => {
     console.log('createMailing');
   };
@@ -148,8 +190,15 @@ class ClientsList extends Component {
       searchedClients,
       searchProcess,
       columnSortOrder: { name, phone },
+      pagination,
+      loader,
     } = this.state;
-    const { corporations, changeActiveClient } = this.props;
+    const {
+      corporations,
+      defaultLanguage,
+      phrases,
+      changeActiveClient,
+    } = this.props;
     const isClientsExist = (clients && clients.length) || searchProcess;
 
     const columns = [
@@ -200,7 +249,7 @@ class ClientsList extends Component {
       {
         className: 'action-column',
         onCell: client => ({
-          onClick: () => console.log(client),
+          onClick: () => console.log(client), // TODO: add action handler
         }),
         width: 105,
         render: () => <div>Связь</div>,
@@ -209,98 +258,118 @@ class ClientsList extends Component {
 
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр клиентов</p>
-          <div className={b('header-selectorBox')}>
-            <Select
-              onChange={this.handleCorpChange}
-              style={{ width: '280px' }}
-              value={chosenCorporation}
-            >
-              {
-                corporations.map(item => (
-                  <Option
-                    key={item.id}
-                    value={item.id}
-                  >
-                    {item.name}
-                  </Option>
-                ))
-              }
-            </Select>
-            <Icon
-              type="right"
-              className={b('header-selectorBox-rightArrow')}
-            />
-            <Select
-              onChange={this.handleBusinessChange}
-              style={{ width: '280px' }}
-              value={chosenBusiness}
-              placeholder="Выберите бизнес"
-            >
-              {
-                businesses.length && businesses.map(item => (
-                  <Option
-                    key={item.id}
-                    value={item.id}
-                  >
-                    {item.name}
-                  </Option>
-                ))
-              }
-            </Select>
-          </div>
-        </div>
+        <ContentHeader
+          title="Просмотр клиентов"
+          content={(
+            <div className={b('selectorBox')}>
+              <Select
+                disabled={loader}
+                onChange={this.handleCorpChange}
+                style={{ display: 'none' }}
+                value={chosenCorporation}
+                placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
+              >
+                {
+                  corporations.map(item => (
+                    <Option
+                      key={item.id}
+                      value={item.id}
+                    >
+                      {item.name}
+                    </Option>
+                  ))
+                }
+              </Select>
+              <Icon
+                type="right"
+                className={b('selectorBox-rightArrow')}
+              />
+              <Select
+                disabled={loader}
+                onChange={this.handleBusinessChange}
+                style={{ width: '100%' }}
+                value={chosenBusiness}
+                placeholder={phrases['core.selector.placeholder.choseBranch'][defaultLanguage.isoKey]}
+              >
+                {
+                  businesses.length && businesses.map(item => (
+                    <Option
+                      key={item.id}
+                      value={item.id}
+                    >
+                      {item.name}
+                    </Option>
+                  ))
+                }
+              </Select>
+            </div>
+          )}
+        />
         <div className={b('content', { isClientsExist })}>
           {
-            isClientsExist ? (
-              <>
-                <div className={b('content-searchBox')}>
-                  <label htmlFor="searchClientInput">Поиск по имени или номеру телефона</label>
-                  <Search
-                    placeholder="Поиск с 3-х символов..."
-                    id="searchClientInput"
-                    onChange={this.handleSearchClients}
-                  />
-                </div>
-                <Table
-                  rowKey={client => client.id}
-                  className={b('content-clientsTable')}
-                  columns={columns}
-                  dataSource={searchedClients}
-                  pagination={false}
-                  scroll={{ y: 408 }}
-                />
-
-                <Row
-                  gutter={32}
-                  className={b('content-controlBtns')}
-                >
-                  <Col lg={14}>
-                    <div className={b('content-controlBtns-infoBlock')}>
-                      <Icon type="info-circle" />
-                      <div>Выберите клиентов, для которых нужно создать рассылку </div>
-                      <div className={b('content-controlBtns-infoBlock-arrow')} />
-                    </div>
-                  </Col>
-                  <Col lg={10}>
-                    <Button
-                      disabled // TODO: make createMailing feature
-                      className={b('content-controlBtns-btn')}
-                      onClick={this.createMailing}
-                      type="primary"
-                    >
-                      Создать рассылку
-                    </Button>
-                  </Col>
-                </Row>
-              </>
+            loader ? (
+              <ScreenLoading />
             ) : (
-              <EmptyState
-                title="У вас нету зарегистрированных клиентов"
-                descrText="Когда клиенты появлятся, вы сможете просмотреть их в этом месте"
-                withoutBtn
-              />
+              <>
+                {
+                  isClientsExist ? (
+                    <>
+                      <div className={b('content-searchBox')}>
+                        <label htmlFor="searchClientInput">Поиск по имени / номеру телефона </label>
+                        <Search
+                          placeholder="Поиск с 3-х символов..."
+                          id="searchClientInput"
+                          onChange={this.handleSearchClients}
+                        />
+                      </div>
+                      <Table
+                        rowKey={client => client.id}
+                        className={b('content-clientsTable')}
+                        columns={columns}
+                        dataSource={searchedClients}
+                        pagination={pagination.totalPages > 1
+                          ? {
+                            ...pagination,
+                            pageSize: 7,
+                            className: b('content-pagination'),
+                          }
+                          : false
+                        }
+                        onChange={this.handleTableChange}
+                        scroll={{ y: 336 }}
+                      />
+
+                      <Row
+                        gutter={32}
+                        className={b('content-controlBtns')}
+                      >
+                        <Col lg={14}>
+                          <div className={b('content-controlBtns-infoBlock')}>
+                            <Icon type="info-circle" />
+                            <div>Выберите клиентов, для которых нужно создать рассылку уведомлений</div>
+                            <div className={b('content-controlBtns-infoBlock-arrow')} />
+                          </div>
+                        </Col>
+                        <Col lg={10}>
+                          <Button
+                            disabled // TODO: make createMailing feature
+                            className={b('content-controlBtns-btn')}
+                            onClick={this.createMailing}
+                            type="primary"
+                          >
+                            Создать рассылку
+                          </Button>
+                        </Col>
+                      </Row>
+                    </>
+                  ) : (
+                    <EmptyState
+                      descrText="Каждый новый клиент будет добавляться в единую базу, которую вы можете посмотреть в этой вкладке"
+                      withoutBtn
+                    />
+                  )
+                }
+              </>
             )
           }
         </div>

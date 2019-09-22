@@ -1,79 +1,60 @@
 @import "../../styles/theme.scss";
 
 .corporationsList {
-  flex: 1;
-  border: none;
-  border-radius: 0;
-  box-shadow: $shadow-right;
-  background: #2866ff; // TODO: change to coupler colors
+  background: $coupler-blue;
+  width: 100%;
 
-  & .ant-collapse {
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    padding: 8px 0;
-  }
+  &__selector {
+    width: 100%;
 
-  &__panel {
-    border: none;
-    border-radius: 0;
+    & .ant-select-selection {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: $white;
 
-    &.ant-collapse-item {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      &__placeholder {
+        color: rgba(255, 255, 255, 0.32);
+      }
 
-      & .ant-collapse-header {
-        padding: 12px 32px;
+      & .ant-select-arrow {
         color: $white;
-        letter-spacing: 0.01em;
-        font-family: $sans;
+      }
+    }
+
+    &-corporation {
+      color: $white;
+      letter-spacing: 0.01em;
+      padding: 16px 32px;
+      display: flex;
+      border-bottom: 1px solid #EFEFEF;
+
+      &-logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 16px;
+      }
+
+      &-textContent {
+        width: 450px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+      }
+
+      &-name {
+        color: #30373E;
         font-size: 14px;
         line-height: 24px;
-        height: 63px;
       }
 
-      &-active {
-        & .ant-collapse-header {
-          background: rgba(255, 255, 255, 0.16);
-        }
+      &-descr {
+        color: #737C85;
+        font-size: 14px;
+        line-height: 16px;
       }
 
-      & .ant-collapse-content {
-        background: rgba(255, 255, 255, 0.08);
-        border-top: 1px solid rgba(255, 255, 255, 0.16);
-
-        &-box {
-          padding: 24px;
-          color: rgba(255, 255, 255, 0.8);
-          letter-spacing: 0.01em;
-          font-family: $sans;
-          font-size: 12px;
-        }
+      &:last-child {
+        border-bottom: none;
       }
     }
-
-    &-name {
-      line-height: 16px;
-      margin-bottom: 8px;
-    }
-
-    &-descr {
-      line-height: 18px;
-    }
-
-    &-logo {
-      width: 40px;
-      height: 40px;
-      margin-right: 16px;
-    }
-
-    &-editBtn {
-      margin-top: 16px;
-      width: 100%;
-    }
-  }
-
-  &__addBtn {
-    padding: 60px 0;
-    text-align: center;
   }
 }

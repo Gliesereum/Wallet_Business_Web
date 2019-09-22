@@ -1,0 +1,39 @@
+@import '../../styles/theme.scss';
+
+.ordersPage {
+  animation: fadein 0.8s ease;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+
+  &__selectorBox {
+    width: 50%;
+    display: flex;
+    align-items: center;
+
+    & .ant-select-selection {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: $white;
+
+      &__placeholder {
+        color: rgba(255, 255, 255, 0.32);
+      }
+
+      & .ant-select-arrow {
+        color: $white;
+      }
+    }
+
+    &-rightArrow {
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 20px;
+      padding: 0 12px;
+      display: none; // TODO remove display: none
+    }
+  }
+
+  &__content {
+    padding: 0 32px;
+    flex: 1 1 auto;
+  }
+}

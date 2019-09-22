@@ -37,7 +37,7 @@ class ProfileEmail extends PureComponent {
         notification.error({
           duration: 5,
           message: err.message || 'Ошибка',
-          description: 'Возникла ошибка',
+          description: 'Ошибка',
         });
       } finally {
         this.setState({ loading: false });
@@ -63,7 +63,7 @@ class ProfileEmail extends PureComponent {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     } finally {
       this.setState({ loading: false, gotCode: false, errorMessage: false });
@@ -119,14 +119,18 @@ class ProfileEmail extends PureComponent {
                 onChange={this.handleInputChange('email')}
               />
               <div className={b('errorMessage')}>{errorMessage}</div>
-              <Button
-                className={b('controlBtn')}
-                type="primary"
-                onClick={this.getCode}
-                loading={loading}
-              >
-                {'верифицировать'.toUpperCase()}
-              </Button>
+              {
+                (!email || (email && email !== this.props.email)) && (
+                  <Button
+                    className={b('controlBtn')}
+                    type="primary"
+                    onClick={this.getCode}
+                    loading={loading}
+                  >
+                    {'подтвердить'.toUpperCase()}
+                  </Button>
+                )
+              }
             </>
           )
         }

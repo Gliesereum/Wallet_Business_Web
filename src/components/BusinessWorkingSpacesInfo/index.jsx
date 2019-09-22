@@ -16,41 +16,51 @@ import DeleteModal from '../DeleteModal';
 import WorkingSpaceInfoReadOnly from '../WorkingSpaceInfoReadOnly';
 
 import { asyncRequest, withToken, fetchDecorator } from '../../utils';
-import { fetchWorkersByCorporationId } from '../../fetches';
+import { fetchAction } from '../../fetches';
 import { actions } from '../../state';
 
 const b = bem('workingSpaceInfo');
 
-const addWorkersToWorkingSpace = (addedWorkers, newWorkingSpace) => {
-  if (!addedWorkers.length) return newWorkingSpace;
-
-  const newModifiedWorkingSpace = newWorkingSpace;
-  const workerUrl = 'worker';
-
-  for (let i = 0; i < addedWorkers.length; i += 1) {
+const handleChangeWorkingSpaceForWorker = async (worker, newWorkingSpace, removeFromOldWS) => {
+  try {
+    const workerUrl = 'worker';
     const modifyWorker = {
-      ...addedWorkers[i],
-      workingSpaceId: newModifiedWorkingSpace.id,
+      ...worker,
+      workingSpaceId: newWorkingSpace.id,
     };
+    await withToken(asyncRequest)({
+      url: workerUrl, body: modifyWorker, method: 'PUT', moduleUrl: 'karma',
+    });
 
-    try {
-      withToken(asyncRequest)({
-        url: workerUrl, body: modifyWorker, method: 'PUT', moduleUrl: 'karma',
-      });
-      newModifiedWorkingSpace.workers.unshift(modifyWorker);
-    } catch (err) {
-      notification.error({
-        duration: 5,
-        message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
-      });
-    }
+    worker.workingSpaceId && removeFromOldWS({ movedWorker: worker });
+    return modifyWorker;
+  } catch (err) {
+    throw err;
   }
-
-  return newModifiedWorkingSpace;
 };
 
-const removeWorkersFromWorkingSpace = (removedWorkers, newWorkingSpace) => {
+const addWorkersToWorkingSpace = async (addedWorkers = [], newWorkingSpace, removeFromOldWS) => {
+  try {
+    if (!addedWorkers.length) return newWorkingSpace;
+    const workersOfNewWorkingSpace = await Promise.all(addedWorkers.map(async (worker) => {
+      try {
+        return await handleChangeWorkingSpaceForWorker(worker, newWorkingSpace, removeFromOldWS);
+      } catch (e) {
+        throw e;
+      }
+    }));
+    if (newWorkingSpace.workers) {
+      newWorkingSpace.workers.unshift(...workersOfNewWorkingSpace);
+    } else {
+      newWorkingSpace.workers = [...workersOfNewWorkingSpace];
+    }
+    return newWorkingSpace;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const removeWorkersFromWorkingSpace = (removedWorkers = [], newWorkingSpace) => {
   if (!removedWorkers.length) return newWorkingSpace;
 
   const newModifiedWorkingSpace = newWorkingSpace;
@@ -71,7 +81,7 @@ const removeWorkersFromWorkingSpace = (removedWorkers, newWorkingSpace) => {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   }
@@ -96,9 +106,10 @@ class BusinessWorkingSpacesInfo extends Component {
             chosenSpace,
             isAddMode,
             changeActiveWorkingSpace,
-            singleBusiness,
+            chosenBusiness,
             addWorkingSpace,
             updateWorkingSpace,
+            removeFromOldWS,
           } = this.props;
           const url = 'working-space';
           const method = isAddMode ? 'POST' : 'PUT';
@@ -106,27 +117,26 @@ class BusinessWorkingSpacesInfo extends Component {
           const data = {
             ...chosenSpace,
             ...values,
-            businessId: singleBusiness.id,
-            businessCategoryId: singleBusiness.businessCategoryId,
+            businessId: chosenBusiness.id,
+            businessCategoryId: chosenBusiness.businessCategoryId,
           };
 
           try {
-            let newWorkingSpace = await withToken(asyncRequest)({
+            const newWorkingSpace = await withToken(asyncRequest)({
               url, body: data, method, moduleUrl: 'karma',
             });
-
             // if some of workers were being added
-            newWorkingSpace = await addWorkersToWorkingSpace(addedWorkers, newWorkingSpace);
+            let workingSpace = await addWorkersToWorkingSpace(addedWorkers, newWorkingSpace, removeFromOldWS);
             // if some of workers were being removed
-            newWorkingSpace = await removeWorkersFromWorkingSpace(removedWorkers, newWorkingSpace);
+            workingSpace = await removeWorkersFromWorkingSpace(removedWorkers, workingSpace);
 
-            isAddMode ? await addWorkingSpace(newWorkingSpace) : await updateWorkingSpace(newWorkingSpace);
-            changeActiveWorkingSpace(null, false)();
+            isAddMode ? await addWorkingSpace(workingSpace) : await updateWorkingSpace(workingSpace);
+            await changeActiveWorkingSpace(null, false)();
           } catch (err) {
             notification.error({
               duration: 5,
               message: err.message || 'Ошибка',
-              description: 'Возникла ошибка',
+              description: 'Ошибка',
             });
           }
         }
@@ -146,7 +156,7 @@ class BusinessWorkingSpacesInfo extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   };
@@ -160,7 +170,7 @@ class BusinessWorkingSpacesInfo extends Component {
   render() {
     const {
       chosenSpace,
-      workers,
+      workersPage,
       changeActiveWorkingSpace,
       toggleWorkerInfoDrawer,
     } = this.props;
@@ -176,7 +186,7 @@ class BusinessWorkingSpacesInfo extends Component {
             />
           ) : (
             <WorkingSpaceForm
-              workers={workers}
+              workers={workersPage.content || []}
               chosenSpace={chosenSpace}
               wrappedComponentRef={form => this.workingSpaceForm = form}
               toggleWorkerInfoDrawer={toggleWorkerInfoDrawer}
@@ -220,11 +230,7 @@ class BusinessWorkingSpacesInfo extends Component {
                   Удалить рабочее место
                 </Button>
               ) : (
-                <Button
-                  className={b('controlBtns-btn deleteBtn')}
-                >
-                  Інфо блок
-                </Button>
+                <div />
               )
             }
           </Col>
@@ -271,13 +277,20 @@ class BusinessWorkingSpacesInfo extends Component {
 const mapDispatchToProps = dispatch => ({
   addWorkingSpace: newWorkingSpace => dispatch(actions.business.$addWorkingSpace(newWorkingSpace)),
   updateWorkingSpace: updatedWorkingSpace => dispatch(actions.business.$updateWorkingSpace(updatedWorkingSpace)),
+  removeFromOldWS: worker => dispatch(actions.business.$removeWorkerFromOldWS(worker)),
   deleteWorkingSpace: workingServiceId => dispatch(actions.business.$deleteWorkingSpace(workingServiceId)),
 });
 
 export default compose(
   connect(null, mapDispatchToProps),
   fetchDecorator({
-    actions: [fetchWorkersByCorporationId],
+    actions: [
+      ({ chosenBusiness }) => chosenBusiness && fetchAction({
+        url: `worker/by-business?businessId=${chosenBusiness.id}&page=${0}&size=7`,
+        fieldName: 'workersPage',
+        fieldType: {},
+      })(),
+    ],
     config: { loader: true },
   })
 )(BusinessWorkingSpacesInfo);

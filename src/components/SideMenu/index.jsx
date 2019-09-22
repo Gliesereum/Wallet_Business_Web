@@ -4,69 +4,25 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import bem from 'bem-join';
 
-import { Icon } from 'antd';
+import {
+  Icon,
+  Select,
+} from 'antd';
 
 import { actions } from '../../state';
 import {
   MyCorporations,
   Orders,
-  Analytics,
+  // Analytics,
   Workers,
   Clients,
-  Settings,
+  // Settings,
   Help,
   Exit,
 } from '../../assets/iconComponents';
 
 const b = bem('sidebar');
-
-const mainMenuItems = [
-  {
-    icon: MyCorporations,
-    text: 'Мои компании',
-    linkTo: '/corporations',
-    canDisabled: true,
-  },
-  {
-    icon: Orders,
-    text: 'Заказы',
-    linkTo: '/analytics',
-    // canDisabled: true,
-  },
-  {
-    icon: Analytics,
-    text: 'Аналитика',
-    linkTo: '/analytics',
-    canDisabled: true,
-  },
-  {
-    icon: Workers,
-    text: 'Сотрудники',
-    linkTo: '/workers',
-    // canDisabled: true,
-  },
-  {
-    icon: Clients,
-    text: 'Клиенты',
-    linkTo: '/clients',
-    // canDisabled: true,
-  },
-];
-
-const supportMenuItems = [
-  {
-    icon: Settings,
-    text: 'Настройки',
-    linkTo: '/settings',
-    canDisabled: true,
-  },
-  {
-    icon: Help,
-    text: 'Помощь',
-    linkTo: '/help',
-    canDisabled: false,
-  },
-];
+const { Option } = Select;
 
 class SideMenu extends Component {
   signOutHandler = () => {
@@ -76,7 +32,56 @@ class SideMenu extends Component {
   };
 
   render() {
-    const { isUserExist, location } = this.props;
+    const {
+      isUserExist,
+      location,
+      phrases,
+      langPack,
+      defaultLanguage,
+      hasAdminRights,
+      setLanguage,
+    } = this.props;
+
+    const mainMenuItems = [
+      {
+        icon: MyCorporations,
+        // text: phrases['sideBar.menu.company.label'][defaultLanguage.isoKey],
+        text: phrases['sideBar.menu.businesses.label'][defaultLanguage.isoKey],
+        // linkTo: '/corporations',
+        linkTo: '/businesses',
+        canDisabled: true,
+      },
+      {
+        icon: Orders,
+        text: phrases['sideBar.menu.orders.label'][defaultLanguage.isoKey],
+        linkTo: '/orders',
+      },
+      {
+        icon: Workers,
+        text: phrases['sideBar.menu.employees.label'][defaultLanguage.isoKey],
+        linkTo: '/workers',
+      },
+      {
+        icon: Clients,
+        text: phrases['sideBar.menu.clients.label'][defaultLanguage.isoKey],
+        linkTo: '/clients',
+      },
+    ];
+
+    const supportMenuItems = [
+      {
+        icon: Help,
+        text: phrases['sideBar.menu.help.label'][defaultLanguage.isoKey],
+        linkTo: '/help',
+        canDisabled: false,
+      },
+    ];
+
+    hasAdminRights && supportMenuItems.push({
+      icon: Clients,
+      text: 'Admin Panel',
+      linkTo: '/adminPanel',
+    });
 
     return (
       <div className={b()}>
@@ -122,8 +127,26 @@ class SideMenu extends Component {
         <div className={b('exit')}>
           <div className={b('menu-item')} onClick={this.signOutHandler}>
             <Icon style={{ color: 'white' }} component={Exit} />
-            <span>Выход</span>
+            <span>{phrases['sideBar.menu.logOut.label'][defaultLanguage.isoKey]}</span>
           </div>
+        </div>
+        <div className={b('languages')}>
+          <Select
+            defaultValue={JSON.stringify(defaultLanguage)}
+            className={b('languages-selector')}
+            onChange={setLanguage}
+          >
+            {
+              langPack.map(lang => (
+                <Option
+                  key={lang.isoKey}
+                  value={JSON.stringify(lang)}
+                >
+                  {lang.label}
+                </Option>
+              ))
+            }
+          </Select>
         </div>
       </div>
     );
@@ -131,11 +154,16 @@ class SideMenu extends Component {
 }
 
 const mapStateToProps = state => ({
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
+  langPack: state.app.langPack,
   isUserExist: state.auth.user.firstName,
+  hasAdminRights: state.auth.hasAdminRights,
 });
 
 const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(actions.auth.$signOut()),
+  setLanguage: language => dispatch(actions.app.$setLanguage(language)),
 });
 
 export default compose(

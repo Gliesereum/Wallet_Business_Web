@@ -104,7 +104,7 @@ export const mapConfig = {
   zoomControl: false,
   streetViewControl: false,
   mapTypeControl: false,
-  fullscreenControl: false,
+  fullscreenControl: true,
 };
 
 export const defaultGeoPosition = {

@@ -1,3 +1,11 @@
+import {
+  Canceled,
+  Completed,
+  Timer,
+  Waiting,
+  Expired,
+} from '../assets/iconComponents';
+
 export const genders = {
   FEMALE: 'Женский',
   MALE: 'Мужской',
@@ -7,23 +15,23 @@ export const genders = {
 export const dayTranslateTemporary = [
   {
     translate: 'Понедельник',
-    dayOfWeek: 'TUESDAY',
+    dayOfWeek: 'MONDAY',
   },
   {
     translate: 'Вторник',
-    dayOfWeek: 'WEDNESDAY',
+    dayOfWeek: 'TUESDAY',
   },
   {
     translate: 'Среда',
-    dayOfWeek: 'THURSDAY',
+    dayOfWeek: 'WEDNESDAY',
   },
   {
     translate: 'Четверг',
-    dayOfWeek: 'FRIDAY',
+    dayOfWeek: 'THURSDAY',
   },
   {
     translate: 'Пятница',
-    dayOfWeek: 'MONDAY',
+    dayOfWeek: 'FRIDAY',
   },
   {
     translate: 'Суббота',
@@ -39,53 +47,80 @@ export const scheduleListDefault = [
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'MONDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'TUESDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'WEDNESDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'THURSDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'FRIDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'SATURDAY',
   },
   {
     from: 1557554400000,
     to: 1557615600000,
-    isWork: false,
+    isWork: true,
     dayOfWeek: 'SUNDAY',
   },
 ];
 
 export const dayTranslate = {
-  MONDAY: 'Понедельник',
-  TUESDAY: 'Вторник',
-  WEDNESDAY: 'Среда',
-  THURSDAY: 'Четверг',
-  FRIDAY: 'Пятница',
-  SATURDAY: 'Суббота',
-  SUNDAY: 'Воскресенье',
+  MONDAY: 'monday',
+  TUESDAY: 'tuesday',
+  WEDNESDAY: 'wednesday',
+  THURSDAY: 'thursday',
+  FRIDAY: 'friday',
+  SATURDAY: 'saturday',
+  SUNDAY: 'sunday',
+};
+
+export const recordTranslate = {
+  statusPay: {
+    PAID: 'Оплачено',
+    NOT_PAID: 'Не оплачено',
+  },
+  statusProcess: {
+    CANCELED: 'Отменен',
+    WAITING: 'Ожидается',
+    STARTED: 'Начато',
+    IN_PROCESS: 'В процессе',
+    COMPLETED: 'Завершен',
+    EXPIRED: 'Истекший',
+  },
+  statusIcon: {
+    CANCELED: Canceled,
+    WAITING: Waiting,
+    IN_PROCESS: Timer,
+    COMPLETED: Completed,
+    EXPIRED: Expired,
+  },
+};
+
+export const translateBusinessType = {
+  CAR: 'Автомобильная',
+  HUMAN: 'Другая',
 };

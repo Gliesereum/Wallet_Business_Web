@@ -1,52 +1,43 @@
 @import '../../styles/theme.scss';
 
 .workersList {
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 32px;
-    height: 72px;
-    background: indianred; // TODO: change to coupler colors
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 
-    &-title {
+  &__selectorBox {
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    & .ant-select-selection {
+      background-color: rgba(255, 255, 255, 0.08);
       color: $white;
-      font-family: $sans;
-      font-size: 18px;
-      letter-spacing: 0.02em;
-      font-feature-settings: 'pnum' on, 'lnum' on;
+
+      &__placeholder {
+        color: rgba(255, 255, 255, 0.32);
+      }
+
+      & .ant-select-arrow {
+        color: $white;
+      }
     }
 
-    &-selectorBox {
-      display: flex;
-      align-items: center;
-
-      & .ant-select-selection {
-        background-color: rgba(255, 255, 255, 0.08);
-        color: $white;
-
-        &__placeholder {
-          color: rgba(255, 255, 255, 0.32);
-        }
-
-        & .ant-select-arrow {
-          color: $white;
-        }
-      }
-
-      &-rightArrow {
-        color: rgba(255, 255, 255, 0.64);
-        font-size: 20px;
-        padding: 0 12px;
-      }
+    &-rightArrow {
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 20px;
+      padding: 0 12px;
+      display: none; // TODO remove display: none
     }
   }
 
   &__content {
     padding: 46px 32px 0;
+    flex: 1 1 auto;
+
 
     &--isWorkersExist {
-      padding: 0 32px;
+      padding: 0 32px 40px;
     }
 
     &-searchBox {
@@ -58,7 +49,6 @@
       & > label {
         cursor: pointer;
         color: $font-title-black;
-        font-family: $sans;
         font-size: 14px;
         letter-spacing: 0.02em;
         font-feature-settings: 'pnum' on, 'lnum' on;
@@ -82,7 +72,7 @@
 
       & .ant-table {
         &-body {
-          min-height: 408px;
+          min-height: 336px;
 
           .edit-column {
             text-align: center;
@@ -106,6 +96,10 @@
             font-size: 12px;
             line-height: 24px;
 
+            & > th {
+              padding: 0 16px;
+            }
+
             & > th .ant-table-header-column {
               width: 100%;
             }
@@ -115,6 +109,10 @@
         &-tbody {
           & > tr {
             height: 48px;
+
+            & > td {
+              padding: 0 16px;
+            }
 
             &.ant-table-expanded-row > td {
               padding: 0;
@@ -150,7 +148,6 @@
           white-space: nowrap;
           overflow: hidden;
           font-size: 14px;
-          font-family: $sans;
           color: $coupler-blue;
         }
 
@@ -179,7 +176,6 @@
 
     &-row {
       &-header {
-        font-family: $sans;
         font-size: 14px;
         line-height: 24px;
         color: $font-title-black;
@@ -194,7 +190,6 @@
           margin-bottom: 9px;
 
           & .title {
-            font-family: $sans;
             font-size: 10px;
             line-height: 12px;
             color: #7B858C;
@@ -204,7 +199,6 @@
           }
 
           & .data {
-            font-family: $sans;
             font-weight: normal;
             font-size: 12px;
             line-height: 14px;

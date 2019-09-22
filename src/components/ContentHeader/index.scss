@@ -1,0 +1,38 @@
+@import '../../styles/theme',
+'../../styles/mixins';
+
+.contentHeader {
+  display: flex;
+  flex: 0 0 72px;
+  align-items: center;
+  padding: 0 32px;
+  background: $coupler-blue;
+  @include respond-to(phone) {
+    flex: 0 0 144px;
+    padding: 16px;
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 48px;
+    letter-spacing: 0.02em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: $white;
+  }
+
+  &--withContent {
+    justify-content: space-between;
+  }
+
+  &--titleCentered {
+    justify-content: center;
+  }
+
+  &--reverseDirection {
+    flex-direction: row-reverse;
+    @include respond-to(phone) {
+      flex-direction: column-reverse;
+    }
+  }
+}

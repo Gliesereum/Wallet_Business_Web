@@ -6,6 +6,7 @@ import {
   Form,
   Row,
   Col,
+  notification,
 } from 'antd';
 
 import FromToInput from '../../FromToInput';
@@ -14,8 +15,20 @@ const b = bem('businessScheduleForm');
 
 class BusinessScheduleForm extends Component {
   checkHours = (rule, value, callback) => {
-    if (value.from <= 0) callback('Время начала работы должно быть больше 0');
-    if (value.to <= 0) callback('Время конца работы должно быть больше 0');
+    let errText = null;
+    if (value.from <= 0) errText = 'Время начала работы должно быть больше 0';
+    if (value.to <= 0) errText = 'Время конца работы должно быть больше 0';
+
+    if (errText) {
+      notification.error({
+        duration: 5,
+        message: errText || 'Ошибка расписания',
+        description: 'Ошибка',
+      });
+      callback(true);
+      return undefined;
+    }
+
     callback();
     return undefined;
   };
@@ -26,6 +39,9 @@ class BusinessScheduleForm extends Component {
       form,
       dayTranslate,
       scheduleList,
+      readOnlyMode,
+      defaultLanguage,
+      phrases,
     } = this.props;
 
     const formItemLayout = {
@@ -58,7 +74,12 @@ class BusinessScheduleForm extends Component {
                       initialValue: isWork,
                       valuePropName: 'checked',
                     })(
-                      <Checkbox value={isWork}>{dayTranslate[dayOfWeek]}</Checkbox>
+                      <Checkbox
+                        value={isWork}
+                        disabled={readOnlyMode}
+                      >
+                        {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
+                      </Checkbox>
                     )}
                   </Form.Item>
                   <Form.Item
@@ -68,9 +89,9 @@ class BusinessScheduleForm extends Component {
                   >
                     {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                       initialValue: { from, to },
-                      rules: [{ validator: this.checkHours }],
+                      // rules: [{ validator: this.checkHours }],
                     })(
-                      <FromToInput />
+                      <FromToInput readOnly={readOnlyMode} />
                     )}
                   </Form.Item>
                 </div>
@@ -95,7 +116,12 @@ class BusinessScheduleForm extends Component {
                       initialValue: isWork,
                       valuePropName: 'checked',
                     })(
-                      <Checkbox value={isWork}>{dayTranslate[dayOfWeek]}</Checkbox>
+                      <Checkbox
+                        disabled={readOnlyMode}
+                        value={isWork}
+                      >
+                        {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
+                      </Checkbox>
                     )}
                   </Form.Item>
                   <Form.Item
@@ -105,9 +131,9 @@ class BusinessScheduleForm extends Component {
                   >
                     {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
                       initialValue: { from, to },
-                      rules: [{ validator: this.checkHours }],
+                      // rules: [{ validator: this.checkHours }],
                     })(
-                      <FromToInput />
+                      <FromToInput readOnly={readOnlyMode} />
                     )}
                   </Form.Item>
                 </div>

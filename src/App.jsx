@@ -9,38 +9,68 @@ import { ScreenLoading } from './components';
 
 class App extends Component {
   componentDidMount() {
-    const { startApp } = this.props;
-    startApp();
+    this.props.startApp();
   }
 
   render() {
-    const { authenticated, user, appStatus } = this.props;
+    const {
+      user,
+      authenticated,
+      appStatus,
+      hasAdminRights,
+      showWelcomePage,
+      defaultLanguage,
+      phrases,
+      setShowPropWelcomePage,
+    } = this.props;
 
-    switch (appStatus) {
-      case 'loading':
-        return <ScreenLoading />;
-      case 'ready':
-        return (
-          <AppRouter user={user} isPrivateRoute={authenticated} />
-        );
-      case 'error':
-        return <div>Error</div>;
-      // return <ScreenError onReload={this.props.initApp}/>;
-      default:
-        return <div>Default</div>;
-      // return <ScreenError onReload={this.props.initApp}/>;
+    if (appStatus === 'loading') return <ScreenLoading />;
+
+    if (appStatus === 'error') {
+      return (
+        <div className="CouplerErrorPageBeta">
+          <div className="CouplerErrorPageBeta_Title">
+            <h1>500</h1>
+          </div>
+          <div className="CouplerErrorPageBeta_Message">
+            <span>SERVER ERROR</span>
+          </div>
+          <div className="CouplerErrorPageBeta_Button">
+            <button type="button" onClick={() => window.location.reload()}>
+              Reload
+            </button>
+          </div>
+        </div>
+      );
     }
+    return (
+      <AppRouter
+        user={user}
+        isPrivateRoute={authenticated}
+        hasAdminRights={hasAdminRights}
+        showWelcomePage={showWelcomePage}
+        defaultLanguage={defaultLanguage}
+        phrases={phrases}
+        setShowPropWelcomePage={setShowPropWelcomePage}
+      />
+    );
   }
 }
 const mapStateToProps = state => ({
   appStatus: state.app.appStatus,
   authenticated: state.auth.authenticated,
+  hasAdminRights: state.auth.hasAdminRights,
+  showWelcomePage: state.auth.showWelcomePage,
   user: state.auth.user,
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
 });
 
 const mapDispatchToProps = dispatch => ({
   startApp: () => dispatch(actions.app.$startApp()),
+  setShowPropWelcomePage: (show, wasShown) => dispatch(actions.auth.$setShowPropWelcomePage(show, wasShown)),
 });
+
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

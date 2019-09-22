@@ -1,0 +1,136 @@
+@import '../../styles/theme',
+'../../styles/mixins';
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 19px 16px;
+  align-items: center;
+  justify-content: space-between;
+  @include respond-to(phoneAndTablet) {
+    flex-direction: column;
+    align-items: unset;
+    border-top: none;
+    padding: 16px 0;
+  }
+  @include respond-to(largeDesktop) { padding: 19px 32px; }
+  @include respond-to(extraLargeDesktop) {
+    max-width: $min-extra-large-desktop;
+    margin: 0 auto;
+  }
+
+  & .ant-divider-vertical {
+    background-color: $coupler-blue;
+  }
+
+  &__networks {
+    order: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #FCFCFC;
+    text-align: center;
+    padding: 0;
+    @include respond-to(phoneAndTablet) {
+      order: 0;
+      padding-bottom: 24px;
+      flex-direction: column;
+    }
+
+    &-title {
+      font-size: 10px;
+      font-weight: normal;
+      line-height: 16px;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #B5BBC0;
+      margin: 0;
+      padding: 0 32px 0 0;
+      @include respond-to(phoneAndTablet) { padding: 0 0 16px 0; }
+    }
+
+    &-icons {
+      height: 26px;
+      @include respond-to(phoneAndTablet) { height: unset; }
+    }
+
+    &-icon {
+      margin-right: 16px;
+      @include respond-to(largeDesktop) { margin-right: 32px; }
+      @include respond-to(extraLargeDesktop) { margin-right: 32px; }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__lang_box {
+    display: flex;
+    justify-content: center;
+
+    &-selector {
+      color: inherit;
+      font-size: inherit;
+
+      & .ant-select {
+        &-selection {
+          border: none;
+
+          &--single {
+            height: 16px;
+          }
+
+          &-selected-value {
+            line-height: 16px;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &__links {
+    order: 0;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    color: $coupler-blue;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: none;
+    @include respond-to(phoneAndTablet) {
+      order: 1;
+      border-top: 1px solid #EFEFEF;
+      padding: 16px 0 6px;
+    }
+
+    a {
+      color: $coupler-blue;
+    }
+  }
+
+  &__copyright {
+    display: flex;
+    flex-direction: row;
+    order: 1;
+    @include respond-to(phoneAndTablet) {
+      order: 2;
+      flex-direction: column;
+    }
+
+    &-text {
+      font-size: 10px;
+      line-height: 16px;
+      text-align: center;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'pnum' on, 'lnum' on;
+      color: #B3B3B3;
+    }
+  }
+}

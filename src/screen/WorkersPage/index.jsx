@@ -6,15 +6,21 @@ import { notification } from 'antd';
 
 import { WorkerInfo, WorkersList } from '../../components';
 
-import { fetchWorkersByCorporationId, fetchBusinessesByCorp } from '../../fetches';
+import { fetchAction } from '../../fetches';
 
 const b = bem('workersPage');
 
-class WorkingPage extends Component {
+class WorkersPage extends Component {
   state = {
     chosenWorker: null,
     isAddWorkerMode: false,
     workers: [],
+    pagination: {
+      current: 0,
+      totalPages: 0,
+      total: 0,
+    },
+    admins: [],
   };
 
   changeActiveWorker = (worker, isAddWorkerMode) => () => this.setState({
@@ -22,43 +28,74 @@ class WorkingPage extends Component {
     isAddWorkerMode,
   });
 
-  handleGetBusinessByCorporationId = async (corporationId, getWorkers = false) => {
+  handleGetBusinessByCorporationId = async (corporationId, getWorkers = false, loaderHandler) => {
     let businesses = [];
     try {
-      const { data = [] } = await fetchBusinessesByCorp({ corporationId });
-      getWorkers && await this.handleGetWorkers(corporationId);
+      const { data = [] } = await fetchAction({
+        url: `business/by-corporation-id?id=${corporationId}`,
+        fieldName: 'business',
+      })();
+      getWorkers && await this.handleGetWorkers({ corporationId, loaderHandler });
 
       businesses = data;
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
 
     return businesses;
   };
 
-  handleGetWorkers = async (corporationId) => {
+  handleGetWorkers = async ({
+    corporationId,
+    businessId,
+    queryValue,
+    page = 0,
+    loaderHandler,
+  }) => {
     try {
-      const { data: workers = [] } = await fetchWorkersByCorporationId({ corporationId });
-      this.setState({ workers });
+      const { data: admins = [] } = await fetchAction({
+        url: `business-administrator/${businessId ? 'by-business' : 'by-corporation'}?id=${businessId || corporationId}`,
+        fieldName: 'admins',
+      })();
+      const { data: workersPage = {} } = await fetchAction({
+        url: `worker/${corporationId ? 'by-corporation?corporationId' : 'by-business?businessId'}=${businessId || corporationId}&page=${page}&size=7`,
+        fieldName: 'workersPage',
+        fieldType: {},
+      })();
+      this.setState(prevState => ({
+        ...prevState,
+        workers: queryValue ? prevState.clients : workersPage.content,
+        pagination: {
+          ...prevState.pagination,
+          current: workersPage.number + 1,
+          totalPages: workersPage.totalPages,
+          total: workersPage.totalElements,
+        },
+        admins,
+      }));
     } catch (err) {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
+    } finally {
+      loaderHandler(false);
     }
   };
 
   render() {
-    const { corporations } = this.props;
+    const { corporations, defaultLanguage, phrases } = this.props;
     const {
       chosenWorker,
       isAddWorkerMode,
       workers,
+      pagination,
+      admins,
     } = this.state;
 
     return (
@@ -69,13 +106,19 @@ class WorkingPage extends Component {
               chosenWorker={chosenWorker}
               isAddMode={isAddWorkerMode}
               corporations={corporations}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               changeActiveWorker={this.changeActiveWorker}
+              admins={admins}
             />
           ) : (
             <WorkersList
               workers={workers}
+              pagination={pagination}
               corporations={corporations}
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
               getWorkers={this.handleGetWorkers}
               changeActiveWorker={this.changeActiveWorker}
@@ -89,6 +132,8 @@ class WorkingPage extends Component {
 
 const mapStateToProps = state => ({
   corporations: state.corporations.corporations,
+  defaultLanguage: state.app.defaultLanguage,
+  phrases: state.app.phrases,
 });
 
-export default connect(mapStateToProps)(WorkingPage);
+export default connect(mapStateToProps)(WorkersPage);

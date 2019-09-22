@@ -12,15 +12,17 @@ import {
 } from 'antd';
 
 import EmptyState from '../EmptyState';
+import ScreenLoading from '../ScreenLoading';
+import ContentHeader from '../ContentHeader';
 
-import { genders, dayTranslateTemporary } from '../../mocks';
+import { genders, dayTranslateTemporary, dayTranslate } from '../../mocks';
 
 const b = bem('workersList');
 const { Option } = Select;
 const { Search } = Input;
 
 const generateDate = (date, withTimestamp = false) => {
-  if (!date) return 'Невалидная дата';
+  if (!date) return '';
 
   const dateInMS = new Date(date);
   const YYYY = dateInMS.getFullYear();
@@ -39,14 +41,24 @@ const generateDate = (date, withTimestamp = false) => {
 
 const generateSchedule = (from, to, isWork) => {
   if (!isWork) return 'Выходной';
+
+  const dateInMSFrom = new Date(from);
+  const fromHours = String(dateInMSFrom.getUTCHours()).padStart(2, '0');
+  const fromMinutes = String(dateInMSFrom.getUTCMinutes()).padStart(2, '0');
+
+  const dateInMsTo = new Date(to);
+  const toHours = String(dateInMsTo.getUTCHours()).padStart(2, '0');
+  const toMinutes = String(dateInMsTo.getUTCMinutes()).padStart(2, '0');
+
+  return `${fromHours}:${fromMinutes} - ${toHours}:${toMinutes}`;
 };
 
 class WorkersList extends Component {
   state = {
+    loader: false, // TODO: refactor in next realise
     businesses: [],
-    chosenCorporation: '',
+    chosenCorporation: undefined,
     chosenBusiness: undefined,
-    workersByBusiness: [],
     searchedWorkers: [],
     searchProcess: false,
     expandedRowKeys: [], // for Icon type regulation
@@ -61,15 +73,18 @@ class WorkersList extends Component {
     const { corporations, workers } = this.props;
 
     corporations.length && corporations[0] && this.handleCorpChange(corporations[0].id);
-    this.setState({ workersByBusiness: workers, searchedWorkers: workers });
+    this.setState({ searchedWorkers: workers });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ workersByBusiness: nextProps.workers, searchedWorkers: nextProps.workers });
+    this.setState({ searchedWorkers: nextProps.workers });
   }
 
+  toggleLoader = bool => this.setState({ loader: bool });
+
   handleCorpChange = async (corporationId) => {
-    const businesses = await this.props.getBusinessByCorporationId(corporationId, true);
+    this.toggleLoader(true);
+    const businesses = await this.props.getBusinessByCorporationId(corporationId, true, this.toggleLoader);
 
     this.setState({
       chosenCorporation: corporationId,
@@ -78,10 +93,13 @@ class WorkersList extends Component {
     });
   };
 
-  handleBusinessChange = businessId => this.setState({
-    chosenBusiness: businessId,
-    workersByBusiness: this.props.workers.filter(worker => businessId === worker.businessId),
-  });
+  handleBusinessChange = async (businessId) => {
+    this.toggleLoader(true);
+    const { getWorkers } = this.props;
+
+    await getWorkers({ businessId, loaderHandler: this.toggleLoader });
+    this.setState({ chosenBusiness: businessId });
+  };
 
   handleSortColumn = (columnName, prevOrder) => {
     const { searchedWorkers } = this.state;
@@ -109,9 +127,9 @@ class WorkersList extends Component {
 
   handleSearchWorkers = (e) => {
     const { value } = e.target;
-    const { workersByBusiness } = this.state;
+    const { workers } = this.props;
     if (!value || value === '') {
-      this.setState({ searchProcess: false, searchedWorkers: workersByBusiness });
+      this.setState({ searchProcess: false, searchedWorkers: workers });
       return;
     }
 
@@ -119,14 +137,28 @@ class WorkersList extends Component {
     let searchedWorkers = [];
 
     if (type === 'number') {
-      searchedWorkers = workersByBusiness.filter(({ user }) => (user.phone ? user.phone.includes(value) : false));
+      searchedWorkers = workers.filter(({ user }) => (user.phone ? user.phone.includes(value) : false));
     } else if (type === 'string') {
-      searchedWorkers = workersByBusiness.filter(({ user }) => (
+      searchedWorkers = workers.filter(({ user }) => (
         `${user.lastName} ${user.firstName} ${user.middleName}`.toUpperCase().includes(value.toUpperCase())
       ));
     }
 
     this.setState({ searchProcess: true, searchedWorkers });
+  };
+
+  handleTableChange = (pagination) => {
+    const { chosenBusiness, chosenCorporation } = this.state;
+    const { getWorkers } = this.props;
+
+    this.toggleLoader(true);
+
+    getWorkers({
+      corporationId: chosenCorporation,
+      businessId: chosenBusiness,
+      page: pagination.current - 1,
+      loaderHandler: this.toggleLoader,
+    });
   };
 
   handleExpandRow = worker => ({
@@ -146,13 +178,13 @@ class WorkersList extends Component {
   });
 
   renderExpandedRow = (worker) => {
-    const { workTimes, position, user } = worker;
-    const schedules = dayTranslateTemporary.map((day, index) => ({
-      from: workTimes.length ? workTimes[index].from : 0,
-      to: workTimes.length ? workTimes[index].to : 0,
-      isWork: workTimes.length ? workTimes[index].isWork : false,
-      dayOfWeek: workTimes.length ? workTimes[index].dayOfWeek : day.translate,
-    }));
+    const { workTimes = [], position, user = {} } = worker;
+    const schedules = dayTranslateTemporary.reduce((acc, day) => {
+      const [dayOfWeek] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
+      acc.push({ ...day, ...dayOfWeek });
+      return acc;
+    }, []);
+    const { defaultLanguage, phrases } = this.props;
 
     return (
       <Row
@@ -164,7 +196,7 @@ class WorkersList extends Component {
           lg={10}
           className={b('expandTable-row')}
         >
-          <h1 className={b('expandTable-row-header')}>Данные работника</h1>
+          <h1 className={b('expandTable-row-header')}>Данные сотрудника</h1>
           <Row
             type="flex"
             justify="space-between"
@@ -174,24 +206,36 @@ class WorkersList extends Component {
                 <div className="title">Должность:</div>
                 <div className="data">{position}</div>
               </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Профайл создано:</div>
-                <div className="data">{generateDate(user.createDate)}</div>
-              </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Последняя активность:</div>
-                <div className="data">{generateDate(user.lastActivity, true)}</div>
-              </div>
+              {
+                user.createDate && (
+                  <div className={b('expandTable-row-userInfo-box')}>
+                    <div className="title">Профайл создан:</div>
+                    <div className="data">{generateDate(user.createDate)}</div>
+                  </div>
+                )
+              }
+              {
+                user.lastActivity && (
+                  <div className={b('expandTable-row-userInfo-box')}>
+                    <div className="title">Последняя активность:</div>
+                    <div className="data">{generateDate(user.lastActivity, true)}</div>
+                  </div>
+                )
+              }
             </Col>
             <Col lg={11}>
               <div className={b('expandTable-row-userInfo-box')}>
                 <div className="title">Пол:</div>
                 <div className="data">{user.gender ? genders[user.gender] : genders.UNKNOWN}</div>
               </div>
-              <div className={b('expandTable-row-userInfo-box')}>
-                <div className="title">Последняя сессия:</div>
-                <div className="data">{generateDate(user.lastSignIn, true)}</div>
-              </div>
+              {
+                user.lastSignIn && (
+                  <div className={b('expandTable-row-userInfo-box')}>
+                    <div className="title">Последняя сессия:</div>
+                    <div className="data">{generateDate(user.lastSignIn, true)}</div>
+                  </div>
+                )
+              }
             </Col>
           </Row>
         </Col>
@@ -199,7 +243,7 @@ class WorkersList extends Component {
           lg={10}
           className={b('expandTable-row')}
         >
-          <h1 className={b('expandTable-row-header')}>Дни и время работы</h1>
+          <h1 className={b('expandTable-row-header')}>Дни и часы работы </h1>
           <Row
             type="flex"
             justify="space-between"
@@ -211,7 +255,9 @@ class WorkersList extends Component {
                     key={day.dayOfWeek}
                     className={b('expandTable-row-userInfo-box')}
                   >
-                    <div className="title">{`${day.dayOfWeek}:`}</div>
+                    <div className="title">
+                      {`${phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}:`}
+                    </div>
                     <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
                   </div>
                 ))
@@ -224,7 +270,9 @@ class WorkersList extends Component {
                     key={day.dayOfWeek}
                     className={b('expandTable-row-userInfo-box')}
                   >
-                    <div className="title">{`${day.dayOfWeek}:`}</div>
+                    <div className="title">
+                      {`${phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}:`}
+                    </div>
                     <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
                   </div>
                 ))
@@ -240,18 +288,22 @@ class WorkersList extends Component {
     const {
       changeActiveWorker,
       corporations,
+      workers,
+      pagination,
+      defaultLanguage,
+      phrases,
     } = this.props;
     const {
       chosenCorporation,
       chosenBusiness,
       businesses,
-      workersByBusiness,
       searchedWorkers,
       searchProcess,
       expandedRowKeys,
       columnSortOrder: { name, phone, position },
+      loader,
     } = this.state;
-    const isWorkersExist = (workersByBusiness && workersByBusiness.length) || searchProcess;
+    const isWorkersExist = (workers && workers.length) || searchProcess;
 
     const columns = [
       {
@@ -320,102 +372,123 @@ class WorkersList extends Component {
     ];
     return (
       <div className={b()}>
-        <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр сотрудников</p>
-          <div className={b('header-selectorBox')}>
-            <Select
-              onChange={this.handleCorpChange}
-              style={{ width: '280px' }}
-              value={chosenCorporation}
-            >
-              {
-                corporations.map(item => (
-                  <Option
-                    key={item.id}
-                    value={item.id}
-                  >
-                    {item.name}
-                  </Option>
-                ))
-              }
-            </Select>
-            <Icon
-              type="right"
-              className={b('header-selectorBox-rightArrow')}
-            />
-            <Select
-              onChange={this.handleBusinessChange}
-              style={{ width: '280px' }}
-              value={chosenBusiness}
-              placeholder="Выберите бизнес"
-            >
-              {
-                businesses.length && businesses.map(item => (
-                  <Option
-                    key={item.id}
-                    value={item.id}
-                  >
-                    {item.name}
-                  </Option>
-                ))
-              }
-            </Select>
-          </div>
-        </div>
+        <ContentHeader
+          title="Список сотрудников"
+          content={(
+            <div className={b('selectorBox')}>
+              <Select
+                disabled={loader}
+                onChange={this.handleCorpChange}
+                style={{ display: 'none' }}
+                value={chosenCorporation}
+                placeholder={phrases['core.selector.placeholder.choseCompany'][defaultLanguage.isoKey]}
+              >
+                {
+                  corporations.map(item => (
+                    <Option
+                      key={item.id}
+                      value={item.id}
+                    >
+                      {item.name}
+                    </Option>
+                  ))
+                }
+              </Select>
+              <Icon
+                type="right"
+                className={b('selectorBox-rightArrow')}
+              />
+              <Select
+                disabled={loader}
+                onChange={this.handleBusinessChange}
+                style={{ width: '100%' }}
+                value={chosenBusiness}
+                placeholder={phrases['core.selector.placeholder.choseBranch'][defaultLanguage.isoKey]}
+              >
+                {
+                  businesses.length && businesses.map(item => (
+                    <Option
+                      key={item.id}
+                      value={item.id}
+                    >
+                      {item.name}
+                    </Option>
+                  ))
+                }
+              </Select>
+            </div>
+          )}
+        />
         <div className={b('content', { isWorkersExist })}>
           {
-            isWorkersExist ? (
-              <>
-                <div className={b('content-searchBox')}>
-                  <label htmlFor="searchWorkerInput">Поиск по имени или номеру телефона</label>
-                  <Search
-                    placeholder="Поиск..."
-                    id="searchWorkerInput"
-                    onChange={this.handleSearchWorkers}
-                  />
-                </div>
-                <Table
-                  rowKey={worker => worker.id}
-                  className={b('content-workersTable')}
-                  columns={columns}
-                  dataSource={searchedWorkers}
-                  pagination={false}
-                  expandedRowRender={worker => this.renderExpandedRow(worker)}
-                  expandIconAsCell={false} // need for hidden default expand icon
-                  expandRowByClick
-                  onRow={this.handleExpandRow}
-                  scroll={{ y: 408 }}
-                />
-
-                <Row
-                  gutter={32}
-                  className={b('content-controlBtns')}
-                >
-                  <Col lg={14}>
-                    <div className={b('content-controlBtns-infoBlock')}>
-                      <Icon type="info-circle" />
-                      <div>Если профайл сотрудника отсутствует, его необходимо создать</div>
-                      <div className={b('content-controlBtns-infoBlock-arrow')} />
-                    </div>
-                  </Col>
-                  <Col lg={10}>
-                    <Button
-                      className={b('content-controlBtns-btn')}
-                      onClick={changeActiveWorker(null, true)}
-                      type="primary"
-                    >
-                      Создать профайл сотрудника
-                    </Button>
-                  </Col>
-                </Row>
-              </>
+            loader ? (
+              <ScreenLoading />
             ) : (
-              <EmptyState
-                title="У вас нету зарегистрированных сотрудников"
-                descrText="Создайте работника, чтобы просматривать и редактировать информацию о нем"
-                addItemText="Создать сотрудника"
-                addItemHandler={changeActiveWorker}
-              />
+              <>
+                {
+                  isWorkersExist ? (
+                    <>
+                      <div className={b('content-searchBox')}>
+                        <label htmlFor="searchWorkerInput">Поиск по имени / номеру телефона </label>
+                        <Search
+                          placeholder="Поиск..."
+                          id="searchWorkerInput"
+                          onChange={this.handleSearchWorkers}
+                        />
+                      </div>
+                      <Table
+                        rowKey={worker => worker.id}
+                        className={b('content-workersTable')}
+                        columns={columns}
+                        dataSource={searchedWorkers}
+                        expandedRowRender={worker => this.renderExpandedRow(worker)}
+                        expandIconAsCell={false} // need for hidden default expand icon
+                        expandRowByClick
+                        onRow={this.handleExpandRow}
+                        pagination={pagination.totalPages > 1
+                          ? {
+                            ...pagination,
+                            pageSize: 7,
+                            className: b('content-pagination'),
+                          }
+                          : false
+                        }
+                        onChange={this.handleTableChange}
+                        scroll={{ y: 337 }}
+                      />
+
+                      <Row
+                        gutter={32}
+                        className={b('content-controlBtns')}
+                      >
+                        <Col lg={14}>
+                          <div className={b('content-controlBtns-infoBlock')}>
+                            <Icon type="info-circle" />
+                            <div>Если сотрудник отсутствует в списке, необходимо внести его в систему</div>
+                            <div className={b('content-controlBtns-infoBlock-arrow')} />
+                          </div>
+                        </Col>
+                        <Col lg={10}>
+                          <Button
+                            className={b('content-controlBtns-btn')}
+                            onClick={changeActiveWorker(null, true)}
+                            type="primary"
+                          >
+                            Создать профиль сотрудника
+                          </Button>
+                        </Col>
+                      </Row>
+                    </>
+                  ) : (
+                    <EmptyState
+                      title="У вас пока нет зарегистрированных сотрудников"
+                      descrText="Создайте сотрудника, чтобы просматривать и редактировать информацию о нем"
+                      addItemText="Создать сотрудника"
+                      addItemHandler={changeActiveWorker}
+                    />
+                  )
+                }
+              </>
             )
           }
         </div>

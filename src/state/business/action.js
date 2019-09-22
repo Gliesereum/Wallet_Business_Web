@@ -1,11 +1,10 @@
 const actions = {
-  GET_BUSINESS_TYPES: 'GET_BUSINESS_TYPES',
-  GET_BUSINESS_CATEGORIES: 'GET_BUSINESS_CATEGORIES',
-
   GET_BUSINESS: 'GET_BUSINESS',
   UPDATE_BUSINESS: 'UPDATE_BUSINESS',
   ADD_BUSINESS: 'ADD_BUSINESS',
   REMOVE_BUSINESS: 'REMOVE_BUSINESS',
+
+  CHANGE_CHOSEN_BUSINESS: 'CHANGE_CHOSEN_BUSINESS',
 
   GET_SERVICE_PRICE: 'GET_SERVICE_PRICE',
   UPDATE_SERVICE_PRICE: 'UPDATE_SERVICE_PRICE',
@@ -22,23 +21,15 @@ const actions = {
   GET_WORKING_SPACES: 'GET_WORKING_SPACES',
   ADD_WORKING_SPACE: 'ADD_WORKING_SPACE',
   UPDATE_WORKING_SPACE: 'UPDATE_WORKING_SPACE',
+  REMOVE_WORKER_FROM_OLD_WORKING_SPACE: 'REMOVE_WORKER_FROM_OLD_WORKING_SPACE',
   DELETE_WORKING_SPACE: 'DELETE_WORKING_SPACE',
 
-  GET_BUSINESS_ORDERS: 'GET_BUSINESS_ORDERS',
+  GET_ORDERS: 'GET_ORDERS',
+  UPDATE_ORDER_STATUS: 'UPDATE_ORDER_STATUS',
 
   $getBusiness: business => ({
     type: actions.GET_BUSINESS,
     payload: business,
-  }),
-
-  $getBusinessTypes: types => ({
-    type: actions.GET_BUSINESS_TYPES,
-    payload: types,
-  }),
-
-  $getBusinessCategories: categories => ({
-    type: actions.GET_BUSINESS_CATEGORIES,
-    payload: categories,
   }),
 
   $updateBusiness: updatedBusiness => ({
@@ -53,6 +44,11 @@ const actions = {
 
   $removeBusiness: businessId => ({
     type: actions.REMOVE_BUSINESS,
+    payload: businessId,
+  }),
+
+  $changeChosenBusiness: businessId => ({
+    type: actions.CHANGE_CHOSEN_BUSINESS,
     payload: businessId,
   }),
 
@@ -116,16 +112,25 @@ const actions = {
     payload: workingSpace,
   }),
 
+  $removeWorkerFromOldWS: worker => ({
+    type: actions.REMOVE_WORKER_FROM_OLD_WORKING_SPACE,
+    payload: worker,
+  }),
+
   $deleteWorkingSpace: workingSpaceId => ({
     type: actions.DELETE_WORKING_SPACE,
     payload: workingSpaceId,
   }),
 
-  $getBusinessOrders: (businessId, data) => ({
-    type: actions.GET_BUSINESS_ORDERS,
-    payload: { businessId, data },
+  $getOrders: orders => ({
+    type: actions.GET_ORDERS,
+    payload: orders,
   }),
 
+  $updateOrderStatus: order => ({
+    type: actions.UPDATE_ORDER_STATUS,
+    payload: order,
+  }),
 };
 
 export default actions;

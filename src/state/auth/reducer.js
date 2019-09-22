@@ -5,12 +5,13 @@ const initState = {
   authenticated: false,
   user: {},
   email: {},
+  hasAdminRights: false,
 };
 
 const initReducers = {
-  [actions.CHECK_AUTHENTICATE]: state => ({
+  [actions.CHECK_AUTHENTICATE]: (state, isAuthenticated) => ({
     ...state,
-    authenticated: true,
+    authenticated: isAuthenticated,
   }),
 
   [actions.UPDATE_USER_DATA]: (state, payload) => ({
@@ -30,6 +31,16 @@ const initReducers = {
       verifiedStatus: 'VERIFIED',
     },
     email: payload,
+  }),
+
+  [actions.CHECK_ADMIN_RIGHTS]: (state, payload) => ({
+    ...state,
+    hasAdminRights: payload,
+  }),
+
+  [actions.SHOW_WELCOME_PAGE]: (state, payload) => ({
+    ...state,
+    showWelcomePage: payload,
   }),
 
   [actions.SIGNOUT_USER]: state => ({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import {
   Route,
   BrowserRouter as Router,
@@ -13,36 +13,57 @@ import {
   CorporationsPage,
   WorkersPage,
   ClientsPage,
+  OrdersPage,
   FAQ,
+  AdminPanel,
 } from '../screen';
 
-const privateRouter = ({ user }) => (
-  <Router>
-    <Container user={user}>
-      <Switch>
-        {/* <Route path={['/', '/login', '/analytics', '/profile']} exact> */}
-        {/*  <Redirect to={(user && user.firstName) ? '/corporations' : '/profile'} /> */}
-        {/* </Route> */}
+import { isUserDataFull } from '../utils';
 
-        <Route path="/corporations" exact component={CorporationsPage} />
-        <Route path="/workers" exact component={WorkersPage} />
-        <Route path="/clients" exact component={ClientsPage} />
+class PrivateRouter extends PureComponent {
+  render() {
+    const {
+      user,
+      hasAdminRights,
+    } = this.props;
 
-        <Route path="/settings" exact>
-          <Redirect to="/corporations" />
-        </Route>
-        <Route path="/analytics" exact>
-          <Redirect to="/corporations" />
-        </Route>
+    return (
+      <Router>
+        <Container
+          user={user}
+          {...this.props}
+        >
+          {
+            isUserDataFull(user)
+              ? (
+                <Switch>
+                  {/* <Route path="/corporations" exact component={CorporationsPage} /> */}
+                  <Route path="/businesses" exact component={CorporationsPage} />
+                  <Route path="/orders" exact component={OrdersPage} />
+                  <Route path="/workers" exact component={WorkersPage} />
+                  <Route path="/clients" exact component={ClientsPage} />
 
-        <Route path="/profile" exact component={ProfileInfo} />
+                  {hasAdminRights && <Route path="/adminPanel" exact component={AdminPanel} />}
 
-        <Route path="/help" exact component={FAQ} />
+                  <Route path="/profile" exact component={ProfileInfo} />
 
-        <Route path={['/business/add', '/business/:id']} exact component={BusinessPage} />
-      </Switch>
-    </Container>
-  </Router>
-);
+                  <Route path="/help" exact component={FAQ} />
 
-export default privateRouter;
+                  <Route path={['/business/add', '/business/:id']} exact component={BusinessPage} />
+
+                  {/* <Redirect from="*" to="/corporations" /> */}
+                  <Redirect from="*" to="/businesses" />
+                </Switch>
+              ) : (
+                <Switch>
+                  <Route render={routeProps => <ProfileInfo {...routeProps} isFirstSignIn />} />
+                </Switch>
+              )
+          }
+        </Container>
+      </Router>
+    );
+  }
+}
+
+export default PrivateRouter;

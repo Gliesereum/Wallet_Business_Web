@@ -1,0 +1,35 @@
+@import '../../styles/theme.scss';
+
+.periodSelector {
+  padding: 16px 0;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    height: 48px;
+  }
+
+  &__selector {
+    width: 100%;
+  }
+
+  &__customPeriodInput {
+    width: 100% !important;
+
+    & .ant-calendar {
+      &-picker-input {
+        line-height: 16px;
+        background-color: $white;
+      }
+
+      &-range-picker-input {
+        width: 47%;
+      }
+
+      &-picker-icon,
+      &-picker-clear {
+        display: none;
+      }
+    }
+  }
+}

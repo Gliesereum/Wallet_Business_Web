@@ -12,11 +12,11 @@ import {
 
 import { WorkerForm } from '../Forms';
 import DeleteModal from '../DeleteModal';
+import ContentHeader from '../ContentHeader';
 
 import { asyncRequest, withToken } from '../../utils';
 import { scheduleListDefault, dayTranslate } from '../../mocks';
 
-const { Search } = Input;
 const b = bem('workerInfo');
 
 class WorkerInfo extends Component {
@@ -24,9 +24,13 @@ class WorkerInfo extends Component {
     readOnlyMode: !this.props.isAddMode,
     businesses: [],
     workingSpaces: [],
+    workTimes: [],
     scheduleList: [],
     foundUser: null,
     deleteModalVisible: false,
+    isAdmin: (this.props.chosenWorker && this.props.admins.length)
+      ? this.props.admins.some(admin => admin.userId === this.props.chosenWorker.userId)
+      : false,
   };
 
   async componentDidMount() {
@@ -40,8 +44,8 @@ class WorkerInfo extends Component {
     }
   }
 
-  initScheduleList = () => {
-    const { workTimes } = this.props.chosenWorker || { workTimes: [] };
+  initScheduleList = (workingTime = { workTimes: [] }) => {
+    const { workTimes } = (!this.state.foundUser && this.props.chosenWorker) || workingTime;
     const initDaysList = scheduleListDefault.reduce((acc, day) => {
       const [initDay] = workTimes.filter(item => item.dayOfWeek === day.dayOfWeek);
       acc.push({ ...day, ...initDay });
@@ -55,15 +59,18 @@ class WorkerInfo extends Component {
   handleGetBusinessByCorporationId = async (corporationId) => {
     const { chosenWorker, getBusinessByCorporationId } = this.props;
 
-    const businesses = await getBusinessByCorporationId(corporationId, true);
+    const businesses = await getBusinessByCorporationId(corporationId);
     this.setState({ businesses });
-    chosenWorker && await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
+    chosenWorker && !this.state.foundUser && await this.handleGetWorkingSpacesByBusinessId(chosenWorker.businessId);
   };
 
   handleGetWorkingSpacesByBusinessId = (businessId) => {
     const { businesses } = this.state;
     const [business] = businesses.filter(item => item.id === businessId);
-    this.setState({ workingSpaces: business ? business.spaces : [] });
+    this.initScheduleList({ workTimes: business.workTimes });
+    this.setState({
+      workingSpaces: business ? business.spaces : [],
+    });
   };
 
   handleUpdateWorker = async () => {
@@ -77,7 +84,7 @@ class WorkerInfo extends Component {
         lastName,
         middleName,
         phone,
-        gender,
+        isAdmin,
         ...workTimesData
       }) => {
         if (!error) {
@@ -86,11 +93,12 @@ class WorkerInfo extends Component {
             chosenWorker,
             changeActiveWorker,
           } = this.props;
+          const { scheduleList, foundUser, businesses } = this.state;
 
-          const isWorkTimesExist = this.state.scheduleList[0].id;
+          const isWorkTimesExist = scheduleList[0].id;
           const workTimes = [];
-          const [business] = this.state.businesses.filter(item => item.id === businessId);
-          if (isWorkTimesExist) {
+          const [business] = businesses.filter(item => item.id === businessId);
+          if (isWorkTimesExist && chosenWorker && !foundUser) {
             chosenWorker.workTimes.forEach((item) => {
               workTimes.push({
                 ...item,
@@ -127,7 +135,6 @@ class WorkerInfo extends Component {
               lastName,
               middleName,
               phone,
-              gender,
             },
             workTimes,
           };
@@ -144,21 +151,32 @@ class WorkerInfo extends Component {
               notification.error({
                 duration: 5,
                 message: err.message || 'Ошибка',
-                description: 'Возникла ошибка',
+                description: 'Ошибка',
               });
             }
           }
 
           try {
-            await withToken(asyncRequest)({
+            const newWorker = await withToken(asyncRequest)({
               url, body, method, moduleUrl: 'karma',
             });
+
+            if (this.state.isAdmin !== isAdmin) {
+              await withToken(asyncRequest)({
+                url: `business-administrator?businessId=${businessId}&userId=${newWorker.userId}`,
+                method: isAdmin ? 'POST' : 'DELETE',
+                moduleUrl: 'karma',
+              });
+
+              this.setState({ isAdmin });
+            }
+
             changeActiveWorker(null, false)();
           } catch (err) {
             notification.error({
               duration: 5,
               message: err.message || 'Ошибка',
-              description: 'Возникла ошибка',
+              description: 'Ошибка',
             });
           }
         }
@@ -177,13 +195,21 @@ class WorkerInfo extends Component {
       notification.error({
         duration: 5,
         message: err.message || 'Ошибка',
-        description: 'Возникла ошибка',
+        description: 'Ошибка',
       });
     }
   };
 
-  handleSearchUserByNumber = async (value) => {
-    const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${value}` }) || null;
+  handleSearchUserByNumber = async (e) => {
+    const { value } = e.target;
+    const searchedPhone = value.replace(/[()\s+]/g, '');
+
+    if (searchedPhone.length !== 12) {
+      this.props.changeActiveWorker(null, true)();
+      return;
+    }
+
+    const user = await withToken(asyncRequest)({ url: `user/by-phone?phone=${searchedPhone}` }) || null;
     this.setState({ foundUser: user });
     if (!user) this.props.changeActiveWorker(null, true)();
   };
@@ -200,42 +226,45 @@ class WorkerInfo extends Component {
 
     if (readOnlyMode) {
       return (
-        <div className={b('header')}>
-          <p className={b('header-title')}>Просмотр профайла сотрудника</p>
-        </div>
+        <ContentHeader
+          title="Просмотр профиля сотрудника"
+          titleCentered
+        />
       );
     } if (isAddMode) {
       return (
-        <div className={b('header', { isAddMode })}>
-          <p className={b('header-title')}>Создание профайла сотрудника</p>
-          <Search
-            className={b('header-searchInput')}
-            placeholder="Поиск по номеру..."
-            onSearch={this.handleSearchUserByNumber}
-          />
-          <div className={b('header-searchResultBlock')}>
-            <span className={b('header-searchResultBlock-text')}>
-              {
-                foundUser
-                  ? `${foundUser.phone} | ${foundUser.lastName} ${foundUser.firstName} ${foundUser.middleName}`
-                  : 'Результат поиска...'
-              }
-            </span>
-          </div>
-          <Button
-            disabled={!foundUser}
-            className={b('header-searchResultButton')}
-            onClick={changeActiveWorker({ user: foundUser }, true)}
-          >
-            Выбрать
-          </Button>
-        </div>
+        <ContentHeader
+          title="Создание сотрудника"
+          content={(
+            <div className={b('searchBlock')}>
+              <span className={b('searchBlock-text')}>Поиск по номеру</span>
+              <Input
+                className={b('searchBlock-searchInput')}
+                placeholder="+380507595188"
+                onChange={this.handleSearchUserByNumber}
+              />
+              <Button
+                type="primary"
+                disabled={!foundUser}
+                className={b('searchBlock-searchResultBlock')}
+                onClick={changeActiveWorker({ user: foundUser }, true)}
+              >
+                {
+                  foundUser
+                    ? `${foundUser.phone} | ${foundUser.lastName} ${foundUser.firstName} ${foundUser.middleName}`
+                    : 'Результат поиска...'
+                }
+              </Button>
+            </div>
+          )}
+        />
       );
     }
     return (
-      <div className={b('header')}>
-        <p className={b('header-title')}>Редактирование профайла сотрудника</p>
-      </div>
+      <ContentHeader
+        title="Редактирование профиля сотрудника"
+        titleCentered
+      />
     );
   };
 
@@ -244,6 +273,8 @@ class WorkerInfo extends Component {
       isAddMode,
       chosenWorker,
       corporations,
+      defaultLanguage,
+      phrases,
       changeActiveWorker,
     } = this.props;
     const {
@@ -252,6 +283,9 @@ class WorkerInfo extends Component {
       workingSpaces,
       scheduleList,
       deleteModalVisible,
+      isAdmin,
+      foundUser,
+      workTimes,
     } = this.state;
 
     return (
@@ -263,11 +297,15 @@ class WorkerInfo extends Component {
             corporations={corporations}
             businesses={businesses}
             workingSpaces={workingSpaces}
+            workTimes={workTimes}
             scheduleList={scheduleList}
             dayTranslate={dayTranslate}
             chosenWorker={chosenWorker}
             readOnlyMode={readOnlyMode}
             isAddMode={isAddMode}
+            isAdmin={isAdmin}
+            defaultLanguage={defaultLanguage}
+            phrases={phrases}
             getBusinessByCorporationId={this.handleGetBusinessByCorporationId}
             getWorkingSpacesByBusinessId={this.handleGetWorkingSpacesByBusinessId}
             onCorpChange={this.handleCorpChange}
@@ -289,7 +327,7 @@ class WorkerInfo extends Component {
                 ) : (
                   <Button
                     className={b('content-controlBtns-btn backBtn')}
-                    onClick={chosenWorker
+                    onClick={(chosenWorker && !foundUser)
                       ? this.handleToggleReadOnlyMode(true)
                       : changeActiveWorker(null, false)
                     }
@@ -310,11 +348,7 @@ class WorkerInfo extends Component {
                     Удалить сотрудника
                   </Button>
                 ) : (
-                  <Button
-                    className={b('content-controlBtns-btn deleteBtn')}
-                  >
-                    Інфо блок
-                  </Button>
+                  <div />
                 )
               }
             </Col>

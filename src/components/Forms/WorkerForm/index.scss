@@ -1,14 +1,8 @@
 @import '../../../styles/theme.scss';
 
 .workerForm {
-  height: 495px;
-  width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
   &__col {
     &-header {
-      font-family: $sans;
       font-size: 14px;
       line-height: 16px;
       color: $font-title-black;
@@ -44,18 +38,24 @@
             overflow: hidden;
           }
         }
+
+        & .ant-form-explain {
+          display: none;
+        }
       }
     }
-  }
 
-  &__formItem {
-    &-radioGroup {
+    &-isAdminBlock {
       display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      border: 1px dashed rgba(72, 84, 101, 0.32);
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
       border-radius: 4px;
-      padding: 12px 16px;
+      background-color: #FBFCFE;
+
+      &-formItem {
+        margin-bottom: 0;
+      }
     }
   }
 }

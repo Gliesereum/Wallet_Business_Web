@@ -19,21 +19,21 @@ class BusinessPackages extends Component {
 
   render() {
     const {
-      singleBusiness,
+      chosenBusiness,
       packages,
       servicePrices,
       changeActiveTab,
     } = this.props;
     const { chosenPackage, isAddPackageMode } = this.state;
-    const packagesList = packages[singleBusiness.id] || [];
-    const servicePricesList = servicePrices[singleBusiness.id] || [];
+    const packagesList = chosenBusiness ? packages[chosenBusiness.id] : [];
+    const servicePricesList = chosenBusiness ? servicePrices[chosenBusiness.id] : [];
 
     return (
       <div className={b()}>
         {
           isAddPackageMode || (chosenPackage && chosenPackage.id) ? (
             <BusinessPackagesInfo
-              singleBusiness={singleBusiness}
+              chosenBusiness={chosenBusiness}
               isAddMode={isAddPackageMode}
               chosenPackage={chosenPackage}
               changeActivePackage={this.changeActivePackage}
@@ -41,7 +41,7 @@ class BusinessPackages extends Component {
             />
           ) : (
             <BusinessPackagesList
-              packages={packagesList}
+              packages={packagesList || []}
               changeActiveTab={changeActiveTab}
               changeActivePackage={this.changeActivePackage}
             />

@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
 import bem from 'bem-join';
+import ReactCodeInput from 'react-verification-code-input';
 
 import {
-  Input,
   Form,
   Button,
+  Icon,
 } from 'antd';
 
 import Timer from '../../Timer';
+import PhoneInput from '../../PhoneInput';
 
 const b = bem('signInForm');
 
 class SignInForm extends Component {
   state = {
     timerIsFinished: false,
+    dialCodeLength: '',
   };
+
+  handleSetDialCode = dialCodeLength => this.setState(prevState => ({
+    ...prevState,
+    dialCodeLength: prevState.dialCodeLength !== dialCodeLength ? dialCodeLength : prevState.dialCodeLength,
+  }));
 
   sendFormCodeHandler = () => {
     const { sendCodeHandler, form } = this.props;
 
     form.validateFields((error, values) => {
       if (!error) {
-        sendCodeHandler(values.codeInput);
+        sendCodeHandler(values.code);
       }
     });
   };
@@ -30,26 +38,18 @@ class SignInForm extends Component {
     const { getCodeHandler, form } = this.props;
 
     await form.validateFields(async (error, values) => {
-      if (!error) {
+      const isPhoneValid = /[0-9]{6,15}$/.test(values.phone.slice(this.state.dialCodeLength));
+      if (!error && values.phone && isPhoneValid) {
         if (phoneRepeat) {
           await getCodeHandler(phoneRepeat);
           this.timerRef.restartTimer();
         } else {
-          await getCodeHandler(values.phoneInput);
+          await getCodeHandler(values.phone);
         }
+      } else {
+        // notification TODO: add
       }
     });
-  };
-
-  checkPasswordHandler = (e) => {
-    const { value } = e.target;
-    const regExp = /^[\d]{0,6}$/;
-
-    if (Number.isNaN(value) || !regExp.test(value)) {
-      return this.props.form.getFieldValue('codeInput');
-    }
-
-    return value;
   };
 
   timerFinishHandler = value => this.setState({ timerIsFinished: value });
@@ -62,101 +62,104 @@ class SignInForm extends Component {
       phone,
       validateStatus,
       gotCodeHandler,
+      phrases,
+      defaultLanguage,
+      loader,
     } = this.props;
 
     return (
       <Form className={b()}>
-        <div className={b('title')}>
-          {
-            gotCode ? (
-              <Timer
-                ref={node => this.timerRef = node}
-                timerFinishHandler={this.timerFinishHandler}
-                time={180000}
-              />
-            ) : ''
-          }
-        </div>
         <div className={b('infoBlock')}>
           {
             gotCode ? (
-              <>
-                <span>Код был отправлен на номер</span>
-                <span>{phone}</span>
-              </>
+              <div>
+                <Timer
+                  ref={node => this.timerRef = node}
+                  timerFinishHandler={this.timerFinishHandler}
+                  time={180000}
+                />
+                <p>{`${phrases['signIn.form.message.sendCode'][defaultLanguage.isoKey]} +${phone}`}</p>
+              </div>
             ) : (
-              <span>Введите номер телефона для получения кода подтверждения</span>
+              <div>
+                <p className="loginText">{phrases['signIn.form.welcome'][defaultLanguage.isoKey]}</p>
+              </div>
             )
           }
         </div>
         <Form.Item
           colon={false}
-          label={gotCode ? 'Одноразовый пароль из смс' : 'Номер телефона'}
+          label={gotCode
+            ? phrases['core.form.inputCode.label'][defaultLanguage.isoKey]
+            : phrases['core.form.inputPhone.label'][defaultLanguage.isoKey]
+          }
           className={b('number', { labelBox: true })}
           validateStatus={validateStatus}
-          hasFeedback
         >
           {gotCode
-            ? form.getFieldDecorator('codeInput', {
-              validateTrigger: 'onBlur',
-              getValueFromEvent: this.checkPasswordHandler,
-              rules: [
-                { required: true, message: 'Please enter your code number!' },
-                { pattern: new RegExp(/^[\d ]{6}$/), message: 'Invalid code number!' },
-              ],
+            ? form.getFieldDecorator('code', {
+              initialValue: '',
             })(
-              <Input.Password
-                disabled={false}
+              <ReactCodeInput
+                fields={6}
+                fieldWidth={32}
+                fieldHeight={48}
                 autoFocus
-                size="large"
-                className={b('number', { codeInput: true })}
-                maxLength={6}
+                className="codeInput"
               />
-            )
-            : form.getFieldDecorator('phoneInput', {
-              initialValue: '+380',
-              rules: [
-                { required: true, message: 'Please enter your phone number!' },
-                { pattern: new RegExp(/^\+[\d ]{12}$/), message: 'Не верный номер телефона' },
-              ],
-              validateTrigger: 'onBlur',
+            ) : form.getFieldDecorator('phone', {
+              initialValue: '',
             })(
-              <Input
-                autoFocus={false}
-                size="large"
-                placeholder="+38093 000 00 03"
-                className={b('number', { phoneInput: true })}
-                onChange={this.checkPasswordHandler}
-              />
+              <PhoneInput setDialCode={this.handleSetDialCode} />
             )
           }
         </Form.Item>
         {
           gotCode ? (
-            <>
+            <div className="buttonGroup">
               <Button
+                loading={loader}
+                type="primary"
+                disabled={timerIsFinished}
                 className={b('button', { firstButton: true })}
-                onClick={timerIsFinished ? this.getFormCodeHandler(phone) : this.sendFormCodeHandler}
+                onClick={this.sendFormCodeHandler}
               >
-                {
-                  timerIsFinished ? 'Отправить повторно' : 'Подтвердить пароль'
-                }
+                {phrases['signIn.form.inputPhone.confirm'][defaultLanguage.isoKey]}
               </Button>
               <Button
+                loading={loader}
                 type="primary"
-                className={b('button')}
+                className={b('button backBtn black')}
                 onClick={gotCodeHandler}
               >
-                Изменить номер
+                {!loader && <Icon type="left" />}
+                {phrases['core.button.back'][defaultLanguage.isoKey]}
               </Button>
-            </>
+              <div className={b('button', { sendOneMore: true })}>
+                <span>
+                  {phrases['signIn.form.didntGetCode'][defaultLanguage.isoKey]}
+                  &nbsp;
+                </span>
+                {
+                  !loader && (
+                    <span onClick={this.getFormCodeHandler(phone)}>
+                      {phrases['signIn.form.inputPhone.timerReturn'][defaultLanguage.isoKey]}
+                    </span>
+                  )
+                }
+              </div>
+            </div>
           ) : (
-            <Button
-              className={b('button')}
-              onClick={this.getFormCodeHandler()}
-            >
-              Получить одноразовый пароль
-            </Button>
+            <div className="buttonGroup">
+              <Button
+                loading={loader}
+                type="primary"
+                className={b('button')}
+                onClick={this.getFormCodeHandler()}
+              >
+                {phrases['signIn.form.button.getCode'][defaultLanguage.isoKey]}
+              </Button>
+            </div>
           )
         }
       </Form>

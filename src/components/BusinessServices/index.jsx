@@ -16,14 +16,14 @@ class BusinessServices extends Component {
 
   render() {
     const {
-      singleBusiness,
+      chosenBusiness,
       servicePrices,
       changeActiveTab,
       changeTabDisable,
       updateBusinessService,
     } = this.props;
     const { chosenService, isAddServiceMode } = this.state;
-    const services = servicePrices[singleBusiness.id] || [];
+    const services = chosenBusiness ? servicePrices[chosenBusiness.id] : [];
 
     return (
       <div className={b()}>
@@ -31,7 +31,7 @@ class BusinessServices extends Component {
           // if add service mode or some of service was chosen from servicesList
           isAddServiceMode || (chosenService && chosenService.id) ? (
             <BusinessServiceInfo
-              singleBusiness={singleBusiness}
+              chosenBusiness={chosenBusiness}
               isAddMode={isAddServiceMode}
               chosenService={chosenService}
               changeTabDisable={changeTabDisable}
@@ -40,7 +40,7 @@ class BusinessServices extends Component {
             />
           ) : (
             <BusinessServicesList
-              services={services}
+              services={services || []}
               changeTabDisable={changeTabDisable}
               changeActiveService={this.changeActiveService}
               changeActiveTab={changeActiveTab}

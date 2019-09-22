@@ -19,8 +19,18 @@ import BusinessScheduleInfo from './BusinessScheduleInfo';
 import BusinessMainInfo from './BusinessMainInfo';
 import EmptyState from './EmptyState';
 import FromToInput from './FromToInput';
-import ProneInput from './ProneInput';
+import PhoneInput from './PhoneInput';
 import DeleteModal from './DeleteModal';
+import HelpDrawer from './HelpDrawer';
+import PeriodSelector from './PeriodSelector';
+import AdminPanelPhrases from './AdminPanelPhrases';
+import AdminPanelPhrasesList from './AdminPanelPhrasesList';
+import WelcomePage from './WelcomePage';
+import AvatarAndCoverUploader from './AvatarAndCoverUploader';
+import ContentHeader from './ContentHeader';
+import OrdersList from './OrdersList';
+import CorporationContent from './CorporationContent';
+import WidgetSettings from './WidgetSettings';
 
 export {
   Header,
@@ -44,6 +54,16 @@ export {
   BusinessMainInfo,
   EmptyState,
   FromToInput,
-  ProneInput,
+  PhoneInput,
   DeleteModal,
+  HelpDrawer,
+  PeriodSelector,
+  AdminPanelPhrases,
+  AdminPanelPhrasesList,
+  WelcomePage,
+  AvatarAndCoverUploader,
+  ContentHeader,
+  OrdersList,
+  CorporationContent,
+  WidgetSettings,
 };

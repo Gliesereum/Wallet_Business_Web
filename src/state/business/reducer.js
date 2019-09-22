@@ -3,28 +3,22 @@ import { createReducer } from '../../utils';
 
 const initState = {
   business: [],
-  businessTypes: [],
-  businessCategories: [],
+  chosenBusiness: null,
   servicePrices: {},
   businessPackages: {},
   workingSpaces: [],
-  businessOrders: {},
+  ordersPage: {
+    number: 0,
+    totalPages: 0,
+    totalElements: 0,
+  },
+  orders: [],
 };
 
 const initReducers = {
   [actions.GET_BUSINESS]: (state, payload) => ({
     ...state,
     business: payload,
-  }),
-
-  [actions.GET_BUSINESS_TYPES]: (state, payload) => ({
-    ...state,
-    businessTypes: payload || [],
-  }),
-
-  [actions.GET_BUSINESS_CATEGORIES]: (state, payload) => ({
-    ...state,
-    businessCategories: payload || [],
   }),
 
   [actions.UPDATE_BUSINESS]: (state, payload) => {
@@ -43,6 +37,11 @@ const initReducers = {
   [actions.REMOVE_BUSINESS]: (state, businessId) => ({
     ...state,
     business: state.business.filter(item => item.id !== businessId),
+  }),
+
+  [actions.CHANGE_CHOSEN_BUSINESS]: (state, businessId) => ({
+    ...state,
+    chosenBusiness: state.business.find(item => item.id === businessId),
   }),
 
   [actions.GET_SERVICE_PRICE]: (state, payload) => {
@@ -213,6 +212,27 @@ const initReducers = {
     };
   },
 
+  [actions.REMOVE_WORKER_FROM_OLD_WORKING_SPACE]: (state, { movedWorker }) => {
+    const workingSpaceIndex = state.workingSpaces.findIndex(ws => ws.id === movedWorker.workingSpaceId);
+
+    const modifiedWorkingSpaceWorkers = state.workingSpaces[workingSpaceIndex].workers
+      .filter(worker => worker.id !== movedWorker.id);
+
+    const modifiedWorkingSpace = {
+      ...state.workingSpaces[workingSpaceIndex],
+      workers: modifiedWorkingSpaceWorkers,
+    };
+
+    return {
+      ...state,
+      workingSpaces: [
+        ...state.workingSpaces.slice(0, workingSpaceIndex),
+        modifiedWorkingSpace,
+        ...state.workingSpaces.slice(workingSpaceIndex + 1),
+      ],
+    };
+  },
+
   [actions.DELETE_WORKING_SPACE]: (state, payload) => ({
     ...state,
     workingSpaces: [
@@ -220,16 +240,32 @@ const initReducers = {
     ],
   }),
 
-  [actions.GET_BUSINESS_ORDERS]: (state, payload) => {
-    const { data, businessId } = payload;
-    if (!data.length) return state;
+  [actions.GET_ORDERS]: (state, {
+    content = [],
+    totalElements,
+    totalPages,
+    number,
+  }) => ({
+    ...state,
+    orders: content,
+    ordersPage: {
+      totalElements,
+      totalPages,
+      number: number + 1,
+    },
+  }),
+
+  [actions.UPDATE_ORDER_STATUS]: (state, payload) => {
+    const updatedOrderIndex = state.orders.findIndex(item => item.id === payload.id);
+    const newOrdersArray = [
+      ...state.orders.slice(0, updatedOrderIndex),
+      payload,
+      ...state.orders.slice(updatedOrderIndex + 1),
+    ];
 
     return {
       ...state,
-      businessOrders: {
-        ...state.businessOrders,
-        [businessId]: data,
-      },
+      orders: newOrdersArray,
     };
   },
 };
