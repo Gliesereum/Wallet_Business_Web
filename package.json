@@ -2,7 +2,7 @@
   "name": "spa",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://gliesereum.github.io/Coupler_Business_Web/",
+  "homepage": "https://dev.coupler.app/",
   "dependencies": {
     "@svgr/webpack": "2.4.1",
     "antd": "^3.13.2",
