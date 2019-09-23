@@ -67,6 +67,10 @@
   "../screen/AdminPanel/index.scss";
 }
 
+html {
+  -webkit-overflow-scrolling: auto;
+}
+
 @keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 1; }
