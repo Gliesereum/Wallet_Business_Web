@@ -165,14 +165,18 @@ class BusinessPage extends Component {
                 key={keyName}
                 disabled={disabled}
               >
-                <ContentComponent
-                  chosenBusiness={chosenBusiness}
-                  isAddBusinessMode={isAddBusinessMode}
-                  changeActiveTab={this.changeActiveTab}
-                  defaultLanguage={defaultLanguage}
-                  phrases={phrases}
-                  {...props}
-                />
+                {
+                  (isAddBusinessMode || chosenBusiness) && (
+                    <ContentComponent
+                      chosenBusiness={chosenBusiness}
+                      isAddBusinessMode={isAddBusinessMode}
+                      changeActiveTab={this.changeActiveTab}
+                      defaultLanguage={defaultLanguage}
+                      phrases={phrases}
+                      {...props}
+                    />
+                  )
+                }
               </Tabs.TabPane>
             ))
           }

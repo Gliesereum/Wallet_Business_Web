@@ -1,10 +1,21 @@
-@import '../../styles/theme';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .fromToInput {
   display: flex;
   flex-direction: row;
   width: 128px;
   position: relative;
+
+  &--businessSchedule {
+    width: 280px;
+    @include respond-to(tablet) {
+      width: 176px;
+    }
+    @include respond-to(phone) {
+      width: 152px;
+    }
+  }
 
   &--asText {
     width: auto;
@@ -22,7 +33,21 @@
     }
   }
 
+  &__weekend-block {
+    border: 1px solid #E5E5E5;
+    height: 48px;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    &--readOnly {
+      background-color: #F7F7F7;
+    }
+  }
+
   &__fromTime {
+    text-align: center;
     border-right: none;
     border-radius: 4px 0 0 4px;
     padding: 11px;
@@ -33,6 +58,7 @@
   }
 
   &__toTime {
+    text-align: center;
     border-left: none;
     border-radius: 0 4px 4px 0;
     padding: 11px;
