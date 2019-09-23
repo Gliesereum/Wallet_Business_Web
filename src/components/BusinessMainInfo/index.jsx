@@ -167,10 +167,15 @@ class BusinessMainInfo extends Component {
         />
 
         <Row
+          type="flex"
           gutter={40}
           className={b('controlBtns')}
         >
-          <Col lg={isAddBusinessMode ? 12 : 8}>
+          <Col
+            xs={{ span: 24, order: 3 }}
+            sm={{ span: 24, order: 3 }}
+            md={{ span: isAddBusinessMode ? 12 : 8, order: 1 }}
+          >
             <Button className={b('controlBtns-btn backBtn')}>
               <Link to="/corporations">
                 <Icon type="left" />
@@ -180,7 +185,11 @@ class BusinessMainInfo extends Component {
           </Col>
           {
             !isAddBusinessMode && (
-              <Col lg={8}>
+              <Col
+                xs={{ span: 24, order: 2 }}
+                sm={{ span: 24, order: 2 }}
+                md={{ span: 8, order: 2 }}
+              >
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.toggleDeleteModal}
@@ -190,7 +199,11 @@ class BusinessMainInfo extends Component {
               </Col>
             )
           }
-          <Col lg={isAddBusinessMode ? 12 : 8}>
+          <Col
+            xs={{ span: 24, order: 1 }}
+            sm={{ span: 24, order: 1 }}
+            md={{ span: isAddBusinessMode ? 12 : 8, order: 3 }}
+          >
             <Button
               className={b('controlBtns-btn')}
               onClick={this.handleSubmit}

@@ -1,8 +1,17 @@
+@import '../../../styles/theme',
+'../../../styles/mixins';
+
 .businessMainForm {
   &__map {
     &-containerElement {
       height: 264px;
       margin-bottom: 24px;
+      @include respond-to(tablet) {
+        height: 168px;
+      }
+      @include respond-to(mobile) {
+        height: 160px;
+      }
     }
 
     &-mapElement {

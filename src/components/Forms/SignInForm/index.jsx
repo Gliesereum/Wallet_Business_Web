@@ -38,7 +38,7 @@ class SignInForm extends Component {
     const { getCodeHandler, form } = this.props;
 
     await form.validateFields(async (error, values) => {
-      const isPhoneValid = /[0-9]{6,15}$/.test(values.phone.slice(this.state.dialCodeLength));
+      const isPhoneValid = values && values.phone && /[0-9]{6,15}$/.test(values.phone.slice(this.state.dialCodeLength));
       if (!error && values.phone && isPhoneValid) {
         if (phoneRepeat) {
           await getCodeHandler(phoneRepeat);

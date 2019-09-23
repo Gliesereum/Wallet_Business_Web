@@ -7,10 +7,6 @@
   align-items: center;
   padding: 0 32px;
   background: $coupler-blue;
-  @include respond-to(phone) {
-    flex: 0 0 144px;
-    padding: 16px;
-  }
 
   &__title {
     font-weight: 500;
