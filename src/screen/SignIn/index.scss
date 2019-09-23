@@ -9,6 +9,9 @@
   position: relative;
   justify-content: flex-end;
   align-items: center;
+  @include respond-to(phone) {
+    margin: 0 -30px;
+  }
 }
 
 .FutureBoxCard {
