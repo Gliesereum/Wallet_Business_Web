@@ -42,7 +42,7 @@ class BusinessScheduleInfo extends PureComponent {
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
-  handleSubmitForm = async () => {
+  handleSaveSchedule = async () => {
     const { chosenBusiness, updateSchedule } = this.props;
     const isNewScheduleList = !this.state.scheduleList[0].id;
     this.scheduleForm.props.form.validateFields(async (error, values) => {
@@ -81,7 +81,7 @@ class BusinessScheduleInfo extends PureComponent {
             url, body, method, moduleUrl: 'karma',
           });
           await updateSchedule(newSchedules);
-          this.handleChangeActiveTab('services')();
+          this.handleToggleReadOnlyMode(true)();
         } catch (err) {
           notification.error({
             duration: 5,
@@ -105,7 +105,6 @@ class BusinessScheduleInfo extends PureComponent {
 
     return (
       <div className={b()}>
-        <h1 className={b('header')}>Дни недели и рабочее время</h1>
         <BusinessScheduleForm
           wrappedComponentRef={form => this.scheduleForm = form}
           dayTranslate={dayTranslate}
@@ -118,8 +117,13 @@ class BusinessScheduleInfo extends PureComponent {
         <Row
           gutter={40}
           className={b('controlBtns')}
+          type="flex"
         >
-          <Col lg={12}>
+          <Col
+            xs={{ span: 24, order: 2 }}
+            sm={{ span: 24, order: 2 }}
+            md={{ span: 12, order: 1 }}
+          >
             {
               readOnlyMode ? (
                 <Button
@@ -142,7 +146,11 @@ class BusinessScheduleInfo extends PureComponent {
               )
             }
           </Col>
-          <Col lg={12}>
+          <Col
+            xs={{ span: 24, order: 1 }}
+            sm={{ span: 24, order: 1 }}
+            md={{ span: 12, order: 2 }}
+          >
             {
               readOnlyMode ? (
                 <Button
@@ -155,7 +163,7 @@ class BusinessScheduleInfo extends PureComponent {
               ) : (
                 <Button
                   className={b('controlBtns-btn')}
-                  onClick={this.handleSubmitForm}
+                  onClick={this.handleSaveSchedule}
                   type="primary"
                 >
                   {phrases['core.button.save'][defaultLanguage.isoKey]}

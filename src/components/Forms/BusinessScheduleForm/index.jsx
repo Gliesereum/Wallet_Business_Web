@@ -4,14 +4,13 @@ import bem from 'bem-join';
 import {
   Checkbox,
   Form,
-  Row,
-  Col,
   notification,
 } from 'antd';
 
 import FromToInput from '../../FromToInput';
 
 const b = bem('businessScheduleForm');
+const { Item: FormItem } = Form;
 
 class BusinessScheduleForm extends Component {
   checkHours = (rule, value, callback) => {
@@ -44,102 +43,52 @@ class BusinessScheduleForm extends Component {
       phrases,
     } = this.props;
 
-    const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 16 },
-    };
-
     return (
-      <div id="scheduleForm" className={b()}>
+      <div className={b()}>
         <Form
           colon={false}
           layout="horizontal"
         >
-          <Row gutter={65}>
-            <Col lg={12}>
-              {scheduleList.slice(0, 4).map(({
-                dayOfWeek,
-                isWork,
-                from,
-                to,
-              }) => (
-                <div
-                  className={b('dayForm')}
-                  key={dayOfWeek}
-                >
-                  <Form.Item
-                    className={b('dayForm-formItem', { isWorkItem: true })}
+          {scheduleList.map(({
+            dayOfWeek,
+            isWork,
+            from,
+            to,
+          }) => (
+            <div
+              className={b('dayForm')}
+              key={dayOfWeek}
+            >
+              <FormItem
+                className={b('dayForm-formItem', { isWorkItem: true })}
+              >
+                {form.getFieldDecorator(`${dayOfWeek}-isWork`, {
+                  initialValue: isWork,
+                  valuePropName: 'checked',
+                })(
+                  <Checkbox
+                    value={isWork}
+                    disabled={readOnlyMode}
                   >
-                    {form.getFieldDecorator(`${dayOfWeek}-isWork`, {
-                      initialValue: isWork,
-                      valuePropName: 'checked',
-                    })(
-                      <Checkbox
-                        value={isWork}
-                        disabled={readOnlyMode}
-                      >
-                        {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
-                      </Checkbox>
-                    )}
-                  </Form.Item>
-                  <Form.Item
-                    {...formItemLayout}
-                    label="Время"
-                    className={b('dayForm-formItem', { timeItem: true })}
-                  >
-                    {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
-                      initialValue: { from, to },
-                      // rules: [{ validator: this.checkHours }],
-                    })(
-                      <FromToInput readOnly={readOnlyMode} />
-                    )}
-                  </Form.Item>
-                </div>
-              ))}
-            </Col>
-
-            <Col lg={12}>
-              {scheduleList.slice(4).map(({
-                dayOfWeek,
-                isWork,
-                from,
-                to,
-              }) => (
-                <div
-                  className={b('dayForm')}
-                  key={dayOfWeek}
-                >
-                  <Form.Item
-                    className={b('dayForm-formItem', { isWorkItem: true })}
-                  >
-                    {form.getFieldDecorator(`${dayOfWeek}-isWork`, {
-                      initialValue: isWork,
-                      valuePropName: 'checked',
-                    })(
-                      <Checkbox
-                        disabled={readOnlyMode}
-                        value={isWork}
-                      >
-                        {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
-                      </Checkbox>
-                    )}
-                  </Form.Item>
-                  <Form.Item
-                    {...formItemLayout}
-                    label="Время"
-                    className={b('dayForm-formItem', { timeItem: true })}
-                  >
-                    {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
-                      initialValue: { from, to },
-                      // rules: [{ validator: this.checkHours }],
-                    })(
-                      <FromToInput readOnly={readOnlyMode} />
-                    )}
-                  </Form.Item>
-                </div>
-              ))}
-            </Col>
-          </Row>
+                    {phrases[`core.day.${dayTranslate[dayOfWeek]}`][defaultLanguage.isoKey]}
+                  </Checkbox>
+                )}
+              </FormItem>
+              <FormItem className={b('dayForm-formItem', { timeItem: true })}>
+                {form.getFieldDecorator(`${dayOfWeek}-workHours`, {
+                  initialValue: { from, to },
+                  // rules: [{ validator: this.checkHours }],
+                })(
+                  <FromToInput
+                    dayOfWeek={dayOfWeek}
+                    form={form}
+                    readOnly={readOnlyMode}
+                    screen="business_schedule"
+                  />
+                )}
+              </FormItem>
+            </div>
+          ))}
         </Form>
       </div>
     );

@@ -309,9 +309,15 @@
 
   //---- Tabs ----
   &-tabs {
+    &-content {
+      max-width: 1248px;
+      margin: 0 auto;
+    }
+
     &-bar {
       margin: 0 0 22px 0;
     }
+
     &-nav {
       width: 100%;
 
