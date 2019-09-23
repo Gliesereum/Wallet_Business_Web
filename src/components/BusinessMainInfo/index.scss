@@ -1,8 +1,21 @@
-@import '../../styles/theme';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .businessMainInfo {
   &__controlBtns {
-    margin-top: 16px;
+    margin-top: 8px;
+    @include respond-to(tablet) {
+      margin-top: 24px;
+    }
+    @include respond-to(phone) {
+      margin-top: 0;
+    }
+
+    & .ant-col {
+      @include respond-to(phone) {
+        padding-top: 24px;
+      }
+    }
 
     &-btn {
       width: 100%;
