@@ -1,6 +1,5 @@
 import {
   asyncRequest,
-  withToken,
   cookieStorage,
   isUserDataFull,
 } from '../../utils';
@@ -8,6 +7,7 @@ import {
 import authActions from '../auth/action';
 import corporationsActions from '../corporations/action';
 import businessActions from '../business/action';
+import { fetchAction } from '../../fetches';
 
 const getTokenAndUser = async (dispatch, access_token, refresh_token) => {
   if (access_token && access_token !== 'undefined') {
@@ -54,12 +54,14 @@ const addFirstCompany = async () => {
   const method = 'POST';
   const body = { name: 'My first Company' };
 
-  try {
-    const corporation = await withToken(asyncRequest)({ url, method, body });
-    return [corporation];
-  } catch (err) {
-    console.error(err.message);
-  }
+  const { data: corporation } = await fetchAction({
+    url,
+    fieldName: 'corporation',
+    method,
+    body,
+    moduleUrl: 'account',
+  })();
+  return [corporation];
 };
 
 const actions = {
@@ -130,11 +132,16 @@ const actions = {
         await dispatch(actions.$appStatus('success'));
         return;
       }
-      const email = await withToken(asyncRequest)({ url: 'email/by-user' }) || {};
-      const { result: hasAdminRights } = await withToken(asyncRequest)({
+      const { data: email } = await fetchAction({
+        url: 'email/by-user',
+        fieldName: 'email',
+        fieldType: {},
+        moduleUrl: 'account',
+      })() || {};
+      const { data: { result: hasAdminRights } } = await fetchAction({
         url: 'group-user/user-have-group?groupPurpose=COUPLER_ADMIN',
         moduleUrl: 'permission',
-      });
+      })();
 
       await dispatch(authActions.$updateUserData(user));
       await dispatch(authActions.$addUserEmail(email));
@@ -143,8 +150,8 @@ const actions = {
       const businessesUrl = 'business/by-current-user/like-owner';
       const corporationsUrl = 'corporation/by-user';
 
-      const business = await withToken(asyncRequest)({ url: businessesUrl, moduleUrl: 'karma' }) || [];
-      let corporations = await withToken(asyncRequest)({ url: corporationsUrl }) || [];
+      const { data: business } = await fetchAction({ url: businessesUrl })() || [];
+      let { data: corporations } = await fetchAction({ url: corporationsUrl, moduleUrl: 'account' })() || [];
 
       if (!corporations.length) {
         corporations = await addFirstCompany();

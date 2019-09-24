@@ -53,7 +53,10 @@ export const fetchAction = ({
       if (response.status === 204) return fieldType;
       if (response.status === 200) return await response.json();
       if (response.status >= 400) {
-        throw await response.json();
+        const { status } = response;
+        const error = await response.json();
+        error.status = status;
+        throw error;
       }
       return fieldType;
     }).then((data) => {
@@ -73,12 +76,14 @@ export const fetchAction = ({
       className: 'notificationError',
       placement: 'bottomLeft',
       icon: <NotificationIconError />,
-      duration: 1000,
+      duration: 5,
       message: error.message || 'Ошибка',
       description: (messages && messages.length)
         ? messages.map(item => <div key={item.keyOfMessage}>{`${item && item.keyOfMessage}: ${item.message}`}</div>)
         : 'Ошибка',
     });
+
+    throw error;
   }
 
   return {
