@@ -215,9 +215,13 @@ class BusinessServiceInfo extends Component {
         }
         <Row
           gutter={40}
+          type="flex"
           className={b('controlBtns')}
         >
-          <Col lg={isAddMode ? 12 : 8}>
+          <Col
+            xs={{ span: 24, order: 3 }}
+            md={{ span: 8, order: 1 }}
+          >
             <Button
               className={b('controlBtns-btn backBtn')}
               onClick={changeActiveService(null, false)}
@@ -226,19 +230,25 @@ class BusinessServiceInfo extends Component {
               Назад к списку
             </Button>
           </Col>
-          {
-            !isAddMode && (
-              <Col lg={8}>
+          <Col
+            xs={{ span: 24, order: 2 }}
+            md={{ span: 8, order: 2 }}
+          >
+            {
+              !isAddMode && (
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.handleRemoveServicePrice}
                 >
                   Удалить услугу
                 </Button>
-              </Col>
-            )
-          }
-          <Col lg={isAddMode ? 12 : 8}>
+              )
+            }
+          </Col>
+          <Col
+            xs={{ span: 24, order: 1 }}
+            md={{ span: 8, order: 3 }}
+          >
             <Button
               className={b('controlBtns-btn')}
               onClick={this.handleUpdateBusinessService}

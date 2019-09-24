@@ -3,17 +3,14 @@
 
 .businessScheduleInfo {
   &__controlBtns {
-    margin-top: 32px;
-    @include respond-to(tablet) {
-      margin-top: 48px;
-    }
+    margin-top: 24px;
     @include respond-to(phone) {
-      margin-top: 24px;
+      margin-top: 0;
     }
 
-    & .ant-col {
+    & .ant-col .ant-btn {
       @include respond-to(phone) {
-        padding-top: 24px;
+        margin-top: 24px;
       }
     }
 

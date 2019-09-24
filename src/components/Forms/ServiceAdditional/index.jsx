@@ -48,7 +48,11 @@ class ServiceAdditional extends Component {
           {
             filters.map(filter => (
               <Col
-                span={8}
+                xs={24}
+                sm={12}
+                md={8}
+                lg={8}
+                xl={6}
                 key={filter.id}
               >
                 <FormItem key={filter.id}>
@@ -73,7 +77,6 @@ class ServiceAdditional extends Component {
                         }
                       </CheckboxGroup>
                     )}
-                    <div className={b('card-footerBlurer')} />
                   </Card>
                 </FormItem>
               </Col>

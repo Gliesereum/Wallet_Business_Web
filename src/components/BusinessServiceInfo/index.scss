@@ -1,13 +1,13 @@
-@import '../../styles/theme';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .businessServiceInfo {
   &__header {
-    border-bottom: 1px solid #DCE2E9;
+    border-bottom: 1px solid #F4F4F4;
     padding-bottom: 13px;
     color: $font-title-black;
-    font-family: $Roboto;
     font-size: 16px;
-    letter-spacing: 0.02em;
+    line-height: 16px;
     font-feature-settings: 'pnum' on, 'lnum' on;
     margin-bottom: 16px;
   }
@@ -35,7 +35,16 @@
   }
 
   &__controlBtns {
-    margin-top: 56px;
+    margin-top: 24px;
+    @include respond-to(phone) {
+      margin-top: 0;
+    }
+
+    & .ant-col .ant-btn {
+      @include respond-to(phone) {
+        margin-top: 24px;
+      }
+    }
 
     &-btn {
       width: 100%;
