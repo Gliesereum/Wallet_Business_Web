@@ -174,7 +174,7 @@ class BusinessMainInfo extends Component {
           <Col
             xs={{ span: 24, order: 3 }}
             sm={{ span: 24, order: 3 }}
-            md={{ span: isAddBusinessMode ? 12 : 8, order: 1 }}
+            md={{ span: 8, order: 1 }}
           >
             <Button className={b('controlBtns-btn backBtn')}>
               <Link to="/corporations">
@@ -183,26 +183,26 @@ class BusinessMainInfo extends Component {
               </Link>
             </Button>
           </Col>
-          {
-            !isAddBusinessMode && (
-              <Col
-                xs={{ span: 24, order: 2 }}
-                sm={{ span: 24, order: 2 }}
-                md={{ span: 8, order: 2 }}
-              >
+          <Col
+            xs={{ span: 24, order: 2 }}
+            sm={{ span: 24, order: 2 }}
+            md={{ span: 8, order: 2 }}
+          >
+            {
+              !isAddBusinessMode && (
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.toggleDeleteModal}
                 >
                   {phrases['businessPage.mainInfo.deleteBranch'][defaultLanguage.isoKey]}
                 </Button>
-              </Col>
-            )
-          }
+              )
+            }
+          </Col>
           <Col
             xs={{ span: 24, order: 1 }}
             sm={{ span: 24, order: 1 }}
-            md={{ span: isAddBusinessMode ? 12 : 8, order: 3 }}
+            md={{ span: 8, order: 3 }}
           >
             <Button
               className={b('controlBtns-btn')}

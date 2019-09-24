@@ -10,8 +10,15 @@ class ServiceMainInfoForm extends PureComponent {
 
     return (
       <Form colon={false}>
-        <Row gutter={40}>
-          <Col lg={12}>
+        <Row
+          gutter={32}
+          type="flex"
+        >
+          <Col
+            xs={{ span: 24, order: 1 }}
+            md={{ span: 8, order: 1 }}
+            xl={{ span: 8, order: 1 }}
+          >
             <Form.Item
               label="Категория услуги"
             >
@@ -34,7 +41,11 @@ class ServiceMainInfoForm extends PureComponent {
               )}
             </Form.Item>
           </Col>
-          <Col lg={12}>
+          <Col
+            xs={{ span: 24, order: 2 }}
+            md={{ span: 9, order: 2 }}
+            xl={{ span: 8, order: 2 }}
+          >
             <Form.Item
               label="Название услуги"
             >
@@ -47,9 +58,35 @@ class ServiceMainInfoForm extends PureComponent {
               })(<Input placeholder="Название" />)}
             </Form.Item>
           </Col>
-        </Row>
-        <Row gutter={40}>
-          <Col lg={12}>
+          <Col
+            xs={{ span: 24, order: 3 }}
+            sm={{ span: 12, order: 3 }}
+            md={{ span: 7, order: 3 }}
+            xl={{ span: 8, order: 3 }}
+          >
+            <Form.Item
+              label="Цена (гривен)"
+            >
+              {form.getFieldDecorator('price', {
+                initialValue: servicePrice ? servicePrice.price : '',
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                ],
+              })(
+                <InputNumber
+                  step={100}
+                  parser={value => value.replace(/\D/g, '')}
+                  placeholder="0.00"
+                  min={0}
+                />
+              )}
+            </Form.Item>
+          </Col>
+          <Col
+            xs={{ span: 24, order: 5 }}
+            md={{ span: 17, order: 4 }}
+            xl={{ span: 16, order: 4 }}
+          >
             <Form.Item
               label="Описание услуги"
             >
@@ -61,47 +98,29 @@ class ServiceMainInfoForm extends PureComponent {
               })(<Input placeholder="Описание услуги" />)}
             </Form.Item>
           </Col>
-          <Col lg={12}>
-            <Row gutter={40}>
-              <Col lg={12}>
-                <Form.Item
-                  label="Цена (гривен)"
-                >
-                  {form.getFieldDecorator('price', {
-                    initialValue: servicePrice ? servicePrice.price : '',
-                    rules: [
-                      { required: true, message: 'Поле обязательное для заполнения' },
-                    ],
-                  })(
-                    <InputNumber
-                      step={100}
-                      parser={value => value.replace(/\D/g, '')}
-                      placeholder="0.00"
-                      min={0}
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-              <Col lg={12}>
-                <Form.Item
-                  label="Продолжительность (минут)"
-                >
-                  {form.getFieldDecorator('duration', {
-                    initialValue: servicePrice ? servicePrice.duration : '',
-                    rules: [
-                      { required: true, message: 'Поле обязательное для заполнения' },
-                    ],
-                  })(
-                    <InputNumber
-                      step={5}
-                      parser={value => value.replace(/\D/g, '')}
-                      placeholder="0"
-                      min={1}
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
+          <Col
+            xs={{ span: 24, order: 4 }}
+            sm={{ span: 12, order: 3 }}
+            md={{ span: 7, order: 5 }}
+            xl={{ span: 8, order: 5 }}
+          >
+            <Form.Item
+              label="Продолжительность (минут)"
+            >
+              {form.getFieldDecorator('duration', {
+                initialValue: servicePrice ? servicePrice.duration : '',
+                rules: [
+                  { required: true, message: 'Поле обязательное для заполнения' },
+                ],
+              })(
+                <InputNumber
+                  step={5}
+                  parser={value => value.replace(/\D/g, '')}
+                  placeholder="0"
+                  min={1}
+                />
+              )}
+            </Form.Item>
           </Col>
         </Row>
       </Form>

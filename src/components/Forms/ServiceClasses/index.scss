@@ -1,5 +1,16 @@
 .serviceClasses {
+  &__checkboxGroup {
+    width: 100%;
+  }
+
+  &__checkboxCol {
+    height: 55px;
+    border-bottom: 1px solid #F7F7F7;
+    display: flex;
+    align-items: center;
+  }
+
   &__checkbox {
-    padding-right: 40px;
+    padding: 0 40px 0 16px;
   }
 }

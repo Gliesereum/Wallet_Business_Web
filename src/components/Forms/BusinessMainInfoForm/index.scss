@@ -6,7 +6,7 @@
     &-containerElement {
       height: 264px;
       margin-bottom: 24px;
-      @include respond-to(tablet) {
+      @include respond-to(tabletToMiddleDesktop) {
         height: 168px;
       }
       @include respond-to(mobile) {
