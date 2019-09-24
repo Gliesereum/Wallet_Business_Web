@@ -96,18 +96,6 @@ const Expired = () => (
   </svg>
 );
 
-const ArrowDown = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15.9999 10L11.9999 14L7.99988 10" stroke="black" strokeOpacity="0.24" strokeWidth="2" />
-  </svg>
-);
-
-const ArrowUp = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15.9999 14L11.9999 10L7.99988 14" stroke="black" strokeOpacity="0.16" strokeWidth="2" />
-  </svg>
-);
-
 const TotalPrice = () => (
   <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M23.5 8.5V5C23.5 2.79086 21.7091 1 19.5 1H5C2.79086 1 1 2.79086 1 5V21C1 23.2091 2.79086 25 5 25H19.5C21.7091 25 23.5 23.2091 23.5 21V17.5M13.75 10.5V15.5C13.75 16.6046 14.6454 17.5 15.75 17.5H23C24.1046 17.5 25 16.6046 25 15.5V10.5C25 9.39543 24.1046 8.5 23 8.5H15.75C14.6454 8.5 13.75 9.39543 13.75 10.5Z" stroke="#6C7583" strokeWidth="2" />
@@ -163,6 +151,20 @@ const AddIconSmall = () => (
   </svg>
 );
 
+const NotificationIconInfo = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#009900" />
+    <path d="M11 7H13V9H11V7ZM11 11H13V17H11V11Z" fill="white" />
+  </svg>
+);
+
+const NotificationIconError = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#E0000D" />
+    <path d="M11 17H13V15H11V17ZM11 13H13V7H11V13Z" fill="white" />
+  </svg>
+);
+
 export {
   MyCorporations,
   Orders,
@@ -179,8 +181,6 @@ export {
   Timer,
   Waiting,
   Expired,
-  ArrowDown,
-  ArrowUp,
   TotalPrice,
   MoreIcon,
   HelpIcon,
@@ -190,4 +190,6 @@ export {
   PointBullet,
   UploadBtn,
   AddIconSmall,
+  NotificationIconInfo,
+  NotificationIconError,
 };
