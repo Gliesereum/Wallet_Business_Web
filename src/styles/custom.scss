@@ -447,6 +447,34 @@
       }
     }
   }
+
+  //---- Notification ----
+  &-notification {
+    & .notificationError {
+      & .ant-notification-notice {
+        &-content {
+          & .ant-notification-notice {
+            &-message {
+              color: $coupler-red;
+              font-weight: bold;
+              font-size: 12px;
+              line-height: 16px;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+            }
+
+            &-description {
+              color: $font-title-black;
+              font-weight: normal;
+              font-size: 14px;
+              line-height: 20px;
+              font-feature-settings: 'pnum' on, 'lnum' on;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 #contentBody .has-error {

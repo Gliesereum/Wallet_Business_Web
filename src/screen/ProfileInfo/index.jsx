@@ -7,14 +7,14 @@ import {
   Row,
   Col,
   Button,
-  notification,
   Icon,
 } from 'antd';
 
 import { ContentHeader } from '../../components';
 import { ProfileForm } from '../../components/Forms';
 
-import { asyncRequest, asyncUploadFile, withToken } from '../../utils';
+import { asyncUploadFile, withToken } from '../../utils';
+import { fetchAction } from '../../fetches';
 
 import { actions } from '../../state';
 
@@ -69,17 +69,16 @@ class ProfileInfo extends Component {
         };
         const method = 'PUT';
 
-        try {
-          const updatedUser = await withToken(asyncRequest)({ url, method, body });
-          await updateUserData(updatedUser);
-          isFirstSignIn && history.replace('/help');
-        } catch (err) {
-          notification.error({
-            duration: 5,
-            message: err.message || 'Ошибка',
-            description: 'Ошибка',
-          });
-        }
+        await fetchAction({
+          url,
+          fieldName: 'updatedUser',
+          fieldType: {},
+          method,
+          body,
+          moduleUrl: 'account',
+          reduxAction: updateUserData,
+        })();
+        isFirstSignIn && history.replace('/help');
       }
     });
   };
@@ -148,8 +147,7 @@ class ProfileInfo extends Component {
                       : this.handleGoBack
                     }
                   >
-                    <Icon type="left" />
-                    {phrases['core.button.back'][defaultLanguage.isoKey]}
+                    {phrases['core.button.cancel'][defaultLanguage.isoKey]}
                   </Button>
                 )
               }

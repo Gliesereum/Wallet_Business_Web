@@ -1,5 +1,10 @@
+import React from 'react';
+import { notification } from 'antd';
+
 import globalConfig from '../config';
 import { header, withToken } from '../utils/request';
+
+import { NotificationIconError } from '../assets/iconComponents';
 
 const requestConfig = (method, token, body, isStringifyNeeded) => ({
   method,
@@ -48,16 +53,32 @@ export const fetchAction = ({
       if (response.status === 204) return fieldType;
       if (response.status === 200) return await response.json();
       if (response.status >= 400) {
-        const error = await response.json();
-        throw Error(error.message);
+        throw await response.json();
       }
       return fieldType;
     }).then((data) => {
       result = data;
       if (reduxAction && typeof reduxAction === 'function') reduxAction(data);
     });
-  } catch (e) {
-    throw Error(e);
+  } catch (error) {
+    const messages = [];
+    for (const key in error.additional) {
+      messages.push({
+        message: error.additional[key],
+        keyOfMessage: key,
+      });
+    }
+
+    notification.error({
+      className: 'notificationError',
+      placement: 'bottomLeft',
+      icon: <NotificationIconError />,
+      duration: 1000,
+      message: error.message || 'Ошибка',
+      description: (messages && messages.length)
+        ? messages.map(item => <div key={item.keyOfMessage}>{`${item && item.keyOfMessage}: ${item.message}`}</div>)
+        : 'Ошибка',
+    });
   }
 
   return {
