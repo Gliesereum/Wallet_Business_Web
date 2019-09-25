@@ -8,6 +8,7 @@ import ClientsPage from './ClientsPage';
 import OrdersPage from './OrdersPage';
 import FAQ from './FAQ';
 import AdminPanel from './AdminPanel';
+import ErrorScreen from './ErrorScreen';
 
 export {
   BusinessPage,
@@ -20,4 +21,5 @@ export {
   OrdersPage,
   FAQ,
   AdminPanel,
+  ErrorScreen,
 };
