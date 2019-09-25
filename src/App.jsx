@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { actions } from './state';
 import AppRouter from './routes';
 import { ScreenLoading } from './components';
+import { ErrorScreen } from './screen';
 
 class App extends Component {
   componentDidMount() {
@@ -17,6 +18,7 @@ class App extends Component {
       user,
       authenticated,
       appStatus,
+      status,
       hasAdminRights,
       showWelcomePage,
       defaultLanguage,
@@ -27,20 +29,15 @@ class App extends Component {
     if (appStatus === 'loading') return <ScreenLoading />;
 
     if (appStatus === 'error') {
+      let statusTitle = '';
+      if (status >= 500) statusTitle = 'Server Error';
+      if (status >= 400) statusTitle = 'Page Not Found';
+
       return (
-        <div className="CouplerErrorPageBeta">
-          <div className="CouplerErrorPageBeta_Title">
-            <h1>500</h1>
-          </div>
-          <div className="CouplerErrorPageBeta_Message">
-            <span>SERVER ERROR</span>
-          </div>
-          <div className="CouplerErrorPageBeta_Button">
-            <button type="button" onClick={() => window.location.reload()}>
-              Reload
-            </button>
-          </div>
-        </div>
+        <ErrorScreen
+          status={status}
+          statusTitle={statusTitle}
+        />
       );
     }
     return (
@@ -58,6 +55,7 @@ class App extends Component {
 }
 const mapStateToProps = state => ({
   appStatus: state.app.appStatus,
+  status: state.app.status,
   authenticated: state.auth.authenticated,
   hasAdminRights: state.auth.hasAdminRights,
   showWelcomePage: state.auth.showWelcomePage,

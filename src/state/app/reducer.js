@@ -3,8 +3,8 @@ import { createReducer } from '../../utils';
 
 const initState = {
   appStatus: 'loading',
+  status: null,
   loading: false,
-  // TODO Вот так пишем многоязычность!
   defaultLanguage: {},
   langPack: [],
   phrases: {},
@@ -13,9 +13,10 @@ const initState = {
 };
 
 const initReducers = {
-  [actions.APP_STATUS]: (state, payload) => ({
+  [actions.APP_STATUS]: (state, { appStatus, status = null }) => ({
     ...state,
-    appStatus: payload,
+    appStatus,
+    status,
   }),
 
   [actions.SET_LANGUAGE]: (state, payload) => ({

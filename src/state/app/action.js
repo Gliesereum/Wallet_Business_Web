@@ -100,7 +100,7 @@ const actions = {
   },
 
   $startApp: () => async (dispatch) => {
-    await dispatch(actions.$appStatus('loading'));
+    await dispatch(actions.$appStatus({ appStatus: 'loading' }));
 
     // check for server
     try {
@@ -129,7 +129,7 @@ const actions = {
       const user = await getTokenAndUser(dispatch, access_token, refresh_token);
 
       if (!user) {
-        await dispatch(actions.$appStatus('success'));
+        await dispatch(actions.$appStatus({ appStatus: 'success' }));
         return;
       }
       const { data: email } = await fetchAction({
@@ -163,9 +163,9 @@ const actions = {
       const showWelcomePage = !!(isUserDataFull(user) && !(business.length) && !JSON.parse(isWelcomePageWasShown || false));
       await dispatch(authActions.$setShowPropWelcomePage(showWelcomePage, isWelcomePageWasShown));
 
-      await dispatch(actions.$appStatus('success'));
+      await dispatch(actions.$appStatus({ appStatus: 'success' }));
     } catch (e) {
-      await dispatch(actions.$appStatus('error'));
+      await dispatch(actions.$appStatus({ appStatus: 'error', status: e.status }));
     }
   },
 
