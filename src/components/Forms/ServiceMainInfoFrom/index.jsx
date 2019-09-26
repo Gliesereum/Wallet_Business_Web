@@ -6,7 +6,13 @@ import {
 
 class ServiceMainInfoForm extends PureComponent {
   render() {
-    const { form, serviceTypes, servicePrice } = this.props;
+    const {
+      form,
+      serviceTypes,
+      servicePrice,
+      defaultLanguage,
+      phrases,
+    } = this.props;
 
     return (
       <Form colon={false}>
@@ -19,9 +25,7 @@ class ServiceMainInfoForm extends PureComponent {
             md={{ span: 8, order: 1 }}
             xl={{ span: 8, order: 1 }}
           >
-            <Form.Item
-              label="Категория услуги"
-            >
+            <Form.Item label={phrases['servicesPage.info.category'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('serviceId', {
                 initialValue: servicePrice ? servicePrice.serviceId : undefined,
                 rules: [
@@ -46,9 +50,7 @@ class ServiceMainInfoForm extends PureComponent {
             md={{ span: 9, order: 2 }}
             xl={{ span: 8, order: 2 }}
           >
-            <Form.Item
-              label="Название услуги"
-            >
+            <Form.Item label={phrases['servicesPage.info.name'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('name', {
                 initialValue: servicePrice ? servicePrice.name : '',
                 rules: [
@@ -64,9 +66,7 @@ class ServiceMainInfoForm extends PureComponent {
             md={{ span: 7, order: 3 }}
             xl={{ span: 8, order: 3 }}
           >
-            <Form.Item
-              label="Цена (гривен)"
-            >
+            <Form.Item label={phrases['servicesPage.info.price'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('price', {
                 initialValue: servicePrice ? servicePrice.price : '',
                 rules: [
@@ -87,15 +87,13 @@ class ServiceMainInfoForm extends PureComponent {
             md={{ span: 17, order: 4 }}
             xl={{ span: 16, order: 4 }}
           >
-            <Form.Item
-              label="Описание услуги"
-            >
+            <Form.Item label={phrases['servicesPage.info.description'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('description', {
                 initialValue: servicePrice ? servicePrice.description : '',
                 rules: [
                   { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                 ],
-              })(<Input placeholder="Описание услуги" />)}
+              })(<Input placeholder={phrases['servicesPage.info.description'][defaultLanguage.isoKey]} />)}
             </Form.Item>
           </Col>
           <Col
@@ -104,9 +102,7 @@ class ServiceMainInfoForm extends PureComponent {
             md={{ span: 7, order: 5 }}
             xl={{ span: 8, order: 5 }}
           >
-            <Form.Item
-              label="Продолжительность (минут)"
-            >
+            <Form.Item label={phrases['servicesPage.info.duration'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('duration', {
                 initialValue: servicePrice ? servicePrice.duration : '',
                 rules: [
