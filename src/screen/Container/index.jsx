@@ -25,7 +25,7 @@ const Container = ({
       <meta charSet="utf-8" />
       <title>Coupler Business</title>
     </Helmet>
-    {isUserDataFull(user) && <SideMenu />}
+    {isUserDataFull(user) && <aside className={b('sideBar')}><SideMenu /></aside>}
     {
       showWelcomePage && (
         <WelcomePage

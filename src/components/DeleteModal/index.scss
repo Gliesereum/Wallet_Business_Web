@@ -1,4 +1,5 @@
-@import "../../styles/theme.scss";
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .deleteModal {
 
@@ -34,6 +35,9 @@
       text-align: center;
       border-top: none;
       padding: 30px 16px 42px;
+      @include respond-to(phone) {
+        flex-direction: column;
+      }
 
       & .ant-btn {
         height: 48px;
@@ -47,9 +51,24 @@
         border: 2px solid $coupler-blue;
         width: 160px;
 
-        &.deleteBtn {
-          border: 2px solid $coupler-red;
-          color: $coupler-red;
+        &-primary {
+          color: $white;
+          background-color: $coupler-blue;
+        }
+
+        &:first-child {
+          order: 1;
+          @include respond-to(phone) {
+            order: 2;
+            margin-top: 16px;
+          }
+        }
+
+        &:last-child {
+          order: 2;
+          @include respond-to(phone) {
+            order: 1;
+          }
         }
       }
     }
