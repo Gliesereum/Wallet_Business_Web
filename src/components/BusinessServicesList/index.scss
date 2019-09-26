@@ -33,7 +33,7 @@
       border: 1px solid #DCE3EA;
       border-radius: 4px;
       cursor: pointer;
-      min-height: 215px;
+      min-height: 218px;
 
       &:hover {
         box-shadow: 2px 2px 4px rgba(16, 120, 225, 0.4);
@@ -71,7 +71,7 @@
         &-block {
           text-align: center;
           width: 50%;
-          padding: 8px 24px;
+          padding: 8px;
           border-right: 1px solid #DCE3EA;
 
           & p {

@@ -6,21 +6,22 @@ import { Link } from 'react-router-dom';
 
 import {
   // Badge,
+  Drawer,
   Avatar,
-  Dropdown,
-  Menu,
-  Icon,
 } from 'antd';
 
 import TotalPriceInfoDrawer from '../TotalPriceInfoDrawer';
 import HelpDrawer from '../HelpDrawer';
 import ScreenLoading from '../ScreenLoading';
+import SideMenu from '../SideMenu';
 
 // import Notification from '../../assets/Notification.svg';
 import {
   TotalPrice,
   MoreIcon,
   HelpIcon,
+  CouplerLogoForMobileHeader,
+  BurgerMenu,
 } from '../../assets/iconComponents';
 import { fetchDecorator, getFirstLetterName } from '../../utils';
 import { fetchAction } from '../../fetches';
@@ -31,35 +32,13 @@ class Header extends Component {
   state = {
     totalPriceDrawerVisible: false,
     helpModalVisible: false,
+    mobileSideBarVisible: false,
   };
 
   handleVisibleState = key => () => this.setState(prevState => ({
     ...prevState,
     [key]: !prevState[key],
   }));
-
-  renderProfileMenu = (phrases, defaultLanguage) => () => (
-    <Menu className={b('menu')}>
-      <Menu.Item
-        className={b('menu-item')}
-      >
-        <Link to="/profile">
-          <Icon type="user" />
-          <span className={b('menu-item-text')}>{phrases['header.menu.myProfile'][defaultLanguage.isoKey]}</span>
-        </Link>
-      </Menu.Item>
-      <Menu.Item
-        disabled
-        className={b('menu-item')}
-      >
-        <Icon type="safety-certificate" />
-        <span className={b('menu-item-text')}>
-          {phrases['header.menu.personalAssistant'][defaultLanguage.isoKey]}
-          <div className={b('menu-item-indicator')}>for premium</div>
-        </span>
-      </Menu.Item>
-    </Menu>
-  );
 
   render() {
     const {
@@ -74,27 +53,23 @@ class Header extends Component {
     const {
       totalPriceDrawerVisible,
       helpModalVisible,
+      mobileSideBarVisible,
     } = this.state;
 
     return (
       <div className={b()}>
-        <div
-          className={b('leftSection')}
-        >
-          <Dropdown
-            trigger={['click']}
-            overlay={this.renderProfileMenu(phrases, defaultLanguage)}
-            className={b('content-box', { profileSection: true })}
+        <div className={b('leftSection')}>
+          <Link
+            className={b('content-box')}
+            to="/profile"
           >
-            <div>
-              <Avatar src={user.avatarUrl || undefined} className={b('content-box-avatar')}>
-                {getFirstLetterName(user.firstName, user.lastName)}
-              </Avatar>
-              <div className={b('content-box-naming')}>
-                <h1>ПРОФИЛЬ</h1>
-              </div>
+            <Avatar src={user.avatarUrl || undefined} className={b('content-box-avatar')}>
+              {getFirstLetterName(user.firstName, user.lastName)}
+            </Avatar>
+            <div className={b('content-box-naming')}>
+              <h1>{phrases['sideBar.menu.profile.label'][defaultLanguage.isoKey]}</h1>
             </div>
-          </Dropdown>
+          </Link>
           <div
             className={b('content-box', { helpSection: true })}
             onClick={this.handleVisibleState('helpModalVisible')}
@@ -103,7 +78,7 @@ class Header extends Component {
               visible={helpModalVisible}
               onClose={this.handleVisibleState('helpModalVisible')}
             />
-            <div className="text">Центр помощи</div>
+            <div className="text">{phrases['header.menu.personalAssistant'][defaultLanguage.isoKey]}</div>
           </div>
         </div>
         <div className={b('rightSection')}>
@@ -133,6 +108,23 @@ class Header extends Component {
             </div>
           </div>
         </div>
+        <div className={b('mobileSection')}>
+          <div
+            onClick={this.handleVisibleState('mobileSideBarVisible')}
+            className={b('mobileSection-burgerMenu')}
+          >
+            <BurgerMenu />
+          </div>
+          <div className={b('mobileSection-logo')}>
+            <CouplerLogoForMobileHeader />
+          </div>
+          <div
+            onClick={this.handleVisibleState('totalPriceDrawerVisible')}
+            className={b('mobileSection-price')}
+          >
+            <TotalPrice />
+          </div>
+        </div>
         {
           totalPriceDrawerVisible && (
             <TotalPriceInfoDrawer
@@ -150,6 +142,19 @@ class Header extends Component {
               visible={helpModalVisible}
               onClose={this.handleVisibleState('helpModalVisible')}
             />
+          )
+        }
+        {
+          mobileSideBarVisible && (
+            <Drawer
+              placement="left"
+              className={b('mobileSection-sideMenu')}
+              visible={mobileSideBarVisible}
+              mask
+              onClose={this.handleVisibleState('mobileSideBarVisible')}
+            >
+              <SideMenu onCloseSideBar={this.handleVisibleState('mobileSideBarVisible')} />
+            </Drawer>
           )
         }
       </div>

@@ -1,13 +1,12 @@
-@import
-  "custom.scss",
-  "../components/Header/index.scss",
-  "../components/TotalPriceInfoDrawer/index.scss",
-  "../components/HelpDrawer/index.scss",
-  "../components/DeleteModal/index.scss";
+@import "custom.scss";
 
 #contentBody {
   @import "theme",
   "mixins",
+  "../components/Header/index.scss",
+  "../components/TotalPriceInfoDrawer/index.scss",
+  "../components/HelpDrawer/index.scss",
+  "../components/DeleteModal/index.scss",
   "../screen/Container/index.scss",
   "../components/ScreenLoading/index.scss",
   "../components/SideMenu/index.scss",

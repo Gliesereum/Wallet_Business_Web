@@ -475,6 +475,14 @@
       }
     }
   }
+
+  //---- Drawer ----
+  &-drawer {
+    &-mask {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.48);
+    }
+  }
 }
 
 #contentBody .has-error {
