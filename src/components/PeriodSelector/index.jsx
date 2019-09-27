@@ -57,9 +57,9 @@ class PeriodSelector extends Component {
               onChange={this.handlePeriodChange}
               className={b('selector')}
             >
-              <Option value="month">{phrases['core.period.custom'][defaultLanguage.isoKey]}</Option>
+              <Option value="month">{phrases['core.period.days.thirty'][defaultLanguage.isoKey]}</Option>
               <Option value="week">{phrases['core.period.days.seven'][defaultLanguage.isoKey]}</Option>
-              <Option value="custom">{phrases['core.period.days.thirty'][defaultLanguage.isoKey]}</Option>
+              <Option value="custom">{phrases['core.period.custom'][defaultLanguage.isoKey]}</Option>
             </Select>
           </Col>
           {

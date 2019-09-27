@@ -36,14 +36,10 @@
       justify-content: left;
       height: 56px;
       cursor: pointer;
-      margin: 0 16px 8px;
+      margin: 0 16px;
       padding: 0 16px;
       @include respond-to(phoneToMiddleDesktop) {
         height: 48px;
-      }
-
-      &:last-child {
-        margin: 0 16px;
       }
 
       & span {
@@ -59,6 +55,11 @@
 
       &--active {
         background-color: rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.16);
         border-radius: 4px;
       }
 
