@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import bem from 'bem-join';
 
 import {
   Drawer,
   notification,
   Select,
+  Button,
 } from 'antd';
 
 import ScreenLoading from '../ScreenLoading';
+import { TotalPrice } from '../../assets/iconComponents';
 
 import { fetchAction } from '../../fetches';
 
@@ -204,23 +207,6 @@ class TotalPriceInfoDrawer extends Component {
             ))
           }
         </Select>
-        <div className={b('totalPriceBlock')}>
-          {
-            loader ? (
-              <ScreenLoading />
-            ) : (
-              <div className={b('totalPriceBlock-sum')}>
-                <div className={b('totalPriceBlock-sum-text')}>
-                  {`${phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}:`}
-                </div>
-                <div className={b('totalPriceBlock-sum-number')}>
-                  {totalPrice}
-                  {` ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}
-                </div>
-              </div>
-            )
-          }
-        </div>
         <div className={b('periods')}>
           <div
             className={b('periods-block', { active: currentTotalPricePeriod === totalPricePeriod.TODAY.name })}
@@ -241,6 +227,35 @@ class TotalPriceInfoDrawer extends Component {
             {phrases['header.totalPriceDrawer.button.month'][defaultLanguage.isoKey]}
           </div>
         </div>
+        <div className={b('totalPriceBlock')}>
+          {
+            loader ? (
+              <ScreenLoading />
+            ) : (
+              <>
+                <div className={b('totalPriceBlock-sum-text')}>
+                  <TotalPrice />
+                  <span>
+                    {`${phrases['header.totalPriceDrawer.proceeds'][defaultLanguage.isoKey]}:`}
+                  </span>
+                </div>
+                <div className={b('totalPriceBlock-sum-number')}>
+                  {totalPrice}
+                  {` ${phrases['core.currency.uah'][defaultLanguage.isoKey]}`}
+                </div>
+              </>
+            )
+          }
+        </div>
+        <Link
+          to="/orders"
+          className={b('seeAllOrdersBtn')}
+          onClick={onClose}
+        >
+          <Button type="primary">
+            {phrases['header.totalPriceDrawer.button.seeAllOrders'][defaultLanguage.isoKey]}
+          </Button>
+        </Link>
       </Drawer>
     );
   }

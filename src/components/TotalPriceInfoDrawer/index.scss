@@ -1,68 +1,105 @@
-@import '../../styles/theme';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .totalPriceInfoDrawer {
-  & .ant-drawer-title {
-    font-family: $Roboto;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    letter-spacing: 0.02em;
-    font-feature-settings: 'pnum' on, 'lnum' on;
-    color: $font-title-black;
-    text-align: center;
+  & .ant-drawer {
+    &-body {
+      padding: 24px 16px;
+    }
+
+    &-content-wrapper {
+      width: 312px;
+      @include respond-to(phoneAndTablet) {
+        width: 304px;
+      }
+    }
+
+    &-header {
+      height: 56px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-title {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 16px;
+      text-transform: uppercase;
+      font-feature-settings: 'tnum' on, 'lnum' on, 'cpsp' on;
+      color: $font-title-black;
+    }
+
+    &-close {
+      color: #D4D8DC;
+    }
   }
 
   &__selector {
     width: 100%;
-
-    &:last-child {
-      padding-top: 24px;
-    }
-  }
-
-  &__totalPriceBlock {
-    height: 160px;
-    padding: 56px 0;
-    position: relative;
-
-    &-sum {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 16px;
-      height: 48px;
-      border-radius: 4px;
-      border: 2px solid $coupler-blue;
-      font-family: $Roboto;
-      color: $coupler-blue;
-      font-size: 14px;
-      letter-spacing: 0.02em;
-
-      &-number {
-        font-weight: bold;
-      }
-    }
+    padding-top: 24px;
   }
 
   &__periods {
+    padding: 40px 0;
     display: flex;
     justify-content: space-between;
 
     &-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 48px;
-      line-height: 48px;
-      text-align: center;
       text-transform: lowercase;
       border-radius: 4px;
       border: 1px solid #CCCCCC;
       align-self: center;
-      width: 72px;
+      width: 80px;
       cursor: pointer;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
 
       &--active {
         border-color: $coupler-blue;
         color: $coupler-blue;
       }
+    }
+  }
+
+  &__totalPriceBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    position: relative; // for loader
+    border-top: 1px solid #DCE3EA;
+    border-bottom: 1px solid #DCE3EA;
+    color: #758498;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    font-feature-settings: 'tnum' on, 'lnum' on, 'cpsp' on;
+
+    &-sum {
+      &-text {
+        display: flex;
+        align-items: center;
+
+        & span {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+
+  &__seeAllOrdersBtn {
+    padding: 40px 0;
+    display: block;
+
+    & .ant-btn {
+      width: 100%;
     }
   }
 }
