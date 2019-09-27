@@ -138,6 +138,8 @@ class BusinessMainInfoForm extends Component {
       onLoadCover,
       onLoadLogo,
       readOnlyMode,
+      uploadedCoverUrl,
+      uploadedLogoUrl,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
@@ -162,6 +164,24 @@ class BusinessMainInfoForm extends Component {
       businessCategoriesList = [chosenBusiness.businessCategory];
     } else if (businessCategories && businessCategories.length) {
       businessCategoriesList = businessCategories;
+    }
+
+    let cover;
+    let logo;
+    if (uploadedCoverUrl) {
+      cover = uploadedCoverUrl;
+    } else if (chosenBusiness) {
+      cover = chosenBusiness.coverUrl;
+    } else {
+      cover = null;
+    }
+
+    if (uploadedLogoUrl) {
+      logo = uploadedLogoUrl;
+    } else if (chosenBusiness) {
+      logo = chosenBusiness.logoUrl;
+    } else {
+      logo = null;
     }
 
     return (
@@ -239,8 +259,8 @@ class BusinessMainInfoForm extends Component {
                 xl={24}
               >
                 <AvatarAndCoverUploader
-                  cover={chosenBusiness ? chosenBusiness.coverUrl : null}
-                  logo={chosenBusiness ? chosenBusiness.logoUrl : null}
+                  cover={cover}
+                  logo={logo}
                   onLoadCover={onLoadCover}
                   onLoadLogo={onLoadLogo}
                   withCoverUploader

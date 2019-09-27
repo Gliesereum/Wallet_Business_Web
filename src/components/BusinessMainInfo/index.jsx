@@ -44,6 +44,10 @@ class BusinessMainInfo extends Component {
     this.handleToggleReadOnlyMode(true)();
     this.mainInfoForm.props.form.resetFields();
     this.mainInfoForm.reset();
+    this.setState({
+      uploadedCoverUrl: null,
+      uploadedLogoUrl: null,
+    });
   };
 
   handleSubmit = async () => {
@@ -153,6 +157,8 @@ class BusinessMainInfo extends Component {
       businessCategories,
       deleteModalVisible,
       readOnlyMode,
+      uploadedCoverUrl,
+      uploadedLogoUrl,
     } = this.state;
 
     return (
@@ -165,6 +171,8 @@ class BusinessMainInfo extends Component {
           businessTypes={businessTypes}
           chosenCorpId={chosenCorpId}
           chosenBusiness={chosenBusiness}
+          uploadedCoverUrl={uploadedCoverUrl}
+          uploadedLogoUrl={uploadedLogoUrl}
           changeBusinessType={this.handleChangeBusinessType}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}

@@ -44,6 +44,12 @@
     line-height: 16px;
     letter-spacing: 0.04em;
     font-feature-settings: 'pnum' on, 'lnum' on;
+
+    &--error {
+      color: $coupler-red;
+      border-color: $coupler-red;
+      background-color: rgba(224, 0, 13, 0.08);
+    }
   }
 
   &__cover {
