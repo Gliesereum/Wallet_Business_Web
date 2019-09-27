@@ -42,6 +42,11 @@ class BusinessScheduleInfo extends PureComponent {
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
+  handleCancel = () => {
+    this.handleToggleReadOnlyMode(true)();
+    this.scheduleForm.props.form.resetFields();
+  };
+
   handleSaveSchedule = async () => {
     const { chosenBusiness, updateSchedule } = this.props;
     const isNewScheduleList = !this.state.scheduleList[0].id;
@@ -138,9 +143,8 @@ class BusinessScheduleInfo extends PureComponent {
                   className={b('controlBtns-btn backBtn')}
                   onClick={isAddBusinessMode
                     ? this.handleChangeActiveTab('mainInfo')
-                    : this.handleToggleReadOnlyMode(true)}
+                    : this.handleCancel}
                 >
-                  <Icon type="left" />
                   {phrases['core.button.cancel'][defaultLanguage.isoKey]}
                 </Button>
               )
