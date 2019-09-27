@@ -22,8 +22,6 @@ const typeChecker = fileType => fileType && (fileType === 'image/png' || fileTyp
 
 class AvatarAndCoverUploader extends Component {
   state = {
-    uploadedCoverUrl: null,
-    uploadedLogoUrl: null,
     loading: false,
     error: false,
   };
@@ -47,12 +45,10 @@ class AvatarAndCoverUploader extends Component {
 
       if (uploadType === 'cover') {
         onLoadCover(uploadedImageUrl);
-        this.setState({ uploadedCoverUrl: uploadedImageUrl });
       }
 
       if (uploadType === 'logo') {
         onLoadLogo(uploadedImageUrl);
-        this.setState({ uploadedLogoUrl: uploadedImageUrl });
       }
     } catch (err) {
       notification.error({
@@ -75,27 +71,7 @@ class AvatarAndCoverUploader extends Component {
     const {
       loading,
       error,
-      uploadedCoverUrl,
-      uploadedLogoUrl,
     } = this.state;
-    console.log(error);
-    let coverUrl;
-    let logoUrl;
-    if (uploadedCoverUrl) {
-      coverUrl = uploadedCoverUrl;
-    } else if (cover) {
-      coverUrl = cover;
-    } else {
-      coverUrl = null;
-    }
-
-    if (uploadedLogoUrl) {
-      logoUrl = uploadedLogoUrl;
-    } else if (logo) {
-      logoUrl = logo;
-    } else {
-      logoUrl = null;
-    }
 
     return (
       <div className={b()}>
@@ -127,11 +103,11 @@ class AvatarAndCoverUploader extends Component {
                     )
                   }
                   {
-                    coverUrl && (
+                    cover && (
                       <img
                         onLoad={this.finishImgLoading}
                         className={b('cover-image')}
-                        src={coverUrl}
+                        src={cover}
                         alt="cover_image"
                       />
                     )
@@ -157,11 +133,11 @@ class AvatarAndCoverUploader extends Component {
                 )
               }
               {
-                logoUrl && (
+                logo && (
                   <img
                     onLoad={this.finishImgLoading}
                     className={b('logo-image')}
-                    src={logoUrl}
+                    src={logo}
                     alt="logo_image"
                   />
                 )
@@ -170,7 +146,7 @@ class AvatarAndCoverUploader extends Component {
           </UploadDragger>
         </div>
         <div className={b('gallery')} />
-        <div className={b('errorBox')}>
+        <div className={b('errorBox', { error })}>
           <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
         </div>
       </div>
