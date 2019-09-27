@@ -80,8 +80,9 @@ class BusinessScheduleForm extends Component {
                   // rules: [{ validator: this.checkHours }],
                 })(
                   <FromToInput
-                    dayOfWeek={dayOfWeek}
-                    form={form}
+                    defaultLanguage={defaultLanguage}
+                    phrases={phrases}
+                    isWork={form.getFieldValue(`${dayOfWeek}-isWork`)}
                     readOnly={readOnlyMode}
                     screen="business_schedule"
                   />
