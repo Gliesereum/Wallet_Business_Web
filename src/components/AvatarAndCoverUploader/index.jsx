@@ -78,7 +78,7 @@ class AvatarAndCoverUploader extends Component {
       uploadedCoverUrl,
       uploadedLogoUrl,
     } = this.state;
-
+    console.log(error);
     let coverUrl;
     let logoUrl;
     if (uploadedCoverUrl) {
@@ -99,81 +99,80 @@ class AvatarAndCoverUploader extends Component {
 
     return (
       <div className={b()}>
-        {
-          loading && (
-            <Spin
-              className={b('spinner')}
-              size="large"
-            />
-          )
-        }
-        {
-          error && (
-            <div className={b('errorBox')}>
-              <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
-            </div>
-          )
-        }
-        {
-          withCoverUploader && (
-            <UploadDragger
-              disabled={readOnlyMode}
-              className={b('cover')}
-              name="file"
-              listType="picture-card"
-              showUploadList={false}
-              customRequest={this.uploadCover('cover')}
-            >
-              <div className={b('cover-container')}>
-                {
-                  !readOnlyMode && (
-                    <div className={b('cover-uploadBtn')}>
-                      <UploadBtn />
-                    </div>
-                  )
-                }
-                {
-                  coverUrl && (
-                    <img
-                      onLoad={this.finishImgLoading}
-                      className={b('cover-image')}
-                      src={coverUrl}
-                      alt="cover_image"
-                    />
-                  )
-                }
-              </div>
-            </UploadDragger>
-          )
-        }
-        <UploadDragger
-          disabled={readOnlyMode}
-          className={b('logo')}
-          name="file"
-          listType="picture-card"
-          showUploadList={false}
-          customRequest={this.uploadCover('logo')}
-        >
-          <div className={b('logo-container')}>
-            {
-              !readOnlyMode && (
-                <div className={b('logo-uploadBtn')}>
-                  <UploadBtn />
+        <div className={b('mainUploadWrapper')}>
+          {
+            loading && (
+              <Spin
+                className={b('spinner')}
+                size="large"
+              />
+            )
+          }
+          {
+            withCoverUploader && (
+              <UploadDragger
+                disabled={readOnlyMode}
+                className={b('cover')}
+                name="file"
+                listType="picture-card"
+                showUploadList={false}
+                customRequest={this.uploadCover('cover')}
+              >
+                <div className={b('cover-container')}>
+                  {
+                    !readOnlyMode && (
+                      <div className={b('cover-uploadBtn')}>
+                        <UploadBtn />
+                      </div>
+                    )
+                  }
+                  {
+                    coverUrl && (
+                      <img
+                        onLoad={this.finishImgLoading}
+                        className={b('cover-image')}
+                        src={coverUrl}
+                        alt="cover_image"
+                      />
+                    )
+                  }
                 </div>
-              )
-            }
-            {
-              logoUrl && (
-                <img
-                  onLoad={this.finishImgLoading}
-                  className={b('logo-image')}
-                  src={logoUrl}
-                  alt="logo_image"
-                />
-              )
-            }
-          </div>
-        </UploadDragger>
+              </UploadDragger>
+            )
+          }
+          <UploadDragger
+            disabled={readOnlyMode}
+            className={b('logo')}
+            name="file"
+            listType="picture-card"
+            showUploadList={false}
+            customRequest={this.uploadCover('logo')}
+          >
+            <div className={b('logo-container')}>
+              {
+                !readOnlyMode && (
+                  <div className={b('logo-uploadBtn')}>
+                    <UploadBtn />
+                  </div>
+                )
+              }
+              {
+                logoUrl && (
+                  <img
+                    onLoad={this.finishImgLoading}
+                    className={b('logo-image')}
+                    src={logoUrl}
+                    alt="logo_image"
+                  />
+                )
+              }
+            </div>
+          </UploadDragger>
+        </div>
+        <div className={b('gallery')} />
+        <div className={b('errorBox')}>
+          <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
+        </div>
       </div>
     );
   }
