@@ -39,8 +39,8 @@ const generateDate = (date, withTimestamp = false) => {
   return dateString;
 };
 
-const generateSchedule = (from, to, isWork) => {
-  if (!isWork) return 'Выходной';
+const generateSchedule = (from, to, isWork, dayOffLocalize) => {
+  if (!isWork) return dayOffLocalize;
 
   const dateInMSFrom = new Date(from);
   const fromHours = String(dateInMSFrom.getUTCHours()).padStart(2, '0');
@@ -258,7 +258,9 @@ class WorkersList extends Component {
                     <div className="title">
                       {`${phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}:`}
                     </div>
-                    <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
+                    <div className="data">
+                      {generateSchedule(day.from, day.to, day.isWork, phrases['core.day.dayOff'][defaultLanguage.isoKey])}
+                    </div>
                   </div>
                 ))
               }
@@ -273,7 +275,9 @@ class WorkersList extends Component {
                     <div className="title">
                       {`${phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}:`}
                     </div>
-                    <div className="data">{generateSchedule(day.from, day.to, day.isWork)}</div>
+                    <div className="data">
+                      {generateSchedule(day.from, day.to, day.isWork, phrases['core.day.dayOff'][defaultLanguage.isoKey])}
+                    </div>
                   </div>
                 ))
               }

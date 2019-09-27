@@ -53,22 +53,32 @@ class FromToInput extends Component {
       readOnly,
       asText,
       screen,
-      form,
-      dayOfWeek,
+      defaultLanguage,
+      phrases,
+      isWork,
     } = this.props;
     const { from, to } = this.state;
     const fromTime = moment.utc(from).format(mask);
     const toTime = moment.utc(to).format(mask);
-    const isWork = form.getFieldValue(`${dayOfWeek}-isWork`);
 
     return (
       <div className={b({ asText, businessSchedule: screen === 'business_schedule' })}>
         {
           asText ? (
             <div className={b('text-block')}>
-              <span className={b('text-block-fromTime')}>{fromTime}</span>
-              <Divider type="vertical" />
-              <span className={b('text-block-toTime')}>{toTime}</span>
+              {
+                isWork ? (
+                  <>
+                    <span className={b('text-block-fromTime')}>{fromTime}</span>
+                    <Divider type="vertical" />
+                    <span className={b('text-block-toTime')}>{toTime}</span>
+                  </>
+                ) : (
+                  <span className={b('text-block-dayOff')}>
+                    {phrases['core.day.dayOff'][defaultLanguage.isoKey]}
+                  </span>
+                )
+              }
             </div>
           ) : (
             <>
@@ -93,7 +103,9 @@ class FromToInput extends Component {
                     </div>
                   </>
                 ) : (
-                  <div className={b('weekend-block', { readOnly })}>Weekend</div>
+                  <div className={b('weekend-block', { readOnly })}>
+                    {phrases['core.day.dayOff'][defaultLanguage.isoKey]}
+                  </div>
                 )
               }
             </>

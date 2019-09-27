@@ -348,7 +348,12 @@ class WorkerForm extends PureComponent {
                         initialValue: { from, to },
                         // rules: [{ validator: this.checkHours }],
                       })(
-                        <FromToInput readOnly={readOnlyMode} />
+                        <FromToInput
+                          defaultLanguage={defaultLanguage}
+                          phrases={phrases}
+                          isWork={form.getFieldValue(`${dayOfWeek}-isWork`)}
+                          readOnly={readOnlyMode}
+                        />
                       )
                     }
                   </FormItem>
