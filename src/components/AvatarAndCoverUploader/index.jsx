@@ -67,6 +67,7 @@ class AvatarAndCoverUploader extends Component {
       logo,
       withCoverUploader = false,
       readOnlyMode,
+      withGallery,
     } = this.props;
     const {
       loading,
@@ -74,7 +75,7 @@ class AvatarAndCoverUploader extends Component {
     } = this.state;
 
     return (
-      <div className={b()}>
+      <div className={b({ withGallery })}>
         <div className={b('mainUploadWrapper')}>
           {
             loading && (
