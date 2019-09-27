@@ -266,6 +266,7 @@ class BusinessMainInfoForm extends Component {
                   withCoverUploader
                   maxSize={2}
                   readOnlyMode={readOnlyMode}
+                  withGallery
                 />
               </Col>
             </Row>
