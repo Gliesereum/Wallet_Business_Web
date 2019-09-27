@@ -31,11 +31,20 @@ class BusinessMainInfo extends Component {
     currentLocation: null,
     uploadedCoverUrl: null,
     uploadedLogoUrl: null,
+    readOnlyMode: !this.props.isAddBusinessMode,
   };
 
   onLoadCover = uploadedCoverUrl => this.setState({ uploadedCoverUrl });
 
   onLoadLogo = uploadedLogoUrl => this.setState({ uploadedLogoUrl });
+
+  handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
+
+  handleCancel = () => {
+    this.handleToggleReadOnlyMode(true)();
+    this.mainInfoForm.props.form.resetFields();
+    this.mainInfoForm.reset();
+  };
 
   handleSubmit = async () => {
     const {
@@ -43,7 +52,6 @@ class BusinessMainInfo extends Component {
       isAddBusinessMode,
       addNewBusiness,
       chosenBusiness,
-      changeActiveTab,
       changeTabDisable,
     } = this.props;
     const {
@@ -80,7 +88,6 @@ class BusinessMainInfo extends Component {
           } else {
             await updateBusiness(newBusiness);
           }
-          changeActiveTab('schedule', newBusiness.id);
         } catch (err) {
           notification.error({
             duration: 5,
@@ -145,6 +152,7 @@ class BusinessMainInfo extends Component {
     const {
       businessCategories,
       deleteModalVisible,
+      readOnlyMode,
     } = this.state;
 
     return (
@@ -164,6 +172,7 @@ class BusinessMainInfo extends Component {
           onLoadLogo={this.onLoadLogo}
           defaultLanguage={defaultLanguage}
           phrases={phrases}
+          readOnlyMode={readOnlyMode}
         />
 
         <Row
@@ -176,12 +185,23 @@ class BusinessMainInfo extends Component {
             sm={{ span: 24, order: 3 }}
             md={{ span: 8, order: 1 }}
           >
-            <Button className={b('controlBtns-btn backBtn')}>
-              <Link to="/corporations">
-                <Icon type="left" />
-                {phrases['core.button.goToList'][defaultLanguage.isoKey]}
-              </Link>
-            </Button>
+            {
+              readOnlyMode ? (
+                <Button className={b('controlBtns-btn backBtn')}>
+                  <Link to="/corporations">
+                    <Icon type="left" />
+                    {phrases['core.button.goToList'][defaultLanguage.isoKey]}
+                  </Link>
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn backBtn')}
+                  onClick={this.handleCancel}
+                >
+                  {phrases['core.button.cancel'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
           </Col>
           <Col
             xs={{ span: 24, order: 2 }}
@@ -189,7 +209,7 @@ class BusinessMainInfo extends Component {
             md={{ span: 8, order: 2 }}
           >
             {
-              !isAddBusinessMode && (
+              readOnlyMode && (
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.toggleDeleteModal}
@@ -204,17 +224,25 @@ class BusinessMainInfo extends Component {
             sm={{ span: 24, order: 1 }}
             md={{ span: 8, order: 3 }}
           >
-            <Button
-              className={b('controlBtns-btn')}
-              onClick={this.handleSubmit}
-              type="primary"
-            >
-              {
-                isAddBusinessMode
-                  ? phrases['core.button.save'][defaultLanguage.isoKey]
-                  : phrases['core.button.goForward'][defaultLanguage.isoKey]
-              }
-            </Button>
+            {
+              readOnlyMode ? (
+                <Button
+                  className={b('controlBtns-btn')}
+                  onClick={this.handleToggleReadOnlyMode(false)}
+                  type="primary"
+                >
+                  {phrases['core.button.edit'][defaultLanguage.isoKey]}
+                </Button>
+              ) : (
+                <Button
+                  className={b('controlBtns-btn')}
+                  onClick={this.handleSubmit}
+                  type="primary"
+                >
+                  {phrases['core.button.save'][defaultLanguage.isoKey]}
+                </Button>
+              )
+            }
           </Col>
         </Row>
 

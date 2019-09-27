@@ -40,6 +40,13 @@ class BusinessMainInfoForm extends Component {
     currentLocation: null,
   };
 
+  reset = () => {
+    this.setState({
+      currentAddress: null,
+      currentLocation: null,
+    });
+  };
+
   searchAddressHandler = (value) => {
     if (value.length >= 2) {
       const autoCompleteUrl = `https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=${value}&key=${config.googleAPIKey}`;
@@ -130,6 +137,7 @@ class BusinessMainInfoForm extends Component {
       phrases,
       onLoadCover,
       onLoadLogo,
+      readOnlyMode,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
@@ -180,7 +188,10 @@ class BusinessMainInfoForm extends Component {
                       { required: true, message: 'Поле обязательное для заполнения' },
                     ],
                   })(
-                    <Select placeholder="Выбрать компанию...">
+                    <Select
+                      className={readOnlyMode ? 'readOnly' : ''}
+                      placeholder="Выбрать компанию..."
+                    >
                       {corporations.length && corporations.map(corporation => (
                         <Select.Option
                           key={corporation.id}
@@ -199,7 +210,10 @@ class BusinessMainInfoForm extends Component {
                       { required: true, message: 'Поле обязательное для заполнения' },
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
-                  })(<Input placeholder="Название филиала" />)}
+                  })(<Input
+                    readOnly={readOnlyMode}
+                    placeholder="Название филиала"
+                  />)}
                 </FormItem>
               </Col>
               <Col
@@ -215,7 +229,7 @@ class BusinessMainInfoForm extends Component {
                       { pattern: new RegExp(/^[\d ]{5,13}$/), message: 'Номер введен неверно. Повторите попытку' },
                     ],
                   })(
-                    <PhoneInput />
+                    <PhoneInput readOnly={readOnlyMode} />
                   )}
                 </FormItem>
               </Col>
@@ -231,6 +245,7 @@ class BusinessMainInfoForm extends Component {
                   onLoadLogo={onLoadLogo}
                   withCoverUploader
                   maxSize={2}
+                  readOnlyMode={readOnlyMode}
                 />
               </Col>
             </Row>
@@ -248,6 +263,7 @@ class BusinessMainInfoForm extends Component {
                 ],
               })(
                 <AutoComplete
+                  disabled={readOnlyMode}
                   placeholder="Адрес"
                   onSearch={this.searchAddressHandler}
                   dataSource={addressNodes}
@@ -263,7 +279,7 @@ class BusinessMainInfoForm extends Component {
               currentLocation={currentLocation || formInitValues.currentLocationValue}
               onSelect={this.selectAddressByMarkerHandler}
               singlePin
-              draggable
+              draggable={!readOnlyMode}
             />
           </Col>
           <Col
@@ -287,7 +303,7 @@ class BusinessMainInfoForm extends Component {
                   })(
                     <Select
                       placeholder="Выбрать..."
-                      className={!isAddBusinessMode ? 'readOnly' : ''}
+                      className={(!isAddBusinessMode || readOnlyMode) ? 'readOnly' : ''}
                     >
                       {businessTypes.length && businessTypes.map(businessType => (
                         <Select.Option
@@ -315,7 +331,7 @@ class BusinessMainInfoForm extends Component {
                   })(
                     <Select
                       placeholder="Выбрать..."
-                      className={!isAddBusinessMode ? 'readOnly' : ''}
+                      className={(!isAddBusinessMode || readOnlyMode) ? 'readOnly' : ''}
                     >
                       {businessCategoriesList.map(corporation => (
                         <Select.Option
@@ -341,7 +357,10 @@ class BusinessMainInfoForm extends Component {
                       { required: true, message: 'Поле обязательное для заполнения' },
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
-                  })(<Input placeholder={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]} />)}
+                  })(<Input
+                    readOnly={readOnlyMode}
+                    placeholder={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]}
+                  />)}
                 </FormItem>
               </Col>
             </Row>
