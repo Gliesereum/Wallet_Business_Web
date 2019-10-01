@@ -19,6 +19,7 @@ import {
   // Settings,
   Help,
   Exit,
+  ProfileIcon,
 } from '../../assets/iconComponents';
 
 const b = bem('sidebar');
@@ -40,6 +41,7 @@ class SideMenu extends Component {
       defaultLanguage,
       hasAdminRights,
       setLanguage,
+      onCloseSideBar,
     } = this.props;
 
     const mainMenuItems = [
@@ -86,7 +88,27 @@ class SideMenu extends Component {
     return (
       <div className={b()}>
         <div className={b('logo')} />
-        <div className={b('menu')}>
+        <div
+          className={b('menu', { profile: true })}
+          onClick={onCloseSideBar}
+        >
+          <Link
+            className={b('menu-item', { active: location.pathname.match('/profile'), disabled: !isUserExist })}
+            key="profile"
+            to="/profile"
+          >
+            <Icon
+              className={b('menu-item-icon', { active: location.pathname.match('/profile'), disabled: !isUserExist })}
+              style={{ color: !isUserExist ? '#485465' : 'white' }}
+              component={ProfileIcon}
+            />
+            <span>{phrases['sideBar.menu.profile.label'][defaultLanguage.isoKey]}</span>
+          </Link>
+        </div>
+        <div
+          className={b('menu')}
+          onClick={onCloseSideBar}
+        >
           {
             mainMenuItems.map(({
               icon,
@@ -99,13 +121,20 @@ class SideMenu extends Component {
                 key={text}
                 to={linkTo}
               >
-                <Icon style={{ color: !isUserExist && canDisabled ? '#485465' : 'white' }} component={icon} />
+                <Icon
+                  className={b('menu-item-icon', { active: location.pathname.match(linkTo), disabled: !isUserExist && canDisabled })}
+                  style={{ color: !isUserExist && canDisabled ? '#485465' : 'white' }}
+                  component={icon}
+                />
                 <span>{text}</span>
               </Link>
             ))
           }
         </div>
-        <div className={b('menu')}>
+        <div
+          className={b('menu')}
+          onClick={onCloseSideBar}
+        >
           {
             supportMenuItems.map(({
               icon,
@@ -118,7 +147,10 @@ class SideMenu extends Component {
                 key={text}
                 to={linkTo}
               >
-                <Icon style={{ color: !isUserExist && canDisabled ? '#485465' : 'white' }} component={icon} />
+                <Icon
+                  style={{ color: !isUserExist && canDisabled ? '#485465' : 'white' }}
+                  component={icon}
+                />
                 <span>{text}</span>
               </Link>
             ))

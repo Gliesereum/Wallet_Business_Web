@@ -22,8 +22,10 @@ class Timer extends Component {
   };
 
   restartTimer = () => {
-    this.setState({ time: this.props.time });
-    this.props.timerFinishHandler(false);
+    this.removeTimer(); // remove old timer (setInterval)
+    this.setState({ time: this.props.time }); // if get the new time prop
+    this.props.timerFinishHandler(false); // button enable
+    this.startTimer();
   };
 
   tick = () => {

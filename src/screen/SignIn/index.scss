@@ -1,59 +1,198 @@
 @import '../../styles/theme',
 '../../styles/mixins';
 
-.signIn {
-  animation: fadein 0.8s ease;
-  width: 100vw;
+.CouplerAction {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  margin: auto;
+  text-align: center;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  @include respond-to(phone) {
+    margin: 0 -30px;
+  }
+}
+
+.FutureBoxCard {
+  position: relative;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 3px;
+  box-shadow: 4px 8px 17px 1px rgba(0, 0, 0, 0.050);
+
+  .__ImageBox {
+    width: 180px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    img {
+      width: 100px;
+    }
+  }
+
+  .__Title {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 16px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #f77805;
+    position: absolute;
+    top: -20px;
+    right: 0;
+    left: 0;
+    height: 40px;
+    display: flex;
+    background: #2c333b;
+    color: #f77805;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .__Description {
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #737c85;
+    font-weight: 400;
+  }
+
+  .__Links {
+    margin-bottom: 10px;
+  }
+}
+
+.signIn {
+  animation: fadein 0.8s ease;
+  display: flex;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  //background: #FF9800;
+  justify-content: center;
+  //animation: fadein 0.8s ease;
+  //width: 100vw;
+  //max-width: 1280px;
+  //margin: auto;
+  //display: flex;
+  //flex-direction: column;
+  //justify-content: space-between;
+  //box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.10196078431372549);
+
+  &__future-box {
+    //background: #fff;
+    //padding: 1em;
+    //box-shadow: 0px 0px 18px 0px #0000001a;
+    border-radius: 3px;
+  }
+
+  &__future-title {
+    //margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(48, 55, 62);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    text-align: center;
+  }
+
+  &__box-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
 
   &__main {
-    max-width: $min-extra-large-desktop;
-    margin: 0 auto;
+    //max-width: $min-extra-large-desktop;
+    //margin: 0 auto;
+    //position: relative;
+    //animation: fadeInUp 0.6s ease;
+    //padding: 0 16px;
+    //display: flex;
+    //flex-direction: row;
+    //max-width: $min-extra-large-desktop;
     position: relative;
     animation: fadeInUp 0.6s ease;
-    padding: 0 16px;
     display: flex;
     flex-direction: row;
+    background: #fcfcfc;
+    box-shadow: 0 0 0 1px #efefef;
+    flex-grow: 1;
+
+
     @include respond-to(phone) {
-      display: block;
+      flex-wrap: wrap;
+      overflow-y: auto;
     }
-    @include respond-to(tablet) { padding: 0 24px; }
-    @include respond-to(largeDesktop) { padding: 0 32px; }
+    @include respond-to(tablet) {
+      //flex-wrap: wrap;
+    }
+    //@include respond-to(largeDesktop) { padding: 0 32px; }
 
     &-formBlock {
       position: relative;
       background-color: #2C333B;
       box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.16);
-      height: 680px;
+      display: flex;
+      flex-direction: column;
+      //height: 680px;
       width: 320px;
+      //overflow-y: auto;
       @include respond-to(phone) {
-        height: 617px;
+        //height: 617px;
         width: 328px;
         margin: 0 auto;
       }
       @include respond-to(tablet) {
-        height: 808px;
+        //height: 808px;
         width: 344px;
       }
       @include respond-to(largeDesktop) {
-        height: 680px;
+        //height: 680px;
         width: 384px;
       }
       @include respond-to(extraLargeDesktop) {
-        height: 816px;
+        //height: 816px;
         width: 424px;
       }
     }
 
     &-contentBlock {
-      padding-left: 16px;
+      //padding: 16px;
       flex: 1;
-      @include respond-to(phone) { padding-left: 0; }
-      @include respond-to(tablet) { padding-left: 32px; }
-      @include respond-to(largeDesktop) { padding-left: 32px; }
-      @include respond-to(extraLargeDesktop) { padding-left: 32px; }
+      display: flex;
+      flex-direction: column;
+      //overflow-y: auto;
+      //@include respond-to(phone) { padding-left: 0; }
+      //@include respond-to(tablet) { padding-left: 32px; }
+      //@include respond-to(largeDesktop) { padding-left: 32px; }
+      //@include respond-to(extraLargeDesktop) { padding-left: 32px; }
+    }
+
+    &-contentBlock-content {
+      padding: 30px;
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 
@@ -99,10 +238,10 @@
   }
 
   &__support {
-    position: absolute;
-    bottom: 0;
+    //position: absolute;
+    //bottom: 0;
     width: 100%;
-    height: 75px;
+    height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -155,31 +294,80 @@
     @include respond-to(phoneAndTablet) { flex-direction: column; }
     @include respond-to(extraLargeDesktop) { flex-direction: column; }
 
+    .BadgeAction {
+      position: absolute;
+      background: #fe7900;
+      font-size: 18px;
+      font-weight: 600;
+      padding-right: 30px;
+      padding-left: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      color: #ffffff;
+      border-radius: 40px;
+
+      @include respond-to(phone) {
+        margin: auto;
+      }
+      @include respond-to(tablet) {
+        margin: auto;
+      }
+
+      @include respond-to(extraLargeDesktop) {
+        margin: auto;
+      }
+      @include respond-to(largeDesktop) {
+        margin: auto;
+      }
+
+      @include respond-to(phoneAndTablet) {
+        margin: auto;
+      }
+    }
+
     &-deviceImage {
       margin-right: -16px;
       @include respond-to(phoneAndTablet) { margin: 0 -8px; }
       @include respond-to(largeDesktop) { margin-right: -32px; }
       @include respond-to(extraLargeDesktop) { margin: 0; }
 
+      //background-size: 327px 419px;
+      width: 380px;
+      height: 320px;
+      @include respond-to(phoneAndTablet) {
+        //background: no-repeat $signIn_mcbook;
+        //background-size: 344px 248px;
+        width: 344px;
+        height: 248px;
+        margin: 0 auto;
+      }
+      @include respond-to(extraLargeDesktop) {
+        //background: no-repeat $signIn_mcbookXL;
+        //background-size: 670px 391px;
+        width: 670px;
+        height: 320px;
+        margin: 0 auto;
+      }
+
       &-container {
-        background: no-repeat $signIn_tablet;
-        background-size: 327px 419px;
-        width: 327px;
-        height: 419px;
-        @include respond-to(phoneAndTablet) {
-          background: no-repeat $signIn_mcbook;
-          background-size: 344px 248px;
-          width: 344px;
-          height: 248px;
-          margin: 0 auto;
-        }
-        @include respond-to(extraLargeDesktop) {
-          background: no-repeat $signIn_mcbookXL;
-          background-size: 670px 391px;
-          width: 670px;
-          height: 391px;
-          margin: 0 auto;
-        }
+        //background: no-repeat $signIn_tablet;
+        //background-size: 327px 419px;
+        //width: 327px;
+        //height: 419px;
+        //@include respond-to(phoneAndTablet) {
+        //  //background: no-repeat $signIn_mcbook;
+        //  background-size: 344px 248px;
+        //  width: 344px;
+        //  height: 248px;
+        //  margin: 0 auto;
+        //}
+        //@include respond-to(extraLargeDesktop) {
+        //  //background: no-repeat $signIn_mcbookXL;
+        //  background-size: 670px 391px;
+        //  width: 670px;
+        //  height: 391px;
+        //  margin: 0 auto;
+        //}
       }
     }
 

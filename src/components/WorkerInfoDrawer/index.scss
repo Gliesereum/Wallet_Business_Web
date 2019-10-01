@@ -1,6 +1,16 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .workerInfoDrawer {
+  & .ant-drawer {
+    &-content-wrapper {
+      width: 448px !important;
+      @include respond-to(phone) {
+        width: 304px !important;
+      }
+    }
+  }
+
   & .ant-drawer-header {
     z-index: 1;
     position: sticky;
@@ -46,12 +56,22 @@
 
   &__schedule {
     padding: 16px;
+    display: flex;
+    justify-content: space-between;
     &:nth-child(even) {
       background-color: #E7F2FE;
+    }
+    @include respond-to(phone) {
+      flex-direction: column;
     }
 
     &-workHours {
       display: flex;
+      min-width: 200px;
+      @include respond-to(phone) {
+        padding-top: 20px;
+        justify-content: space-between;
+      }
     }
   }
 }

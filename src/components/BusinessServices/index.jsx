@@ -18,6 +18,8 @@ class BusinessServices extends Component {
     const {
       chosenBusiness,
       servicePrices,
+      defaultLanguage,
+      phrases,
       changeActiveTab,
       changeTabDisable,
       updateBusinessService,
@@ -31,6 +33,8 @@ class BusinessServices extends Component {
           // if add service mode or some of service was chosen from servicesList
           isAddServiceMode || (chosenService && chosenService.id) ? (
             <BusinessServiceInfo
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               chosenBusiness={chosenBusiness}
               isAddMode={isAddServiceMode}
               chosenService={chosenService}
@@ -40,6 +44,8 @@ class BusinessServices extends Component {
             />
           ) : (
             <BusinessServicesList
+              defaultLanguage={defaultLanguage}
+              phrases={phrases}
               services={services || []}
               changeTabDisable={changeTabDisable}
               changeActiveService={this.changeActiveService}

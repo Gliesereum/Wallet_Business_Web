@@ -1,4 +1,5 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .businessPage {
   height: 100%;
@@ -10,5 +11,8 @@
     padding: 0 32px 40px;
     overflow-y: scroll;
     flex: 1 1 auto;
+    @include respond-to(phone) {
+      padding: 0 16px 40px;
+    }
   }
 }

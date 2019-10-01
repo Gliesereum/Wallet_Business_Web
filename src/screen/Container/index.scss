@@ -1,4 +1,5 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .container {
   background: white;
@@ -11,6 +12,19 @@
   width: 100%;
   display: flex;
   overflow: hidden;
+
+  &__sideBar {
+    width: 312px;
+    background: $coupler-blue;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.16);
+    height: 100%;
+    overflow-y: scroll;
+    z-index: 3;
+    display: block;
+    @include respond-to(phoneToMiddleDesktop) {
+      display: none;
+    }
+  }
 
   &__wrapper {
     flex: 1;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import bem from 'bem-join';
 import moment from 'moment/moment';
-import InputMask from 'react-input-mask';
+import TimeField from 'react-simple-timefield';
 
 import { Input, Divider } from 'antd';
 
@@ -28,8 +28,7 @@ class FromToInput extends Component {
     };
   }
 
-  handleNumberChange = mode => (e) => {
-    const { value } = e.target;
+  handleNumberChange = mode => (value) => {
     const { onChange } = this.props;
     const number = parseInt(
       moment.duration(value, 'HH:mm').asMilliseconds() || 0,
@@ -50,50 +49,65 @@ class FromToInput extends Component {
   };
 
   render() {
-    const { readOnly, asText } = this.props;
+    const {
+      readOnly,
+      asText,
+      screen,
+      defaultLanguage,
+      phrases,
+      isWork,
+    } = this.props;
     const { from, to } = this.state;
     const fromTime = moment.utc(from).format(mask);
     const toTime = moment.utc(to).format(mask);
 
     return (
-      <div className={b({ asText })}>
+      <div className={b({ asText, businessSchedule: screen === 'business_schedule' })}>
         {
           asText ? (
             <div className={b('text-block')}>
-              <span className={b('text-block-fromTime')}>{fromTime}</span>
-              <Divider type="vertical" />
-              <span className={b('text-block-toTime')}>{toTime}</span>
+              {
+                isWork ? (
+                  <>
+                    <span className={b('text-block-fromTime')}>{fromTime}</span>
+                    <Divider type="vertical" />
+                    <span className={b('text-block-toTime')}>{toTime}</span>
+                  </>
+                ) : (
+                  <span className={b('text-block-dayOff')}>
+                    {phrases['core.day.dayOff'][defaultLanguage.isoKey]}
+                  </span>
+                )
+              }
             </div>
           ) : (
             <>
-              <div className={b('input-block')}>
-                <InputMask
-                  className={b('fromTime')}
-                  disabled={false}
-                  readOnly={readOnly}
-                  value={fromTime}
-                  mask="99\:99"
-                  maskChar={null}
-                  alwaysShowMask={false}
-                  onChange={this.handleNumberChange('from')}
-                >
-                  {inputProps => <Input {...inputProps} readOnly={readOnly} />}
-                </InputMask>
-              </div>
-              <div>
-                <InputMask
-                  className={b('toTime')}
-                  disabled={false}
-                  readOnly={readOnly}
-                  value={toTime}
-                  mask="99\:99"
-                  maskChar={null}
-                  alwaysShowMask={false}
-                  onChange={this.handleNumberChange('to')}
-                >
-                  {inputProps => <Input {...inputProps} readOnly={readOnly} />}
-                </InputMask>
-              </div>
+              {
+                isWork ? (
+                  <>
+                    <div className={b('input-block')}>
+                      <TimeField
+                        className={b('fromTime')}
+                        value={fromTime}
+                        onChange={this.handleNumberChange('from')}
+                        input={<Input readOnly={readOnly} />}
+                      />
+                    </div>
+                    <div>
+                      <TimeField
+                        className={b('toTime')}
+                        value={toTime}
+                        onChange={this.handleNumberChange('to')}
+                        input={<Input readOnly={readOnly} />}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className={b('weekend-block', { readOnly })}>
+                    {phrases['core.day.dayOff'][defaultLanguage.isoKey]}
+                  </div>
+                )
+              }
             </>
           )
         }

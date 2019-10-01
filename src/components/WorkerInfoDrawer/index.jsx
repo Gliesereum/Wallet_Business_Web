@@ -67,7 +67,6 @@ const WorkerInfoDrawer = ({
     <Drawer
       visible={visible}
       className={b()}
-      width={448}
       mask
       maskClosable={false}
       onClose={onClose}
@@ -103,24 +102,22 @@ const WorkerInfoDrawer = ({
       <h1 className={b('title')}>Дни и часы работы</h1>
       {
         scheduleList.map(day => (
-          <Row
+          <div
             className={b('schedule')}
             key={day.dayOfWeek}
           >
-            <Col lg={10}>
-              <div>{phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}</div>
-            </Col>
-            <Col
-              lg={14}
-              className={b('schedule-workHours')}
-            >
+            <div>{phrases[`core.day.${dayTranslate[day.dayOfWeek]}`][defaultLanguage.isoKey]}</div>
+            <div className={b('schedule-workHours')}>
               <div>Время работы</div>
               <FromToInput
+                defaultLanguage={defaultLanguage}
+                phrases={phrases}
                 value={{ from: day.from, to: day.to }}
+                isWork={day.isWork}
                 asText
               />
-            </Col>
-          </Row>
+            </div>
+          </div>
         ))
       }
     </Drawer>

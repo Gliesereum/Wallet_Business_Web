@@ -38,13 +38,14 @@ class SignInForm extends Component {
     const { getCodeHandler, form } = this.props;
 
     await form.validateFields(async (error, values) => {
-      const isPhoneValid = /[0-9]{6,15}$/.test(values.phone.slice(this.state.dialCodeLength));
-      if (!error && values.phone && isPhoneValid) {
+      const phoneNumber = (values && values.phone) || phoneRepeat;
+      const isPhoneValid = /[0-9]{6,15}$/.test(phoneNumber.slice(this.state.dialCodeLength));
+      if (!error && isPhoneValid) {
         if (phoneRepeat) {
-          await getCodeHandler(phoneRepeat);
+          await getCodeHandler(phoneNumber);
           this.timerRef.restartTimer();
         } else {
-          await getCodeHandler(values.phone);
+          await getCodeHandler(phoneNumber);
         }
       } else {
         // notification TODO: add

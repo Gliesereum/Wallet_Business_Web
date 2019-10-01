@@ -153,15 +153,21 @@ class BusinessServiceInfo extends Component {
       filters,
       classes,
       chosenService,
-      changeActiveService,
       isAddMode,
+      defaultLanguage,
+      phrases,
       chosenBusiness,
+      changeActiveService,
     } = this.props;
 
     return (
       <div className={b()}>
-        <h1 className={b('header')}>Основная информация</h1>
+        <h1 className={b('header')}>
+          {phrases['core.button.mainInfo'][defaultLanguage.isoKey]}
+        </h1>
         <ServiceMainInfoForm
+          defaultLanguage={defaultLanguage}
+          phrases={phrases}
           serviceTypes={serviceTypes}
           servicePrice={chosenService}
           updateFormData={this.updateFormData}
@@ -173,7 +179,9 @@ class BusinessServiceInfo extends Component {
               {
                 (filters.length > 0) && (
                   <>
-                    <h1 className={b('header')}>Дополнительная информация</h1>
+                    <h1 className={b('header')}>
+                      {phrases['servicesPage.info.additionalInformation'][defaultLanguage.isoKey]}
+                    </h1>
                     <ServiceAdditional
                       filters={filters}
                       servicePrice={chosenService}
@@ -185,7 +193,9 @@ class BusinessServiceInfo extends Component {
               {
                 chosenBusiness.businessCategory.businessType === 'CAR' && (
                   <>
-                    <h1 className={b('header')}>Класс обслуживания</h1>
+                    <h1 className={b('header')}>
+                      {phrases['servicesPage.info.classes'][defaultLanguage.isoKey]}
+                    </h1>
                     <ServiceClasses
                       classes={classes}
                       servicePrice={chosenService}
@@ -201,10 +211,12 @@ class BusinessServiceInfo extends Component {
                 filters.length > 0 && chosenBusiness.businessCategory.businessType === 'CAR' && (
                   <div className={b('infoBlock')}>
                     <p className={b('infoBlock-text')}>
-                      <span className={b('infoBlock-text', { firstParagraph: true })}>Внимание!</span>
+                      <span className={b('infoBlock-text', { firstParagraph: true })}>
+                        {phrases['servicesPage.info.attention'][defaultLanguage.isoKey]}
+                      </span>
                       <br />
                       <span>
-                        Введите и сохраните основную информацию услуги, чтобы получить доступ к дополнительным атрибутам.
+                        {phrases['servicesPage.info.infoBlockText'][defaultLanguage.isoKey]}
                       </span>
                     </p>
                   </div>
@@ -215,30 +227,40 @@ class BusinessServiceInfo extends Component {
         }
         <Row
           gutter={40}
+          type="flex"
           className={b('controlBtns')}
         >
-          <Col lg={isAddMode ? 12 : 8}>
+          <Col
+            xs={{ span: 24, order: 3 }}
+            md={{ span: 8, order: 1 }}
+          >
             <Button
               className={b('controlBtns-btn backBtn')}
               onClick={changeActiveService(null, false)}
             >
               <Icon type="left" />
-              Назад к списку
+              {phrases['core.button.backToList'][defaultLanguage.isoKey]}
             </Button>
           </Col>
-          {
-            !isAddMode && (
-              <Col lg={8}>
+          <Col
+            xs={{ span: 24, order: 2 }}
+            md={{ span: 8, order: 2 }}
+          >
+            {
+              !isAddMode && (
                 <Button
                   className={b('controlBtns-btn deleteBtn')}
                   onClick={this.handleRemoveServicePrice}
                 >
-                  Удалить услугу
+                  {phrases['servicesPage.button.delete'][defaultLanguage.isoKey]}
                 </Button>
-              </Col>
-            )
-          }
-          <Col lg={isAddMode ? 12 : 8}>
+              )
+            }
+          </Col>
+          <Col
+            xs={{ span: 24, order: 1 }}
+            md={{ span: 8, order: 3 }}
+          >
             <Button
               className={b('controlBtns-btn')}
               onClick={this.handleUpdateBusinessService}
@@ -246,8 +268,10 @@ class BusinessServiceInfo extends Component {
             >
               {
                 (filters.length < 1 && chosenBusiness.businessCategory.businessType !== 'CAR')
-                  ? 'Сохранить'
-                  : `${!additionalInfoVisible ? 'Сохранить основную информацию' : 'Сохранить'}`
+                  ? phrases['core.button.save'][defaultLanguage.isoKey]
+                  : `${!additionalInfoVisible
+                    ? phrases['servicesPage.button.saveBasicInfo'][defaultLanguage.isoKey]
+                    : phrases['core.button.save'][defaultLanguage.isoKey]}`
               }
             </Button>
           </Col>

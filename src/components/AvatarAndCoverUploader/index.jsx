@@ -5,6 +5,10 @@ import {
   Upload,
   Spin,
   notification,
+  Icon,
+  Modal,
+  Row,
+  Col,
 } from 'antd';
 
 import { UploadBtn } from '../../assets/iconComponents';
@@ -22,14 +26,18 @@ const typeChecker = fileType => fileType && (fileType === 'image/png' || fileTyp
 
 class AvatarAndCoverUploader extends Component {
   state = {
-    uploadedCoverUrl: null,
-    uploadedLogoUrl: null,
     loading: false,
     error: false,
+    viewImageUrl: null,
   };
 
-  uploadCover = uploadType => async ({ file, onSuccess }) => {
-    const { onLoadCover, onLoadLogo, maxSize = 2 } = this.props;
+  uploadCover = (uploadType, galleryIndex) => async ({ file, onSuccess }) => {
+    const {
+      maxSize = 2,
+      onLoadCover,
+      onLoadLogo,
+      onLoadGallery,
+    } = this.props;
 
     this.setState({ loading: true, error: false });
 
@@ -47,12 +55,14 @@ class AvatarAndCoverUploader extends Component {
 
       if (uploadType === 'cover') {
         onLoadCover(uploadedImageUrl);
-        this.setState({ uploadedCoverUrl: uploadedImageUrl });
       }
 
       if (uploadType === 'logo') {
         onLoadLogo(uploadedImageUrl);
-        this.setState({ uploadedLogoUrl: uploadedImageUrl });
+      }
+
+      if (uploadType === 'gallery') {
+        onLoadGallery(uploadedImageUrl, galleryIndex);
       }
     } catch (err) {
       notification.error({
@@ -63,7 +73,20 @@ class AvatarAndCoverUploader extends Component {
     }
   };
 
+  deleteImage = id => (e) => {
+    e.stopPropagation();
+    const { deleteGalleryImage } = this.props;
+
+    deleteGalleryImage(id);
+  };
+
   finishImgLoading = () => this.setState({ loading: false });
+
+  viewImageChanger = (media, forReadOnly = false) => (e) => {
+    if (forReadOnly && !this.props.readOnlyMode) return;
+    e.stopPropagation();
+    this.setState({ viewImageUrl: media ? media.url : null });
+  };
 
   render() {
     const {
@@ -71,109 +94,177 @@ class AvatarAndCoverUploader extends Component {
       logo,
       withCoverUploader = false,
       readOnlyMode,
+      withGallery,
+      businessMedia,
     } = this.props;
     const {
       loading,
       error,
-      uploadedCoverUrl,
-      uploadedLogoUrl,
+      viewImageUrl,
     } = this.state;
 
-    let coverUrl;
-    let logoUrl;
-    if (uploadedCoverUrl) {
-      coverUrl = uploadedCoverUrl;
-    } else if (cover) {
-      coverUrl = cover;
-    } else {
-      coverUrl = null;
-    }
-
-    if (uploadedLogoUrl) {
-      logoUrl = uploadedLogoUrl;
-    } else if (logo) {
-      logoUrl = logo;
-    } else {
-      logoUrl = null;
+    const cellsForBusinessMedia = [...businessMedia];
+    for (let i = 0; cellsForBusinessMedia.length < 6; i += 1) {
+      cellsForBusinessMedia.push(null);
     }
 
     return (
-      <div className={b()}>
-        {
-          loading && (
-            <Spin
-              className={b('spinner')}
-              size="large"
-            />
-          )
-        }
-        {
-          error && (
-            <div className={b('errorBox')}>
-              <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
-            </div>
-          )
-        }
-        {
-          withCoverUploader && (
-            <UploadDragger
-              disabled={readOnlyMode}
-              className={b('cover')}
-              name="file"
-              listType="picture-card"
-              showUploadList={false}
-              customRequest={this.uploadCover('cover')}
-            >
-              <div className={b('cover-container')}>
-                {
-                  !readOnlyMode && (
-                    <div className={b('cover-uploadBtn')}>
-                      <UploadBtn />
-                    </div>
-                  )
-                }
-                {
-                  coverUrl && (
-                    <img
-                      onLoad={this.finishImgLoading}
-                      className={b('cover-image')}
-                      src={coverUrl}
-                      alt="cover_image"
-                    />
-                  )
-                }
-              </div>
-            </UploadDragger>
-          )
-        }
-        <UploadDragger
-          disabled={readOnlyMode}
-          className={b('logo')}
-          name="file"
-          listType="picture-card"
-          showUploadList={false}
-          customRequest={this.uploadCover('logo')}
-        >
-          <div className={b('logo-container')}>
-            {
-              !readOnlyMode && (
-                <div className={b('logo-uploadBtn')}>
-                  <UploadBtn />
+      <div className={b({ withGallery })}>
+        <div className={b('mainUploadWrapper')}>
+          {
+            loading && (
+              <Spin
+                className={b('spinner')}
+                size="large"
+              />
+            )
+          }
+          {
+            withCoverUploader && (
+              <UploadDragger
+                disabled={readOnlyMode}
+                className={b('cover')}
+                name="file"
+                listType="picture-card"
+                showUploadList={false}
+                customRequest={this.uploadCover('cover')}
+              >
+                <div className={b('cover-container')}>
+                  {
+                    !readOnlyMode && (
+                      <div className={b('cover-uploadBtn')}>
+                        <UploadBtn />
+                      </div>
+                    )
+                  }
+                  {
+                    cover && (
+                      <img
+                        onLoad={this.finishImgLoading}
+                        className={b('cover-image')}
+                        src={cover}
+                        alt="cover_image"
+                      />
+                    )
+                  }
                 </div>
-              )
-            }
-            {
-              logoUrl && (
-                <img
-                  onLoad={this.finishImgLoading}
-                  className={b('logo-image')}
-                  src={logoUrl}
-                  alt="logo_image"
-                />
-              )
-            }
-          </div>
-        </UploadDragger>
+              </UploadDragger>
+            )
+          }
+          <UploadDragger
+            disabled={readOnlyMode}
+            className={b('logo')}
+            name="file"
+            listType="picture-card"
+            showUploadList={false}
+            customRequest={this.uploadCover('logo')}
+          >
+            <div className={b('logo-container')}>
+              {
+                !readOnlyMode && (
+                  <div className={b('logo-uploadBtn')}>
+                    <UploadBtn />
+                  </div>
+                )
+              }
+              {
+                logo && (
+                  <img
+                    onLoad={this.finishImgLoading}
+                    className={b('logo-image')}
+                    src={logo}
+                    alt="logo_image"
+                  />
+                )
+              }
+            </div>
+          </UploadDragger>
+        </div>
+        <Row
+          className={b('gallery')}
+          gutter={16}
+        >
+          {
+            withGallery && cellsForBusinessMedia.map((item, index) => (
+              <Col span={12}>
+                <UploadDragger
+                  key={`${index + 1}`}
+                  disabled={readOnlyMode}
+                  className={b('gallery-item')}
+                  name="file"
+                  listType="picture-card"
+                  showUploadList={false}
+                  customRequest={this.uploadCover('gallery', index)}
+                >
+                  <div
+                    className={b('gallery-item-container')}
+                    onClick={this.viewImageChanger(item, true)}
+                  >
+                    {
+                      !readOnlyMode && (
+                        <div className={b('gallery-item-uploadBtn')}>
+                          <UploadBtn />
+                        </div>
+                      )
+                    }
+                    {/* delete icon (with handler) */}
+                    {
+                      (!readOnlyMode && item) && (
+                        <div
+                          className={b('gallery-item-deleteBtn')}
+                          onClick={this.deleteImage(item.id)}
+                        >
+                          <Icon type="delete" />
+                        </div>
+                      )
+                    }
+                    {/* view modal trigger */}
+                    {
+                      (!readOnlyMode && item) && (
+                        <div
+                          className={b('gallery-item-viewerTrigger')}
+                          onClick={this.viewImageChanger(item)}
+                        >
+                          <Icon type="eye" />
+                        </div>
+                      )
+                    }
+                    {
+                      item && (
+                        <img
+                          onLoad={this.finishImgLoading}
+                          className={b('gallery-item-image')}
+                          src={item.url}
+                          alt="cover_image"
+                        />
+                      )
+                    }
+                  </div>
+                </UploadDragger>
+              </Col>
+            ))
+          }
+        </Row>
+        <div className={b('errorBox', { error })}>
+          <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
+        </div>
+        {
+          !!viewImageUrl && (
+            <Modal
+              visible={!!viewImageUrl}
+              className={b('viewer')}
+              footer={null}
+              centered
+              onCancel={this.viewImageChanger(null)}
+            >
+              <img
+                className={b('viewer-image')}
+                src={viewImageUrl}
+                alt=""
+              />
+            </Modal>
+          )
+        }
       </div>
     );
   }

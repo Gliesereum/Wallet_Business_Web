@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import bem from 'bem-join';
 
-import { Form, Checkbox, notification } from 'antd';
+import {
+  Form,
+  Checkbox,
+  notification,
+  Row,
+  Col,
+} from 'antd';
 
 import { asyncRequest, withToken } from '../../../utils';
 
@@ -81,18 +87,29 @@ class ServiceClasses extends Component {
           {form.getFieldDecorator('classes', {
             initialValue: this.classChecked(),
           })(
-            <CheckboxGroup>
-              {
-                classes.map(item => (
-                  <Checkbox
-                    className={b('checkbox')}
-                    key={item.id}
-                    value={item.id}
-                  >
-                    {item.name}
-                  </Checkbox>
-                ))
-              }
+            <CheckboxGroup className={b('checkboxGroup')}>
+              <Row gutter={32}>
+                {
+                  classes.map(item => (
+                    <Col
+                      className={b('checkboxCol')}
+                      xs={24}
+                      sm={12}
+                      md={8}
+                      lg={6}
+                      xxl={4}
+                    >
+                      <Checkbox
+                        className={b('checkbox')}
+                        key={item.id}
+                        value={item.id}
+                      >
+                        {item.name}
+                      </Checkbox>
+                    </Col>
+                  ))
+                }
+              </Row>
             </CheckboxGroup>
           )}
         </FormItem>

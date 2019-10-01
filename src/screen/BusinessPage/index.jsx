@@ -75,6 +75,7 @@ class BusinessPage extends Component {
       servicePrices,
       businessPackages,
       workingSpaces,
+      businessMedia,
       defaultLanguage,
       phrases,
     } = this.props;
@@ -92,6 +93,7 @@ class BusinessPage extends Component {
           businessCategories,
           businessTypes,
           corporations,
+          businessMedia,
           changeTabDisable: this.handleChangeTabDisable,
           validFieldHandler: this.validFieldHandler,
           chosenCorpId: location.state ? location.state.chosenCorp.id : undefined,
@@ -165,14 +167,18 @@ class BusinessPage extends Component {
                 key={keyName}
                 disabled={disabled}
               >
-                <ContentComponent
-                  chosenBusiness={chosenBusiness}
-                  isAddBusinessMode={isAddBusinessMode}
-                  changeActiveTab={this.changeActiveTab}
-                  defaultLanguage={defaultLanguage}
-                  phrases={phrases}
-                  {...props}
-                />
+                {
+                  (isAddBusinessMode || chosenBusiness) && (
+                    <ContentComponent
+                      chosenBusiness={chosenBusiness}
+                      isAddBusinessMode={isAddBusinessMode}
+                      changeActiveTab={this.changeActiveTab}
+                      defaultLanguage={defaultLanguage}
+                      phrases={phrases}
+                      {...props}
+                    />
+                  )
+                }
               </Tabs.TabPane>
             ))
           }
@@ -188,6 +194,7 @@ const mapStateToProps = state => ({
   businessPackages: state.business.businessPackages,
   corporations: state.corporations.corporations,
   business: state.business.business,
+  businessMedia: state.business.businessMedia,
   servicePrices: state.business.servicePrices,
   workingSpaces: state.business.workingSpaces,
   chosenBusiness: state.business.chosenBusiness,
@@ -197,6 +204,7 @@ const mapDispatchToProps = dispatch => ({
   getPriceService: data => dispatch(actions.business.$getPriceService(data)),
   getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
   getWorkingSpaces: data => dispatch(actions.business.$getWorkingSpaces(data)),
+  getBusinessMedia: data => dispatch(actions.business.$getBusinessMedia(data)),
   changeChosenBusiness: businessId => dispatch(actions.business.$changeChosenBusiness(businessId)),
 });
 
@@ -233,6 +241,15 @@ export default compose(
           url: `working-space/${id}`,
           fieldName: 'workingSpaces',
           reduxAction: getWorkingSpaces,
+        })();
+      },
+      ({ chosenBusiness, getBusinessMedia, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
+        fetchAction({
+          url: `business/${id}/media`,
+          fieldName: 'businessMedia',
+          reduxAction: getBusinessMedia,
         })();
       },
     ],

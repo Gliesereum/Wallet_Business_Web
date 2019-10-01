@@ -13,6 +13,7 @@ const initState = {
     totalElements: 0,
   },
   orders: [],
+  businessMedia: [],
 };
 
 const initReducers = {
@@ -42,6 +43,7 @@ const initReducers = {
   [actions.CHANGE_CHOSEN_BUSINESS]: (state, businessId) => ({
     ...state,
     chosenBusiness: state.business.find(item => item.id === businessId),
+    businessMedia: businessId === null ? [] : state.businessMedia,
   }),
 
   [actions.GET_SERVICE_PRICE]: (state, payload) => {
@@ -238,6 +240,42 @@ const initReducers = {
     workingSpaces: [
       ...state.workingSpaces.filter(item => item.id !== payload),
     ],
+  }),
+
+  [actions.GET_BUSINESS_MEDIA]: (state, payload) => ({
+    ...state,
+    businessMedia: payload,
+  }),
+
+  [actions.ADD_BUSINESS_MEDIA]: (state, { newMedia, index }) => {
+    const replacedMedia = state.businessMedia[index] || {};
+    let newBusinessMediaArray = [];
+
+    if (replacedMedia.id) { // update
+      newBusinessMediaArray = [
+        ...state.businessMedia.slice(0, index),
+        {
+          ...replacedMedia,
+          url: newMedia,
+        },
+        ...state.businessMedia.slice(index + 1),
+      ];
+    } else { // add new
+      newBusinessMediaArray = [
+        ...state.businessMedia,
+        { url: newMedia },
+      ];
+    }
+
+    return {
+      ...state,
+      businessMedia: newBusinessMediaArray,
+    };
+  },
+
+  [actions.DELETE_BUSINESS_MEDIA]: (state, id) => ({
+    ...state,
+    businessMedia: state.businessMedia.filter(item => item.id !== id),
   }),
 
   [actions.GET_ORDERS]: (state, {

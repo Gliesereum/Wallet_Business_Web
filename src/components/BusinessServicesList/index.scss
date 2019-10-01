@@ -1,66 +1,108 @@
 @import '../../styles/theme';
 
 .businessServicesList {
-  &__grid {
-    &-item {
-      & .ant-card-bordered {
-        height: 64px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #F4F4F4;
+    margin-bottom: 16px;
+    padding: 2px 0;
 
-        &:hover {
-          border: 2px solid $coupler-blue;
-          color: $coupler-blue;
-        }
-
-        & .ant-card-body  {
-          display: flex;
-          align-items: center;
-          font-family: $Roboto;
-          font-size: 14px;
-          line-height: 20px;
-          color: $font-title-black;
-          padding: 8px 15px;
-          height: 100%;
-        }
-      }
-
-      &--addCard {
-        & .ant-card-bordered {
-          border: 1px dashed #DCE2E9;
-
-          & .ant-card-body {
-            color: #C8CED3;
-
-            & img {
-              width: 32px;
-              height: 32px;
-              margin-right: 16px;
-            }
-          }
-
-          &:hover {
-            border: 2px dashed $coupler-blue;
-          }
-        }
-      }
+    &-title {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      text-transform: uppercase;
+      font-feature-settings: 'tnum' on, 'lnum' on, 'cpsp' on;
+      color: #758498;
     }
 
-    &-controlBtns {
-      margin-top: 56px;
-
-      &-btn {
-        width: 100%;
-      }
+    &-addBtn {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      text-transform: uppercase;
+      font-feature-settings: 'tnum' on, 'lnum' on, 'cpsp' on;
     }
   }
 
-  &__title {
-    border-bottom: 1px solid #DCE2E9;
-    padding-bottom: 13px;
-    color: $font-title-black;
-    font-family: $Roboto;
-    font-size: 16px;
-    letter-spacing: 0.02em;
-    font-feature-settings: 'pnum' on, 'lnum' on;
-    margin-bottom: 16px;
+  &__list {
+    &-item {
+      box-shadow: 2px 2px 4px rgba(16, 120, 225, 0.16);
+      border: 1px solid #DCE3EA;
+      border-radius: 4px;
+      cursor: pointer;
+      min-height: 218px;
+
+      &:hover {
+        box-shadow: 2px 2px 4px rgba(16, 120, 225, 0.4);
+      }
+
+      &-title {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 21px;
+        text-align: center;
+        text-transform: uppercase;
+        font-feature-settings: 'tnum' on, 'lnum' on, 'cpsp' on;
+        color: $coupler-blue;
+        padding: 16px 24px;
+        border-bottom: 1px solid #DCE3EA;
+      }
+
+      &-description {
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 20px;
+        font-feature-settings: 'tnum' on, 'lnum' on, 'kern' off;
+        color: #758498;
+        padding: 16px 24px;
+        border-bottom: 1px solid #DCE3EA;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-otherInfo {
+        display: flex;
+
+        &-block {
+          text-align: center;
+          width: 50%;
+          padding: 8px;
+          border-right: 1px solid #DCE3EA;
+
+          & p {
+            font-size: 14px;
+            line-height: 16px;
+            font-feature-settings: 'pnum' on, 'lnum' on;
+            color: $font-title-black;
+          }
+
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+
+      &-addText {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 16px;
+        text-transform: uppercase;
+        font-feature-settings: 'tnum' on, 'lnum' on, 'cpsp' on;
+        padding-top: 24px;
+        color: #A4AEB8;
+      }
+
+      &--addCard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 }

@@ -1,48 +1,33 @@
-@import '../../../styles/theme';
+@import '../../../styles/theme',
+'../../../styles/mixins';
 
 .businessScheduleForm {
   &__dayForm {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #E5E5E5;
-    height: 80px;
+    border-bottom: 1px solid #EAEAEA;
+    height: 63px;
 
     &-formItem {
-      &--isWorkItem {
-        width: 40%;
-      }
-
       &--timeItem {
-        width: 60%;
-
-        & .ant-form-item-label {
-          line-height: 48px;
-          padding-bottom: 0;
-
-          & label {
-            font-family: $Roboto;
-            color: #888888;
-            letter-spacing: 0.02em;
-          }
-        }
-
+        margin-bottom: 0;
         & .ant-form-explain {
           display: none;
         }
       }
+
+      &--isWorkItem {
+        margin-bottom: 0;
+        padding-left: 24px;
+        @include respond-to(phone) {
+          padding-left: 8px;
+        }
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
     }
   }
-
-  &__controlBtns {
-    margin-top: 56px;
-
-    &-btn {
-      width: 100%;
-    }
-  }
-}
-
-#scheduleForm .ant-form-item {
-  margin-bottom: 0;
 }
