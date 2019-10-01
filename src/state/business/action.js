@@ -24,6 +24,10 @@ const actions = {
   REMOVE_WORKER_FROM_OLD_WORKING_SPACE: 'REMOVE_WORKER_FROM_OLD_WORKING_SPACE',
   DELETE_WORKING_SPACE: 'DELETE_WORKING_SPACE',
 
+  GET_BUSINESS_MEDIA: 'GET_BUSINESS_MEDIA',
+  ADD_BUSINESS_MEDIA: 'ADD_BUSINESS_MEDIA',
+  DELETE_BUSINESS_MEDIA: 'DELETE_BUSINESS_MEDIA',
+
   GET_ORDERS: 'GET_ORDERS',
   UPDATE_ORDER_STATUS: 'UPDATE_ORDER_STATUS',
 
@@ -120,6 +124,21 @@ const actions = {
   $deleteWorkingSpace: workingSpaceId => ({
     type: actions.DELETE_WORKING_SPACE,
     payload: workingSpaceId,
+  }),
+
+  $getBusinessMedia: media => ({
+    type: actions.GET_BUSINESS_MEDIA,
+    payload: media,
+  }),
+
+  $addBusinessMedia: (newMedia, index) => ({
+    type: actions.ADD_BUSINESS_MEDIA,
+    payload: { newMedia, index },
+  }),
+
+  $deleteBusinessMedia: id => ({
+    type: actions.DELETE_BUSINESS_MEDIA,
+    payload: id,
   }),
 
   $getOrders: orders => ({

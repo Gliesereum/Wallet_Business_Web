@@ -137,9 +137,12 @@ class BusinessMainInfoForm extends Component {
       phrases,
       onLoadCover,
       onLoadLogo,
+      onLoadGallery,
       readOnlyMode,
       uploadedCoverUrl,
       uploadedLogoUrl,
+      businessMedia,
+      deleteGalleryImage,
     } = this.props;
     const {
       addressNodes, currentLocation, currentAddress,
@@ -263,10 +266,13 @@ class BusinessMainInfoForm extends Component {
                   logo={logo}
                   onLoadCover={onLoadCover}
                   onLoadLogo={onLoadLogo}
+                  onLoadGallery={onLoadGallery}
+                  deleteGalleryImage={deleteGalleryImage}
                   withCoverUploader
                   maxSize={2}
                   readOnlyMode={readOnlyMode}
                   withGallery
+                  businessMedia={businessMedia}
                 />
               </Col>
             </Row>

@@ -301,6 +301,15 @@
       }
     }
 
+    &.ant-upload-select-picture-card > .ant-upload {
+      vertical-align: unset;
+      display: flex;
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      background-color: $white;
+    }
+
     &-btn {
       padding: 0;
       display: flex;

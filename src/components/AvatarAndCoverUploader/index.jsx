@@ -5,6 +5,8 @@ import {
   Upload,
   Spin,
   notification,
+  Icon,
+  Modal,
 } from 'antd';
 
 import { UploadBtn } from '../../assets/iconComponents';
@@ -24,10 +26,16 @@ class AvatarAndCoverUploader extends Component {
   state = {
     loading: false,
     error: false,
+    viewImageUrl: null,
   };
 
-  uploadCover = uploadType => async ({ file, onSuccess }) => {
-    const { onLoadCover, onLoadLogo, maxSize = 2 } = this.props;
+  uploadCover = (uploadType, galleryIndex) => async ({ file, onSuccess }) => {
+    const {
+      maxSize = 2,
+      onLoadCover,
+      onLoadLogo,
+      onLoadGallery,
+    } = this.props;
 
     this.setState({ loading: true, error: false });
 
@@ -50,6 +58,10 @@ class AvatarAndCoverUploader extends Component {
       if (uploadType === 'logo') {
         onLoadLogo(uploadedImageUrl);
       }
+
+      if (uploadType === 'gallery') {
+        onLoadGallery(uploadedImageUrl, galleryIndex);
+      }
     } catch (err) {
       notification.error({
         duration: 5,
@@ -59,7 +71,20 @@ class AvatarAndCoverUploader extends Component {
     }
   };
 
+  deleteImage = id => (e) => {
+    e.stopPropagation();
+    const { deleteGalleryImage } = this.props;
+
+    deleteGalleryImage(id);
+  };
+
   finishImgLoading = () => this.setState({ loading: false });
+
+  viewImageChanger = (media, forReadOnly = false) => (e) => {
+    if (forReadOnly && !this.props.readOnlyMode) return;
+    e.stopPropagation();
+    this.setState({ viewImageUrl: media ? media.url : null });
+  };
 
   render() {
     const {
@@ -68,11 +93,18 @@ class AvatarAndCoverUploader extends Component {
       withCoverUploader = false,
       readOnlyMode,
       withGallery,
+      businessMedia,
     } = this.props;
     const {
       loading,
       error,
+      viewImageUrl,
     } = this.state;
+
+    const cellsForBusinessMedia = [...businessMedia];
+    for (let i = 0; cellsForBusinessMedia.length < 6; i += 1) {
+      cellsForBusinessMedia.push(null);
+    }
 
     return (
       <div className={b({ withGallery })}>
@@ -146,10 +178,86 @@ class AvatarAndCoverUploader extends Component {
             </div>
           </UploadDragger>
         </div>
-        <div className={b('gallery')} />
+        <div className={b('gallery')}>
+          {
+            withGallery && cellsForBusinessMedia.map((item, index) => (
+              <UploadDragger
+                key={`${index + 1}`}
+                disabled={readOnlyMode}
+                className={b('gallery-item')}
+                name="file"
+                listType="picture-card"
+                showUploadList={false}
+                customRequest={this.uploadCover('gallery', index)}
+              >
+                <div
+                  className={b('gallery-item-container')}
+                  onClick={this.viewImageChanger(item, true)}
+                >
+                  {
+                    !readOnlyMode && (
+                      <div className={b('gallery-item-uploadBtn')}>
+                        <UploadBtn />
+                      </div>
+                    )
+                  }
+                  {/* delete icon (with handler) */}
+                  {
+                    (!readOnlyMode && item) && (
+                      <div
+                        className={b('gallery-item-deleteBtn')}
+                        onClick={this.deleteImage(item.id)}
+                      >
+                        <Icon type="delete" />
+                      </div>
+                    )
+                  }
+                  {/* view modal trigger */}
+                  {
+                    (!readOnlyMode && item) && (
+                      <div
+                        className={b('gallery-item-viewerTrigger')}
+                        onClick={this.viewImageChanger(item)}
+                      >
+                        <Icon type="eye" />
+                      </div>
+                    )
+                  }
+                  {
+                    item && (
+                      <img
+                        onLoad={this.finishImgLoading}
+                        className={b('gallery-item-image')}
+                        src={item.url}
+                        alt="cover_image"
+                      />
+                    )
+                  }
+                </div>
+              </UploadDragger>
+            ))
+          }
+        </div>
         <div className={b('errorBox', { error })}>
           <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
         </div>
+        {
+          !!viewImageUrl && (
+            <Modal
+              visible={!!viewImageUrl}
+              className={b('viewer')}
+              footer={null}
+              centered
+              onCancel={this.viewImageChanger(null)}
+            >
+              <img
+                className={b('viewer-image')}
+                src={viewImageUrl}
+                alt=""
+              />
+            </Modal>
+          )
+        }
       </div>
     );
   }
