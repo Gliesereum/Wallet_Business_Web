@@ -38,6 +38,8 @@ class BusinessMainInfo extends Component {
 
   onLoadLogo = uploadedLogoUrl => this.setState({ uploadedLogoUrl });
 
+  onLoadGallery = (uploadedGalleryImage, index) => this.props.addBusinessMedia(uploadedGalleryImage, index);
+
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
   handleCancel = () => {
@@ -57,6 +59,7 @@ class BusinessMainInfo extends Component {
       addNewBusiness,
       chosenBusiness,
       changeTabDisable,
+      businessMedia,
     } = this.props;
     const {
       currentLocation,
@@ -81,8 +84,10 @@ class BusinessMainInfo extends Component {
           timeZone: timeZone || ((chosenBusiness && chosenBusiness.timeZone) ? chosenBusiness.timeZone : 0),
         };
 
+        // updating|creating new business
+        let newBusiness;
         try {
-          const newBusiness = await withToken(asyncRequest)({
+          newBusiness = await withToken(asyncRequest)({
             url: businessUrl, method, moduleUrl, body,
           });
           if (isAddBusinessMode && !chosenBusiness) {
@@ -92,6 +97,32 @@ class BusinessMainInfo extends Component {
           } else {
             await updateBusiness(newBusiness);
           }
+
+          // if user add new image to gallery, the system should add mediaType and objectId (businessId) for each
+          // new image
+          for (let i = 0; i < businessMedia.length; i += 1) {
+            if (businessMedia[i]) {
+              if (!businessMedia[i].objectId) businessMedia[i].objectId = newBusiness.id;
+              if (!businessMedia[i].mediaType) businessMedia[i].mediaType = 'IMAGE';
+            }
+          }
+
+          await fetchAction({
+            url: 'business/media/list',
+            method: 'POST',
+            body: {
+              list: businessMedia,
+              objectId: newBusiness.id,
+            },
+          })();
+
+          notification.success({
+            description: 'Успешно',
+            message: 'Оновленно',
+            duration: 5,
+          });
+
+          this.handleToggleReadOnlyMode(true)();
         } catch (err) {
           notification.error({
             duration: 5,
@@ -101,6 +132,12 @@ class BusinessMainInfo extends Component {
         }
       }
     });
+  };
+
+  deleteGalleryImage = async (id) => {
+    const { deleteBusinessMedia } = this.props;
+
+    await deleteBusinessMedia(id);
   };
 
   handleRemoveBusiness = async () => {
@@ -150,6 +187,7 @@ class BusinessMainInfo extends Component {
       businessTypes,
       chosenCorpId,
       chosenBusiness,
+      businessMedia,
       defaultLanguage,
       phrases,
     } = this.props;
@@ -171,13 +209,16 @@ class BusinessMainInfo extends Component {
           businessTypes={businessTypes}
           chosenCorpId={chosenCorpId}
           chosenBusiness={chosenBusiness}
+          businessMedia={businessMedia}
           uploadedCoverUrl={uploadedCoverUrl}
           uploadedLogoUrl={uploadedLogoUrl}
+          deleteGalleryImage={this.deleteGalleryImage}
           changeBusinessType={this.handleChangeBusinessType}
           changeCurrentLocation={this.changeCurrentLocation}
           changeCurrentTimeZone={this.changeCurrentTimeZone}
           onLoadCover={this.onLoadCover}
           onLoadLogo={this.onLoadLogo}
+          onLoadGallery={this.onLoadGallery}
           defaultLanguage={defaultLanguage}
           phrases={phrases}
           readOnlyMode={readOnlyMode}
@@ -276,6 +317,8 @@ const mapDispatchToProps = dispatch => ({
   addNewBusiness: newBusiness => dispatch(actions.business.$addNewBusiness(newBusiness)),
   updateBusiness: newBusiness => dispatch(actions.business.$updateBusiness(newBusiness)),
   removeBusiness: businessId => dispatch(actions.business.$removeBusiness(businessId)),
+  addBusinessMedia: (mediaUrl, index) => dispatch(actions.business.$addBusinessMedia(mediaUrl, index)),
+  deleteBusinessMedia: id => dispatch(actions.business.$deleteBusinessMedia(id)),
 });
 
 export default compose(
