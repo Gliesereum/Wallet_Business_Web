@@ -1,4 +1,5 @@
-@import '../../styles/theme';
+@import '../../styles/theme',
+'../../styles/mixins';
 
 .avatarAndCoverUploader {
   display: flex;
@@ -8,23 +9,40 @@
   border: 1px solid #E4E9F0;
   border-radius: 4px;
   padding: 16px;
+  margin-bottom: 16px;
+  @include respond-to(phone) {
+    height: auto;
+  }
 
   &__mainUploadWrapper {
     order: 1;
     width: 100%;
     height: 176px;
     position: relative;
+    @include respond-to(phone) {
+      order: 2;
+    }
   }
 
   &__gallery {
     order: 2;
     width: 31%;
     display: none;
+    padding-left: 16px;
+    @include respond-to(phone) {
+      order: 3;
+      width: 100%;
+      padding-left: 0;
+    }
 
     &-item {
-      width: 40%;
       height: 48px;
-      margin: 0 0 16px 16px;
+      display: block;
+      margin: 0 0 16px 0;
+      @include respond-to(phone) {
+        margin: 16px 0 0 0;
+        height: 80px;
+      }
 
       &-container {
         position: relative;
@@ -84,7 +102,7 @@
     order: 3;
     display: flex;
     flex: 1;
-    align-items: center;
+    text-align: center;
     justify-content: center;
     padding: 8px 0;
     background: #f5f5f5;
@@ -94,6 +112,11 @@
     line-height: 16px;
     letter-spacing: 0.04em;
     font-feature-settings: 'pnum' on, 'lnum' on;
+    @include respond-to(phone) {
+      order: 1;
+      width: 100%;
+      margin-bottom: 16px;
+    }
 
     &--error {
       color: $coupler-red;
@@ -177,11 +200,13 @@
   &--withGallery {
     .avatarAndCoverUploader__mainUploadWrapper {
       width: 69%;
+      @include respond-to(phone) {
+        width: 100%;
+      }
     }
 
     .avatarAndCoverUploader__gallery {
-      display: flex;
-      flex-wrap: wrap;
+      display: block;
     }
   }
 

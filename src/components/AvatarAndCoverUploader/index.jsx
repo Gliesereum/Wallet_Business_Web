@@ -7,6 +7,8 @@ import {
   notification,
   Icon,
   Modal,
+  Row,
+  Col,
 } from 'antd';
 
 import { UploadBtn } from '../../assets/iconComponents';
@@ -178,66 +180,71 @@ class AvatarAndCoverUploader extends Component {
             </div>
           </UploadDragger>
         </div>
-        <div className={b('gallery')}>
+        <Row
+          className={b('gallery')}
+          gutter={16}
+        >
           {
             withGallery && cellsForBusinessMedia.map((item, index) => (
-              <UploadDragger
-                key={`${index + 1}`}
-                disabled={readOnlyMode}
-                className={b('gallery-item')}
-                name="file"
-                listType="picture-card"
-                showUploadList={false}
-                customRequest={this.uploadCover('gallery', index)}
-              >
-                <div
-                  className={b('gallery-item-container')}
-                  onClick={this.viewImageChanger(item, true)}
+              <Col span={12}>
+                <UploadDragger
+                  key={`${index + 1}`}
+                  disabled={readOnlyMode}
+                  className={b('gallery-item')}
+                  name="file"
+                  listType="picture-card"
+                  showUploadList={false}
+                  customRequest={this.uploadCover('gallery', index)}
                 >
-                  {
-                    !readOnlyMode && (
-                      <div className={b('gallery-item-uploadBtn')}>
-                        <UploadBtn />
-                      </div>
-                    )
-                  }
-                  {/* delete icon (with handler) */}
-                  {
-                    (!readOnlyMode && item) && (
-                      <div
-                        className={b('gallery-item-deleteBtn')}
-                        onClick={this.deleteImage(item.id)}
-                      >
-                        <Icon type="delete" />
-                      </div>
-                    )
-                  }
-                  {/* view modal trigger */}
-                  {
-                    (!readOnlyMode && item) && (
-                      <div
-                        className={b('gallery-item-viewerTrigger')}
-                        onClick={this.viewImageChanger(item)}
-                      >
-                        <Icon type="eye" />
-                      </div>
-                    )
-                  }
-                  {
-                    item && (
-                      <img
-                        onLoad={this.finishImgLoading}
-                        className={b('gallery-item-image')}
-                        src={item.url}
-                        alt="cover_image"
-                      />
-                    )
-                  }
-                </div>
-              </UploadDragger>
+                  <div
+                    className={b('gallery-item-container')}
+                    onClick={this.viewImageChanger(item, true)}
+                  >
+                    {
+                      !readOnlyMode && (
+                        <div className={b('gallery-item-uploadBtn')}>
+                          <UploadBtn />
+                        </div>
+                      )
+                    }
+                    {/* delete icon (with handler) */}
+                    {
+                      (!readOnlyMode && item) && (
+                        <div
+                          className={b('gallery-item-deleteBtn')}
+                          onClick={this.deleteImage(item.id)}
+                        >
+                          <Icon type="delete" />
+                        </div>
+                      )
+                    }
+                    {/* view modal trigger */}
+                    {
+                      (!readOnlyMode && item) && (
+                        <div
+                          className={b('gallery-item-viewerTrigger')}
+                          onClick={this.viewImageChanger(item)}
+                        >
+                          <Icon type="eye" />
+                        </div>
+                      )
+                    }
+                    {
+                      item && (
+                        <img
+                          onLoad={this.finishImgLoading}
+                          className={b('gallery-item-image')}
+                          src={item.url}
+                          alt="cover_image"
+                        />
+                      )
+                    }
+                  </div>
+                </UploadDragger>
+              </Col>
             ))
           }
-        </div>
+        </Row>
         <div className={b('errorBox', { error })}>
           <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
         </div>
