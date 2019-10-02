@@ -324,7 +324,7 @@ export default fetchDecorator({
       fieldType: {},
       method: 'POST',
       body: {
-        clientIds: [chosenClient.id],
+        clientIds: [chosenClient.userId],
         corporationId: chosenCorporationId,
         from: null,
         to: null,
