@@ -19,6 +19,7 @@ import { defaultGeoPosition } from '../../Map/mapConfig';
 import { translateBusinessType } from '../../../mocks';
 
 const FormItem = Form.Item;
+const { Option } = Select;
 const b = bem('businessMainForm');
 
 const initialFieldValues = chosenCorpId => ({
@@ -30,6 +31,7 @@ const initialFieldValues = chosenCorpId => ({
   businessCategory: undefined,
   currentAddressValue: '',
   currentLocationValue: defaultGeoPosition,
+  businessTags: undefined,
 });
 
 class BusinessMainInfoForm extends Component {
@@ -132,16 +134,19 @@ class BusinessMainInfoForm extends Component {
       corporations = [],
       isAddBusinessMode,
       chosenCorpId,
-      changeBusinessType,
       defaultLanguage,
       phrases,
-      onLoadCover,
-      onLoadLogo,
-      onLoadGallery,
       readOnlyMode,
       uploadedCoverUrl,
       uploadedLogoUrl,
       businessMedia,
+      hasAdminRights,
+      businessTags,
+      tags,
+      changeBusinessType,
+      onLoadCover,
+      onLoadLogo,
+      onLoadGallery,
       deleteGalleryImage,
     } = this.props;
     const {
@@ -160,6 +165,7 @@ class BusinessMainInfoForm extends Component {
         lat: chosenBusiness.latitude,
         lng: chosenBusiness.longitude,
       },
+      businessTags: businessTags.map(item => item.id),
     } : initialFieldValues(chosenCorpId);
 
     let businessCategoriesList = [];
@@ -361,12 +367,12 @@ class BusinessMainInfoForm extends Component {
                       className={(!isAddBusinessMode || readOnlyMode) ? 'readOnly' : ''}
                     >
                       {businessCategoriesList.map(corporation => (
-                        <Select.Option
+                        <Option
                           key={corporation.name}
                           value={corporation.id}
                         >
                           {corporation.name}
-                        </Select.Option>
+                        </Option>
                       ))}
                     </Select>
                   )}
@@ -390,6 +396,36 @@ class BusinessMainInfoForm extends Component {
                   />)}
                 </FormItem>
               </Col>
+              {
+                hasAdminRights && (
+                  <Col
+                    xs={24}
+                    md={24}
+                    xl={24}
+                  >
+                    <FormItem label="Теги">
+                      {form.getFieldDecorator('businessTags', {
+                        initialValue: formInitValues.businessTags,
+                      })(
+                        <Select
+                          mode="multiple"
+                          className={readOnlyMode ? 'readOnly' : ''}
+                        >
+                          {tags.map(tag => (
+                            <Option
+                              key={tag.id}
+                              value={tag.id}
+                            >
+                              {tag.name}
+                            </Option>
+                          ))}
+
+                        </Select>
+                      )}
+                    </FormItem>
+                  </Col>
+                )
+              }
             </Row>
           </Col>
         </Row>

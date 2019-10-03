@@ -4,7 +4,7 @@
 .businessMainForm {
   &__map {
     &-containerElement {
-      height: 264px;
+      height: 256px;
       margin-bottom: 24px;
       @include respond-to(tabletToMiddleDesktop) {
         height: 168px;

@@ -157,8 +157,25 @@
     }
 
     &-selection {
-      &--single {
+      &--single,
+      &--multiple {
         height: 48px;
+      }
+
+      &--multiple {
+        &__rendered {
+          height: 48px;
+        }
+
+        & ul {
+          padding: 0 16px;
+
+          & li {
+            height: 40px;
+            line-height: 40px;
+            letter-spacing: 0.02em;
+          }
+        }
       }
 
       &__rendered {
@@ -181,7 +198,6 @@
           padding: 0 16px;
           line-height: 48px;
           letter-spacing: 0.02em;
-          font-family: $Roboto;
         }
       }
 

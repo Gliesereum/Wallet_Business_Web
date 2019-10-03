@@ -25,6 +25,7 @@ import HelpDrawer from './HelpDrawer';
 import PeriodSelector from './PeriodSelector';
 import AdminPanelPhrases from './AdminPanelPhrases';
 import AdminPanelPhrasesList from './AdminPanelPhrasesList';
+import AdminPanelTags from './AdminPanelTags';
 import WelcomePage from './WelcomePage';
 import AvatarAndCoverUploader from './AvatarAndCoverUploader';
 import ContentHeader from './ContentHeader';
@@ -60,6 +61,7 @@ export {
   PeriodSelector,
   AdminPanelPhrases,
   AdminPanelPhrasesList,
+  AdminPanelTags,
   WelcomePage,
   AvatarAndCoverUploader,
   ContentHeader,
