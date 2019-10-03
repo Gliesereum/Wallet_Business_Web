@@ -141,7 +141,7 @@ class PackageForm extends Component {
                   })(
                     <InputNumber
                       step={5}
-                      min={1}
+                      min={0}
                       max={1440}
                       parser={value => value.replace(/\D/g, '')}
                       placeholder="00"

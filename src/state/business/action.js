@@ -28,6 +28,8 @@ const actions = {
   ADD_BUSINESS_MEDIA: 'ADD_BUSINESS_MEDIA',
   DELETE_BUSINESS_MEDIA: 'DELETE_BUSINESS_MEDIA',
 
+  GET_BUSINESS_TAGS: 'GET_BUSINESS_TAGS',
+
   GET_ORDERS: 'GET_ORDERS',
   UPDATE_ORDER_STATUS: 'UPDATE_ORDER_STATUS',
 
@@ -139,6 +141,11 @@ const actions = {
   $deleteBusinessMedia: id => ({
     type: actions.DELETE_BUSINESS_MEDIA,
     payload: id,
+  }),
+
+  $getBusinessTags: tags => ({
+    type: actions.GET_BUSINESS_TAGS,
+    payload: tags,
   }),
 
   $getOrders: orders => ({

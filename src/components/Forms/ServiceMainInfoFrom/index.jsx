@@ -113,7 +113,7 @@ class ServiceMainInfoForm extends PureComponent {
                   step={5}
                   parser={value => value.replace(/\D/g, '')}
                   placeholder="0"
-                  min={1}
+                  min={0}
                 />
               )}
             </Form.Item>

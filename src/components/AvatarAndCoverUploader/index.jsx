@@ -186,9 +186,11 @@ class AvatarAndCoverUploader extends Component {
         >
           {
             withGallery && cellsForBusinessMedia.map((item, index) => (
-              <Col span={12}>
+              <Col
+                key={`${index + 1}`}
+                span={12}
+              >
                 <UploadDragger
-                  key={`${index + 1}`}
                   disabled={readOnlyMode}
                   className={b('gallery-item')}
                   name="file"

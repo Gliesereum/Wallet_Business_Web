@@ -51,11 +51,6 @@ export const mapConfig = {
       stylers: [{ color: '#aaaaaa' }],
     },
     {
-      featureType: 'landscape',
-      elementType: 'all',
-      stylers: [{ color: '#f2f2f2' }],
-    },
-    {
       featureType: 'poi',
       elementType: 'all',
       stylers: [{ visibility: 'off' }],

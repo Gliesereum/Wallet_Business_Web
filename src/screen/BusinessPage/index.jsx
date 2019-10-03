@@ -78,6 +78,9 @@ class BusinessPage extends Component {
       businessMedia,
       defaultLanguage,
       phrases,
+      hasAdminRights,
+      businessTags,
+      tags,
     } = this.props;
 
     const { disabledTab } = this.state;
@@ -94,6 +97,9 @@ class BusinessPage extends Component {
           businessTypes,
           corporations,
           businessMedia,
+          hasAdminRights,
+          businessTags,
+          tags,
           changeTabDisable: this.handleChangeTabDisable,
           validFieldHandler: this.validFieldHandler,
           chosenCorpId: location.state ? location.state.chosenCorp.id : undefined,
@@ -198,6 +204,8 @@ const mapStateToProps = state => ({
   servicePrices: state.business.servicePrices,
   workingSpaces: state.business.workingSpaces,
   chosenBusiness: state.business.chosenBusiness,
+  hasAdminRights: state.auth.hasAdminRights,
+  businessTags: state.business.businessTags,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -205,6 +213,7 @@ const mapDispatchToProps = dispatch => ({
   getBusinessPackages: data => dispatch(actions.business.$getBusinessPackages(data)),
   getWorkingSpaces: data => dispatch(actions.business.$getWorkingSpaces(data)),
   getBusinessMedia: data => dispatch(actions.business.$getBusinessMedia(data)),
+  getBusinessTags: data => dispatch(actions.business.$getBusinessTags(data)),
   changeChosenBusiness: businessId => dispatch(actions.business.$changeChosenBusiness(businessId)),
 });
 
@@ -252,6 +261,19 @@ export default compose(
           reduxAction: getBusinessMedia,
         })();
       },
+      ({ chosenBusiness, getBusinessTags, match }) => {
+        const { id } = chosenBusiness || ((match && match.params) ? match.params : undefined);
+        if (!id) return;
+        fetchAction({
+          url: `business/${id}/tags`,
+          fieldName: 'businessTags',
+          reduxAction: getBusinessTags,
+        })();
+      },
+      fetchAction({
+        url: 'tag',
+        fieldName: 'tags',
+      }),
     ],
     config: { loader: true },
   }),

@@ -6,6 +6,7 @@ const initState = {
     packages: [],
     phrases: {},
   },
+  tags: [],
 };
 
 const initReducers = {
@@ -26,6 +27,37 @@ const initReducers = {
         },
       },
     },
+  }),
+
+  [actions.GET_TAGS]: (state, tags) => ({
+    ...state,
+    tags,
+  }),
+
+  [actions.ADD_TAG]: (state, newTag) => ({
+    ...state,
+    tags: [
+      ...state.tags,
+      newTag,
+    ],
+  }),
+
+  [actions.UPDATE_TAG]: (state, updatedTag) => {
+    const updatedTagIndex = state.tags.findIndex(item => item.id === updatedTag.id);
+    const updatedTagsArray = [
+      ...state.tags.slice(0, updatedTagIndex),
+      updatedTag,
+      ...state.tags.slice(updatedTagIndex + 1),
+    ];
+    return {
+      ...state,
+      tags: updatedTagsArray,
+    };
+  },
+
+  [actions.DELETE_TAG]: (state, deletedTag) => ({
+    ...state,
+    tags: state.tags.filter(tag => tag.id !== deletedTag.id),
   }),
 };
 

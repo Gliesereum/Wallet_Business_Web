@@ -2,6 +2,30 @@
 
 .adminPanel {
   display: flex;
+  flex-direction: column;
   flex: 1;
   padding: 32px;
+
+  &__tabs {
+    display: flex;
+    justify-content: space-around;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+
+    &-tab {
+      display: flex;
+      width: 50%;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      color: $font-title-black;
+      cursor: pointer;
+
+      &--active {
+        border-bottom: 2px solid $coupler-blue;
+        color: $coupler-blue;
+      }
+    }
+  }
 }

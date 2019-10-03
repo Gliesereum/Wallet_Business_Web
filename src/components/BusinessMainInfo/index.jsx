@@ -68,7 +68,7 @@ class BusinessMainInfo extends Component {
       uploadedLogoUrl,
     } = this.state;
 
-    this.mainInfoForm.props.form.validateFields(async (error, values) => {
+    this.mainInfoForm.props.form.validateFields(async (error, { businessTags, ...values }) => {
       if (!error) {
         const businessUrl = 'business';
         const method = isAddBusinessMode && !chosenBusiness ? 'POST' : 'PUT';
@@ -123,6 +123,19 @@ class BusinessMainInfo extends Component {
           });
 
           this.handleToggleReadOnlyMode(true)();
+        } catch (err) {
+          notification.error({
+            duration: 5,
+            message: err.message || 'Ошибка',
+            description: 'Ошибка',
+          });
+        }
+
+        try {
+          fetchAction({
+            url: `business/tag/save?tagId=${businessTags}&businessId=${newBusiness.id}`,
+            method: 'POST',
+          })();
         } catch (err) {
           notification.error({
             duration: 5,
@@ -190,6 +203,9 @@ class BusinessMainInfo extends Component {
       businessMedia,
       defaultLanguage,
       phrases,
+      hasAdminRights,
+      businessTags,
+      tags,
     } = this.props;
     const {
       businessCategories,
@@ -212,6 +228,9 @@ class BusinessMainInfo extends Component {
           businessMedia={businessMedia}
           uploadedCoverUrl={uploadedCoverUrl}
           uploadedLogoUrl={uploadedLogoUrl}
+          hasAdminRights={hasAdminRights}
+          businessTags={businessTags}
+          tags={tags}
           deleteGalleryImage={this.deleteGalleryImage}
           changeBusinessType={this.handleChangeBusinessType}
           changeCurrentLocation={this.changeCurrentLocation}

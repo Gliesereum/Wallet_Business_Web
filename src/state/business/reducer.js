@@ -14,6 +14,7 @@ const initState = {
   },
   orders: [],
   businessMedia: [],
+  businessTags: [],
 };
 
 const initReducers = {
@@ -44,6 +45,7 @@ const initReducers = {
     ...state,
     chosenBusiness: state.business.find(item => item.id === businessId),
     businessMedia: businessId === null ? [] : state.businessMedia,
+    businessTags: businessId === null ? [] : state.businessTags,
   }),
 
   [actions.GET_SERVICE_PRICE]: (state, payload) => {
@@ -276,6 +278,11 @@ const initReducers = {
   [actions.DELETE_BUSINESS_MEDIA]: (state, id) => ({
     ...state,
     businessMedia: state.businessMedia.filter(item => item.id !== id),
+  }),
+
+  [actions.GET_BUSINESS_TAGS]: (state, tags) => ({
+    ...state,
+    businessTags: tags,
   }),
 
   [actions.GET_ORDERS]: (state, {
