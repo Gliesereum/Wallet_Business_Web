@@ -4,7 +4,7 @@
 .avatarAndCoverUploader {
   display: flex;
   flex-wrap: wrap;
-  height: 256px;
+  height: 328px;
   position: relative;
   border: 1px solid #E4E9F0;
   border-radius: 4px;
@@ -101,7 +101,7 @@
   &__errorBox {
     order: 3;
     display: flex;
-    flex: 1;
+    width: 100%;
     text-align: center;
     justify-content: center;
     padding: 8px 0;
@@ -122,6 +122,27 @@
       color: $coupler-red;
       border-color: $coupler-red;
       background-color: rgba(224, 0, 13, 0.08);
+    }
+  }
+
+  &__video {
+    display: flex;
+    align-items: center;
+    padding-top: 24px;
+    order: 4;
+    width: 100%;
+    @include respond-to(phone) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &-label {
+      padding-right: 16px;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+      color: $font-title-black;
+      font-size: 14px;
+      line-height: 16px;
     }
   }
 
