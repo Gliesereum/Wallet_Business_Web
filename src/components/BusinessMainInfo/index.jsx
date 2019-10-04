@@ -31,6 +31,7 @@ class BusinessMainInfo extends Component {
     currentLocation: null,
     uploadedCoverUrl: null,
     uploadedLogoUrl: null,
+    uploadedVideoUrl: null,
     readOnlyMode: !this.props.isAddBusinessMode,
   };
 
@@ -39,6 +40,8 @@ class BusinessMainInfo extends Component {
   onLoadLogo = uploadedLogoUrl => this.setState({ uploadedLogoUrl });
 
   onLoadGallery = (uploadedGalleryImage, index) => this.props.addBusinessMedia(uploadedGalleryImage, index);
+
+  changeVideoUrl = uploadedVideoUrl => this.setState({ uploadedVideoUrl });
 
   handleToggleReadOnlyMode = bool => () => this.setState({ readOnlyMode: bool });
 
@@ -66,6 +69,7 @@ class BusinessMainInfo extends Component {
       timeZone,
       uploadedCoverUrl,
       uploadedLogoUrl,
+      uploadedVideoUrl,
     } = this.state;
 
     this.mainInfoForm.props.form.validateFields(async (error, { businessTags, ...values }) => {
@@ -79,6 +83,7 @@ class BusinessMainInfo extends Component {
           ...values,
           coverUrl: uploadedCoverUrl || (chosenBusiness ? chosenBusiness.coverUrl : null),
           logoUrl: uploadedLogoUrl || (chosenBusiness ? chosenBusiness.logoUrl : null),
+          videoUrl: uploadedVideoUrl || (chosenBusiness ? chosenBusiness.videoUrl : null),
           latitude: currentLocation ? currentLocation.lat : chosenBusiness.latitude,
           longitude: currentLocation ? currentLocation.lng : chosenBusiness.longitude,
           timeZone: timeZone || ((chosenBusiness && chosenBusiness.timeZone) ? chosenBusiness.timeZone : 0),
@@ -213,6 +218,7 @@ class BusinessMainInfo extends Component {
       readOnlyMode,
       uploadedCoverUrl,
       uploadedLogoUrl,
+      uploadedVideoUrl,
     } = this.state;
 
     return (
@@ -228,6 +234,7 @@ class BusinessMainInfo extends Component {
           businessMedia={businessMedia}
           uploadedCoverUrl={uploadedCoverUrl}
           uploadedLogoUrl={uploadedLogoUrl}
+          uploadedVideoUrl={uploadedVideoUrl}
           hasAdminRights={hasAdminRights}
           businessTags={businessTags}
           tags={tags}
@@ -238,6 +245,7 @@ class BusinessMainInfo extends Component {
           onLoadCover={this.onLoadCover}
           onLoadLogo={this.onLoadLogo}
           onLoadGallery={this.onLoadGallery}
+          changeVideoUrl={this.changeVideoUrl}
           defaultLanguage={defaultLanguage}
           phrases={phrases}
           readOnlyMode={readOnlyMode}

@@ -142,6 +142,7 @@ class BusinessMainInfoForm extends Component {
       readOnlyMode,
       uploadedCoverUrl,
       uploadedLogoUrl,
+      uploadedVideoUrl,
       businessMedia,
       hasAdminRights,
       businessTags,
@@ -151,6 +152,7 @@ class BusinessMainInfoForm extends Component {
       onLoadLogo,
       onLoadGallery,
       deleteGalleryImage,
+      changeVideoUrl,
     } = this.props;
     const {
       addressNodes,
@@ -183,6 +185,7 @@ class BusinessMainInfoForm extends Component {
 
     let cover;
     let logo;
+    let video;
     if (uploadedCoverUrl) {
       cover = uploadedCoverUrl;
     } else if (chosenBusiness) {
@@ -197,6 +200,14 @@ class BusinessMainInfoForm extends Component {
       logo = chosenBusiness.logoUrl;
     } else {
       logo = null;
+    }
+
+    if (uploadedVideoUrl) {
+      video = uploadedVideoUrl;
+    } else if (chosenBusiness) {
+      video = chosenBusiness.videoUrl;
+    } else {
+      video = null;
     }
 
     return (
@@ -276,10 +287,12 @@ class BusinessMainInfoForm extends Component {
                 <AvatarAndCoverUploader
                   cover={cover}
                   logo={logo}
+                  video={video}
                   onLoadCover={onLoadCover}
                   onLoadLogo={onLoadLogo}
                   onLoadGallery={onLoadGallery}
                   deleteGalleryImage={deleteGalleryImage}
+                  changeVideoUrl={changeVideoUrl}
                   withCoverUploader
                   maxSize={2}
                   readOnlyMode={readOnlyMode}
