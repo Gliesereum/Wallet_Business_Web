@@ -9,6 +9,7 @@ import {
   Modal,
   Row,
   Col,
+  Input,
 } from 'antd';
 
 import { UploadBtn } from '../../assets/iconComponents';
@@ -88,10 +89,18 @@ class AvatarAndCoverUploader extends Component {
     this.setState({ viewImageUrl: media ? media.url : null });
   };
 
+  videoUrlHandler = (e) => {
+    const { value } = e.target;
+    const { changeVideoUrl } = this.props;
+
+    changeVideoUrl(value);
+  };
+
   render() {
     const {
       cover,
       logo,
+      video,
       withCoverUploader = false,
       readOnlyMode,
       withGallery,
@@ -249,6 +258,15 @@ class AvatarAndCoverUploader extends Component {
         </Row>
         <div className={b('errorBox', { error })}>
           <span>Файл не должен превышать 2 МБ и должен быть у формате PNG | JPG | JPEG</span>
+        </div>
+        <div className={b('video')}>
+          <span className={b('video-label')}>Ссылка на видео</span>
+          <Input
+            readOnly={readOnlyMode}
+            className={b('video-input')}
+            value={video}
+            onChange={this.videoUrlHandler}
+          />
         </div>
         {
           !!viewImageUrl && (
