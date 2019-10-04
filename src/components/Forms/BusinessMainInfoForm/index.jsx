@@ -40,6 +40,7 @@ class BusinessMainInfoForm extends Component {
     addressNodes: [],
     currentAddress: null,
     currentLocation: null,
+    mapLoading: false,
   };
 
   reset = () => {
@@ -88,6 +89,7 @@ class BusinessMainInfoForm extends Component {
   };
 
   selectAddressByInputHandler = async (value, addressObj) => {
+    this.setState({ mapLoading: true });
     const { changeCurrentLocation, changeCurrentTimeZone } = this.props;
     const { result } = await this.getPlaceInfo(addressObj.props.address.place_id);
     const timezone = await this.getTimeZoneInfo(result.geometry.location);
@@ -99,6 +101,7 @@ class BusinessMainInfoForm extends Component {
         ...prevState,
         currentAddress: value,
         currentLocation: result.geometry.location,
+        mapLoading: false,
       };
     });
   };
@@ -150,7 +153,10 @@ class BusinessMainInfoForm extends Component {
       deleteGalleryImage,
     } = this.props;
     const {
-      addressNodes, currentLocation, currentAddress,
+      addressNodes,
+      currentLocation,
+      currentAddress,
+      mapLoading,
     } = this.state;
 
     const formInitValues = chosenBusiness ? {
@@ -305,6 +311,7 @@ class BusinessMainInfoForm extends Component {
               )}
             </FormItem>
             <Map
+              loading={mapLoading}
               containerElement={<div className={b('map-containerElement')} />}
               mapElement={<div className={b('map-mapElement')} />}
               loadingElement={<div className={b('map-loadingElement')} />}
@@ -390,7 +397,8 @@ class BusinessMainInfoForm extends Component {
                       { required: true, message: 'Поле обязательное для заполнения' },
                       { whitespace: true, message: 'Поле не может содержать только пустые пробелы' },
                     ],
-                  })(<Input
+                  })(<Input.TextArea
+                    autosize
                     readOnly={readOnlyMode}
                     placeholder={phrases['core.form.inputDetails.label'][defaultLanguage.isoKey]}
                   />)}
