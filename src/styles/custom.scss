@@ -159,7 +159,7 @@
     &-selection {
       &--single,
       &--multiple {
-        height: 48px;
+        min-height: 48px;
       }
 
       &--multiple {

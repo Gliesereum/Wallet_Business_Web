@@ -12,8 +12,8 @@ const antIcon = (
   />
 );
 
-const ScreenLoading = () => (
-  <div className={b()}>
+const ScreenLoading = ({ backgroundStyles = {} }) => (
+  <div className={b()} style={{ ...backgroundStyles }}>
     <Spin size="large" indicator={antIcon} />
   </div>
 );
