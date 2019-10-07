@@ -63,6 +63,7 @@ class BusinessMainInfo extends Component {
       chosenBusiness,
       changeTabDisable,
       businessMedia,
+      hasAdminRights,
     } = this.props;
     const {
       currentLocation,
@@ -136,17 +137,19 @@ class BusinessMainInfo extends Component {
           });
         }
 
-        try {
-          fetchAction({
-            url: `business/tag/save?tagId=${businessTags}&businessId=${newBusiness.id}`,
-            method: 'POST',
-          })();
-        } catch (err) {
-          notification.error({
-            duration: 5,
-            message: err.message || 'Ошибка',
-            description: 'Ошибка',
-          });
+        if (hasAdminRights) {
+          try {
+            fetchAction({
+              url: `business/tag/save?tagId=${businessTags}&businessId=${newBusiness.id}`,
+              method: 'POST',
+            })();
+          } catch (err) {
+            notification.error({
+              duration: 5,
+              message: err.message || 'Ошибка',
+              description: 'Ошибка',
+            });
+          }
         }
       }
     });
