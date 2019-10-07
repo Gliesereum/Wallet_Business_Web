@@ -26,7 +26,11 @@ const b = bem('businessServiceInfo');
 class BusinessServiceInfo extends Component {
   state = {
     activeKey: 'mainInfo',
-    mainInfo: null,
+    mainInfo: {
+      name: '',
+      duration: 0,
+      price: 0,
+    },
     additionalInfo: null,
     classes: null,
     additionalInfoVisible: Boolean(this.props.chosenService),

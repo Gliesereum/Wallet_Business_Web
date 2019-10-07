@@ -114,7 +114,7 @@ class PackageForm extends Component {
                   label="Скидка (процентов)"
                 >
                   {form.getFieldDecorator('discount', {
-                    initialValue: chosenPackage ? chosenPackage.discount : '',
+                    initialValue: chosenPackage ? chosenPackage.discount : 0,
                     rules: [
                       { required: true, message: 'Поле обязательное для заполнения' },
                     ],
@@ -134,7 +134,7 @@ class PackageForm extends Component {
                   label="Длительность (минут)"
                 >
                   {form.getFieldDecorator('duration', {
-                    initialValue: chosenPackage ? chosenPackage.duration : '',
+                    initialValue: chosenPackage ? chosenPackage.duration : 0,
                     rules: [
                       { required: true, message: 'Поле обязательное для заполнения' },
                     ],
