@@ -68,7 +68,7 @@ class ServiceMainInfoForm extends PureComponent {
           >
             <Form.Item label={phrases['servicesPage.info.price'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('price', {
-                initialValue: servicePrice ? servicePrice.price : '',
+                initialValue: servicePrice ? servicePrice.price : 0,
                 rules: [
                   { required: true, message: 'Поле обязательное для заполнения' },
                 ],
@@ -104,7 +104,7 @@ class ServiceMainInfoForm extends PureComponent {
           >
             <Form.Item label={phrases['servicesPage.info.duration'][defaultLanguage.isoKey]}>
               {form.getFieldDecorator('duration', {
-                initialValue: servicePrice ? servicePrice.duration : '',
+                initialValue: servicePrice ? servicePrice.duration : 0,
                 rules: [
                   { required: true, message: 'Поле обязательное для заполнения' },
                 ],
